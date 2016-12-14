@@ -1,0 +1,199 @@
+{
+  "circleRecommend": [
+    {
+      "id": 1,
+      "name": "深圳白领租房",
+      "location": "深圳",
+      "introduction": "我们希望跟趣味相投的同类人住在一起，有共同话题，也有助拓展职场人脉。 ",
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "80年代单身俱乐部",
+      "location": "天津",
+      "introduction": "年轻、奋进而有寂寞的人们创造一个相互沟通的平台, 80年代出生，年轻、奋进而有寂寞的人们创造一个相互沟通的平台，希望大家能在这里轻松交流、释放心扉，在这个逐渐冷漠的城市里寻找到那些久违的暖意。深",
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 3,
+      "name": "苏州大学 ",
+      "location": "苏州",
+      "introduction": "我友情小组满了,请不要再发类似邀请,谢谢 广告繁多,可能会误删帐号,如想恢复,豆油即可 欢迎各位同学加入苏大部落,右上角  ",
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 4,
+      "name": "英语口语学习",
+      "location": "国外",
+      "introduction": "豆瓣最火的英语口语学习，英语口语练习小组，寻找你的英语口语伙伴，从这里开始吧！★★★ 英语口语QQ群:187436359(定期清理不发言人员) ★★★免费英语外教一对一，还可以测试自己的英语水平。  ",
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 5,
+      "name": "是谁他妈的发明出国这么孤独的事儿",
+      "location": "北京",
+      "introduction": "没有最无聊 只有更孤独 阳光再明媚 也暖不到心... 怎么 逃~ 只有更孤独  ",
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    }
+  ],
+  "userRecommend": [
+    {
+      "id": 1,
+      "name": "Daisy",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/500x510"
+    },
+    {
+      "id": 2,
+      "name": "Lucy",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/500x511"
+    },
+    {
+      "id": 3,
+      "name": "Lee",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/500x502"
+    },
+    {
+      "id": 4,
+      "name": "XiaoXiao",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/500x503"
+    },
+    {
+      "id": 5,
+      "name": "Amber丸子",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/500x504"
+    },
+    {
+      "id": 6,
+      "name": "小鹿",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/500x505"
+    },
+    {
+      "id": 7,
+      "name": "空中之城",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/500x506"
+    },
+    {
+      "id": 8,
+      "name": "小墩",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/500x507"
+    },
+    {
+      "id": 9,
+      "name": "Aria要冷静",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/508x500"
+    },
+    {
+      "id": 10,
+      "name": "孟之林",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/500x509"
+    },
+    {
+      "id": 11,
+      "name": "琳琳",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/510x500"
+    },
+    {
+      "id": 12,
+      "name": "jvw1",
+      "location": "广州",
+      "age": "28",
+      "avator": "http://placehold.it/530x500"
+    }
+  ],
+  "myCircle": [
+    {
+      "id": 1,
+      "name": "苏州大学 ",
+      "memberNum": 342,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "一起学中文",
+      "memberNum": 342543,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 3,
+      "name": "出国开始",
+      "memberNum": 52543,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 4,
+      "name": "旅行",
+      "memberNum": 3842,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 5,
+      "name": "苏州大学 ",
+      "memberNum": 342,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 6,
+      "name": "一起学中文",
+      "memberNum": 342543,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 7,
+      "name": "出国开始",
+      "memberNum": 52543,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 8,
+      "name": "旅行",
+      "memberNum": 3842,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 9,
+      "name": "苏州大学 ",
+      "memberNum": 342,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 10,
+      "name": "一起学中文",
+      "memberNum": 342543,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 11,
+      "name": "出国开始",
+      "memberNum": 52543,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    },
+    {
+      "id": 12,
+      "name": "旅行",
+      "memberNum": 3842,
+      "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+    }
+  ]
+}

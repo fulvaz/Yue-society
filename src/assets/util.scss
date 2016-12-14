@@ -1,0 +1,26 @@
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin reseta ($color) {
+  &:link {
+    color: $color;
+    text-decoration: none;
+  }
+  &:hover {
+    color: $color;
+    text-decoration: none;
+  }
+  &:visited {
+    color: $color;
+    text-decoration: none;
+  }
+  &:active {
+    color: $color;
+    text-decoration: none;
+  }
+}

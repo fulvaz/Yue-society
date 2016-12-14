@@ -1,0 +1,5 @@
+{
+  "/recommends/users?_limit=": "/recommend?type=users",
+  "/recommends/circles": "/recommend?type=circles",
+  "/recommends/activities": "/recommend?type=activities"
+}

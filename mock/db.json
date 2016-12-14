@@ -1,0 +1,44 @@
+{
+  "recommends": [
+    {
+      "id": "circle",
+      "rec": [
+        {
+          "id": 1,
+          "name": "深圳白领租房",
+          "location": "深圳",
+          "introduction": "我们希望跟趣味相投的同类人住在一起，有共同话题，也有助拓展职场人脉。 ",
+          "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+        },
+        {
+          "id": 2,
+          "name": "80年代单身俱乐部",
+          "location": "天津",
+          "introduction": "年轻、奋进而有寂寞的人们创造一个相互沟通的平台, 80年代出生，年轻、奋进而有寂寞的人们创造一个相互沟通的平台，希望大家能在这里轻松交流、释放心扉，在这个逐渐冷漠的城市里寻找到那些久违的暖意。深",
+          "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+        },
+        {
+          "id": 3,
+          "name": "苏州大学 ",
+          "location": "苏州",
+          "introduction": "我友情小组满了,请不要再发类似邀请,谢谢 广告繁多,可能会误删帐号,如想恢复,豆油即可 欢迎各位同学加入苏大部落,右上角  ",
+          "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+        },
+        {
+          "id": 4,
+          "name": "英语口语学习",
+          "location": "国外",
+          "introduction": "豆瓣最火的英语口语学习，英语口语练习小组，寻找你的英语口语伙伴，从这里开始吧！★★★ 英语口语QQ群:187436359(定期清理不发言人员) ★★★免费英语外教一对一，还可以测试自己的英语水平。  ",
+          "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+        },
+        {
+          "id": 5,
+          "name": "是谁他妈的发明出国这么孤独的事儿",
+          "location": "北京",
+          "introduction": "没有最无聊 只有更孤独 阳光再明媚 也暖不到心... 怎么 逃~ 只有更孤独  ",
+          "logo": "https://img3.doubanio.com/icon/g37193-1.jpg"
+        }
+      ]
+    }
+  ] 
+}
