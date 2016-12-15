@@ -20,6 +20,16 @@ function genUser() {
 function genMyInfo() {
 }
 
+// /registry/:openId
+function genWeixinReg() {
+  return {
+    id: Base64.encoder(f.internet.userName()),
+    city: f.address.city(),
+    country: f.address.country(),
+    headimgurl: f.image.
+  }
+}
+
 module.exports = function() {
 	let randomName = faker.name
 	let data  = {}
@@ -154,6 +164,8 @@ module.exports = function() {
 	data.circles = data.circles.concat(circles)
 
 	// /users
+
+
 
 
 	return data;

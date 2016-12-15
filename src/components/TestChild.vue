@@ -1,28 +1,25 @@
 <template>
   <div class="container">
-    <test-child ref="child"></test-child>
-    <label @inputtest="updateValue">{{value}}</label>
+    <input v-model="value" @input="inputs($event.target.value)">
   </div>
 </template>
 
 <script>
-  import TestChild from './TestChild'
   export default {
     data () {
       return {
         value: ''
       }
     },
+    props: {
+    },
     components: {
-      'test-child': TestChild
     },
     created () {
-      this.$on('inputtest', (val) => {
-        console.log(val)
-      })
     },
     methods: {
-      updateValue (val) {
+      inputs (val) {
+        this.$parent.$emit('inputtest', val)
         this.value = val
       }
     }

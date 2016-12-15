@@ -8,6 +8,8 @@ import InfiniteScroll from 'vue-infinite-scroll'
 import Index from 'components/Index'
 import CircleIndex from 'components/circle/Index'
 import Circle from 'components/circle/Circle'
+import Registry from 'components/User/Registry'
+import Login from 'components/User/Login'
 import Test from 'components/Test'
 
 Vue.use(Router)
@@ -32,9 +34,12 @@ require('vue-swipe/dist/vue-swipe.css')
 
 const routes = [
   {path: '/', component: Index},
+  {path: '/index', component: Index},
   {path: '/circle', component: CircleIndex}, // "我的圈子"首页
   {path: '/circles/:id', component: Circle},
   {path: '/circles', component: CircleIndex}, // 返回全部圈子, 可以分类 可以搜索
+  {path: '/registry', component: Registry}, // 返回全部圈子, 可以分类 可以搜索
+  {path: '/login', component: Login}, // 返回全部圈子, 可以分类 可以搜索
   {path: '/test', component: Test} // 返回全部圈子, 可以分类 可以搜索
 ]
 
@@ -42,6 +47,19 @@ const router = new Router({
   routes: routes,
   base: '/'
 })
+
+const eventHub = new Vue()
+
+let events = {
+  data () {
+    return {
+      'eventHub': eventHub
+    }
+  }
+}
+
+// 全局事件处理器
+Vue.mixin(events)
 
 new Vue({
   el: '#app',
