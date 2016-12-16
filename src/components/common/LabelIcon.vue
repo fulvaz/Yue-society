@@ -1,12 +1,12 @@
 <template>
+  <div class="container">
+
+  </div>
 </template>
 
 <script>
-  // import jssdk from '../../assets/jweixin-1.0.0.js'
   export default {
     data () {
-      return {
-      }
     },
     components: {
     },

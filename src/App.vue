@@ -5,16 +5,16 @@
       <tabbar-item :to="'/'" :label="'首页'" :id="0" :isSelected="true">
         <i slot="icon" class="fa fa-home fa-2x" aria-hidden="true"></i>
       </tabbar-item>
-      <tabbar-item :to="'circle'" :label="'圈子'" :id="1">
+      <tabbar-item :to="'/circle'" :label="'圈子'" :id="1">
         <i slot="icon" class="fa fa-circle-o fa-2x" aria-hidden="true"></i>
       </tabbar-item>
-      <tabbar-item :to="'search'" :label="'搜索'" :id="2">
+      <tabbar-item :to="'/search'" :label="'搜索'" :id="2">
         <i slot="icon" class="fa fa-search fa-2x" aria-hidden="true"></i>
       </tabbar-item>
-      <tabbar-item :to="'message'" :label="'私信'" :id="3">
+      <tabbar-item :to="'/message'" :label="'私信'" :id="3">
         <i slot="icon" class="fa fa-envelope fa-2x" aria-hidden="true"></i>
       </tabbar-item>
-      <tabbar-item :to="'me'" :label="'我'" :id="4">
+      <tabbar-item :to="'/me'" :label="'我'" :id="4">
         <i slot="icon" class="fa fa-user fa-2x" aria-hidden="true"></i>
       </tabbar-item>
     </tabbar>
@@ -38,7 +38,7 @@ export default {
 
   @include normalize;
   #app {
-    background-color: #efefef;
+    background-color: #f7f7f7;
     margin-bottom: 53px;
 
     .tab {

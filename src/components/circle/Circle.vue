@@ -42,7 +42,8 @@
         'CServices': [],
         'tabActive': '',
         posts: [],
-        loadPostBusy: false
+        loadPostBusy: false,
+        page: 0
       }
     },
     components: {
@@ -83,21 +84,18 @@
           this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
         })
       },
-      'fetchPosts': (function () {
-        let page = 0
+      'fetchPosts': function () {
         const postPerPage = 20
-        return function inner () {
-          // this.loadPostBudy = true
-          page++
-          this.$http.get(`${Config.circlesApi}/${this.$route.params['id']}/posts?_page=${page}&_limit=${postPerPage}`).then((response) => {
-            this.loadPostBudy = true
-            let remoteData
-            if (typeof response.body === 'object') remoteData = response.body
-            else remoteData = JSON.parse(response.body)
-            this.posts = this.posts.concat(remoteData)
-          })
-        }
-      })()
+        // this.loadPostBudy = true
+        this.page++
+        this.$http.get(`${Config.circlesApi}/${this.$route.params['id']}/posts?_page=${this.page}&_limit=${postPerPage}`).then((response) => {
+          this.loadPostBudy = true
+          let remoteData
+          if (typeof response.body === 'object') remoteData = response.body
+          else remoteData = JSON.parse(response.body)
+          this.posts = this.posts.concat(remoteData)
+        })
+      }
     }
   }
 </script>
@@ -151,6 +149,7 @@
       display: flex;
       justify-content: space-around;
       text-align: center;
+      margin-bottom: 10px;
       .navbar-item {
         flex: 1 1 200px;
         padding: 17px 0;

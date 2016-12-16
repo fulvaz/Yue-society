@@ -39,7 +39,8 @@
         circleRecommend: [],
         activityRecommend: [],
         userRecommend: [],
-        busy: false
+        busy: false,
+        page: 0
       }
     },
     computed: {
@@ -101,26 +102,14 @@
 
         })
       },
-      // 一个闭包 初始化就会返回
-      fetchUserRecommend: (function () {
-        let uRecommendPage = 0
-        return function () {
-          // 分页逻辑 TODO 暂时处理无限加载的补丁 原理是, 推荐的人数大概是20
-          if (uRecommendPage < 10) uRecommendPage++
-          else return
-
-          this.$http.get(`${Config.usersRecommendsApi}?_page=${uRecommendPage}&_limit=5`).then((response) => {
-            if (typeof response.body === 'object') this.userRecommend = this.userRecommend.concat(response.body)
-            else this.userRecommend = this.userRecommend.concat(JSON.parse(response.body))
-
-            // infinite scroll plugin logic here.
-            // TODO 需要一个错误处理以解决无限加载的问题
-            this.busy = false
-          }, (response) => {
-
-          })
-        }
-      })(),
+      fetchUserRecommend: function () {
+        this.$http.get(`${Config.usersRecommendsApi}?_page=${this.page}&_limit=5`).then((response) => {
+          if (typeof response.body === 'object') this.userRecommend = this.userRecommend.concat(response.body)
+          else this.userRecommend = this.userRecommend.concat(JSON.parse(response.body))
+          this.busy = false
+        }, (response) => {
+        })
+      },
       loadMore () {
         this.busy = true
         this.fetchUserRecommend()

@@ -21,13 +21,20 @@ function genMyInfo() {
 }
 
 // /registry/:openId
-function genWeixinReg() {
-  return {
-    id: Base64.encoder(f.internet.userName()),
-    city: f.address.city(),
-    country: f.address.country(),
-    headimgurl: f.image.
+function genWXData() {
+  let WXData = []
+  let WXDataNum = r(5, 10)
+  for (let i=0; i<WXDataNum; i++) {
+    WXData.push({
+      id: i,
+      city: f.address.city(),
+      headimgurl: f.image.avatar(50, 50),
+      nickname: f.internet.userName(),
+      province: f.address.state(),
+      sex: '1'
+    })
   }
+  return WXData
 }
 
 module.exports = function() {
@@ -38,6 +45,7 @@ module.exports = function() {
 	data.posts = []
 	data.circles = []
 	data.replies = []
+  data.users = []
 
 	// 生成/recommend?type=circle
 	let circleRecommend = []
@@ -165,7 +173,8 @@ module.exports = function() {
 
 	// /users
 
-
+  // /weixin
+  data.weixin = genWXData()
 
 
 	return data;
