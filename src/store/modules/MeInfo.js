@@ -1,10 +1,11 @@
 import * as type from '../mutation-types'
-// import config from '../../config/setting'
-// import Vue from 'vue'
+import config from '../../config/setting'
+import Vue from 'vue'
 // const _this = Vue
 const mutations = {
   [type.SAVE_ME_INFO] (state, payload) {
-    state.id = payload.id
+    state.loaded = true
+    state.uid = payload.id
     state.nickname = payload.nickname
     state.realname = payload.realname
     state.birthday = payload.birthday
@@ -35,12 +36,22 @@ const mutations = {
     state.album = payload.album
     state.recommender = payload.recommender
     state.account_status = payload.account_status
+    state.userState = payload.userState
   }
 }
 
 const actions = {
   fetchMeInfo (context, val) {
-    context.commit(type.SAVE_ME_INFO, val)
+    if (context.state.Loaded) return
+    Vue.http.get(config.meApi).then((response) => {
+      let remoteData
+      if (typeof response.body === 'object') remoteData = response.body
+      else remoteData = JSON.parse(response.body)
+      context.commit(type.SAVE_ME_INFO, remoteData)
+    })
+  },
+  fetchDefinition (context, val) {
+          
   }
 }
 
@@ -50,6 +61,7 @@ const getters = {
 
 const state = {
   id: 0,
+  infoLoaded: false,
   nickname: '',
   realname: '',
   birthday: 0,
@@ -76,7 +88,6 @@ const state = {
   focused: 0,
   balance: 0,
   perfection: 0,
-  avator: '',
   album: '',
   recommender: '',
   account_status: 0

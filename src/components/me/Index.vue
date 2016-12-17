@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <header class="profile">
-      <img :src="userInfo.avatar" class="avatar">
+      <img :src="avatar" class="avatar">
       <div class="detail">
-        <span class="nickname">{{userInfo.nickname}}</span>
+        <span class="nickname">{{nickname}}</span>
         <div class="other-detail">
-          <router-link class="balance" to="/">余额 {{userInfo.balance}}元</router-link>
-          <router-link class="looked" to="/">看过我 {{userInfo.looked}}</router-link>
-          <router-link class="focused" to="/">关注我 {{userInfo.focused}}</router-link>
+          <router-link class="balance" to="/">余额 {{balance}}元</router-link>
+          <router-link class="looked" to="/">看过我 {{looked}}</router-link>
+          <router-link class="focused" to="/">关注我 {{focused}}</router-link>
         </div>
       </div>
     </header>
@@ -32,66 +32,36 @@
 </template>
 
 <script>
-  import config from '../../config/setting.js'
+  // import config from '../../config/setting.js'
+  import { mapState } from 'vuex'
   import IconItem from '../common/IconItem'
   export default {
     data () {
       return {
-        userInfo: {}
-      /*
-        id: 0,
-        nickname: '',
-        realname: '',
-        birthday: 0,
-        province: '',
-        city: '',
-        height: 0,
-        weight: 0,
-        age: 0,
-        income: 0,
-        school: '',
-        degree: '',
-        lunarid: '',
-        bloodtype: '',
-        sex: '',
-        nation: '',
-        marriage: '',
-        house: '',
-        car: '',
-        birthplace: '',
-        faith: '',
-        starssign: '',
-        isvip: 0,
-        looked: 0,
-        focus: 0,
-        balance: 0,
-        perfection: 0,
-        avator: '',
-        album: '',
-        recommender: '',
-        account_status: 0
-      */
       }
     },
     props: {
-
+    },
+    computed: {
+    // ['avatar', 'balance', 'looked', 'focused', 'nickname']
+      ...mapState({
+        avatar: state => state.MeInfo.avatar,
+        balance: state => state.MeInfo.balance,
+        looked: state => state.MeInfo.looked,
+        focused: state => state.MeInfo.focused,
+        nickname: state => state.MeInfo.nickname
+      }),
+      test () {
+        return this.$store.state.MeInfo.avatar
+      }
     },
     components: {
       'fz-icon-item': IconItem
     },
     created () {
-      this.fetchMeInfo()
+      this.$store.dispatch('fetchMeInfo')
     },
     methods: {
-      fetchMeInfo () {
-        this.$http.get(config.meApi).then((response) => {
-          let remoteData
-          if (typeof response.body === 'object') remoteData = response.body
-          else remoteData = JSON.parse(response.body)
-          this.userInfo = remoteData
-          this.$store.dispatch('fetchMeInfo', remoteData)
-        })
-      }
     }
   }
 </script>

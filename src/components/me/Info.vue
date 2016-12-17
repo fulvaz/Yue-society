@@ -1,56 +1,6 @@
-<template>
-  <div class="container">
-    <!--<input-cell title="头像" class="head">-->
-    <!--<img :src="headimgurl" height="60px" width="60px">-->
-    <!--</input-cell>-->
-    <!--<input-field label="头像" class="head" >-->
-    <!--<img :src="headimgurl" height="60px" width="60px">-->
-    <!--</input-field>-->
-    <input-field label="昵称" placeholder="输入昵称" :value="nickname"></input-field>
-    <input-field label="性别" placeholder="选择性别" type="sex" :value="sex" @click.native="open('sex-picker')" disabled>
-      <label class="spaceholder"></label>
-    </input-field>
-    <input-field label="省市" placeholder="选择省市" :value="province + ' - ' + city" disabled @click.native="open('address-picker')" disabled></input-field>
-    <input-field label="交友类型" placeholder="选择交友类型" :value="userState" @click.native="open('user-state-picker')" disabled></input-field>
-    <input-button type="primary" class="btn-confirm" @click.native="sendRegData">更新</input-button>
-
-
-    <mt-popup
-            ref="sex-picker"
-            class="popup-sex popup"
-            position="bottom"
-            v-model="sexPopupVisible"
-            popup-transition="popup-fade">
-      <input-picker :slots="sexPicker" @change="onSexChange">
-      </input-picker>
-    </mt-popup>
-
-    <mt-popup
-            ref="user-state-picker"
-            class="popup-user-state popup"
-            position="bottom"
-            v-model="userStatePopupVisible"
-            popup-transition="popup-fade">
-      <input-picker :slots="userStatePicker" @change="onUserStateChange">
-
-      </input-picker>
-    </mt-popup>
-
-    <mt-popup
-            ref="address-picker"
-            class="popup-address popup"
-            position="bottom"
-            v-model="addressPopupVisible"
-            popup-transition="popup-fade">
-      <input-picker :slots="addressPicker" @change="onAddressChange">
-      </input-picker>
-    </mt-popup>
-  </div>
-</template>
-
 <script>
-  import config from '../../config/setting.js'
   import InputField from '../common/InputField'
+  import {mapState} from 'vuex'
   import {Field, Picker, Button, Cell, Popup} from 'mint-ui'
 
   const address = {
@@ -92,51 +42,12 @@
 
   export default {
     props: {
-      id: 0,
-      nickname: '',
-      realname: '',
-      birthday: 0,
-      province: '',
-      city: '',
-      height: 0,
-      weight: 0,
-      age: 0,
-      income: 0,
-      school: '',
-      degree: '',
-      lunarid: '',
-      bloodtype: '',
-      sex: '',
-      nation: '',
-      marriage: '',
-      house: '',
-      car: '',
-      birthplace: '',
-      faith: '',
-      starssign: '',
-      isvip: 0,
-      looked: 0,
-      focus: 0,
-      balance: 0,
-      perfection: 0,
-      avator: '',
-      album: '',
-      recommender: '',
-      account_status: 0
     },
     data () {
       return {
-        id: '',
-        city: '',
-        headimgurl: '',
-        nickname: '',
-        province: '',
-        sex: '',
-        userState: '无',
         sexPopupVisible: false,
         userStatePopupVisible: false,
         addressPopupVisible: false,
-        sexSelect: ['女', '男'],
         sexPicker: [
           {
             flex: 1,
@@ -174,6 +85,45 @@
         ]
       }
     },
+    computed: {
+      ...mapState({
+        nickname: state => state.MeInfo.nickname,
+        sex: state => state.MeInfo.sex,
+        uid: state => state.MeInfo.id,
+        realname: state => state.MeInfo.realname,
+        birthday: state => state.MeInfo.birthday,
+        province: state => state.MeInfo.province,
+        city: state => state.MeInfo.city,
+        height: state => state.MeInfo.height,
+        weight: state => state.MeInfo.weight,
+        age: state => state.MeInfo.age,
+        income: state => state.MeInfo.income,
+        school: state => state.MeInfo.school,
+        degree: state => state.MeInfo.degree,
+        lunarid: state => state.MeInfo.lunarid,
+        bloodtype: state => state.MeInfo.bloodtype,
+        nation: state => state.MeInfo.nation,
+        marriage: state => state.MeInfo.marriage,
+        house: state => state.MeInfo.house,
+        car: state => state.MeInfo.car,
+        birthplace: state => state.MeInfo.birthplace,
+        faith: state => state.MeInfo.faith,
+        starssign: state => state.MeInfo.starssign,
+        isvip: state => state.MeInfo.isvip,
+        looked: state => state.MeInfo.looked,
+        focused: state => state.MeInfo.focused,
+        balance: state => state.MeInfo.balance,
+        perfection: state => state.MeInfo.perfection,
+        avatar: state => state.MeInfo.avatar,
+        album: state => state.MeInfo.album,
+        recommender: state => state.MeInfo.recommender,
+        account_status: state => state.MeInfo.account_status,
+        userState: state => state.MeInfo.userState
+      }),
+      test () {
+        return this.$store.state.MeInfo.avatar
+      }
+    },
     components: {
       'input-field': Field,
       'input-picker': Picker,
@@ -183,6 +133,8 @@
       'fz-input': InputField
     },
     created () {
+      // 防止用户直接访问这个路径, 所以获取一次数据
+      this.$store.dispatch('fetchMeInfo')
     },
     methods: {
       open (picker) {
@@ -205,35 +157,54 @@
       },
       showUserStatePopup () {
         this.userStatePopupVisible = true
-      },
-      fetchWXData () {
-        this.$http.get(`${config.wxDataApi}/${this.$route.params['openId']}`).then((response) => {
-          let remoteData
-          if (typeof response.body === 'object') remoteData = response.body
-          else remoteData = JSON.parse(response.body)
-          this.id = remoteData.id
-          this.city = remoteData.city
-          this.province = remoteData.province
-          this.headimgurl = remoteData.headimgurl
-          this.nickname = remoteData.nickname
-          this.sex = this.sexSelect[remoteData.sex]
-        })
-      },
-      sendRegData () {
-        var data = {
-          id: this.id,
-          city: this.city,
-          headimgurl: this.headimgurl,
-          nickname: this.nickname,
-          province: this.province,
-          sex: this.sex,
-          userState: this.userState
-        }
-        this.$http.post(`${config.userApi}`, data, {headers: {'Content-Type': 'application/json'}})
       }
     }
   }
 </script>
+
+<template>
+  <div class="container">
+    <input-field label="昵称" placeholder="输入昵称" :value="nickname"></input-field>
+    <input-field label="性别" placeholder="选择性别" type="sex" :value="sex" @click.native="sexPopupVisible = true" disabled>
+      <label class="spaceholder"></label>
+    </input-field>
+    <input-field label="省市" placeholder="选择省市" :value="province + ' - ' + city" disabled @click.native="addressPopupVisible = true" disabled></input-field>
+    <input-field label="交友类型" placeholder="选择交友类型" :value="userState" @click.native="userStatePopupVisible = true" disabled></input-field>
+    <input-button type="primary" class="btn-confirm" @click.native="sendRegData">更新</input-button>
+
+
+    <mt-popup
+            ref="sex-picker"
+            class="popup-sex popup"
+            position="bottom"
+            v-model="sexPopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="sexPicker" @change="onSexChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            ref="user-state-picker"
+            class="popup-user-state popup"
+            position="bottom"
+            v-model="userStatePopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="userStatePicker" @change="onUserStateChange">
+
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            ref="address-picker"
+            class="popup-address popup"
+            position="bottom"
+            v-model="addressPopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="addressPicker" @change="onAddressChange">
+      </input-picker>
+    </mt-popup>
+  </div>
+</template>
 
 <style scoped lang="scss">
   .head {

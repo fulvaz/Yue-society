@@ -17,6 +17,7 @@
       'test-child': TestChild
     },
     created () {
+      this.$store.dispatch('fetchAjax')
       this.$on('inputtest', (val) => {
         console.log(val)
       })
