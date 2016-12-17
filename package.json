@@ -12,12 +12,13 @@
   },
   "dependencies": {
     "dateformat": "^2.0.0",
+    "font-awesome": "^4.7.0",
     "mint-ui": "^2.0.6",
     "normalize-scss": "^6.0.0",
     "vue": "^2.1.0",
     "vue-infinite-scroll": "^2.0.0",
-    "font-awesome": "^4.7.0",
-    "vue-lazyload": "^0.9.4"
+    "vue-lazyload": "^0.9.4",
+    "vuex": "^2.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

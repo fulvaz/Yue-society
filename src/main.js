@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import VueResource from 'vue-resource'
 import VueLazyload from 'vue-lazyload'
 import InfiniteScroll from 'vue-infinite-scroll'
+import Vuex from 'vuex'
 
 import Index from 'components/Index'
 import CircleIndex from 'components/circle/Index'
@@ -13,6 +14,8 @@ import MeIndex from 'components/me/Index'
 import MeInfo from 'components/me/Info'
 import Test from 'components/Test'
 
+import store from './store/index.js'
+
 Vue.use(Router)
 Vue.use(VueResource)
 Vue.use(VueLazyload, {
@@ -21,6 +24,7 @@ Vue.use(VueLazyload, {
   attempt: 1
 })
 Vue.use(InfiniteScroll)
+Vue.use(Vuex)
 
 // input css resources
 require('vue-swipe/dist/vue-swipe.css')
@@ -67,5 +71,6 @@ new Vue({
   el: '#app',
   router: router,
   mode: 'hash',
+  store: store,
   ...App
 })

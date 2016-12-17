@@ -91,6 +91,39 @@
   }
 
   export default {
+    props: {
+      id: 0,
+      nickname: '',
+      realname: '',
+      birthday: 0,
+      province: '',
+      city: '',
+      height: 0,
+      weight: 0,
+      age: 0,
+      income: 0,
+      school: '',
+      degree: '',
+      lunarid: '',
+      bloodtype: '',
+      sex: '',
+      nation: '',
+      marriage: '',
+      house: '',
+      car: '',
+      birthplace: '',
+      faith: '',
+      starssign: '',
+      isvip: 0,
+      looked: 0,
+      focus: 0,
+      balance: 0,
+      perfection: 0,
+      avator: '',
+      album: '',
+      recommender: '',
+      account_status: 0
+    },
     data () {
       return {
         id: '',
@@ -150,7 +183,6 @@
       'fz-input': InputField
     },
     created () {
-      this.fetchWXData()
     },
     methods: {
       open (picker) {

@@ -89,39 +89,7 @@
           if (typeof response.body === 'object') remoteData = response.body
           else remoteData = JSON.parse(response.body)
           this.userInfo = remoteData
-          /*
-            this.id = remoteData.id
-            this.nickname = remoteData.id
-            this.realname = remoteData.id
-            this.birthday = remoteData.id
-            this.province = remoteData.id
-            this.city = remoteData.id
-            this.height = remoteData.id
-            this.weight = remoteData.id
-            this.age = remoteData.id
-            this.income = remoteData.id
-            this.school = remoteData.id
-            this.degree = remoteData.id
-            this.lunarid = remoteData.id
-            this.bloodtype = remoteData.id
-            this.sex = remoteData.id
-            this.nation = remoteData.id
-            this.marriage = remoteData.id
-            this.house = remoteData.id
-            this.car = remoteData.id
-            this.birthplace = remoteData.id
-            this.faith = remoteData.id
-            this.starssign = remoteData.id
-            this.isvip = remoteData.id
-            this.looked = remoteData.id
-            this.focus = remoteData.id
-            this.balance = remoteData.id
-            this.perfection = remoteData.id
-            this.avator = remoteData.id
-            this.album = remoteData.id
-            this.recommender = remoteData.id
-            this.account_status = remoteData.id
-         */
+          this.$store.dispatch('fetchMeInfo', remoteData)
         })
       }
     }
