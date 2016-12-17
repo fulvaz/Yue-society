@@ -12,6 +12,43 @@ function r (min, max) {
 }
 
 // 从这里开始有文档
+function genMe () {
+  "use strict";
+   return {
+     id: 1111,
+     nickname: f.internet.userName(),
+     realname: f.name.lastName(),
+     birthday: 19900101,
+     province: f.address.state(),
+     city: f.address.city(),
+     height: r(150, 190),
+     weight: r(100, 200),
+     age: r(20, 100),
+     income: r(100000, 4000000),
+     school: '蓝翔',
+     degree: '博士后',
+     lunarid: '猴',
+     bloodtype: 'A',
+     sex: '男',
+     nation: '回族',
+     marriage: '未婚',
+     house: '租房',
+     car: '有',
+     birthplace: '火星',
+     faith: '伊斯兰教',
+     starssign: '处女座',
+     isvip: 1,
+     looked: r(20, 30),
+     focused: r(30, 50),
+     balance: 999,
+     perfection: r(20, 100),
+     avatar: f.image.avatar(50, 50),
+     album: '',
+     recommender: '你大爷',
+     account_status: ''
+   }
+
+}
 
 function genUser() {
 
@@ -88,7 +125,7 @@ module.exports = function() {
 			type: 'users',
 			name: faker.name.lastName(),
 			location: faker.address.state(),
-			avator: faker.image.people(200, 200),
+			avator: faker.image.avatar(200, 200),
 			age:faker.random.number({min: 20, max: 30})
 		}
 		userRecommend.push(tmp)
@@ -175,6 +212,7 @@ module.exports = function() {
 
   // /weixin
   data.weixin = genWXData()
+  data.me = genMe()
 
 
 	return data;

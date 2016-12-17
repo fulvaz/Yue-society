@@ -10,6 +10,7 @@ import CircleIndex from 'components/circle/Index'
 import Circle from 'components/circle/Circle'
 import Registry from 'components/User/Registry'
 import MeIndex from 'components/me/Index'
+import MeInfo from 'components/me/Info'
 import Test from 'components/Test'
 
 Vue.use(Router)
@@ -40,6 +41,7 @@ const routes = [
   {path: '/circles', component: CircleIndex}, // 返回全部圈子, 可以分类 可以搜索
   {path: '/registry/:openId', component: Registry}, //
   {path: '/me', component: MeIndex}, // 我的 页面
+  {path: '/me/info', component: MeInfo}, // 我的 页面
   {path: '/test', component: Test} //
 ]
 

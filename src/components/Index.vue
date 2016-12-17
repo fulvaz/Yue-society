@@ -103,6 +103,7 @@
         })
       },
       fetchUserRecommend: function () {
+        this.page++
         this.$http.get(`${Config.usersRecommendsApi}?_page=${this.page}&_limit=5`).then((response) => {
           if (typeof response.body === 'object') this.userRecommend = this.userRecommend.concat(response.body)
           else this.userRecommend = this.userRecommend.concat(JSON.parse(response.body))
