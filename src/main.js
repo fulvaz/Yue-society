@@ -67,7 +67,7 @@ let events = {
 // 全局事件处理器
 Vue.mixin(events)
 
-new Vue({
+export default new Vue({
   el: '#app',
   router: router,
   mode: 'hash',

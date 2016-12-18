@@ -39,7 +39,7 @@ export default {
   @include normalize;
   #app {
     background-color: #f7f7f7;
-    height: calc(100vh - 53px);
+    min-height: calc(100vh - 53px);
     margin-bottom: 53px;
 
     .tab {

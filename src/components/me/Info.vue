@@ -1,7 +1,12 @@
 <script>
+/*
+  warning!!!! 因为引入了vuex, 架构变得复杂很多. 其实使用eventbus就足够了
+*/
   import InputField from '../common/InputField'
   import {mapState} from 'vuex'
-  import {Field, Picker, Button, Cell, Popup} from 'mint-ui'
+  import * as type from '../../store/mutation-types.js'
+  // import store from '../../store/index.js'
+  import {Field, Picker, Button, Cell, Popup, DatetimePicker} from 'mint-ui'
 
   const address = {
     '北京': ['北京'],
@@ -40,29 +45,92 @@
     '台湾': ['台北市', '高雄市', '台北县', '桃园县', '新竹县', '苗栗县', '台中县', '彰化县', '南投县', '云林县', '嘉义县', '台南县', '高雄县', '屏东县', '宜兰县', '花莲县', '台东县', '澎湖县', '基隆市', '新竹市', '台中市', '嘉义市', '台南市']
   }
 
+  /**
+    生成可选择项和设定默认位置
+  */
+  function updatePicker (pickerConfig, values, value) {
+    if (pickerConfig.length !== values.length) throw new Error('updatePicker: length is not matched')
+    let i = 0
+    return pickerConfig.map((config) => {
+      let index = values[i].indexOf(value)
+      let defaultIndex = index >= 0 ? index : 0
+      // 因为mint-ui的defaultIndex不能自动更新, 所以只好强行调整数组顺序
+      if (defaultIndex !== 0) {
+        let tmp = values[i].splice(defaultIndex, 1)
+        values[i].unshift(tmp[0])
+      }
+      return {
+        ...config,
+        values: values[i++],
+        defaultIndex: 1
+      }
+    })
+  }
+
+  function value2Key (obj, val) {
+    return Object.keys(obj).filter((key) => {
+      return obj[key] === val
+    })[0]
+  }
+
   export default {
     props: {
     },
     data () {
       return {
         sexPopupVisible: false,
-        userStatePopupVisible: false,
         addressPopupVisible: false,
+        lunarPopupVisible: false,
+        bloodtypePopupVisible: false,
+        nationPopupVisible: false,
+        marriagePopupVisible: false,
+        housePopupVisible: false,
+        faithPopupVisible: false,
+        degreePopupVisible: false,
+        starssignPopupVisible: false,
+        statePopupVisible: false,
+        carPopupVisible: false,
+        statssignPopupVisible: false,
+        birthplacePopupVisible: false,
+        birthdayPopupVisible: false,
+        birthdayPicker: [
+          {
+            flex: 1,
+            values: [],
+            className: 'sexPicker',
+            textAlign: 'center',
+            defaultIndex: 1
+          },
+          {
+            divider: true,
+            content: '-'
+          },
+          {
+            flex: 1,
+            values: [],
+            className: 'sexPicker',
+            textAlign: 'center',
+            defaultIndex: 1
+          },
+          {
+            divider: true,
+            content: '-'
+          },
+          {
+            flex: 1,
+            values: [],
+            className: 'sexPicker',
+            textAlign: 'center',
+            defaultIndex: 1
+          }
+        ],
         sexPicker: [
           {
             flex: 1,
-            values: ['女', '男'],
+            values: [],
             className: 'sexPicker',
             textAlign: 'center',
-            defaultIndex: 0
-          }
-        ],
-        userStatePicker: [
-          {
-            flex: 1,
-            values: ['无', '婚恋', '交友'],
-            className: 'userstatePicker',
-            textAlign: 'center'
+            defaultIndex: 1
           }
         ],
         addressPicker: [
@@ -82,6 +150,96 @@
             className: 'addressPicker',
             textAlign: 'center'
           }
+        ],
+        birthplacePicker: [
+          {
+            flex: 1,
+            values: Object.keys(address),
+            className: 'addressPicker',
+            textAlign: 'center'
+          },
+          {
+            divider: true,
+            content: '-'
+          },
+          {
+            flex: 1,
+            values: ['北京'],
+            className: 'addressPicker',
+            textAlign: 'center'
+          }
+        ],
+        lunarPicker: [
+          {
+            flex: 1,
+            values: [],
+            className: 'addressPicker',
+            textAlign: 'center'
+          }
+        ],
+        degreePicker: [
+          {
+            flex: 1,
+            values: [],
+            className: 'degreePicker',
+            textAlign: 'center'
+          }
+        ],
+        bloodtypePicker: [
+          {
+            flex: 1,
+            values: [1, 2, 3, 4, 5],
+            className: 'addressPicker',
+            textAlign: 'center'
+          }
+        ],
+        marriagePicker: [
+          {
+            flex: 1,
+            values: [1, 2, 3, 4, 5],
+            className: 'addressPicker',
+            textAlign: 'center'
+          }
+        ],
+        nationPicker: [
+          {
+            flex: 1,
+            values: [1, 2, 3, 4, 5],
+            className: 'addressPicker',
+            textAlign: 'center'
+          }
+        ],
+        housePicker: [
+          {
+            flex: 1,
+            values: [1, 2, 3, 4, 5],
+            className: 'addressPicker',
+            textAlign: 'center'
+          }
+        ],
+        faithPicker: [
+          {
+            flex: 1,
+            values: [1, 2, 3, 4, 5],
+            className: 'addressPicker',
+            textAlign: 'center'
+          }
+        ],
+        starssignPicker: [
+          {
+            flex: 1,
+            values: [1, 2, 3, 4, 5],
+            className: 'addressPicker',
+            textAlign: 'center'
+          }
+        ],
+        carPicker: [
+          {
+            flex: 1,
+            values: [1, 2, 3, 4, 5],
+            className: 'addressPicker',
+            textAlign: 'center'
+          }
         ]
       }
     },
@@ -92,15 +250,14 @@
         uid: state => state.MeInfo.id,
         realname: state => state.MeInfo.realname,
         birthday: state => state.MeInfo.birthday,
-        province: state => state.MeInfo.province,
-        city: state => state.MeInfo.city,
+        livingPlace: state => state.MeInfo.livingPlace,
         height: state => state.MeInfo.height,
         weight: state => state.MeInfo.weight,
         age: state => state.MeInfo.age,
         income: state => state.MeInfo.income,
         school: state => state.MeInfo.school,
         degree: state => state.MeInfo.degree,
-        lunarid: state => state.MeInfo.lunarid,
+        lunar: state => state.MeInfo.lunar,
         bloodtype: state => state.MeInfo.bloodtype,
         nation: state => state.MeInfo.nation,
         marriage: state => state.MeInfo.marriage,
@@ -117,11 +274,10 @@
         avatar: state => state.MeInfo.avatar,
         album: state => state.MeInfo.album,
         recommender: state => state.MeInfo.recommender,
-        account_status: state => state.MeInfo.account_status,
-        userState: state => state.MeInfo.userState
+        account_status: state => state.MeInfo.account_status
       }),
       test () {
-        return this.$store.state.MeInfo.avatar
+        return this.$store.state.MeInfo.lunar
       }
     },
     components: {
@@ -129,34 +285,118 @@
       'input-picker': Picker,
       'input-button': Button,
       'mt-popup': Popup,
+      'mt-datetime-picker': DatetimePicker,
       'input-cell': Cell,
       'fz-input': InputField
     },
     created () {
       // 防止用户直接访问这个路径, 所以获取一次数据
       this.$store.dispatch('fetchMeInfo')
+      this.$store.dispatch('fetchSelectableItem').then((res) => {
+        this.lunarPicker = updatePicker(this.lunarPicker, [Object.values(res.lunar)], this.lunar)
+        this.degreePicker = updatePicker(this.degreePicker, [Object.values(res.degree)], this.degree)
+        this.bloodtypePicker = updatePicker(this.bloodtypePicker, [Object.values(res.bloodtype)], this.bloodtype)
+        this.sexPicker = updatePicker(this.sexPicker, [Object.values(res.sex)], this.sex)
+        this.nationPicker = updatePicker(this.nationPicker, [Object.values(res.nation)], this.nation)
+        this.marriagePicker = updatePicker(this.marriagePicker, [Object.values(res.marriage)], this.marriage)
+        this.housePicker = updatePicker(this.housePicker, [Object.values(res.house)], this.house)
+        this.faithPicker = updatePicker(this.faithPicker, [Object.values(res.faith)], this.faith)
+        this.starssignPicker = updatePicker(this.starssignPicker, [Object.values(res.starssign)], this.starssign)
+        this.carPicker = updatePicker(this.carPicker, [Object.values(res.car)], this.car)
+      })
     },
     methods: {
       open (picker) {
         this.$refs[picker].open()
-        console.log(this.$refs)
       },
       onSexChange (picker, values) {
-        this.sex = values[0]
-      },
-      onUserStateChange (picker, values) {
-        this.userState = values[0]
+        // 这里修改页面显示的数据就可以了
+        this.$store.state.MeInfo.degree = values[0] // 为了让页面上显示数据, 实际上不会修改state
       },
       onAddressChange (picker, values) {
         picker.setSlotValues(1, address[values[0]])
-        this.province = values[0]
-        this.city = values[1]
+        this.$store.state.MeInfo.livingPlace = `${values[0]}-${values[1]}` // 为了让页面上显示数据, 实际上不会修改state
       },
-      showSexPopup () {
-        this.sexPopupVisible = true
+      onDegreeChange (picker, values) {
+        this.$store.state.MeInfo.degree = values[0] // 为了让页面上显示数据, 实际上不会修改state
       },
-      showUserStatePopup () {
-        this.userStatePopupVisible = true
+      onLunarChange (picker, values) {
+        this.$store.state.MeInfo.lunar = values[0] // 为了让页面上显示数据, 实际上不会修改state
+      },
+      onBloodtypeChange (picker, values) {
+        this.$store.state.MeInfo.bloodtype = values[0] // 为了让页面上显示数据, 实际上不会修改state
+      },
+      onNationChange (picker, values) {
+        this.$store.state.MeInfo.nation = values[0] // 为了让页面上显示数据, 实际上不会修改state
+      },
+      onMarriageChange (picker, values) {
+        this.$store.state.MeInfo.marriage = values[0] // 为了让页面上显示数据, 实际上不会修改state
+      },
+      onHouseChange (picker, values) {
+        this.$store.state.MeInfo.house = values[0] // 为了让页面上显示数据, 实际上不会修改state
+      },
+      onFaithChange (picker, values) {
+        this.$store.state.MeInfo.faith = values[0] // 为了让页面上显示数据, 实际上不会修改state
+      },
+      onStarssignChange (picker, values) {
+        this.$store.state.MeInfo.starssign = values[0] // 为了让页面上显示数据, 实际上不会修改state
+      },
+      onCarChange (picker, values) {
+        this.$store.state.MeInfo.car = values[0] // 为了让页面上显示数据, 实际上不会修改state
+      },
+      onbirthplaceChange (picker, values) {
+        picker.setSlotValues(1, address[values[0]])
+        this.$store.state.MeInfo.birthplace = `${values[0]}-${values[1]}` // 为了让页面上显示数据, 实际上不会修改state
+      },
+      // 日期选择器是另一个控件 . 结构更复杂了
+      onbirthdayChange (values) {
+        let reg = /^\d$/
+        let y = values.getFullYear().toString()
+        let m = (values.getMonth() + 1).toString()
+        let d = values.getDate().toString()
+        m = reg.test(m) ? '0' + m : m
+        d = reg.test(d) ? '0' + d : d
+        let birthday = parseInt(y + m + d)
+        this.$store.state.MeInfo.birthday = parseInt(birthday)
+      },
+      sendRegData () {
+        let MeInfo = this.$store.state.MeInfo
+        let MeSelectable = this.$store.state.MeSelectable
+        // save in store
+        this.$store.commit(type.SAVE_ME_INFO, {...MeInfo})
+
+        let convertedData = {
+          degree: value2Key({...MeSelectable.degree}, MeInfo.degree),
+          lunar: value2Key({...MeSelectable.lunar}, MeInfo.lunar),
+          bloodtype: value2Key({...MeSelectable.bloodtype}, MeInfo.bloodtype),
+          sex: value2Key({...MeSelectable.sex}, MeInfo.sex),
+          nation: value2Key({...MeSelectable.nation}, MeInfo.nation),
+          marriage: value2Key({...MeSelectable.marriage}, MeInfo.marriage),
+          house: value2Key({...MeSelectable.house}, MeInfo.house),
+          faith: value2Key({...MeSelectable.faith}, MeInfo.faith),
+          starssign: value2Key({...MeSelectable.starssign}, MeInfo.starssign),
+          car: value2Key({...MeSelectable.car}, MeInfo.car)
+        }
+        // debug
+        // console.log(MeInfo)
+        // console.log({...MeSelectable})
+        //
+        // console.log(MeInfo.degree)
+        // console.log(MeSelectable.degree)
+        //
+        // console.log(value2Key({1: 1}, 1))
+        // console.log(convertedData)
+
+        // send to server
+        let dataBeSent = {
+          ...MeInfo,
+          ...convertedData
+        }
+        this.$store.dispatch('sendMeInfo', dataBeSent)
+        this.$router.push('/me')
+      },
+      setState (key, val) {
+        this.$store.dispatch('editProperty', {key, val})
       }
     }
   }
@@ -164,12 +404,26 @@
 
 <template>
   <div class="container">
-    <input-field label="昵称" placeholder="输入昵称" :value="nickname"></input-field>
-    <input-field label="性别" placeholder="选择性别" type="sex" :value="sex" @click.native="sexPopupVisible = true" disabled>
-      <label class="spaceholder"></label>
-    </input-field>
-    <input-field label="省市" placeholder="选择省市" :value="province + ' - ' + city" disabled @click.native="addressPopupVisible = true" disabled></input-field>
-    <input-field label="交友类型" placeholder="选择交友类型" :value="userState" @click.native="userStatePopupVisible = true" disabled></input-field>
+    <input-field label="昵称" placeholder="输入昵称" type="text" :value="nickname" @input.native="setState('nickname', $event.target.value)"></input-field>
+    <input-field label="性别" placeholder="选择性别" type="sex" :value="sex" @click.native="sexPopupVisible = true" disabled></input-field>
+    <input-field label="现居地" placeholder="选择现居地" :value="livingPlace" @click.native="addressPopupVisible = true" disabled></input-field>
+    <input-field label="真实姓名" placeholder="输入真实姓名" :value="realname" type="text" @input.native="setState('realname', $event.target.value)"></input-field>
+    <input-field label="生日" placeholder="点击选择生日" @click.native="$refs.birthday.open()" :value="birthday" disabled></input-field>
+    <input-field label="身高" placeholder="输入身高" :value="height" type="number" @input.native="setState('height', $event.target.value)"></input-field>
+    <input-field label="体重" placeholder="输入体重" :value="weight" type="number" @input.native="setState('weight', $event.target.value)"></input-field>
+    <input-field label="年龄" placeholder="输入年龄" :value="age" type="number" @input.native="setState('age', $event.target.value)"></input-field>
+    <input-field label="收入" placeholder="输入收入" :value="income" type="number" @input.native="setState('income', $event.target.value)"></input-field>
+    <input-field label="毕业学校" placeholder="输入毕业学校" :value="school" type="text" @input.native="setState('school', $event.target.value)"></input-field>
+    <input-field label="学历" placeholder="输入学历" :value="degree"  @click.native="degreePopupVisible = true" disabled></input-field>
+    <input-field label="生肖" placeholder="输入生肖" :value="lunar" @click.native="lunarPopupVisible = true" disabled></input-field>
+    <input-field label="血型" placeholder="输入血型" :value="bloodtype" @click.native="bloodtypePopupVisible = true" disabled></input-field>
+    <input-field label="民族" placeholder="输入民族" :value="nation" @click.native="nationPopupVisible = true" disabled></input-field>
+    <input-field label="婚姻状况" placeholder="输入婚姻状况" :value="marriage" @click.native="marriagePopupVisible = true" disabled></input-field>
+    <input-field label="房产" placeholder="输入房产" :value="house" @click.native="housePopupVisible = true" disabled></input-field>
+    <input-field label="车" placeholder="输入车" :value="car" @click.native="carPopupVisible = true" disabled></input-field>
+    <input-field label="出生地" placeholder="输入出生地" :value="birthplace" @click.native="birthplacePopupVisible = true" disabled></input-field>
+    <input-field label="信仰" placeholder="输入信仰" :value="faith" @click.native="faithPopupVisible = true" disabled></input-field>
+    <input-field label="星座" placeholder="输入星座" :value="starssign" @click.native="statssignPopupVisible = true" disabled></input-field>
     <input-button type="primary" class="btn-confirm" @click.native="sendRegData">更新</input-button>
 
 
@@ -184,17 +438,6 @@
     </mt-popup>
 
     <mt-popup
-            ref="user-state-picker"
-            class="popup-user-state popup"
-            position="bottom"
-            v-model="userStatePopupVisible"
-            popup-transition="popup-fade">
-      <input-picker :slots="userStatePicker" @change="onUserStateChange">
-
-      </input-picker>
-    </mt-popup>
-
-    <mt-popup
             ref="address-picker"
             class="popup-address popup"
             position="bottom"
@@ -203,6 +446,116 @@
       <input-picker :slots="addressPicker" @change="onAddressChange">
       </input-picker>
     </mt-popup>
+
+    <mt-popup
+            class="popup-lunar popup"
+            position="bottom"
+            v-model="lunarPopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="lunarPicker" @change="onLunarChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            class="popup-bloodtype popup"
+            position="bottom"
+            v-model="bloodtypePopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="bloodtypePicker" @change="onBloodtypeChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            class="popup-nation popup"
+            position="bottom"
+            v-model="nationPopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="nationPicker" @change="onNationChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            class="popup-marriage popup"
+            position="bottom"
+            v-model="marriagePopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="marriagePicker" @change="onMarriageChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            class="popup-house popup"
+            position="bottom"
+            v-model="housePopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="housePicker" @change="onHouseChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            class="popup-faith popup"
+            position="bottom"
+            v-model="faithPopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="faithPicker" @change="onFaithChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            class="popup-starssign popup"
+            position="bottom"
+            v-model="starssignPopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="starssignPicker" @change="onStarssignChange">
+      </input-picker>
+    </mt-popup>
+
+
+
+    <mt-popup
+            class="popup-car popup"
+            position="bottom"
+            v-model="carPopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="carPicker" @change="onCarChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            class="popup-degree popup"
+            position="bottom"
+            v-model="degreePopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="degreePicker" @change="onDegreeChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            class="popup-degree popup"
+            position="bottom"
+            v-model="statssignPopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="starssignPicker" @change="onStarssignChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-popup
+            class="popup-degree popup"
+            position="bottom"
+            v-model="birthplacePopupVisible"
+            popup-transition="popup-fade">
+      <input-picker :slots="birthplacePicker" @change="onbirthplaceChange">
+      </input-picker>
+    </mt-popup>
+
+    <mt-datetime-picker
+      ref="birthday"
+      type="date"
+      :startDate="new Date(1900, 0, 1)"
+      :endDate="new Date(2006, 11, 31)"
+      @confirm = 'onbirthdayChange'
+      >
+    </mt-datetime-picker>
   </div>
 </template>
 
@@ -214,6 +567,7 @@
   }
 
   .btn-confirm {
+    margin: 20px 0;
     width: 100%;
   }
 

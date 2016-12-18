@@ -16,18 +16,18 @@ function genMe () {
   "use strict";
    return {
      id: 1111,
+		 account_status: 0,
      nickname: f.internet.userName(),
      realname: f.name.lastName(),
      birthday: 19900101,
-     province: f.address.state(),
-     city: f.address.city(),
+     livingPlace: '山东-临沂',
      height: r(150, 190),
      weight: r(100, 200),
      age: r(20, 100),
      income: r(100000, 4000000),
      school: '蓝翔',
-     degree: '博士后',
-     lunarid: '猴',
+     degree: '研究生',
+     lunar: '羊',
      bloodtype: 'A',
      sex: '男',
      nation: '回族',
@@ -47,7 +47,55 @@ function genMe () {
      recommender: '你大爷',
      account_status: ''
    }
+}
 
+function genMeSelectable () {
+  return {
+    degree: {
+      0: '本科',
+      1: '研究生'
+    },
+    lunar: {
+      1: '猴',
+      2: '猪',
+      3: '羊'
+    },
+    bloodtype: {
+      1: 'A',
+      2: 'B'
+    },
+    sex: {
+      0: '无',
+      1: '男',
+      2: '女'
+    },
+    nation: {
+      0: '汉',
+      1: '回'
+    },
+    marriage: {
+      0: '未婚',
+      1: '已婚'
+    },
+    house: {
+      0: '有',
+      1: '无'
+    },
+    faith: {
+      0: '无',
+      1: '共产',
+      2: '伊斯兰教'
+    },
+    starssign: {
+      0: '摩羯',
+      1: '水瓶',
+      2: '天秤'
+    },
+    car: {
+      0: '有',
+      1: '无'
+    }
+  }
 }
 
 function genUser() {
@@ -213,7 +261,8 @@ module.exports = function() {
   // /weixin
   data.weixin = genWXData()
   data.me = genMe()
-
-
+  data.users = [genMe()]
+  // /meSelectable
+  data.meSelectable = genMeSelectable()
 	return data;
 }
