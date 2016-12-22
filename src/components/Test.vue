@@ -1,7 +1,12 @@
 <template>
   <div class="container">
-    <test-child ref="child"></test-child>
-    <label @inputtest="updateValue">{{value}}</label>
+    <test-child v-on:haha="hi" v-model="a"></test-child>
+    <p>zheliyou: {{a}}</p>
+    <select>
+      <option value="">ggg</option>
+      <option value="">ggg</option>
+      <option value="">ggg</option>
+    </select>
   </div>
 </template>
 
@@ -10,7 +15,7 @@
   export default {
     data () {
       return {
-        value: ''
+        a: ''
       }
     },
     components: {
@@ -23,6 +28,9 @@
       })
     },
     methods: {
+      hi () {
+        console.log('jo')
+      },
       updateValue (val) {
         this.value = val
       }

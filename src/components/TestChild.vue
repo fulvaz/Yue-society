@@ -1,26 +1,25 @@
 <template>
   <div class="container">
-    <input v-model="value" @input="inputs($event.target.value)">
+    <input type="text" :value="value" @click="inputs">
   </div>
 </template>
 
 <script>
   export default {
     data () {
-      return {
-        value: ''
-      }
+      return {}
     },
     props: {
+      value: ''
     },
     components: {
     },
     created () {
     },
     methods: {
-      inputs (val) {
-        this.$parent.$emit('inputtest', val)
-        this.value = val
+      inputs ($event) {
+        console.log('child click')
+        this.$emit('input', $event.target.value)
       }
     }
   }

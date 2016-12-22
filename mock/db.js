@@ -11,7 +11,25 @@ function r (min, max) {
 	return f.random.number({min: min, max: max})
 }
 
-// 从这里开始有文档
+function genSpouse () {
+	return {
+		id: 1111,
+		startage: 18,
+		endage: 30,
+		livingPlace: '广东-广州',
+		startheight: 180,
+		endheight: 200,
+		startweight: 50,
+		endweight: 100,
+		startdegree: '高中',
+		enddegree: '博士',
+		startrevenue: 1000,
+		endrevenue: 8000,
+		birthplace: '广东-广州'
+	}
+}
+
+// 从这里开始有文档 见另外JSON文档
 function genMe () {
   "use strict";
    return {
@@ -26,7 +44,7 @@ function genMe () {
      age: r(20, 100),
      income: r(100000, 4000000),
      school: '蓝翔',
-     degree: '研究生',
+     degree: '硕士',
      lunar: '羊',
      bloodtype: 'A',
      sex: '男',
@@ -52,8 +70,10 @@ function genMe () {
 function genMeSelectable () {
   return {
     degree: {
-      0: '本科',
-      1: '研究生'
+      0: '高中',
+      1: '本科',
+			2: '硕士',
+			3: '博士'
     },
     lunar: {
       1: '猴',
@@ -155,10 +175,13 @@ module.exports = function() {
 		let tmp = {
 			id: i,
 			type: 'activities',
-			name: faker.commerce.product(),
-			location: faker.address.state(),
-			introduction: faker.lorem.sentences(),
-			logo: faker.image.image(50, 50)
+			circleId: r(1, 10), // 可以不要
+			title: faker.commerce.product(),
+			content: faker.lorem.sentences(),
+			attendance: r(1000, 2999),
+			logo: faker.image.image(50, 50),
+			durantionstart: '2016-12-5',
+			durantionend: '2016-12-20'
 		}
 		activityRecommend.push(tmp)
 	}
@@ -264,5 +287,6 @@ module.exports = function() {
   data.users = [genMe()]
   // /meSelectable
   data.meSelectable = genMeSelectable()
+	data.spouse = genSpouse()
 	return data;
 }

@@ -20,7 +20,7 @@
   import Slider from './common/Slider'
   import Streamer from './common/Streamer'
   import SliderItem from './common/SliderItem'
-  import Config from '../config/setting'
+  import * as api from '../api/index.js'
 
   export default {
     components: {
@@ -31,8 +31,7 @@
       'slider-item': SliderItem
     },
     created () {
-      this.fetchCircleRecommend()
-      this.fetchActivitiesRecommend()
+      this.fetchData()
     },
     data () {
       return {
@@ -46,21 +45,10 @@
     computed: {
     },
     methods: {
-      fetchCircleRecommend () {
-        this.$http.get(Config.circlesRecommendsApi).then((response) => {
-          // TODO 处理异常 全部返回200
-          let remoteData
-          // 有些服务器返回字符串, 有些则是JSON, 需要判断
-          if (typeof response.body === 'object') remoteData = response.body
-          else remoteData = JSON.parse(response.body)
-          // 为了组件复用, 这里需要重新组装一下数据
-          /**
-
-            'contentTitle' <- name
-            'contentSubtitle' <- location
-            'content' <- introduction
-          **/
-          let tmp = remoteData.map((e) => {
+      fetchData () {
+        Promise.all([api.fetchCircleRecommend(), api.fetchActivitiesRecommend()]).then((result) => {
+          console.log(result)
+          let tmp = result[0].map((e) => {
             e['contentTitle'] = e.name
             e['contentSubtitle'] = e.location
             e['content'] = e.introduction
@@ -70,25 +58,44 @@
             return e
           })
           this.circleRecommend = this.circleRecommend.concat(tmp)
-        }, (response) => {
 
+          tmp = result[1].map((e) => {
+            e['contentTitle'] = e.title
+            // 处理subtitle为 「111人参加 12月10日截止」的形式
+            let endDate = new Date(e.durantionend)
+            let month = `${endDate.getMonth() + 1}`
+            let day = `${endDate.getDate()}`
+            month = /^\d$/.test(month) ? '0' + month : month
+            day = /^\d$/.test(day) ? '0' + day : day
+            e['contentSubtitle'] = `${e.attendance} 人参加 ${month}月${day}日 截止`
+            e['content'] = e.content
+            return e
+          })
+          this.activityRecommend = this.activityRecommend.concat(tmp)
+        }).catch((err) => {
+          console.log('connection err')
+          console.log(err)
+        })
+      },
+      fetchCircleRecommend () {
+        api.fetchCircleRecommend().then((res) => {
+          let tmp = res.map((e) => {
+            e['contentTitle'] = e.name
+            e['contentSubtitle'] = e.location
+            e['content'] = e.introduction
+            delete e.name
+            delete e.location
+            delete e.introduction
+            return e
+          })
+          this.circleRecommend = this.circleRecommend.concat(tmp)
+        }).catch((e) => {
+          console.log(e)
         })
       },
       fetchActivitiesRecommend () {
-        this.$http.get(Config.activitiesRecommendsApi).then((response) => {
-          // TODO 处理异常 全部返回200
-          let remoteData
-          // 有些服务器返回字符串, 有些则是JSON, 需要判断
-          if (typeof response.body === 'object') remoteData = response.body
-          else remoteData = JSON.parse(response.body)
-          // 为了组件复用, 这里需要重新组装一下数据
-          /**
-
-            'contentTitle' <- name
-            'contentSubtitle' <- location
-            'content' <- introduction
-          **/
-          let tmp = remoteData.map((e) => {
+        api.fetchActivitiesRecommend().then((response) => {
+          let tmp = response.map((e) => {
             e['contentTitle'] = e.name
             e['contentSubtitle'] = e.location
             e['content'] = e.introduction
@@ -98,17 +105,16 @@
             return e
           })
           this.activityRecommend = this.activityRecommend.concat(tmp)
-        }, (response) => {
-
         })
       },
       fetchUserRecommend: function () {
         this.page++
-        this.$http.get(`${Config.usersRecommendsApi}?_page=${this.page}&_limit=5`).then((response) => {
-          if (typeof response.body === 'object') this.userRecommend = this.userRecommend.concat(response.body)
-          else this.userRecommend = this.userRecommend.concat(JSON.parse(response.body))
+        // `${Config.usersRecommendsApi}?_page=${this.page}&_limit=5`
+        api.fetchUserRecommend(this.page, 10).then((response) => {
+          this.userRecommend = this.userRecommend.concat(response)
           this.busy = false
-        }, (response) => {
+        }).catch((err) => {
+          console.log(err)
         })
       },
       loadMore () {

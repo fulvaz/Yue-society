@@ -18,7 +18,7 @@
       <fz-icon-item label="相册" to="photos" class="icon icon-photo" :append="true">
         <i slot="icon" class="fa fa-picture-o fa-2x icon-photo" aria-hidden="true"></i>
       </fz-icon-item>
-      <fz-icon-item label="择偶条件" to="condition" class="icon icon-condition" :append="true">
+      <fz-icon-item label="择偶条件" to="spouse" class="icon icon-condition" :append="true">
         <i slot="icon" class="fa fa-heart fa-2x icon-condition" aria-hidden="true"></i>
       </fz-icon-item>
       <fz-icon-item label="购买服务" to="srevice" class="icon" :append="true">
@@ -70,7 +70,7 @@
   @import "../../assets/util.scss";
   .container {
   }
-  
+
   .profile {
     margin-bottom: 15px;
     height: 124px;

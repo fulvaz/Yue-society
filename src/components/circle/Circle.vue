@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <header >
+    <header>
       <div class="container">
         <h1 class="circle-name">{{circleName}}</h1>
         <p class="news">{{news}}</p>
@@ -88,7 +88,7 @@
         const postPerPage = 20
         // this.loadPostBudy = true
         this.page++
-        this.$http.get(`${Config.circlesApi}/${this.$route.params['id']}/posts?_page=${this.page}&_limit=${postPerPage}`).then((response) => {
+        this.$http.get(`${Config.circlesApi}/${this.$route.params['id']}/posts/${Config.filterPL(this.page, postPerPage)}`).then((response) => {
           this.loadPostBudy = true
           let remoteData
           if (typeof response.body === 'object') remoteData = response.body
@@ -115,6 +115,7 @@
       padding: 35px 0;
       text-align: center;
       color: white;
+      background-color: rgb(44, 175, 187);
 
       .circle-name {
         margin: 0;

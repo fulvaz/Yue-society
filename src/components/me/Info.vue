@@ -2,7 +2,6 @@
 /*
   warning!!!! 因为引入了vuex, 架构变得复杂很多. 其实使用eventbus就足够了
 */
-  import InputField from '../common/InputField'
   import {mapState} from 'vuex'
   import * as type from '../../store/mutation-types.js'
   // import store from '../../store/index.js'
@@ -286,8 +285,7 @@
       'input-button': Button,
       'mt-popup': Popup,
       'mt-datetime-picker': DatetimePicker,
-      'input-cell': Cell,
-      'fz-input': InputField
+      'input-cell': Cell
     },
     created () {
       // 防止用户直接访问这个路径, 所以获取一次数据

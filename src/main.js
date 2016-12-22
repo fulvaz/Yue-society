@@ -13,6 +13,7 @@ import Registry from 'components/User/Registry'
 import MeIndex from 'components/me/Index'
 import MeInfo from 'components/me/Info'
 import Test from 'components/Test'
+import MeSpouse from 'components/me/Spouse'
 
 import store from './store/index.js'
 
@@ -46,6 +47,7 @@ const routes = [
   {path: '/registry/:openId', component: Registry}, //
   {path: '/me', component: MeIndex}, // 我的 页面
   {path: '/me/info', component: MeInfo}, // 我的 页面
+  {path: '/me/spouse', component: MeSpouse}, // 我的 页面
   {path: '/test', component: Test} //
 ]
 

@@ -8,7 +8,7 @@
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src",
-    "mock": "json-server mock/db.js -r mock/route.json -w"
+    "mock": "json-server --watch mock/db.js -r mock/route.json"
   },
   "dependencies": {
     "dateformat": "^2.0.0",
@@ -18,7 +18,8 @@
     "vue": "^2.1.0",
     "vue-infinite-scroll": "^2.0.0",
     "vue-lazyload": "^0.9.4",
-    "vuex": "^2.1.1"
+    "vuex": "^2.1.1",
+    "vux": "^0.1.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

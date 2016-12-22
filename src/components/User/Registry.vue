@@ -50,7 +50,6 @@
 
 <script>
   import config from '../../config/setting.js'
-  import InputField from '../common/InputField'
   import {Field, Picker, Button, Cell, Popup} from 'mint-ui'
 
   const address = {
@@ -146,8 +145,7 @@
       'input-picker': Picker,
       'input-button': Button,
       'mt-popup': Popup,
-      'input-cell': Cell,
-      'fz-input': InputField
+      'input-cell': Cell
     },
     created () {
       this.fetchWXData()
