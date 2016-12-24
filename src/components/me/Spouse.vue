@@ -1,35 +1,45 @@
 <template lang="html">
   <div class="container">
-    <mt-field label="出生地" v-model="birthplace"></mt-field>
-    <mt-field label="居住地" v-model="livingPlace"></mt-field>
+    <address-picker label="出生地" v-model="birthplace"></address-picker>
+    <address-picker label="居住地" v-model="livingPlace"></address-picker>
     <picker v-model="ageRange" label="年龄范围" :picker="agePicker.picker" :slotVal="agePicker.data"></picker>
     <picker v-model="weightRange" label="体重范围" :picker="weightPicker.picker" :slotVal="weightPicker.data"></picker>
     <picker v-model="heightRange" label="身高范围" :picker="heightPicker.picker" :slotVal="heightPicker.data"></picker>
-    <picker v-model="revenueRange" label="收入范围" :picker="revenuePicker.picker" :slotVal="revenuePicker.data"></picker>
-    <picker v-model="degreeRange" label="学历范围" :picker="degreePicker.picker" :slotVal="degreePicker.data"></picker>
+    <!-- 代码凌乱的原因是我老是在改架构却不肯重构 -->
+    <num-range-picker v-model="revenueRange" label="收入范围" :slotVal="revenuelist"></num-range-picker>
+    <num-range-picker v-model="degreeRange" label="学历范围" :slotVal="degreeList"></num-range-picker>
+    <mt-button type="primary" class="btn-confirm" @click.native="sendRegData">更新</mt-button>
+
   </div>
 </template>
 
 <script>
-import {fetchSelectableItem, fetchSpouse} from '../../api/index.js'
-import {Field} from 'mint-ui'
+import {fetchSelectableItem, fetchSpouse, updateSpouse} from '../../api/index.js'
+import {Field, Button} from 'mint-ui'
 import * as utils from '../../utils/utils.js'
 import Picker from '../common/RangePicker'
+import NumRangePicker from '../common/NumRangePicker'
+import AddressPicker from '../common/AddressPicker'
 // import {value2Id} from '../../utils/utils.js'
 
 const ageList = utils.genAgeObj(18, 60)
 const weightList = utils.genAgeObj(30, 100)
 const heightList = utils.genAgeObj(120, 200)
-const revenuelist = {
-  1000: ['1000', '3000', '5000', '7000', '8000', '9000', '10000'],
-  3000: ['5000', '7000', '8000', '9000', '10000']
-}
+// const revenuelist = {
+//   1000: ['1000', '3000', '5000', '7000', '8000', '9000', '10000'],
+//   3000: ['5000', '7000', '8000', '9000', '10000']
+// }
+const revenuelist = ['1000', '3000', '5000', '7000', '8000', '9000', '10000']
+
 // 这么处理的原因是发生了一个神奇的bug
 
 export default {
   components: {
+    'mt-button': Button,
     picker: Picker,
-    'mt-field': Field
+    'num-range-picker': NumRangePicker,
+    'mt-field': Field,
+    'address-picker': AddressPicker
   },
   data () {
     return {
@@ -46,7 +56,7 @@ export default {
       startrevenue: 0,
       endrevenue: 0,
       birthplace: '',
-      selectsbleItem: {},
+      selectableItem: {},
       ageRange: [],
       agePicker: {
         picker: utils.pickerHelper([Object.keys(ageList), ageList[Object.keys(ageList)[0]]]),
@@ -60,10 +70,12 @@ export default {
         picker: utils.pickerHelper([Object.keys(heightList), heightList[Object.keys(heightList)[0]]]),
         data: {...heightList}
       },
-      revenuePicker: {
-        picker: utils.pickerHelper([Object.keys(revenuelist), revenuelist[Object.keys(revenuelist)[0]]]),
-        data: {...revenuelist}
-      }
+      // revenuePicker: {
+      //   picker: utils.pickerHelper([Object.keys(revenuelist), revenuelist[Object.keys(revenuelist)[0]]]),
+      //   data: {...revenuelist}
+      // },
+      revenuelist: revenuelist,
+      degreeSelect: {}
     }
   },
   computed: {
@@ -94,23 +106,6 @@ export default {
         this.endrevenue = val[1]
       }
     },
-    degreePicker () {
-      let degree = this.selectsbleItem.degree
-      let obj = {}
-      let keys = Object.keys(degree)
-      for (let i = 0; i < keys.length; i++) {
-        let t = []
-        for (let j = i; j < keys.length; j++) {
-          t.push(degree[j])
-        }
-        obj[degree[i]] = t
-      }
-      console.log(obj)
-      return {
-        picker: utils.pickerHelper([Object.keys(obj), obj[Object.keys(obj)[0]]]),
-        data: {...obj}
-      }
-    },
     degreeRange: {
       get () {
         return [this.startdegree, this.enddegree]
@@ -119,9 +114,45 @@ export default {
         this.startdegree = val[0]
         this.enddegree = val[1]
       }
+    },
+    degreeList: {
+      get () {
+        // convert to array-licked obj
+        // convert to array
+        // let arr = Object.keys(this.selectableItem.degree).map(key => {
+        //   return this.selectableItem.degree[key]
+        // })
+        // console.log(arr)
+        // return arr
+        let length = Object.keys(this.degreeSelect).length
+        return [].slice.apply({
+          ...this.degreeSelect,
+          length
+        })
+      }
     }
   },
   methods: {
+    sendRegData () {
+      let data = {
+        id: this.id,
+        startage: this.startage,
+        endage: this.endage,
+        livingPlace: this.livingPlace,
+        startheight: this.startheight,
+        endheight: this.endheight,
+        startweight: this.startweight,
+        endweight: this.endweight,
+        startdegree: this.startdegree,
+        enddegree: this.enddegree,
+        startrevenue: this.startrevenue,
+        endrevenue: this.endrevenue,
+        birthplace: this.birthplace
+      }
+      updateSpouse(this.id, data).catch(res => {
+        console.err(res)
+      })
+    }
   },
   watch: {
     ageRange: function (newRange) {
@@ -136,7 +167,14 @@ export default {
       return fetchSpouse(res)
     }).then((res) => {
       next(vm => {
-        vm.selectsbleItem = lastData
+        // vm.selectableItem.degree = lastData
+        vm.selectableItem = lastData
+        let length = Object.keys(lastData.degree).length
+        vm.degreeSelect = [].slice.apply({
+          ...lastData.degree,
+          length
+        })
+
         vm.id = res.id
         vm.startage = res.startage
         vm.endage = res.endage
@@ -161,5 +199,9 @@ export default {
 <style lang="scss">
   .container {
     background-color: white;
+  }
+
+  .btn-confirm {
+    width: 100%;
   }
 </style>

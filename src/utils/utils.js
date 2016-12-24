@@ -42,6 +42,25 @@ export function pickerHelper (values) {
   }]
 }
 
+export function pickerHelper2 (values) {
+  return [{
+    flex: 1,
+    values: values,
+    className: 'picker-left',
+    textAlign: 'center'
+  },
+  {
+    divider: true,
+    content: '-'
+  },
+  {
+    flex: 1,
+    values: values,
+    className: 'picker-right',
+    textAlign: 'center'
+  }]
+}
+
 export function rangeArr (min, max) {
   let i = min
   let arr = []
@@ -57,4 +76,29 @@ export function genAgeObj (min, max) {
     obj[e] = rangeArr(e, max).map(e => '' + e)
   })
   return obj
+}
+
+function _to2Num (num) {
+  if (num.length > 2) throw new Error('[_to2Num] length > 2')
+  if (/^\d$/.test(num)) return '0' + num
+  else return num
+}
+
+export function Date2YMD (date) {
+  date = new Date(date)
+  let y = date.getFullYear()
+  let m = date.getMonth()
+  let d = date.getDate()
+  return y + '-' + _to2Num(m) + '-' + _to2Num(d)
+}
+
+export function date2YMDHMM (date) {
+  date = new Date(date)
+  let y = date.getFullYear()
+  let m = date.getMonth()
+  let d = date.getDate()
+  let hour = date.getHours()
+  let min = date.getMinutes()
+  let sec = date.getSeconds()
+  return y + '-' + _to2Num(m) + '-' + _to2Num(d) + ' ' + _to2Num(hour) + ':' + _to2Num(min) + ':' + _to2Num(sec)
 }

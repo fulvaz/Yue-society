@@ -243,8 +243,8 @@ module.exports = function() {
 				postId: postId,
 				author:f.internet.userName(),
 				authorAvator: f.image.people(),
-				date: f.date.recent,
-				content: f.lorem.paragraph
+				date: f.date.recent(),
+				content: f.lorem.paragraph()
 			}
 			tmp.replies.push(reply)
 			// 顺便再这里生成 /replies
@@ -262,6 +262,7 @@ module.exports = function() {
       name: f.lorem.word(),
 			'news': f.lorem.paragraph(),
 			postCategory: {1: '活动', 2: '交友', 3: '其他'},
+			logo: faker.image.image(50, 50),
 			memberNum: r(100, 500),
 		}
 		let service = []

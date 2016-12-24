@@ -14,7 +14,8 @@ let devApis = {
   'meSelectableApi': apiPrefix + '/meSelectable',
   'wxDataApi': apiPrefix + '/weixin',
   'spouseApi': apiPrefix + '/spouse',
-  'userApi': apiPrefix + '/users'
+  'userApi': apiPrefix + '/users',
+  'postsApi': apiPrefix + '/posts'
 }
 
 let apis = {
@@ -54,7 +55,8 @@ const exp = {
   ...api,
   userApiFilter,
   usersRecommendsApiFilter,
-  filterPL
+  filterPL,
+  dev
 }
 
 export default exp

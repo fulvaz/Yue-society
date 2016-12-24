@@ -14,6 +14,7 @@ import MeIndex from 'components/me/Index'
 import MeInfo from 'components/me/Info'
 import Test from 'components/Test'
 import MeSpouse from 'components/me/Spouse'
+import Post from 'components/posts/Post'
 
 import store from './store/index.js'
 
@@ -48,7 +49,8 @@ const routes = [
   {path: '/me', component: MeIndex}, // 我的 页面
   {path: '/me/info', component: MeInfo}, // 我的 页面
   {path: '/me/spouse', component: MeSpouse}, // 我的 页面
-  {path: '/test', component: Test} //
+  {path: '/test', component: Test},
+  {path: '/posts/:id', component: Post}
 ]
 
 const router = new Router({

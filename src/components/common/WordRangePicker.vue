@@ -38,7 +38,7 @@ export default {
     onChange (picker, values) {
       // 组件的一个小bug 以后再说
       if (values[0]) picker.setSlotValues(1, this.slotVal[values[0]])
-      else values[0] = '' + this.value[0] // ??
+      else values[0] = picker.slots[0].values[0]
       console.log(values)
       this.$emit('input', [utils.strictParseInt(values[0]), utils.strictParseInt(values[1])])
     },

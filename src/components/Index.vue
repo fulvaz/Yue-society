@@ -47,7 +47,6 @@
     methods: {
       fetchData () {
         Promise.all([api.fetchCircleRecommend(), api.fetchActivitiesRecommend()]).then((result) => {
-          console.log(result)
           let tmp = result[0].map((e) => {
             e['contentTitle'] = e.name
             e['contentSubtitle'] = e.location
@@ -90,6 +89,7 @@
           })
           this.circleRecommend = this.circleRecommend.concat(tmp)
         }).catch((e) => {
+          console.log('connection err')
           console.log(e)
         })
       },

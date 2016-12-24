@@ -19,6 +19,16 @@ export const fetchSpouse = function (data) {
   })
 }
 
+export const updateSpouse = function (id, data) {
+  return new Promise((resolve, reject) => {
+    vue.http.put(config.spouseApi, data).then((res) => {
+      resolve(res)
+    }, (res) => {
+      reject(res)
+    })
+  })
+}
+
 export const fetchSelectableItem = function (data) {
   data = data || {}
   return new Promise((resolve, reject) => {
@@ -68,6 +78,32 @@ export const fetchUserRecommend = function (page, limit) {
       resolve(remoteData)
     }, (response) => {
       reject(response)
+    })
+  })
+}
+
+export const fetchPost = function (id) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.postsApi + '/' + id).then((response) => {
+      let remoteData
+      if (typeof response.body === 'object') remoteData = response.body
+      else remoteData = JSON.parse(response.body)
+      resolve(remoteData)
+    }, (res) => {
+      reject(res)
+    })
+  })
+}
+
+export const fetchCircle = function (id) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.circlesApi + '/' + id).then(response => {
+      let remoteData
+      if (typeof response.body === 'object') remoteData = response.body
+      else remoteData = JSON.parse(response.body)
+      resolve(remoteData)
+    }, resp => {
+      reject(resp)
     })
   })
 }
