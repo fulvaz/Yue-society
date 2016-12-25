@@ -15,8 +15,15 @@ import MeInfo from 'components/me/Info'
 import Test from 'components/Test'
 import MeSpouse from 'components/me/Spouse'
 import Post from 'components/posts/Post'
+import Auth from 'components/Auth'
+import Search from 'components/search/index'
 
 import store from './store/index.js'
+
+import config from './config/setting.js'
+
+Vue.config.debug = config.dev
+Vue.config.silent = !config.dev
 
 Vue.use(Router)
 Vue.use(VueResource)
@@ -50,7 +57,10 @@ const routes = [
   {path: '/me/info', component: MeInfo}, // 我的 页面
   {path: '/me/spouse', component: MeSpouse}, // 我的 页面
   {path: '/test', component: Test},
-  {path: '/posts/:id', component: Post}
+  {path: '/posts/:id', component: Post},
+  {path: '/auth', component: Auth},
+  {path: '/search', component: Search}
+
 ]
 
 const router = new Router({

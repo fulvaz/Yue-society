@@ -133,6 +133,7 @@
 import * as api from '../../api/index.js'
 import * as utils from '../../utils/utils.js'
 import Reply from './Reply'
+import { MessageBox } from '../common/MessageBox/MessageBox.js'
 
 export default {
   components: {
@@ -174,9 +175,23 @@ export default {
       console.error('[Post]: ' + res)
     })
   },
+  mounted () {
+    this.handleClick()
+  },
   methods: {
     handleClick () {
-      console.log(1)
+      MessageBox.prompt('1', '').then(val => {
+        // TODO 需要刷新页面，测试是否添加了新的回复
+        let reply = {
+          // id: Number,
+          // postId: Number,
+          uid: this.$store.state.uid,
+          content: val.value
+        }
+        api.replyPost(this.id, reply)
+      })
+    },
+    replyPost () {
     }
   }
 }

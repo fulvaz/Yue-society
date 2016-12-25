@@ -107,3 +107,13 @@ export const fetchCircle = function (id) {
     })
   })
 }
+
+export const replyPost = function (postId, data) {
+  return new Promise((resolve, reject) => {
+    vue.http.patch(config.postsApi + '/' + postId, data).then(response => {
+      resolve(response)
+    }, res => {
+      reject(res)
+    })
+  })
+}

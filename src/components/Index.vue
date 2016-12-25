@@ -31,6 +31,7 @@
       'slider-item': SliderItem
     },
     created () {
+      console.log(document.getElementById('app'))
       this.fetchData()
     },
     data () {
@@ -111,6 +112,14 @@
         this.page++
         // `${Config.usersRecommendsApi}?_page=${this.page}&_limit=5`
         api.fetchUserRecommend(this.page, 10).then((response) => {
+          // 遇到空数据就返回空
+          if (response.length === 0) {
+            this.busy = true
+            setTimeout(e => {
+              this.busy = false
+            }, 5000) // 收到了空数据则5秒后重试
+            return
+          }
           this.userRecommend = this.userRecommend.concat(response)
           this.busy = false
         }).catch((err) => {

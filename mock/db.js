@@ -11,6 +11,12 @@ function r (min, max) {
 	return f.random.number({min: min, max: max})
 }
 
+function genSearchResult () {
+	return {
+
+	}
+}
+
 function genSpouse () {
 	return {
 		id: 1111,
@@ -201,7 +207,8 @@ module.exports = function() {
 		}
 		userRecommend.push(tmp)
 	}
-	data.userRecommends = userRecommend
+	// data.userRecommends = userRecommend
+	data.userRecommends = []
 
 	// /myCircles
 	let myCircle = []
@@ -289,5 +296,6 @@ module.exports = function() {
   // /meSelectable
   data.meSelectable = genMeSelectable()
 	data.spouse = genSpouse()
+	data.search = genSearchResult()
 	return data;
 }
