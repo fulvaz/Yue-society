@@ -1,43 +1,40 @@
 <template lang="html">
   <div class="container">
-    <div class="search-bar-wrapper">
-      <input type="text" class="search-bar" v-model="query" @keyup.enter="handleSearch" placeholder="搜索">
-    </div>
-    <p>{{test}}</p>
+    <search-bar></search-bar>
+    <list v-for="module in Object.keys(tags)" :title="module" class="tag-module">
+      <list-tags :tags="tags[module]"></list-tags>
+    </list>
   </div>
 </template>
 
 <script>
+import SearchBar from './SearchBar'
+import ListTags from '../common/ListTags'
+import List from '../common/List'
+import * as api from '../../api/index.js'
 export default {
   data () {
     return {
-      query: '',
-      test: ''
+      tags: {}
     }
   },
   components: {
+    'search-bar': SearchBar,
+    'list-tags': ListTags,
+    'list': List
   },
-  methods: {
-    handleSearch () {
-      this.test = this.query
-    }
+  created () {
+    api.fetchSearchTags().then(response => {
+      this.tags = response
+    }).catch(response => {
+      console.error(response)
+    })
   }
 }
 </script>
 
-<style lang="scss">
-  .search-bar-wrapper {
-    height: 44px;
-    box-sizing: border-box;
-    padding: 8px 10px 8px 10px;
-    background-color: rgb(217, 217, 217);
-  }
-
-  .search-bar {
-    padding: 4px 6px 4px 6px;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    border: none;
+<style lang="scss" scoped>
+  .tag-module {
+    padding-bottom: 15px;
   }
 </style>

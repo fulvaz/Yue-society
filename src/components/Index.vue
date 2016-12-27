@@ -5,11 +5,11 @@
             <swipe-item class="slide2"></swipe-item>
             <swipe-item class="slide3"></swipe-item>
         </swipe>
-        <slider class="circle-recommend recommend" :title="'—— 圈子推荐 ——'" :items-num="circleRecommend.length">
-            <slider-item v-for="item in circleRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :itemsNum="circleRecommend.length"></slider-item>
+        <slider class="circle-recommend recommend" :title="'—— 圈子推荐 ——'">
+            <slider-item v-for="item in circleRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content"></slider-item>
         </slider>
-        <slider class="activity-recommend recommend" :title="'—— 活动推荐 ——'" :items-num="activityRecommend.length">
-            <slider-item v-for="item in activityRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :items-num="activityRecommend.length"></slider-item>
+        <slider class="activity-recommend recommend" :title="'—— 活动推荐 ——'">
+            <slider-item v-for="item in activityRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content"></slider-item>
         </slider>
         <streamer :title="'个人推荐'" :items="userRecommend" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10"></streamer>
     </div>
@@ -31,7 +31,6 @@
       'slider-item': SliderItem
     },
     created () {
-      console.log(document.getElementById('app'))
       this.fetchData()
     },
     data () {
@@ -162,7 +161,7 @@
 
     .recommend {
         background-color: white;
-        margin: 10px 0;
+        margin: 0px 0;
         box-shadow: 1px black;
     }
 

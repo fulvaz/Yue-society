@@ -1,5 +1,6 @@
 {
   "/recommends/users?_limit=": "/recommend?type=users",
   "/recommends/circles": "/recommend?type=circles",
+  "/getTags/:id": "/tags",
   "/recommends/activities": "/recommend?type=activities"
 }

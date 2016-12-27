@@ -35,8 +35,17 @@ export default {
 <style lang="scss">
   @import "~normalize-scss/sass/_normalize.scss";
   @import '~font-awesome/scss/font-awesome.scss';
+  @import "assets/util.scss";
 
   @include normalize;
+  body {
+    font-family: "Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
+  }
+
+  a {
+    @include reseta(#000);
+  }
+
   #app {
     background-color: #f7f7f7;
     min-height: calc(100vh - 53px);
@@ -49,6 +58,11 @@ export default {
     }
 
 
+  }
+
+  input {
+    resize: none;
+    outline: none;
   }
 
 

@@ -117,3 +117,49 @@ export const replyPost = function (postId, data) {
     })
   })
 }
+
+export const search = function (query) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.searchApi + '/' + query).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const fetchSearchTags = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.searchTags).then(response => {
+      let remoteData
+      if (typeof response.body === 'object') remoteData = response.body
+      else remoteData = JSON.parse(response.body)
+      resolve(remoteData)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const fetchCircleByTag = function (query) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.circleByTag + '/' + query).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const fetchMeInfo = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.meApi).then((response) => {
+      let remoteData
+      if (typeof response.body === 'object') remoteData = response.body
+      else remoteData = JSON.parse(response.body)
+      resolve(remoteData)
+    }, response => {
+      reject(response)
+    })
+  })
+}

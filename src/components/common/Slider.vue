@@ -13,12 +13,16 @@
    import SliderItem from './SliderItem'
 
    export default {
-     props: {
-       'title': '',
-       'itemsNum': {
-         type: Number,
-         required: true
+     data () {
+       return {
+         'itemsNum': 0
        }
+     },
+     updated () {
+       this.itemsNum = this.$children.length
+     },
+     props: {
+       'title': ''
      },
      components: {
        'item': SliderItem

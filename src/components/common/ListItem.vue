@@ -3,7 +3,7 @@
     <img class="logo" :src="logo" >
     <div class="main">
       <h2 class="content-title">{{contentTitle}}</h2>
-      <h3 class="content-subtitle">{{contentSubtitle}} 人</h3>
+      <h3 class="content-subtitle">{{contentSubtitle}}</h3>
     </div>
   </div>
 </template>
@@ -34,14 +34,11 @@
     .main {
       height: 50px;
       margin-left: 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
 
       .content-title {
         margin: 0;
-        height: 1em;
         font-size: 17px;
+        line-height: 18px;
         overflow: hidden;
       }
 
@@ -49,6 +46,7 @@
         bottom: 0;
         font-size: 12px;
         margin: 0;
+        margin-top: 5px;
         color: #b3b3b3;
       }
     }

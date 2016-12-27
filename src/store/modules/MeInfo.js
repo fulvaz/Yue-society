@@ -1,4 +1,5 @@
 import * as type from '../mutation-types'
+import * as api from '../../api/index.js'
 import config from '../../config/setting'
 import Vue from 'vue'
 // const _this = Vue
@@ -45,12 +46,11 @@ const mutations = {
 
 const actions = {
   fetchMeInfo (context, val) {
-    if (context.state.Loaded) return
-    Vue.http.get(config.meApi).then((response) => {
-      let remoteData
-      if (typeof response.body === 'object') remoteData = response.body
-      else remoteData = JSON.parse(response.body)
-      context.commit(type.SAVE_ME_INFO, remoteData)
+    if (context.state.loaded) return
+    api.fetchMeInfo().then(response => {
+      context.commit(type.SAVE_ME_INFO, response)
+    }).catch(response => {
+      console.error(response)
     })
   },
   sendMeInfo (context, val) {
@@ -68,6 +68,7 @@ const getters = {
 
 const state = {
   id: 0,
+  avatar: '',
   infoLoaded: false,
   nickname: '',
   realname: '',
@@ -88,10 +89,10 @@ const state = {
   car: '',
   birthplace: '',
   faith: '',
-  starssign: '',
+  starsign: '',
   isvip: 0,
   looked: 0,
-  loaded: false,
+  loaded: false, // 读取标签位, 不发
   focused: 0,
   balance: 0,
   perfection: 0,

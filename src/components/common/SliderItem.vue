@@ -1,5 +1,5 @@
 <template>
-    <div class="slider-item" :style="{width: elHeight}">
+    <div class="slider-item" :style="{width: elWeight}">
         <img class="logo" :src="logo" >
         <div class="main">
             <h2 class="content-title">{{contentTitle}}</h2>
@@ -16,14 +16,23 @@
        'title': '',
        'content-title': '',
        'content-subtitle': '',
-       'content': '',
-       'itemsNum': ''
+       'content': ''
+     },
+     data () {
+       return {
+         itemsNum: 0
+       }
+     },
+     created () {
+     },
+     mounted () {
+       this.itemsNum = this.$parent.$children.length
      },
      computed: {
        contentLess () {
          return this.content.slice(0, 20) + '...'
        },
-       elHeight () {
+       elWeight () {
          return (100 / this.itemsNum) * 0.9 + '%'
        }
      }

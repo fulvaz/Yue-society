@@ -102,3 +102,10 @@ export function date2YMDHMM (date) {
   let sec = date.getSeconds()
   return y + '-' + _to2Num(m) + '-' + _to2Num(d) + ' ' + _to2Num(hour) + ':' + _to2Num(min) + ':' + _to2Num(sec)
 }
+
+export function response2Data (response) {
+  let remoteData
+  if (typeof response.body === 'object') remoteData = response.body
+  else remoteData = JSON.parse(response.body)
+  return remoteData
+}

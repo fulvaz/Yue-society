@@ -17,6 +17,8 @@ import MeSpouse from 'components/me/Spouse'
 import Post from 'components/posts/Post'
 import Auth from 'components/Auth'
 import Search from 'components/search/index'
+import SearchResult from 'components/search/result'
+import Tag from 'components/search/tag'
 
 import store from './store/index.js'
 
@@ -59,8 +61,9 @@ const routes = [
   {path: '/test', component: Test},
   {path: '/posts/:id', component: Post},
   {path: '/auth', component: Auth},
-  {path: '/search', component: Search}
-
+  {path: '/search', component: Search},
+  {path: '/search/:query', component: SearchResult},
+  {path: '/tags/:tag', component: Tag}
 ]
 
 const router = new Router({
@@ -78,7 +81,6 @@ let events = {
   }
 }
 
-// 全局事件处理器
 Vue.mixin(events)
 
 export default new Vue({

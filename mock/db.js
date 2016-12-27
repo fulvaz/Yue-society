@@ -7,14 +7,83 @@ let circleRecNum = r(15, 25)
 let rNum = r(10, 20)
 let circlesNum = r(50, 100)
 
+function genUsers ()  {
+	let users = []
+	for (var i=0; i < r(20, 30); i++) {
+		let tmp = {
+			id: 1000 + i,
+			account_status: 0,
+			nickname: f.internet.userName(),
+			realname: f.name.lastName(),
+			birthday: 19900101,
+			livingPlace: '山东-临沂',
+			height: r(150, 190),
+			weight: r(100, 200),
+			age: r(20, 100),
+			income: r(100000, 4000000),
+			school: '蓝翔',
+			degree: '硕士',
+			lunar: '羊',
+			bloodtype: 'A',
+			sex: '男',
+			nation: '回族',
+			marriage: '未婚',
+			house: '租房',
+			car: '有',
+			birthplace: '火星',
+			faith: '伊斯兰教',
+			starsign: '处女座',
+			isvip: 1,
+			looked: r(20, 30),
+			focused: r(30, 50),
+			avatar: f.image.avatar(50, 50),
+			album: '',
+		}
+		users.push(tmp)
+	}
+	return users
+}
+
 function r (min, max) {
 	return f.random.number({min: min, max: max})
 }
 
-function genSearchResult () {
+function genCircleTags () {
 	return {
-
+		'行业': ['IT', '金融', '前端', '后端', '运维', '农民工', '钱多行业'],
+		'地域': ['广州', '珠海', '深圳', '佛山', '惠州', '东莞', '茂名', '中山']
 	}
+}
+
+function genSearchResult () {
+	let users = []
+	for (let i=0; i<r(5, 10); i++) {
+		users.push({
+			id: i,
+			name: faker.name.lastName(),
+			location: faker.address.state(),
+			avator: faker.image.avatar(200, 200),
+			age:faker.random.number({min: 20, max: 30})
+		})
+	}
+
+	let circles = []
+	for (let i=0; i<r(5, 10); i++) {
+		let tmp = {
+			id: i,
+			type: 'circles',
+			name: faker.name.jobType(),
+			location: faker.address.state(),
+			introduction: faker.lorem.sentences(),
+			logo: faker.image.image(50, 50)
+		}
+		circles.push(tmp)
+	}
+	return [{
+		id: 'test',
+		users,
+		circles
+	}]
 }
 
 function genSpouse () {
@@ -60,7 +129,7 @@ function genMe () {
      car: '有',
      birthplace: '火星',
      faith: '伊斯兰教',
-     starssign: '处女座',
+     starsign: '处女座',
      isvip: 1,
      looked: r(20, 30),
      focused: r(30, 50),
@@ -112,7 +181,7 @@ function genMeSelectable () {
       1: '共产',
       2: '伊斯兰教'
     },
-    starssign: {
+    starsign: {
       0: '摩羯',
       1: '水瓶',
       2: '天秤'
@@ -207,8 +276,8 @@ module.exports = function() {
 		}
 		userRecommend.push(tmp)
 	}
-	// data.userRecommends = userRecommend
-	data.userRecommends = []
+	data.userRecommends = userRecommend
+	// data.userRecommends = []
 
 	// /myCircles
 	let myCircle = []
@@ -292,10 +361,12 @@ module.exports = function() {
   // /weixin
   data.weixin = genWXData()
   data.me = genMe()
-  data.users = [genMe()]
+  data.users = [genMe(), ...genUsers()]
   // /meSelectable
   data.meSelectable = genMeSelectable()
 	data.spouse = genSpouse()
 	data.search = genSearchResult()
+	data.circleTags = genCircleTags()
+	data.tags =	data.myCircles
 	return data;
 }

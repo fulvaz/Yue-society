@@ -45,13 +45,12 @@
     computed: {
     // ['avatar', 'balance', 'looked', 'focused', 'nickname']
       ...mapState({
-        avatar: state => state.MeInfo.avatar,
         balance: state => state.MeInfo.balance,
         looked: state => state.MeInfo.looked,
         focused: state => state.MeInfo.focused,
         nickname: state => state.MeInfo.nickname
       }),
-      test () {
+      avatar () {
         return this.$store.state.MeInfo.avatar
       }
     },
