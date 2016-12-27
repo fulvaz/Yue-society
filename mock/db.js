@@ -7,6 +7,12 @@ let circleRecNum = r(15, 25)
 let rNum = r(10, 20)
 let circlesNum = r(50, 100)
 
+function genStateInfo () {
+	return {
+		'joinedCircles': [1, 2, 3, 4, 5]
+	}
+}
+
 function genUsers ()  {
 	let users = []
 	for (var i=0; i < r(20, 30); i++) {

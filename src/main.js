@@ -21,7 +21,7 @@ import SearchResult from 'components/search/result'
 import Tag from 'components/search/tag'
 
 import store from './store/index.js'
-
+import * as utils from './utils/utils.js'
 import config from './config/setting.js'
 
 Vue.config.debug = config.dev
@@ -69,6 +69,19 @@ const routes = [
 const router = new Router({
   routes: routes,
   base: '/'
+})
+
+router.beforeEach((to, from, next) => {
+  // auth
+  // 这条规则是避免某个不长眼循环跳转
+  if (from.path === '/auth') next('/')
+  // 不能拦截验证页面
+  if (to.path === '/auth') next()
+  if (!utils.getCookie(document.cookie).auth) next('/auth')
+  else {
+    if (!store.state.MeInfo.loaded) store.dispatch('fetchMeInfo')
+    next()
+  }
 })
 
 const eventHub = new Vue()

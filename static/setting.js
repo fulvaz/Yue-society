@@ -19,7 +19,9 @@ let devApis = {
   'postsApi': apiPrefix + '/posts',
   'searchApi': apiPrefix + '/search',
   'searchTags': apiPrefix + '/circleTags',
-  'circleByTag': apiPrefix + '/getTags'
+  'circleByTag': apiPrefix + '/getTags',
+  'stateInfo': apiPrefix + '/stateInfo',
+  'authPath': 'static/auth.html'
 }
 
 let apis = {

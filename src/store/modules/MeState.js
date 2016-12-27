@@ -2,26 +2,17 @@
  *
  * Created by fulvaz on 16/12/18.
  */
-import * as type from '../mutation-types.js'
 import * as api from '../../api/index.js'
 
 const state = {
-  degree: {},
-  lunar: {},
-  bloodtype: {},
-  sex: {},
-  nation: {},
-  marriage: {},
-  house: {},
-  faith: {},
-  starssign: {},
-  car: {}
+  loaded: false,
+  joinedCircles: []
 }
 
 const actions = {
   fetchSelectableItem (context, val) {
     api.fetchSelectableItem().then(response => {
-      context.commit(type.SAVE_SELECTABLE_ITEM, response)
+      context.commit('SAVE_ME_STATE', response)
     }).catch(response => {
       console.error(response)
     })
@@ -29,7 +20,8 @@ const actions = {
 }
 
 const mutations = {
-  [type.SAVE_SELECTABLE_ITEM] (state, payload) {
+  SAVE_ME_STATE (state, payload) {
+    state = true
     state = Object.assign(state, payload)
   }
 }

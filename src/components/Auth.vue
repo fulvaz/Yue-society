@@ -3,9 +3,16 @@
 </template>
 
 <script>
+import config from '../config/setting.js'
 export default {
-  created () {
-    window.location = 'http://www.sina.com'
+  data () {
+    return {
+      from: ''
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    let redirect = window.encodeURI(from.path)
+    window.location = config.authPath + '?redirect=' + redirect
   }
 }
 </script>

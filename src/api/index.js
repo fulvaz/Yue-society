@@ -29,8 +29,7 @@ export const updateSpouse = function (id, data) {
   })
 }
 
-export const fetchSelectableItem = function (data) {
-  data = data || {}
+export const fetchSelectableItem = function () {
   return new Promise((resolve, reject) => {
     vue.http.get(config.meSelectableApi).then((response) => {
       let remoteData
@@ -154,6 +153,19 @@ export const fetchCircleByTag = function (query) {
 export const fetchMeInfo = function () {
   return new Promise((resolve, reject) => {
     vue.http.get(config.meApi).then((response) => {
+      let remoteData
+      if (typeof response.body === 'object') remoteData = response.body
+      else remoteData = JSON.parse(response.body)
+      resolve(remoteData)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const fetchStateInfo = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.stateInfo).then((response) => {
       let remoteData
       if (typeof response.body === 'object') remoteData = response.body
       else remoteData = JSON.parse(response.body)

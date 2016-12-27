@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<button id="btn" onClick="handleClick">跳转回去</button>
+<script>
+  function search2query (search) {
+    let obj = {}
+    search.slice(1).split('&').forEach(e => {
+      let [key, value] = e.split('=')
+      obj[key] = value
+    })
+    return obj
+  }
+  function handleClick () {
+
+    // set cookie
+    document.cookie = 'auth=true; domain=test.com; path=/;'
+    let prefix = 'http://test.com:8080/#'
+    console.log(prefix + search2query(window.location.search).redirect)
+    window.location = prefix + search2query(window.location.search).redirect
+  }
+  let btn = document.getElementById('btn')
+  btn.addEventListener('click', handleClick)
+
+</script>
+</body>
+</html>

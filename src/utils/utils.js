@@ -109,3 +109,21 @@ export function response2Data (response) {
   else remoteData = JSON.parse(response.body)
   return remoteData
 }
+
+export function search2query (search) {
+  let obj = {}
+  search.slice(1).split('&').forEach(e => {
+    let [key, value] = e.split('=')
+    obj[key] = value
+  })
+  return obj
+}
+
+export function getCookie (cookie) {
+  let obj = {}
+  cookie.split('; ').forEach(e => {
+    let [key, value] = e.split('=')
+    obj[key] = value
+  })
+  return obj
+}

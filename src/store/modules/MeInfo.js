@@ -37,6 +37,7 @@ const mutations = {
     // state.recommender = payload.recommender
     // state.account_status = payload.account_status
     // state.userState = payload.userState
+    state.loaded = true
     state = Object.assign(state, payload) // 貌似可靠的快速赋值方法
   },
   EDIT_ONE_STATE (state, payload) {
