@@ -5,8 +5,9 @@
         <h1 class="circle-name">{{circleName}}</h1>
         <p class="news">{{news}}</p>
         <div class="btn-group">
-          <button class="btn-post">发言</button>
-          <button class="btn-service">联系红娘</button>
+          <button class="btn-post" v-if="ifJoin" @click="newPost">发言</button>
+          <button class="btn-post" v-else @click="joinCircle">加入圈子</button>
+          <!-- <button class="btn-service">联系红娘</button> -->
         </div>
       </div>
     </header>
@@ -31,6 +32,9 @@
   import { TabContainer, TabContainerItem, Navbar, TabItem } from 'mint-ui'
   import PostCell from '../common/PostCell'
   import dateformat from 'dateformat'
+  import MessageBox from '../common/MessageBox/MessageBox.js'
+  import api from '../../api/index.js'
+  // import { mapState } from 'vuex'
 
   export default {
     data () {
@@ -68,9 +72,26 @@
           })
         })
         return postsWithCategory
+      },
+      ifJoin () {
+        return this.$store.state.MeState.joinedCircles.indexOf(parseInt(this.$route.params.id)) !== -1
       }
     },
     methods: {
+      newPost () {
+        // 需要再写一个页面
+      },
+      joinCircle () {
+        MessageBox.prompt('输入加入圈子的验证信息').then(val => {
+          let apply = {
+            uid: this.$store.state.uid,
+            circleId: this.$route.params['id'],
+            content: val.value,
+            date: (new Date()).toString()
+          }
+          api.replyPost(this.id, apply)
+        })
+      },
       dateFormat (value) {
         return dateformat(value, 'mm-dd hh:MM')
       },

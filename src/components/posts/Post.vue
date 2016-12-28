@@ -176,22 +176,29 @@ export default {
     })
   },
   mounted () {
-    this.handleClick()
   },
   methods: {
     handleClick () {
-      MessageBox.prompt('1', '').then(val => {
+      MessageBox.prompt('请输入你的回复').then(val => {
         // TODO 需要刷新页面，测试是否添加了新的回复
+        let date = new Date()
         let reply = {
           // id: Number,
-          // postId: Number,
+          postId: this.$route.params.id,
           uid: this.$store.state.uid,
-          content: val.value
+          content: val.value,
+          date
         }
         api.replyPost(this.id, reply)
+
+        let replyDisplay = {
+          author: this.$store.state.MeInfo.nickname,
+          authorAvator: this.$store.state.MeInfo.avatar,
+          date: utils.date2YMDHMM(date),
+          content: val.value
+        }
+        this.replies.push(replyDisplay)
       })
-    },
-    replyPost () {
     }
   }
 }

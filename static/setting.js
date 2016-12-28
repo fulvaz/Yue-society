@@ -21,7 +21,12 @@ let devApis = {
   'searchTags': apiPrefix + '/circleTags',
   'circleByTag': apiPrefix + '/getTags',
   'stateInfo': apiPrefix + '/stateInfo',
-  'authPath': 'static/auth.html'
+  'authPath': 'static/auth.html',
+  'applyCircleApi': apiPrefix + '/applyForCircle',
+  'msgList': apiPrefix + '/msgList',
+  'resetUidCount': '',
+  'chat': apiPrefix + '/chat',
+  'replyMsg': ''
 }
 
 let apis = {
@@ -60,6 +65,14 @@ function filterPL (page, limit) {
   return dev ? devStr : str
 }
 
+const tabbarItems = {
+  '/': 0,
+  '/circle': 1,
+  '/search': 2,
+  '/message': 3,
+  '/me': 4
+}
+
 const exp = Object.assign(
   {},
   api,
@@ -68,6 +81,9 @@ const exp = Object.assign(
     usersRecommendsApiFilter: usersRecommendsApiFilter,
     filterPL: filterPL,
     dev: dev
+  },
+  {
+    'tabbarItems': tabbarItems
   }
 )
 

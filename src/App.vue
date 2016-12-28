@@ -11,9 +11,12 @@
       <tabbar-item :to="'/search'" :label="'搜索'" :id="2">
         <i slot="icon" class="fa fa-search fa-2x" aria-hidden="true"></i>
       </tabbar-item>
-      <tabbar-item :to="'/message'" :label="'私信'" :id="3">
-        <i slot="icon" class="fa fa-envelope fa-2x" aria-hidden="true"></i>
-      </tabbar-item>
+      <div class="msg">
+        <tabbar-item :to="'/message'" :label="'私信'" :id="3">
+          <i slot="icon" class="fa fa-envelope fa-2x" aria-hidden="true"></i>
+        </tabbar-item>
+        <mt-badge class="unread" size="small" color="#fe6431" v-if="unread > 0">{{unread}}</mt-badge>
+      </div>
       <tabbar-item :to="'/me'" :label="'我'" :id="4">
         <i slot="icon" class="fa fa-user fa-2x" aria-hidden="true"></i>
       </tabbar-item>
@@ -24,10 +27,17 @@
 <script>
 import tabbar from 'components/common/Tabbar'
 import TabbarItem from 'components/common/TabbarItem'
+import {Badge} from 'mint-ui'
 export default {
   components: {
     'tabbar': tabbar,
-    'tabbar-item': TabbarItem
+    'tabbar-item': TabbarItem,
+    'mt-badge': Badge
+  },
+  computed: {
+    unread () {
+      return this.$store.state.MeState.unreadMsg
+    }
   }
 }
 </script>
@@ -60,8 +70,26 @@ export default {
 
   }
 
+  .msg {
+    position: relative;
+    .unread {
+      position: absolute;
+      top: 0;
+      right: -12px;
+    }
+  }
+
   input {
     resize: none;
+    outline: none;
+  }
+
+  textarea {
+    resize: none;
+    outline: none;
+  }
+
+  button {
     outline: none;
   }
 

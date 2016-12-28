@@ -186,17 +186,17 @@ MessageBox.confirm = function (message, title, options) {
   }, options))
 }
 
-MessageBox.prompt = function (message, title, options) {
+MessageBox.prompt = function (placeholder, options) {
   if (typeof title === 'object') {
-    options = title
-    title = ''
+    options = '1'
   }
   return MessageBox(merge({
-    title: title,
-    message: message,
+    title: '1',
+    message: '1',
     showCancelButton: true,
     showInput: true,
-    $type: 'prompt'
+    $type: 'prompt',
+    placeholder: placeholder
   }, options))
 }
 

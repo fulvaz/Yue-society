@@ -175,3 +175,54 @@ export const fetchStateInfo = function () {
     })
   })
 }
+
+// applyCircleApi
+export const applyForCircle = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.post(config.applyCircleApi).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const fetchMsgList = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.msgList).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const resetUidCount = function (uid) {
+  return new Promise((resolve, reject) => {
+    vue.http.post(config.resetUidCount, {uid: uid}).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getChat = function (uid) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.chat + '/' + uid).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const replyMsg = function (uid, msg) {
+  return new Promise((resolve, reject) => {
+    vue.http.post(config.replyMsg + '/' + uid, msg).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}

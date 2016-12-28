@@ -19,6 +19,8 @@ import Auth from 'components/Auth'
 import Search from 'components/search/index'
 import SearchResult from 'components/search/result'
 import Tag from 'components/search/tag'
+import MessageList from 'components/message/index'
+import Chat from 'components/message/chat.vue'
 
 import store from './store/index.js'
 import * as utils from './utils/utils.js'
@@ -63,6 +65,8 @@ const routes = [
   {path: '/auth', component: Auth},
   {path: '/search', component: Search},
   {path: '/search/:query', component: SearchResult},
+  {path: '/message', component: MessageList},
+  {path: '/message/chat/:uid', component: Chat},
   {path: '/tags/:tag', component: Tag}
 ]
 
@@ -79,22 +83,26 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/auth') next()
   if (!utils.getCookie(document.cookie).auth) next('/auth')
   else {
-    if (!store.state.MeInfo.loaded) store.dispatch('fetchMeInfo')
+    // 业务逻辑
+    store.dispatch('fetchMeState')
+    if (!store.state.MeState.loaded) store.dispatch('fetchMeInfo')
+    // 修改状态栏状态
+    store.dispatch('itemClicked', config.tabbarItems[to.path])
     next()
   }
 })
 
-const eventHub = new Vue()
+// const eventHub = new Vue()
 
-let events = {
-  data () {
-    return {
-      'eventHub': eventHub
-    }
-  }
-}
+// let events = {
+//   data () {
+//     return {
+//       'eventHub': eventHub
+//     }
+//   }
+// }
 
-Vue.mixin(events)
+// Vue.mixin(events)
 
 export default new Vue({
   el: '#app',

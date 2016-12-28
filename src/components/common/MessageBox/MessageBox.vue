@@ -6,7 +6,7 @@
           <!-- <div class="mint-msgbox-message" v-html="message"></div> -->
           <div class="mint-msgbox-input" id="mint-msgbox-input" v-show="showInput">
             <!-- <div class="mint-msgbox-errormsg" :style="{ visibility: !!editorErrorMessage ? 'visible' : 'hidden' }">{{ editorErrorMessage }}</div> -->
-            <textarea id="input" cols="30" rows="10" v-model="inputValue" ref="input" placeholder="输入回复"></textarea>
+            <textarea id="input" cols="30" rows="10" v-model="inputValue" ref="input" :placeholder="placeholder"></textarea>
           </div>
         </div>
         <div class="mint-msgbox-btns">
@@ -169,6 +169,7 @@
     mixins: [ Popup ],
 
     props: {
+      placeholder: '',
       modal: {
         default: true
       },

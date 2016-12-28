@@ -11,7 +11,7 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    let redirect = window.encodeURI(from.path)
+    let redirect = window.encodeURIComponent(from.path)
     window.location = config.authPath + '?redirect=' + redirect
   }
 }

@@ -7,9 +7,68 @@ let circleRecNum = r(15, 25)
 let rNum = r(10, 20)
 let circlesNum = r(50, 100)
 
+function genChat () {
+	let msgs = []
+	let fromName = f.internet.userName()
+	let fromAvatar = f.image.avatar()
+	let meName = f.internet.userName()
+	let meAvatar = f.image.avatar()
+
+	for (let i=0; i<r(100, 200); i++) {
+		let meMsg = {
+				content: f.lorem.sentence(),
+				date: f.date.recent(),
+				from: {
+					id: 1,
+					nickname: fromName,
+					avatar: fromAvatar
+				},
+				to: {
+					id: 1111,
+					nickname: meName,
+					avatar: meAvatar
+				},
+			}
+
+		let otherMsg = {
+				content: f.lorem.sentence(),
+				date: f.date.recent(),
+				from: {
+					id: 1111,
+					nickname: meName,
+					avatar: meAvatar
+				},
+				to: {
+					id: 1,
+					nickname: fromName,
+					avatar: fromAvatar
+				},
+			}
+		if (r(0, 1)) msgs.push(otherMsg)
+		else msgs.push(meMsg)
+	}
+	return msgs
+}
+
+function genMsgList () {
+	let msgList = []
+	for (let i=0; i<10; i++) {
+		msgList.push({
+			uid: i,
+			nickname: f.internet.userName(),
+			avatar: f.image.avatar(100, 100),
+			lastMsg: f.lorem.sentences(),
+			unread: i,
+			date: f.date.recent()
+		})
+	}
+	return msgList
+}
+
 function genStateInfo () {
 	return {
-		'joinedCircles': [1, 2, 3, 4, 5]
+		'joinedCircles': [1, 2, 3, 4, 5],
+		'unreadMsg': 45
 	}
 }
 
@@ -374,5 +433,8 @@ module.exports = function() {
 	data.search = genSearchResult()
 	data.circleTags = genCircleTags()
 	data.tags =	data.myCircles
+	data.stateInfo = genStateInfo()
+	data.msgList = genMsgList()
+	data.chat = genChat()
 	return data;
 }

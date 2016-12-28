@@ -5,28 +5,37 @@
 import * as api from '../../api/index.js'
 
 const state = {
-  loaded: false,
-  joinedCircles: []
+  joinedCircles: [],
+  unreadMsg: 0
 }
 
 const actions = {
-  fetchSelectableItem (context, val) {
-    api.fetchSelectableItem().then(response => {
+  fetchMeState (context, val) {
+    api.fetchStateInfo().then(response => {
       context.commit('SAVE_ME_STATE', response)
     }).catch(response => {
       console.error(response)
     })
+  },
+  readMsg (context, val) {
+    api.resetUidCount(val.uid)
+    context.commit('DECREASE_UNREADMSG', val.unread)
   }
 }
 
 const mutations = {
   SAVE_ME_STATE (state, payload) {
-    state = true
-    state = Object.assign(state, payload)
+    Object.keys(payload).forEach(key => {
+      state[key] = payload[key]
+    })
+  },
+  DECREASE_UNREADMSG (state, payload) {
+    state.unreadMsg -= payload
   }
 }
 
-const getters = {}
+const getters = {
+}
 
 export default {
   state,

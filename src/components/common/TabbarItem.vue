@@ -8,30 +8,42 @@
 </template>
 
 <script>
+  import config from '../../config/setting.js'
   export default {
     data () {
       return {
-        selected: this.isSelected
       }
     },
     props: {
       label: '',
       icon: '',
       to: '',
-      id: '',
+      id: Number,
       isSelected: false
+    },
+    computed: {
+      idSelected () {
+        return this.$store.state.TabState.idSelected
+      },
+      selected () {
+        let ifClicked = this.id === this.idSelected
+        let ifRoute = this.id === config.tabbarItems[this.$route.path] // 高优先级
+        // console.log(ifRoute || ifClicked)
+        return ifRoute || ifClicked
+      }
     },
     components: {
     },
     created () {
-      this.eventHub.$on('tabbar-item-click', (id) => {
-        if (id === this.id) this.selected = true
-        else this.selected = false
-      })
+      // this.eventHub.$on('tabbar-item-click', (id) => {
+      //   if (id === this.id) this.selected = true
+      //   else this.selected = false
+      // })
     },
     methods: {
       handleClick () {
-        this.eventHub.$emit('tabbar-item-click', this.id)
+        // this.eventHub.$emit('tabbar-item-click', this.id)
+        this.$store.dispatch('itemClicked', this.id)
       }
     }
   }
