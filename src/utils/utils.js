@@ -42,6 +42,15 @@ export function pickerHelper (values) {
   }]
 }
 
+export function singlePickerHelper (values) {
+  return [{
+    flex: 1,
+    values: values,
+    className: 'picker-left',
+    textAlign: 'center'
+  }]
+}
+
 export function pickerHelper2 (values) {
   return [{
     flex: 1,
@@ -87,7 +96,7 @@ function _to2Num (num) {
 export function Date2YMD (date) {
   date = new Date(date)
   let y = date.getFullYear()
-  let m = date.getMonth()
+  let m = date.getMonth() + 1
   let d = date.getDate()
   return y + '-' + _to2Num(m) + '-' + _to2Num(d)
 }
@@ -126,4 +135,12 @@ export function getCookie (cookie) {
     obj[key] = value
   })
   return obj
+}
+
+export function obj2arr (obj) {
+  let arr = []
+  Object.values(obj).forEach(e => {
+    arr.push(e)
+  })
+  return arr
 }

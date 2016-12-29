@@ -6,7 +6,10 @@ import * as api from '../../api/index.js'
 
 const state = {
   joinedCircles: [],
-  unreadMsg: 0
+  unreadMsg: 0,
+  uid: 0,
+  nickname: '',
+  avatar: ''
 }
 
 const actions = {

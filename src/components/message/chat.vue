@@ -43,14 +43,14 @@ export default {
   },
   methods: {
     ifFromMe (uid) {
-      return this.$store.state.MeInfo.id === uid
+      return this.$store.state.MeState.id === uid
     },
     date2YMDHMM (date) {
       return utils.date2YMDHMM(date)
     },
     replyMsg () {
       let to = this.$route.params.uid
-      let from = this.$store.state.MeInfo.id
+      let from = this.$store.state.MeState.uid
       let date = (new Date()).toString()
       let reply = {
         to,
@@ -71,8 +71,8 @@ export default {
         date,
         from: {
           id: from,
-          nickname: this.$store.state.MeInfo.nickname,
-          avatar: this.$store.state.MeInfo.avatar
+          nickname: this.$store.state.MeState.nickname,
+          avatar: this.$store.state.MeState.avatar
         }
       })
 

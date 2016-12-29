@@ -12,6 +12,7 @@ import Circle from 'components/circle/Circle'
 import Registry from 'components/User/Registry'
 import MeIndex from 'components/me/Index'
 import MeInfo from 'components/me/Info'
+import MeRecommend from 'components/me/recommend'
 import Test from 'components/Test'
 import MeSpouse from 'components/me/Spouse'
 import Post from 'components/posts/Post'
@@ -60,6 +61,7 @@ const routes = [
   {path: '/me', component: MeIndex}, // 我的 页面
   {path: '/me/info', component: MeInfo}, // 我的 页面
   {path: '/me/spouse', component: MeSpouse}, // 我的 页面
+  {path: '/me/recommend', component: MeRecommend}, // 我的 页面
   {path: '/test', component: Test},
   {path: '/posts/:id', component: Post},
   {path: '/auth', component: Auth},
@@ -76,20 +78,19 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  // auth
-  // 这条规则是避免某个不长眼循环跳转
-  if (from.path === '/auth') next('/')
-  // 不能拦截验证页面
-  if (to.path === '/auth') next()
-  if (!utils.getCookie(document.cookie).auth) next('/auth')
-  else {
-    // 业务逻辑
-    store.dispatch('fetchMeState')
-    if (!store.state.MeState.loaded) store.dispatch('fetchMeInfo')
-    // 修改状态栏状态
-    store.dispatch('itemClicked', config.tabbarItems[to.path])
+  if (to.path !== '/auth') {
+    if (!utils.getCookie(document.cookie).auth) next('/auth')
+    else {
+      // 业务逻辑
+      store.dispatch('fetchMeState')
+      // 修改状态栏状态
+      store.dispatch('itemClicked', config.tabbarItems[to.path])
+      next()
+    }
+  } else {
     next()
   }
+  // auth
 })
 
 // const eventHub = new Vue()

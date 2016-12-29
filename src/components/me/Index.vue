@@ -45,20 +45,17 @@
     computed: {
     // ['avatar', 'balance', 'looked', 'focused', 'nickname']
       ...mapState({
-        balance: state => state.MeInfo.balance,
-        looked: state => state.MeInfo.looked,
-        focused: state => state.MeInfo.focused,
-        nickname: state => state.MeInfo.nickname
-      }),
-      avatar () {
-        return this.$store.state.MeInfo.avatar
-      }
+        balance: state => state.MeState.balance,
+        looked: state => state.MeState.looked,
+        focused: state => state.MeState.focused,
+        nickname: state => state.MeState.nickname,
+        avatar: state => state.MeState.avatar
+      })
     },
     components: {
       'fz-icon-item': IconItem
     },
     created () {
-      this.$store.dispatch('fetchMeInfo')
     },
     methods: {
     }

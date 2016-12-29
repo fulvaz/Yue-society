@@ -192,8 +192,8 @@ export default {
         api.replyPost(this.id, reply)
 
         let replyDisplay = {
-          author: this.$store.state.MeInfo.nickname,
-          authorAvator: this.$store.state.MeInfo.avatar,
+          author: this.$store.state.MeState.nickname,
+          authorAvator: this.$store.state.MeState.avatar,
           date: utils.date2YMDHMM(date),
           content: val.value
         }

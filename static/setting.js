@@ -43,7 +43,15 @@ let apis = {
   'userApi': apiPrefix + '/users',
   'postsApi': apiPrefix + '/posts',
   'searchApi': apiPrefix + '/search',
-  'circleTags': apiPrefix + 'circleTags'
+  'searchTags': apiPrefix + '/circleTags',
+  'circleByTag': apiPrefix + '/getTags',
+  'stateInfo': apiPrefix + '/stateInfo',
+  'authPath': apiPrefix + '/authorize',
+  'applyCircleApi': apiPrefix + '/applyForCircle',
+  'msgList': apiPrefix + '/msgList',
+  'resetUidCount': '',
+  'chat': apiPrefix + '/chat',
+  'replyMsg': ''
 }
 
 let api = dev ? devApis : apis

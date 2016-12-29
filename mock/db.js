@@ -67,8 +67,14 @@ function genMsgList () {
 
 function genStateInfo () {
 	return {
+		'uid': 1111,
+		'avatar': 'https://s3.amazonaws.com/uifaces/faces/twitter/timgthomas/128.jpg',
 		'joinedCircles': [1, 2, 3, 4, 5],
-		'unreadMsg': 45
+		'unreadMsg': 45,
+		nickname: f.internet.userName(),
+		balance: r(300, 1000),
+		focused: r(100, 200),
+		looked: r(100, 300)
 	}
 }
 
@@ -95,7 +101,7 @@ function genUsers ()  {
 			marriage: '未婚',
 			house: '租房',
 			car: '有',
-			birthplace: '火星',
+			birthplace: '北京-北京',
 			faith: '伊斯兰教',
 			starsign: '处女座',
 			isvip: 1,
@@ -177,7 +183,7 @@ function genMe () {
 		 account_status: 0,
      nickname: f.internet.userName(),
      realname: f.name.lastName(),
-     birthday: 19900101,
+     birthday: '1990-01-01',
      livingPlace: '山东-临沂',
      height: r(150, 190),
      weight: r(100, 200),
@@ -192,7 +198,7 @@ function genMe () {
      marriage: '未婚',
      house: '租房',
      car: '有',
-     birthplace: '火星',
+     birthplace: '北京-北京',
      faith: '伊斯兰教',
      starsign: '处女座',
      isvip: 1,

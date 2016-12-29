@@ -12,7 +12,8 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     let redirect = window.encodeURIComponent(from.path)
-    window.location = config.authPath + '?redirect=' + redirect
+    console.log(config.authPath + '?redirectUrl=' + redirect)
+    window.location = config.authPath + '?redirectUrl=' + redirect
   }
 }
 </script>

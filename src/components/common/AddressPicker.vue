@@ -84,19 +84,19 @@ export default {
   created () {
     // 设定pick默认指定值，还有一处在handleClick
     this.picker = utils.pickerHelper([Object.keys(address), address['北京']])
-    console.log(this.picker)
   },
   methods: {
     onChange (picker, values) {
       // 组件的一个小bug 以后再说
+      if (this.province === undefined || this.city === undefined) return // 防止刚开始空值出乱子
       if (values[0] === undefined) values[0] = this.province
       picker.setSlotValues(1, this.slotVal[values[0]])
       if (config.dev) console.log(values)
       this.$emit('input', values[0] + '-' + values[1])
     },
     handleClick () {
-      this.$refs.picker.setSlotValue(0, this.province + '')
-      this.$refs.picker.setSlotValue(1, this.city + '')
+      if (this.province) this.$refs.picker.setSlotValue(0, this.province + '')
+      if (this.city) this.$refs.picker.setSlotValue(1, this.city + '')
 
       this.visible = true
     },
