@@ -22,8 +22,8 @@
     // set cookie
     document.cookie = 'auth=true; domain=test.com; path=/;'
     let prefix = 'http://test.com:8080/#'
-    console.log(prefix + search2query(window.location.search).urlRedirect)
-    window.location = prefix + search2query(window.location.search).urlRedirect
+    console.log(prefix + search2query(window.location.search).redirectUrl)
+    window.location = prefix + search2query(window.location.search).redirectUrl
   }
   let btn = document.getElementById('btn')
   btn.addEventListener('click', handleClick)

@@ -47,7 +47,7 @@ export default {
   methods: {
     onChange (picker, values) {
       // 组件的一个小bug 以后再说
-      this.$emit('input', values[0])
+      this.$emit('input', values[0]) 
     },
     handleClick () {
       this.visible = true
