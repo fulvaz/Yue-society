@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="container">
     <section class="info">
-      <img class="avator" :src="authorAvator" :alt="author">
+      <img class="avatar" :src="authorAvator" :alt="author">
       <span class="author">{{author}}</span>
       <span class="date">{{dateYMDHMM}}</span>
     </section>
@@ -36,7 +36,7 @@ export default {
   }
 
   .info {
-    .avator {
+    .avatar {
       float: left;
       margin-right: 10px;
       width: 36px;

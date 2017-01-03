@@ -1,6 +1,6 @@
 <template>
     <div class="slider-item">
-        <img class="logo" :src="avator" >
+        <img class="logo" :src="avatar" >
         <div class="main">
             <h2 class="title">{{title}}</h2>
             <p class="info"><span class="author">{{author}}</span><span class="date">{{date}}</span></p>
@@ -11,7 +11,7 @@
 <script>
    export default {
      props: {
-       'avator': '',
+       'avatar': '',
        'title': '',
        'date': '',
        'author': ''

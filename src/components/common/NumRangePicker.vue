@@ -9,7 +9,7 @@
     <mt-picker ref="picker" :slots="picker" @change="onChange"></mt-picker>
   </mt-popup>
 
-  <mt-field :label="label" :placeholder="placeholder" :value="value[0] + ' - ' + value[1]" @click.native="handleClick" disabled></mt-field>
+  <mt-field :label="label" :placeholder="placeholder" :value="value[0] + ' - ' + value[1]" @click.native="handleClick" readonly></mt-field>
 </div>
 </template>
 

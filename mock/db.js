@@ -7,6 +7,53 @@ let circleRecNum = r(15, 25)
 let rNum = r(10, 20)
 let circlesNum = r(50, 100)
 
+function genActivity () {
+	let arr = []
+	for (let i=0; i<r(30, 40); i++) {
+		arr.push({
+			id: i,
+			type: 'activities',
+			circleId: r(1, 10), // 可以不要
+			title: faker.commerce.product(),
+			content: faker.lorem.sentences(),
+			attendance: r(1000, 2999),
+			logo: faker.image.image(50, 50),
+			durationstart: '2016-12-5',
+			durationend: '2016-12-20',
+			location: f.address.state()
+		})
+	}
+	return arr
+}
+
+function genAlbum () {
+	let album = {}
+	for (let i=0; i<r(20, 30); i++) {
+		album['uid'] = i
+		album['introduction'] = f.lorem.sentence()
+		album.nickname = f.internet.userName()
+		let images = []
+		for (let j=0; j<r(10, 30); j++) {
+			images.push(f.image.nightlife(r(100, 200), r(100, 200)))
+		}
+		album.images = images
+	}
+	return album
+}
+
+function genAUserList () {
+	let arr = []
+	for (let i=0; i<r(30, 50); i++) {
+		arr.push({
+			uid: i,
+			avatar: f.image.avatar(200, 200),
+			nickname: f.internet.userName(),
+			introduction: f.lorem.sentence()
+		})
+	}
+	return arr
+}
+
 function genChat () {
 	let msgs = []
 	let fromName = f.internet.userName()
@@ -74,16 +121,18 @@ function genStateInfo () {
 		nickname: f.internet.userName(),
 		balance: r(300, 1000),
 		focused: r(100, 200),
-		looked: r(100, 300)
+		looked: r(100, 300),
+		focus: [1000, 1001, 1002, 1003]
 	}
 }
 
 function genUsers ()  {
 	let users = []
 	for (var i=0; i < r(20, 30); i++) {
+		let spouseCondition = genSpouse()
 		let tmp = {
 			id: 1000 + i,
-			account_status: 0,
+			introduction: f.lorem.sentence(),
 			nickname: f.internet.userName(),
 			realname: f.name.lastName(),
 			birthday: 19900101,
@@ -105,10 +154,8 @@ function genUsers ()  {
 			faith: '伊斯兰教',
 			starsign: '处女座',
 			isvip: 1,
-			looked: r(20, 30),
-			focused: r(30, 50),
 			avatar: f.image.avatar(50, 50),
-			album: '',
+			spouseCondition
 		}
 		users.push(tmp)
 	}
@@ -133,7 +180,7 @@ function genSearchResult () {
 			id: i,
 			name: faker.name.lastName(),
 			location: faker.address.state(),
-			avator: faker.image.avatar(200, 200),
+			avatar: faker.image.avatar(200, 200),
 			age:faker.random.number({min: 20, max: 30})
 		})
 	}
@@ -181,6 +228,7 @@ function genMe () {
    return {
      id: 1111,
 		 account_status: 0,
+		 introduction: f.lorem.sentence(),
      nickname: f.internet.userName(),
      realname: f.name.lastName(),
      birthday: '1990-01-01',
@@ -326,8 +374,8 @@ module.exports = function() {
 			content: faker.lorem.sentences(),
 			attendance: r(1000, 2999),
 			logo: faker.image.image(50, 50),
-			durantionstart: '2016-12-5',
-			durantionend: '2016-12-20'
+			durationstart: '2016-12-5',
+			durationend: '2016-12-20'
 		}
 		activityRecommend.push(tmp)
 	}
@@ -342,7 +390,7 @@ module.exports = function() {
 			type: 'users',
 			name: faker.name.lastName(),
 			location: faker.address.state(),
-			avator: faker.image.avatar(200, 200),
+			avatar: faker.image.avatar(200, 200),
 			age:faker.random.number({min: 20, max: 30})
 		}
 		userRecommend.push(tmp)
@@ -366,13 +414,13 @@ module.exports = function() {
 
 	// /posts
 	let posts = []
-  let postCategory = {0: '活动', 1: '交友', 2: '其他'}
+  let postCategory = {1: '交友', 2: '其他'}
 	rNum = r(3000, 5000)
 	repliesId = 0
 	for (let i=0; i<rNum; i++) {
 		let tmp = {
 			id: i,
-			circleId: r(0, circlesNum),
+			circleId: r(0, 10),
       type: postCategory[r(0, 2)],
 			author: f.internet.userName(),
 			authorAvator: f.image.people(),
@@ -408,7 +456,7 @@ module.exports = function() {
 			id: i,
       name: f.lorem.word(),
 			'news': f.lorem.paragraph(),
-			postCategory: {1: '活动', 2: '交友', 3: '其他'},
+			postCategory: { 2: '交友', 3: '其他'},
 			logo: faker.image.image(50, 50),
 			memberNum: r(100, 500),
 		}
@@ -429,8 +477,18 @@ module.exports = function() {
 
 	// /users
 
+
   // /weixin
   data.weixin = genWXData()
+	data.WXConfig = {
+		debug: true,
+		"signature": "FD92C8EFE1637E8F7CAD1056929054ABA4540AB1",
+		"timestamp": 1483073052,
+		"appid": "wx0e267f61b1b011b7",
+		"nonceStr": "tdd52zdHKQgn7pPBzibyusojXRKmc4tF",
+		"url": "http://www.resontek.com/#/abc",
+		"jsApiList": ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'chooseWXPay']
+	}
   data.me = genMe()
   data.users = [genMe(), ...genUsers()]
   // /meSelectable
@@ -442,5 +500,11 @@ module.exports = function() {
 	data.stateInfo = genStateInfo()
 	data.msgList = genMsgList()
 	data.chat = genChat()
+	data.focused = genAUserList()
+	data.looked = genAUserList()
+	data.meRecommend = genAUserList()
+	data.album = genAlbum()
+	data.activities = genActivity()
+	data.right = {right: false}
 	return data;
 }

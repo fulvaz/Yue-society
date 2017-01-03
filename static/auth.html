@@ -18,15 +18,14 @@
     return obj
   }
   function handleClick () {
-
     // set cookie
-    document.cookie = 'auth=true; domain=test.com; path=/;'
-    let prefix = 'http://test.com:8080/#'
+    let prefix = 'http://www.resontek.com/#'
     console.log(prefix + search2query(window.location.search).redirectUrl)
     window.location = prefix + search2query(window.location.search).redirectUrl
   }
   let btn = document.getElementById('btn')
   btn.addEventListener('click', handleClick)
+  document.cookie = 'auth=true; domain=www.resontek.com; path=/;'
 
 </script>
 </body>

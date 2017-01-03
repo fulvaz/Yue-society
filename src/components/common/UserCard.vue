@@ -7,7 +7,7 @@
                 <span class="age">{{user.age}}岁</span>
             </p>
         </div>
-        <div class="avator" v-lazy:background-image="user.avator"></div>
+        <div class="avatar" v-lazy:background-image="user.avatar"></div>
     </div>
 </template>
 
@@ -18,7 +18,7 @@
     },
     computed: {
       style () {
-        return {'background-image': `url(${this.user.avator})`}
+        return {'background-image': `url(${this.user.avatar})`}
       }
     }
   }
@@ -29,7 +29,7 @@
         position: relative;
     }
 
-    .avator {
+    .avatar {
         box-sizing: border-box;
 
         background: #888;

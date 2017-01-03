@@ -5,7 +5,7 @@
         <h1 class="circle-name">{{circleName}}</h1>
         <p class="news">{{news}}</p>
         <div class="btn-group">
-          <button class="btn-post" v-if="ifJoin" @click="newPost">发言</button>
+          <button class="btn-post" v-if="ifJoin" @click="newPost" :disabled="!auth" :class="{disabled: !auth}">发言</button>
           <button class="btn-post" v-else @click="joinCircle">加入圈子</button>
           <!-- <button class="btn-service">联系红娘</button> -->
         </div>
@@ -13,32 +13,44 @@
     </header>
     <section class="main">
       <nav-bar v-model="tabActive" class="navbar">
+        <tab-item id="活动" class="navbar-item">活动</tab-item>
         <tab-item :id="category" v-for="category in postCategory" class="navbar-item">{{category}}</tab-item>
       </nav-bar>
 
       <tab-container v-model="tabActive" v-infinite-scroll="fetchPosts" infinite-scroll-distance="10" infinite-scroll-disabled="loadPostBusy">
         <tab-container-item v-for="category in postCategory" :id="category" class="post-container" >
           <router-link v-for="post in postsWithCategory[category]" :to="`/posts/${post.id}`" class="post">
-            <post-cell :avator="post.authorAvator" :title="post.title" :date="dateFormat(post.date)" :author="post.author"></post-cell>
+            <post-cell :avatar="post.authorAvator" :title="post.title" :date="dateFormat(post.date)" :author="post.author"></post-cell>
+          </router-link>
+        </tab-container-item>
+
+        <tab-container-item id="活动" class="post-container" >
+          <router-link v-for="act in activities" :to="`/activities/${act.id}`" class="post">
+            <post-cell :avatar="act.logo" :title="act.title" :date="dateFormat(act.date)" :author="act.location"></post-cell>
           </router-link>
         </tab-container-item>
       </tab-container>
     </section>
+
+    <fz-editor v-model="postNew"></fz-editor>
   </div>
 </template>
 
 <script>
-  import Config from '../../config/setting'
+  // import Config from '../../config/setting'
   import { TabContainer, TabContainerItem, Navbar, TabItem } from 'mint-ui'
   import PostCell from '../common/PostCell'
   import dateformat from 'dateformat'
   import MessageBox from '../common/MessageBox/MessageBox.js'
-  import api from '../../api/index.js'
+  import * as api from '../../api/index.js'
+  import Editor from '../posts/PostEditor'
+  import * as utils from '../../utils/utils.js'
   // import { mapState } from 'vuex'
 
   export default {
     data () {
       return {
+        'auth': false,
         'circleName': '',
         'news': '',
         'postCategory': Object,
@@ -47,7 +59,10 @@
         'tabActive': '',
         posts: [],
         loadPostBusy: false,
-        page: 0
+        postPage: 0,
+        actPage: 0,
+        postNew: '',
+        activities: []
       }
     },
     components: {
@@ -55,11 +70,23 @@
       'tab-container-item': TabContainerItem,
       'post-cell': PostCell,
       'nav-bar': Navbar,
-      'tab-item': TabItem
+      'tab-item': TabItem,
+      'fz-editor': Editor
     },
     created () {
+      api.getCircleInfo(this.$route.params.id).then(response => {
+        let remoteData = utils.response2Data(response)
+        this.circleName = remoteData.name
+        this.news = remoteData.news
+        this.postCategory = remoteData.postCategory
+        this.memberNum = remoteData.memberNum
+        this.CService = remoteData.CServiceId
+        // this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
+      }).catch(response => {
+        console.error(response)
+      })
       this.fetchPosts()
-      this.fetchCircleInfo()
+      this.tabActive = '交友' // 导航页切换到第一页
     },
     computed: {
       postsWithCategory () {
@@ -77,9 +104,25 @@
         return this.$store.state.MeState.joinedCircles.indexOf(parseInt(this.$route.params.id)) !== -1
       }
     },
+    watch: {
+      // 有新帖子则添加到列表中
+      postNew () {
+        this.posts.unshift({
+          author: this.$store.state.MeState.nickname,
+          authorAvatar: this.$store.state.MeState.avatar,
+          circleId: this.$route.params.id,
+          ...this.postNew
+        })
+      }
+    },
     methods: {
+      beforeRouteEnter () {
+        api.authCircle().then(res => {
+          this.auth = utils.response2Data(res).right
+        })
+      },
       newPost () {
-        // 需要再写一个页面
+        Editor.open()
       },
       joinCircle () {
         MessageBox.prompt('输入加入圈子的验证信息').then(val => {
@@ -95,26 +138,43 @@
       dateFormat (value) {
         return dateformat(value, 'mm-dd hh:MM')
       },
-      fetchCircleInfo () {
-        this.$http.get(`${Config.circlesApi}/${this.$route.params['id']}`).then((response) => {
-          let remoteData
-          // 有些服务器返回字符串, 有些则是JSON, 需要判断
-          if (typeof response.body === 'object') remoteData = response.body
-          else remoteData = JSON.parse(response.body)
-          ;[this.circleName, this.news, this.postCategory, this.memberNum, this.CService] = [remoteData.name, remoteData.news, remoteData.postCategory, remoteData.memberNum, remoteData.CServiceId]
-          this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
-        })
-      },
-      'fetchPosts': function () {
+      // fetchCircleInfo () {
+      //   this.$http.get(`${Config.circlesApi}/${this.$route.params['id']}`).then((response) => {
+      //     let remoteData
+      //     // 有些服务器返回字符串, 有些则是JSON, 需要判断
+      //     if (typeof response.body === 'object') remoteData = response.body
+      //     else remoteData = JSON.parse(response.body)
+      //     ;[this.circleName, this.news, this.postCategory, this.memberNum, this.CService] = [remoteData.name, remoteData.news, remoteData.postCategory, remoteData.memberNum, remoteData.CServiceId]
+      //     this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
+      //   })
+      // },
+      fetchPosts: function () {
+        // 这个方案好蠢, 但是先用着吧
+
         const postPerPage = 20
-        // this.loadPostBudy = true
-        this.page++
-        this.$http.get(`${Config.circlesApi}/${this.$route.params['id']}/posts/${Config.filterPL(this.page, postPerPage)}`).then((response) => {
-          this.loadPostBudy = true
+        this.loadPostBusy = true
+        let post
+        api.getCirclePost(this.$route.params.id, this.postPage++, postPerPage).then((response) => {
           let remoteData
           if (typeof response.body === 'object') remoteData = response.body
           else remoteData = JSON.parse(response.body)
-          this.posts = this.posts.concat(remoteData)
+          post = remoteData
+          return api.getCircleActivity(this.$route.params.id, this.actPage++, postPerPage)
+        }).then(response => {
+          // 处理数据
+          this.posts = this.posts.concat(post)
+          this.activities = this.activities.concat(utils.response2Data(response))
+
+          // 处理懒加载问题
+          if (post.length === 0) {
+            window.setTimeout(e => {
+              this.loadPostBusy = false
+            }, 5000)
+            return
+          }
+          this.loadPostBusy = false
+        }).catch(response => {
+          console.error(response)
         })
       }
     }
@@ -146,10 +206,14 @@
       .news {
         margin: 15px 0 20px 0;
         font-size: 12px;
-        text-align: left;
+        text-align: center;
       }
 
       .btn-group {
+        .disabled {
+          color: #aaa;
+          border: 1px solid #aaa;
+        }
         button {
           border: 1px solid white;
           border-radius: 4px;

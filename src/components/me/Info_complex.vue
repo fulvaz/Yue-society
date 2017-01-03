@@ -1,5 +1,9 @@
 <script>
 /*
+  !deplicated 太复杂, 已经重构, 见info.vue
+
+
+
   warning!!!! 因为引入了vuex, 架构变得复杂很多. 其实使用eventbus就足够了
 */
   import {mapState} from 'vuex'

@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <slider class="circle-recommend recommend" :title="'—— 圈子推荐 ——'" :items-num="circleRecommend.length">
-          <slider-item v-for="item in circleRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :itemsNum="circleRecommend.length"></slider-item>
+        <slider class="circle-recommend recommend" :title="'—— 圈子推荐 ——'">
+            <slider-item v-for="item in circleRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :to="'/circles/' + item.id"></slider-item>
         </slider>
-        <div class="more"><router-link to="circles">发现更多圈子</router-link></div>
+        <div class="more"><router-link to="/circles">发现更多圈子</router-link></div>
         <circle-list :title="'我的圈子'" class="circle-my">
-            <li v-for="circle in myCircles"><router-link :to="`circles/${circle.id}`"><circle-list-item :content-title="circle.name" :content-subtitle="circle.memberNum + ' 人'" :logo="circle.logo"></circle-list-item></router-link></li>
+            <li v-for="circle in myCircles"><router-link :to="`/circles/${circle.id}`"><circle-list-item :content-title="circle.name" :content-subtitle="circle.memberNum + ' 人'" :logo="circle.logo"></circle-list-item></router-link></li>
         </circle-list>
     </div>
 </template>

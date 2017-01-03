@@ -3,7 +3,7 @@
     <div class="wrapper">
       <label class="label" for="select">{{label}}</label>
       <div class="input">
-        <input type="text" name="" :value="value" @input="handleChange" v-on:blur="validate" :class="{error: maxErr || nullErr || otherErr}">
+        <textarea name="introduction" :value="value" @input="handleChange" v-on:blur="validate" :class="{error: maxErr || nullErr || otherErr}"></textarea>
       </div>
     </div>
       <span class="errMsg" v-if="nullErr">不能为空</span>
@@ -70,8 +70,8 @@ export default {
   .container {
     width: 100%;
     padding: 12px 0;
-    border-bottom: 1px solid #d5d5d5;
     // height: 48px;
+    border-bottom: 1px solid #d5d5d5;
     .error {
       border: 1px solid red;
     }

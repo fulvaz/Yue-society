@@ -18,7 +18,8 @@
 <style scoped lang="scss">
     @import "../../assets/util.scss";
     .container {
-        padding: 0 15px;
+        padding: 0 18px;
+        padding-bottom: 18px;
         background-color: #fff;
         overflow: hidden;
 

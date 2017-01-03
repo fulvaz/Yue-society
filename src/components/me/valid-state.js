@@ -1,4 +1,5 @@
 export default {
+  introduction: true,
   age: true,
   album: true,
   avatar: true,

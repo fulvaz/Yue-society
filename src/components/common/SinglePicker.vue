@@ -8,7 +8,7 @@
           popup-transition="popup-fade">
     <mt-picker ref="picker" :slots="slotPicker" @change="onChange"></mt-picker>
   </mt-popup>
-  <mt-field :label="label" :placeholder="placeholder" :value="value" @click.native="handleClick" disabled></mt-field>
+  <mt-field :label="label" :placeholder="placeholder" :value="value" @click.native="handleClick" readonly></mt-field>
 </div>
 </template>
 
@@ -47,11 +47,11 @@ export default {
   methods: {
     onChange (picker, values) {
       // 组件的一个小bug 以后再说
-      this.$emit('input', values[0]) 
+      this.$emit('input', values[0])
     },
     handleClick () {
       this.visible = true
-      if (this.value !== undefined) this.$refs.setSlotValue(this.value)
+      if (this.value && this.value !== 0) this.$refs.picker.setSlotValue(this.value)
     },
     open () {
       this.visible = true
@@ -61,7 +61,11 @@ export default {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.container {
+  // border-bottom: 1px solid #d7d7d7;
+}
+
 .popup {
   width: 100%;
 }

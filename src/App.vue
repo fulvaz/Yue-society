@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <tabbar class="tab">
+    <!-- <tabbar class="tab">
       <tabbar-item :to="'/'" :label="'首页'" :id="0" :isSelected="true">
         <i slot="icon" class="fa fa-home fa-2x" aria-hidden="true"></i>
       </tabbar-item>
@@ -21,7 +21,7 @@
         <i slot="icon" class="fa fa-user fa-2x" aria-hidden="true"></i>
       </tabbar-item>
     </tabbar>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -80,11 +80,13 @@ export default {
   }
 
   input {
+    border: none;
     resize: none;
     outline: none;
   }
 
   textarea {
+    border: none;
     resize: none;
     outline: none;
   }

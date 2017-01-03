@@ -1,5 +1,5 @@
 <template lang="html">
-    <user-list title="我推荐的人" :users="users"></user-list>
+    <user-list title="关注我的人" :users="users"></user-list>
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
     }
   },
   created () {
-    api.getRecommend().then(response => {
+    api.getFocused().then(response => {
       this.users = utils.response2Data(response)
     })
   }

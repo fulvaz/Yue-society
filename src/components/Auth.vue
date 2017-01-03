@@ -13,7 +13,9 @@ export default {
   beforeRouteEnter (to, from, next) {
     let redirect = window.encodeURIComponent(from.path)
     console.log(config.authPath + '?redirectUrl=' + redirect)
-    window.location = config.authPath + '?redirectUrl=' + redirect
+    setTimeout(e => {
+      window.location = config.authPath + '?redirectUrl=' + redirect + '&timestamp=' + Math.random()
+    }, 5000)
   }
 }
 </script>

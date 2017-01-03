@@ -5,9 +5,9 @@
       <div class="detail">
         <span class="nickname">{{nickname}}</span>
         <div class="other-detail">
-          <router-link class="balance" to="/">余额 {{balance}}元</router-link>
-          <router-link class="looked" to="/">看过我 {{looked}}</router-link>
-          <router-link class="focused" to="/">关注我 {{focused}}</router-link>
+          <router-link class="balance" to="/me/balance">余额 {{balance}}元</router-link>
+          <router-link class="looked" to="/me/looked">看过我 {{looked}}</router-link>
+          <router-link class="focused" to="/me/focused">关注我 {{focused}}</router-link>
         </div>
       </div>
     </header>
@@ -15,7 +15,7 @@
       <fz-icon-item label="基本信息" to="info" class="icon" :append="true">
         <i slot="icon" class="fa fa-user-circle fa-2x icon-info" aria-hidden="true"></i>
       </fz-icon-item>
-      <fz-icon-item label="相册" to="photos" class="icon icon-photo" :append="true">
+      <fz-icon-item label="相册" to="album" class="icon icon-photo" :append="true">
         <i slot="icon" class="fa fa-picture-o fa-2x icon-photo" aria-hidden="true"></i>
       </fz-icon-item>
       <fz-icon-item label="择偶条件" to="spouse" class="icon icon-condition" :append="true">
@@ -91,12 +91,15 @@
       }
 
       .other-detail {
-        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 13px;
         color: #fff;
         font-size: 13px;
         a {
           @include reseta(#fff);
           margin-right: 20px;
+          margin-top: 7px;
         }
       }
     }

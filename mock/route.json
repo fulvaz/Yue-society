@@ -3,5 +3,7 @@
   "/recommends/circles": "/recommend?type=circles",
   "/getTags/:id": "/tags",
   "/recommends/activities": "/recommend?type=activities",
-  "/chat/1": "/chat"
+  "/chat/1": "/chat",
+  "/album/0": "/album",
+  "/album/1111": "/album"
 }

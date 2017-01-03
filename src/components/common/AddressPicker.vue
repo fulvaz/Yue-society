@@ -9,7 +9,7 @@
     <mt-picker ref="picker" :slots="picker" @change="onChange"></mt-picker>
   </mt-popup>
 
-  <mt-field :label="label" :placeholder="placeholder" :value="province + ' - ' + city" @click.native="handleClick" disabled></mt-field>
+  <mt-field :label="label" :placeholder="placeholder" :value="province + ' - ' + city" @click.native="handleClick" readonly></mt-field>
 </div>
 </template>
 
@@ -68,10 +68,12 @@ export default {
   },
   computed: {
     province () {
-      return this.value.split('-')[0]
+      if (this.value && this.value.length > 0) return this.value.split('-')[0]
+      else return ''
     },
     city () {
-      return this.value.split('-')[1]
+      if (this.value && this.value.length > 0) return this.value.split('-')[1]
+      else return ''
     }
   },
   data () {
@@ -95,8 +97,8 @@ export default {
       this.$emit('input', values[0] + '-' + values[1])
     },
     handleClick () {
-      if (this.province) this.$refs.picker.setSlotValue(0, this.province + '')
-      if (this.city) this.$refs.picker.setSlotValue(1, this.city + '')
+      if (this.province && this.picker[0].values.indexOf(this.province) !== -1) this.$refs.picker.setSlotValue(0, this.province + '')
+      if (this.city && this.picker[2].values.indexOf(this.city) !== -1) this.$refs.picker.setSlotValue(1, this.city + '')
 
       this.visible = true
     },
@@ -108,7 +110,10 @@ export default {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.container {
+  border-bottom: 1px solid #d5d5d5;
+}
 .popup {
   width: 100%;
 }

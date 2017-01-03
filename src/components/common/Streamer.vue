@@ -2,7 +2,7 @@
    <div class="streamer">
        <h2 class="title">—— {{title}} ——</h2>
        <div class="content-container">
-            <card v-for="item in items" class="card" :user="item"></card>
+            <router-link v-for="item in items" :to="'/users/' + item.id"><card class="card" :user="item"></card></router-link>
        </div>
    </div>
 </template>
@@ -38,10 +38,15 @@
         flex-wrap: wrap;
         justify-content: flex-start;
 
+        a {
+          display: block;
+          width: calc(50% - 30px);
+          margin: 15px;
+        }
+
         .card {
             float: left;
-            margin: 15px;
-            width: calc(50% - 30px);
+            width: 100%;
         }
     }
 

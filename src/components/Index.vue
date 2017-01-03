@@ -6,10 +6,10 @@
             <swipe-item class="slide3"></swipe-item>
         </swipe>
         <slider class="circle-recommend recommend" :title="'—— 圈子推荐 ——'">
-            <slider-item v-for="item in circleRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content"></slider-item>
+            <slider-item v-for="item in circleRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :to="'/circles/' + item.id"></slider-item>
         </slider>
         <slider class="activity-recommend recommend" :title="'—— 活动推荐 ——'">
-            <slider-item v-for="item in activityRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content"></slider-item>
+            <slider-item v-for="item in activityRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :to="'/activities/' + item.id"></slider-item>
         </slider>
         <streamer :title="'个人推荐'" :items="userRecommend" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10"></streamer>
     </div>
@@ -61,7 +61,7 @@
           tmp = result[1].map((e) => {
             e['contentTitle'] = e.title
             // 处理subtitle为 「111人参加 12月10日截止」的形式
-            let endDate = new Date(e.durantionend)
+            let endDate = new Date(e.durationend)
             let month = `${endDate.getMonth() + 1}`
             let day = `${endDate.getDate()}`
             month = /^\d$/.test(month) ? '0' + month : month

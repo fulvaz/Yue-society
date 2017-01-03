@@ -1,11 +1,13 @@
 <template>
     <div class="slider-item" :style="{width: elWeight}">
+      <router-link :to=to>
         <img class="logo" :src="logo" >
         <div class="main">
             <h2 class="content-title">{{contentTitle}}</h2>
             <h3 class="content-subtitle">{{contentSubtitle}}</h3>
             <p class="content">{{contentLess}}</p>
         </div>
+      </router-link>
     </div>
 </template>
 
@@ -16,7 +18,11 @@
        'title': '',
        'content-title': '',
        'content-subtitle': '',
-       'content': ''
+       'content': '',
+       to: {
+         type: String,
+         default: '#'
+       }
      },
      data () {
        return {

@@ -10,7 +10,7 @@
     >
   </mt-datetime-picker>
 
-  <mt-field :label="label" :placeholder="placeholder" @click.native="handleClick" :value="value" disabled></mt-field>
+  <mt-field :label="label" :placeholder="placeholder" @click.native="handleClick" :value="value" readonly></mt-field>
 </div>
 </template>
 
@@ -46,7 +46,11 @@ export default {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.container {
+  border-bottom: 1px solid #d7d7d7;
+}
+
 .popup {
   width: 100%;
 }

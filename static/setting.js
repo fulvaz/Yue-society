@@ -1,10 +1,12 @@
-var dev = true
-var apiPrefix = dev ? 'http://localhost:3000' : 'http://api.resontek.com'
+'use strict';
 
-let pageFilter = dev ? '_page' : 'page'
-let limitFilter = dev ? '_limit' : 'limitation'
+var dev = false;
+var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.resontek.com';
 
-let devApis = {
+var pageFilter = dev ? '_page' : 'page';
+var limitFilter = dev ? '_limit' : 'limitation';
+
+var devApis = {
   'apiPrefix': apiPrefix,
   'circlesRecommendsApi': apiPrefix + '/recommends/circles',
   'usersRecommendsApi': apiPrefix + '/userRecommends',
@@ -26,73 +28,95 @@ let devApis = {
   'msgList': apiPrefix + '/msgList',
   'resetUidCount': '',
   'chat': apiPrefix + '/chat',
-  'replyMsg': ''
-}
+  'replyMsg': '',
+  'looked': apiPrefix + '/looked',
+  'recommend': apiPrefix + '/meRecommend',
+  'focused': apiPrefix + '/focused',
+  'wxConfig': 'http://api.resontek.com/wechat/config?redirectUrl=',
+  'album': apiPrefix + '/album',
+  'uploadImage': '',
+  'meUpdate': apiPrefix + '/me/update',
+  'focus': '',
+  'unfocus': '',
+  'newPost': '',
+  'activityApi': apiPrefix + '/activities',
+  'takePartInActivites': '',
+  // 新api
+  'authCircle': apiPrefix + '/right'
+};
 
-let apis = {
+var apis = {
   'apiPrefix': apiPrefix,
   'circlesRecommendsApi': apiPrefix + '/recommends/circles',
-  'usersRecommendsApi': apiPrefix + '/userRecommends',
-  'myCircles': apiPrefix + '/myCircles',
-  'circlesApi': apiPrefix + '/circles', // 与post是关联的, /circles/0/posts 表示返回circles 0的全部posts
+  'usersRecommendsApi': apiPrefix + '/recommends/users',
+  'myCircles': apiPrefix + '/circles/myCircles',
+  'circlesApi': apiPrefix + '/circles', // 与post是关联的, /circles/0/posts 表示返>回circles 0的全部posts
   'activitiesRecommendsApi': apiPrefix + '/recommends/activities',
-  'meApi': apiPrefix + '/me',
+  'meApi': apiPrefix + '/users/me',
+  'meUpdate': apiPrefix + '/users/me/update',
   'meSelectableApi': apiPrefix + '/meSelectable',
   'wxDataApi': apiPrefix + '/weixin',
-  'spouseApi': apiPrefix + '/spouse',
+  'spouseApi': apiPrefix + '/users/me/spouse',
   'userApi': apiPrefix + '/users',
   'postsApi': apiPrefix + '/posts',
   'searchApi': apiPrefix + '/search',
-  'searchTags': apiPrefix + '/circleTags',
-  'circleByTag': apiPrefix + '/getTags',
-  'stateInfo': apiPrefix + '/stateInfo',
+  'searchTags': apiPrefix + '/search/tags',
+  'circleByTag': apiPrefix + '/circles/tags',
+  'stateInfo': apiPrefix + '/users/me/stateInfo',
   'authPath': apiPrefix + '/authorize',
-  'applyCircleApi': apiPrefix + '/applyForCircle',
-  'msgList': apiPrefix + '/msgList',
+  'applyCircleApi': apiPrefix + '/circles/apply',
+  'msgList': apiPrefix + '/message/list',
   'resetUidCount': '',
-  'chat': apiPrefix + '/chat',
-  'replyMsg': ''
+  'chat': apiPrefix + '/message/chat',
+  'replyMsg': '',
+  'wxConfig': apiPrefix + '/wechat/config?redirectUrl=',
+  //新api
+  'looked': apiPrefix + '/users/me/visitors', // 谁看过了用户列表
+  'recommend': apiPrefix + '/users/me/recommend', // 我推荐的人列表
+  'focused': apiPrefix + '/users/me/followers', // 谁关注我列表
+  'album': apiPrefix + '/users/me/album', // 相册图片列表
+  'uploadImage': apiPrefix + '/users/me/album/upload', // 接受serverId的api
+  'focus': apiPrefix + '/users/follow', // 关注某人
+  'unfocus': apiPrefix + '/users/unFollow', // 取消关注某人
+  'newPost': apiPrefix + '/posts/add', // 创建新帖子
+  'activityApi': apiPrefix + '/circles/activity', // 获取某个活动的信息
+  'takePartInActivites': apiPrefix + '/circles/activity/attend' //参加某个活动
+};
+
+var api = dev ? devApis : apis;
+function userApiFilter(page, limit) {
+  var str = api.userApi + '/' + pageFilter + '/page/' + limitFilter + '/limit';
+  var devStr = api.userApi + '?=_page=' + page + '&?_limit=' + limit;
+  return dev ? devStr : str;
 }
 
-let api = dev ? devApis : apis
-function userApiFilter (page, limit) {
-  let str = `${api.userApi}/${pageFilter}/page/${limitFilter}/limit`
-  let devStr = `${api.userApi}?=_page=${page}&?_limit=${limit}`
-  return dev ? devStr : str
+function usersRecommendsApiFilter(page, limit) {
+  var str = api.usersRecommendsApi + '/' + pageFilter + '/' + page + '/' + limitFilter + '/' + limit;
+  var devStr = api.usersRecommendsApi + '?_page=' + page + '&_limit=' + limit;
+  return dev ? devStr : str;
 }
 
-function usersRecommendsApiFilter (page, limit) {
-  let str = `${api.usersRecommendsApi}/${pageFilter}/${page}/${limitFilter}/${limit}`
-  let devStr = `${api.usersRecommendsApi}?_page=${page}&_limit=${limit}`
-  return dev ? devStr : str
+function filterPL(page, limit) {
+  var str = '/' + pageFilter + '/' + page + '/' + limitFilter + '/' + limit;
+  var devStr = '?_page=' + page + '&_limit=' + limit;
+  return dev ? devStr : str;
 }
 
-function filterPL (page, limit) {
-  let str = `/page/${limitFilter}/limit`
-  let devStr = `?_page=${page}&_limit=${limit}`
-  return dev ? devStr : str
-}
-
-const tabbarItems = {
+var tabbarItems = {
   '/': 0,
   '/circle': 1,
   '/search': 2,
   '/message': 3,
   '/me': 4
-}
+};
 
-const exp = Object.assign(
-  {},
-  api,
-  {
-    userApiFilter: userApiFilter,
-    usersRecommendsApiFilter: usersRecommendsApiFilter,
-    filterPL: filterPL,
-    dev: dev
-  },
-  {
-    'tabbarItems': tabbarItems
-  }
-)
+var exp = Object.assign({}, api, {
+  userApiFilter: userApiFilter,
+  usersRecommendsApiFilter: usersRecommendsApiFilter,
+  filterPL: filterPL,
+  dev: dev
+}, {
+  'tabbarItems': tabbarItems
+});
 
-window.config = exp
+window.config = exp;

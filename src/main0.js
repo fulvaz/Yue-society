@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
 import Router from 'vue-router'
@@ -16,7 +15,7 @@ import MeInfo from 'components/me/Info'
 import Test from 'components/Test'
 import MeSpouse from 'components/me/Spouse'
 import Post from 'components/posts/Post'
-// import Auth from 'components/Auth'
+import Auth from 'components/Auth'
 import Search from 'components/search/index'
 import SearchResult from 'components/search/result'
 import Tag from 'components/search/tag'
@@ -28,10 +27,10 @@ import Recommend from 'components/me/Recommend'
 import MeAlbum from 'components/me/Album'
 import User from 'components/user/User'
 import Album from 'components/Album'
-import Activity from 'components/circle/Activity'
+import Activity from 'components/circle/Acti'
 
 import store from './store/index.js'
-// import * as utils from './utils/utils.js'
+import * as utils from './utils/utils.js'
 import config from './config/setting.js'
 
 Vue.config.debug = config.dev
@@ -46,8 +45,6 @@ Vue.use(VueLazyload, {
 })
 Vue.use(InfiniteScroll)
 Vue.use(Vuex)
-
-// inmport static js
 
 // input css resources
 require('vue-swipe/dist/vue-swipe.css')
@@ -76,7 +73,7 @@ const routes = [
   {path: '/me/album', component: MeAlbum}, // 我的 页面
   {path: '/test', component: Test},
   {path: '/posts/:id', component: Post},
-  // {path: '/auth', component: Auth},
+  {path: '/auth', component: Auth},
   {path: '/search', component: Search},
   {path: '/search/:query', component: SearchResult},
   {path: '/message', component: MessageList},
@@ -84,7 +81,7 @@ const routes = [
   {path: '/users/:uid', component: User},
   {path: '/tags/:tag', component: Tag},
   {path: '/albums/:uid', component: Album},
-  {path: '/activities/:id', component: Activity}
+  {path: '/activities/:id', component: Activity},
 ]
 
 const router = new Router({
@@ -92,24 +89,22 @@ const router = new Router({
   base: '/'
 })
 
-// router.beforeEach((to, from, next) => {
-//   console.log('hi')
-//   if (to.path !== '/auth') {
-//     // 如果在本地测试登录功能, 你需要注释下面这行, 然后将下下行解除注释
-//     // if (!utils.getCookie(document.cookie).auth && !config.dev) next('/auth')
-//     // if (!utils.getCookie(document.cookie).auth) next('/auth')
-//     // else {
-//       // 业务逻辑
-//       // 修改状态栏状态
-//     store.dispatch('itemClicked', config.tabbarItems[to.path])
-//     store.dispatch('fetchMeState', next) // 保证先更新个人信息  TODO 优化?
-//     next()
-//     // }
-//   } else {
-//     next()
-//   }
-//   // auth
-// })
+router.beforeEach((to, from, next) => {
+  if (to.path !== '/auth') {
+    // 如果在本地测试登录功能, 你需要注释下面这行, 然后将下下行解除注释
+    if (!utils.getCookie(document.cookie).auth && !config.dev) next('/auth')
+    // if (!utils.getCookie(document.cookie).auth) next('/auth')
+    else {
+      // 业务逻辑
+      // 修改状态栏状态
+      store.dispatch('itemClicked', config.tabbarItems[to.path])
+      store.dispatch('fetchMeState', next) // 保证先更新个人信息  TODO 优化?
+    }
+  } else {
+    next()
+  }
+  // auth
+})
 
 // const eventHub = new Vue()
 
