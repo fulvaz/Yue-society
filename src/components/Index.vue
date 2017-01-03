@@ -31,6 +31,7 @@
       'slider-item': SliderItem
     },
     created () {
+      console.log(this.$data)
       this.fetchData()
     },
     data () {

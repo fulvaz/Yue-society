@@ -195,7 +195,7 @@ export default {
   created () {
     api.getUser(this.$route.params.uid).then(response => {
       let data = utils.response2Data(response)
-      let keys = Object.keys(Object.assign(this.$data))
+      let keys = Object.keys(utils.objAssign(this.$data))
       keys.forEach(e => {
         this[e] = data[e]
       })

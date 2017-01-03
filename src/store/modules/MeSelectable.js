@@ -30,7 +30,7 @@ const actions = {
 
 const mutations = {
   [type.SAVE_SELECTABLE_ITEM] (state, payload) {
-    state = Object.assign(state, payload)
+    state = utils.objAssign(state, payload)
   }
 }
 
