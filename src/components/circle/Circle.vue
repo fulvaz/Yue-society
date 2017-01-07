@@ -1,15 +1,22 @@
 <template>
   <div class="container">
+    <div class="btn-fixed">
+      <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入</button>
+      <button class="btn-post" v-else-if="ifApplied" disabled>已申请</button>
+      <!-- 买发帖 -->
+      <button class="btn-post" v-else-if="!auth" @click="buyCircle">发言</button>
+      <button class="btn-post" v-else @click="newPost">发言</button>
+    </div>
     <header>
       <div class="container">
         <h1 class="circle-name">{{circleName}}</h1>
-        <p class="news">{{news}}</p>
-        <div class="btn-group">
+        <!-- <p class="news">{{news}}</p> -->
+        <!-- <div class="btn-fixed">
           <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入圈子</button>
           <button class="btn-post" v-else-if="ifApplied">已申请</button>
           <button class="btn-post" v-else-if="!auth" @click="buyCircle">购买发帖权利</button>
           <button class="btn-post" v-else @click="newPost">发言</button>
-        </div>
+        </div> -->
       </div>
     </header>
     <section class="main">
@@ -211,8 +218,9 @@
     background-color: rgb(44, 175, 187);
 
     .container {
-      margin: 0 18px;
-      padding: 35px 0;
+      padding: 1em 0;
+      // margin: 0 18px;
+      // padding: 35px 0;
       text-align: center;
       color: white;
       background-color: rgb(44, 175, 187);
@@ -276,6 +284,29 @@
     .post {
       border-bottom: 1px solid #ECECEC;
 
+    }
+  }
+
+  .btn-fixed {
+    z-index: 1;
+    position: fixed;
+    bottom: calc(1em + 53px);
+    right: 1em;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: $douban-green;
+    overflow: hidden;
+
+    .disabled {
+      color: #aaa;
+      border: 1px solid #aaa;
+    }
+
+    button {
+      width: 100%;
+      height: 100%;
+      color: white;
     }
   }
 </style>

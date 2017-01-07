@@ -66,6 +66,7 @@ export default {
 <style lang="scss" scoped>
   @import '../../assets/util.scss';
   .container {
+    z-index: 1000;
     position: fixed;
     box-sizing: border-box;
     top: 0;
