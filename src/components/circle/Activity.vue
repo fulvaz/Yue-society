@@ -5,7 +5,8 @@
       <fz-info-list :info="basicInfo"></fz-info-list>
     </section>
     <section class="functions">
-      <button class="btn takepart-btn" @click="handleTakepart">要参加</button>
+      <button v-if="!ifJoined()" class="btn takepart-btn" @click="handleTakepart">参加</button>
+      <button v-else class="btn takepart-btn" disabled>已参加</button>
     </section>
     <section class="detail">
       <h1>活动详情</h1>
@@ -58,14 +59,20 @@ export default {
     handleTakepart () {
       let data = {
         uid: this.$store.state.MeState.uid,
-        activityId: this.$route.params.id
+        activityId: parseInt(this.$route.params.id)
       }
       api.takePartIn(data).then(res => {
         // TODO 提示信息
+        let actId = this.$route.params.id
+        this.$store.dispatch('takePartInActivity', parseInt(actId))
       }).catch(res => {
-        // TODO 错误提醒
+        // TODO 错误
         console.error(res)
       })
+    },
+    ifJoined () {
+      let actId = parseInt(this.$route.params.id)
+      return this.$store.state.MeState.joinedActivities.indexOf(actId) !== -1
     }
   }
 }

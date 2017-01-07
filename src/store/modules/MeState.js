@@ -6,6 +6,8 @@ import * as api from '../../api/index.js'
 
 const state = {
   joinedCircles: [],
+  joinedActivities: [],
+  appliedCircles: [],
   unreadMsg: 0,
   uid: 0,
   nickname: '',
@@ -24,18 +26,34 @@ const actions = {
     })
   },
   readMsg (context, val) {
-    api.resetUidCount(val.uid)
-    context.commit('DECREASE_UNREADMSG', val.unread)
+    api.resetUidCount(parseInt(val.uid))
+    context.commit('DECREASE_UNREADMSG', parseInt(val.unread))
   },
   focus (context, uid) {
+    if (typeof uid !== 'number') uid = parseInt(uid)
     context.commit('FOCUS', uid)
   },
   unfocus (context, uid) {
+    if (typeof uid !== 'number') uid = parseInt(uid)
     context.commit('UNFOCUS', uid)
+  },
+  takePartInActivity (context, circleId) {
+    if (typeof circleId !== 'number') circleId = parseInt(circleId)
+    context.commit('JOIN_ACTIVITY', circleId)
+  },
+  applyCircle (context, circleId) {
+    if (typeof circleId !== 'number') circleId = parseInt(circleId)
+    context.commit('APPLY_CIRCLE', circleId)
   }
 }
 
 const mutations = {
+  JOIN_ACTIVITY (state, payload) {
+    state.joinedActivities.push(payload)
+  },
+  APPLY_CIRCLE (state, payload) {
+    state.appliedCircles.push(payload)
+  },
   SAVE_ME_STATE (state, payload) {
     Object.keys(payload).forEach(key => {
       state[key] = payload[key]

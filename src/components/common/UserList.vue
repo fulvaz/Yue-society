@@ -1,9 +1,10 @@
 <template lang="html">
   <div class="container">
     <list :title="title" class="message-list">
-      <li class="message" v-for="user in users" @click="resetCount(user.uid)">
-        <router-link :to="'/users/' + user.uid"><list-item :logo="user.avatar" :content-title="user.nickname" :content-subtitle="user.introduction"></list-item></router-link>
-        <mt-badge color="#fe6431" size="small" class="badge" v-if="user.unread > 0">{{user.unread}}</mt-badge>
+      <li class="message" v-for="user in users">
+        <router-link :to="'/users/' + user.uid">
+          <list-item :logo="user.avatar" :content-title="user.nickname" :content-subtitle="user.introduction"></list-item>
+        </router-link>
       </li>
     </list>
   </div>

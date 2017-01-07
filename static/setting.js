@@ -1,6 +1,6 @@
 'use strict';
 
-var dev = false;
+var dev = true;
 var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.resontek.com';
 
 var pageFilter = dev ? '_page' : 'page';
@@ -26,23 +26,32 @@ var devApis = {
   'authPath': 'static/auth.html',
   'applyCircleApi': apiPrefix + '/applyForCircle',
   'msgList': apiPrefix + '/msgList',
-  'resetUidCount': '',
+  'resetUidCount': apiPrefix + '/postData',
   'chat': apiPrefix + '/chat',
-  'replyMsg': '',
+  'replyMsg': apiPrefix + '/postData',
   'looked': apiPrefix + '/looked',
   'recommend': apiPrefix + '/meRecommend',
   'focused': apiPrefix + '/focused',
   'wxConfig': 'http://api.resontek.com/wechat/config?redirectUrl=',
   'album': apiPrefix + '/album',
-  'uploadImage': '',
+  'uploadImage': apiPrefix + '/postData',
   'meUpdate': apiPrefix + '/me/update',
-  'focus': '',
-  'unfocus': '',
-  'newPost': '',
+  'focus': apiPrefix + '/postData',
+  'unfocus': apiPrefix + '/postData',
+  'newPost': apiPrefix + '/postData',
   'activityApi': apiPrefix + '/activities',
-  'takePartInActivites': '',
-  // 新api
-  'authCircle': apiPrefix + '/right'
+  'takePartInActivites': apiPrefix + '/postData',
+  'authCircle': apiPrefix + '/right',  // 圈子发言权限
+  'joinCircle': apiPrefix + '/postData', // 加入某个圈子
+  'replyMsg': apiPrefix + '/postData', // 回复某个人的私信
+  'whomIFocus': apiPrefix + '/looked', // 我关注的人
+  'activitiesJoined': apiPrefix + '/activitiesJoined', // 我参加的活动
+  'consumeHistory': apiPrefix + '/consumeHistory', // 消费记录
+  'buyVipPage': apiPrefix + '/vipPage',
+  'buyCirclePage': apiPrefix + '/vipPage',
+  'buyVip': apiPrefix + '/postData',
+  'buyCircle': apiPrefix + '/postData',
+  'makeAppointment': apiPrefix + '/postData'
 };
 
 var apis = {
@@ -68,9 +77,7 @@ var apis = {
   'msgList': apiPrefix + '/message/list',
   'resetUidCount': '',
   'chat': apiPrefix + '/message/chat',
-  'replyMsg': '',
   'wxConfig': apiPrefix + '/wechat/config?redirectUrl=',
-  //新api
   'looked': apiPrefix + '/users/me/visitors', // 谁看过了用户列表
   'recommend': apiPrefix + '/users/me/recommend', // 我推荐的人列表
   'focused': apiPrefix + '/users/me/followers', // 谁关注我列表
@@ -79,7 +86,7 @@ var apis = {
   'focus': apiPrefix + '/users/follow', // 关注某人
   'unfocus': apiPrefix + '/users/unFollow', // 取消关注某人
   'newPost': apiPrefix + '/posts/add', // 创建新帖子
-  'activityApi': apiPrefix + '/circles/activity', // 获取某个活动的信息
+  'activityApi': apiPrefix + '/activities', // 获取某个活动的信息
   'takePartInActivites': apiPrefix + '/circles/activity/attend' //参加某个活动
 };
 

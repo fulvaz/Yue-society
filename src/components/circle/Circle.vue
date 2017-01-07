@@ -5,8 +5,10 @@
         <h1 class="circle-name">{{circleName}}</h1>
         <p class="news">{{news}}</p>
         <div class="btn-group">
-          <button class="btn-post" v-if="ifJoin" @click="newPost" :disabled="!auth" :class="{disabled: !auth}">发言</button>
-          <button class="btn-post" v-else @click="joinCircle">加入圈子</button>
+          <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入圈子</button>
+          <button class="btn-post" v-else-if="ifApplied">已申请</button>
+          <button class="btn-post" v-else-if="!auth" @click="buyCircle">购买发帖权利</button>
+          <button class="btn-post" v-else @click="newPost">发言</button>
           <!-- <button class="btn-service">联系红娘</button> -->
         </div>
       </div>
@@ -102,23 +104,36 @@
       },
       ifJoin () {
         return this.$store.state.MeState.joinedCircles.indexOf(parseInt(this.$route.params.id)) !== -1
+      },
+      ifApplied () {
+        return this.$store.state.MeState.appliedCircles.indexOf(parseInt(this.$route.params.id)) !== -1
       }
     },
     watch: {
-      // 有新帖子则添加到列表中
-      postNew () {
-        this.posts.unshift({
-          author: this.$store.state.MeState.nickname,
-          authorAvatar: this.$store.state.MeState.avatar,
-          circleId: this.$route.params.id,
-          ...this.postNew
+      // 有新帖子则添加到列表中 暂时取消这个功能 TODO 修改为发布成功后重新获取post列表
+      // postNew () {
+      //   this.posts.unshift({
+      //     author: this.$store.state.MeState.nickname,
+      //     authorAvatar: this.$store.state.MeState.avatar,
+      //     circleId: parseInt(this.$route.params.id),
+      //     ...this.postNew
+      //   })
+      // }
+    },
+    beforeRouteEnter (to, from, next) {
+      api.authCircle().then(res => {
+        next(vm => {
+          vm.auth = utils.response2Data(res).right
         })
-      }
+      })
     },
     methods: {
-      beforeRouteEnter () {
-        api.authCircle().then(res => {
-          this.auth = utils.response2Data(res).right
+      buyCircle () {
+        this.$router.push({
+          path: '/me/buyCircle',
+          params: {
+            id: this.$route.params.id
+          }
         })
       },
       newPost () {
@@ -127,12 +142,18 @@
       joinCircle () {
         MessageBox.prompt('输入加入圈子的验证信息').then(val => {
           let apply = {
-            uid: this.$store.state.uid,
-            circleId: this.$route.params['id'],
+            uid: this.$store.state.MeState.uid,
+            circleId: parseInt(this.$route.params['id']),
             content: val.value,
             date: (new Date()).toString()
           }
-          api.replyPost(this.id, apply)
+          api.joinCircle(apply).then(response => {
+            // TODO 提示信息
+            let circleId = parseInt(this.$route.params['id'])
+            this.$store.dispatch('applyCircle', circleId)
+          }).catch(response => {
+            // TODO 提示信息
+          })
         })
       },
       dateFormat (value) {
@@ -149,8 +170,7 @@
       //   })
       // },
       fetchPosts: function () {
-        // 这个方案好蠢, 但是先用着吧
-
+        // 这个方案好蠢, 但是先用着
         const postPerPage = 20
         this.loadPostBusy = true
         let post

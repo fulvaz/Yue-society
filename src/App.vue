@@ -46,6 +46,7 @@ export default {
   @import "~normalize-scss/sass/_normalize.scss";
   @import '~font-awesome/scss/font-awesome.scss';
   @import "assets/util.scss";
+  @import "assets/var.scss";
 
   @include normalize;
   body {
@@ -93,6 +94,15 @@ export default {
 
   button {
     outline: none;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    list-style: none;
   }
 
 

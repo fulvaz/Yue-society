@@ -5,33 +5,74 @@
             <swipe-item class="slide2"></swipe-item>
             <swipe-item class="slide3"></swipe-item>
         </swipe>
-        <slider class="circle-recommend recommend" :title="'—— 圈子推荐 ——'">
+        <section class="main">
+          <nav-bar v-model="active" id="navbar">
+            <tab-item id="tab-circleRecommend" class="navbar-item">圈子推荐</tab-item>
+            <tab-item id="tab-activitiesRecommend" class="navbar-item">活动推荐</tab-item>
+            <tab-item id="tab-userRecommend" class="navbar-item">用户推荐</tab-item>
+          </nav-bar>
+          <mt-tab-container class="tab-container" v-model="active">
+            <mt-tab-container-item id="tab-circleRecommend">
+              <list class="circleRecommend">
+                  <li v-for="circle in circleRecommend">
+                    <router-link :to="`/activities/${circle.id}`">
+                      <list-item
+                        :content-title="circle.contentTitle"
+                        :content-subtitle="circle.contentSubtitle"
+                        :logo="circle.logo">
+                      </list-item>
+                    </router-link>
+                  </li>
+              </list>
+            </mt-tab-container-item>
+            <mt-tab-container-item id="tab-activitiesRecommend">
+              <list class="activitiesRecommend">
+                  <li v-for="circle in activityRecommend">
+                    <router-link :to="`/activities/${circle.id}`">
+                      <list-item
+                        :content-title="circle.contentTitle"
+                        :content-subtitle="circle.contentSubtitle"
+                        :logo="circle.logo">
+                      </list-item>
+                    </router-link>
+                  </li>
+              </list>
+            </mt-tab-container-item>
+            <mt-tab-container-item id="tab-userRecommend">
+              <streamer :items="userRecommend" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10"></streamer>
+            </mt-tab-container-item>
+          </mt-tab-container>
+        </section>
+        <!-- <slider class="circle-recommend recommend" :title="'—— 圈子推荐 ——'">
             <slider-item v-for="item in circleRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :to="'/circles/' + item.id"></slider-item>
         </slider>
         <slider class="activity-recommend recommend" :title="'—— 活动推荐 ——'">
             <slider-item v-for="item in activityRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :to="'/activities/' + item.id"></slider-item>
-        </slider>
-        <streamer :title="'个人推荐'" :items="userRecommend" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10"></streamer>
+        </slider> -->
     </div>
 </template>
 
 <script>
+  import { TabContainer, TabContainerItem, Navbar, TabItem } from 'mint-ui'
   import {Swipe, SwipeItem} from 'vue-swipe'
-  import Slider from './common/Slider'
-  import Streamer from './common/Streamer'
-  import SliderItem from './common/SliderItem'
+  import Streamer from './common/UserStreamer'
+  import List from './common/List'
+  import ListItem from './common/ListItem'
   import * as api from '../api/index.js'
 
   export default {
     components: {
+      'list': List,
+      'list-item': ListItem,
+      'nav-bar': Navbar,
+      'tab-item': TabItem,
       'swipe': Swipe,
       'swipe-item': SwipeItem,
-      'slider': Slider,
       'streamer': Streamer,
-      'slider-item': SliderItem
+      'mt-tab-container-item': TabContainerItem,
+      'mt-tab-container': TabContainer
     },
     created () {
-      console.log(this.$data)
       this.fetchData()
     },
     data () {
@@ -40,7 +81,8 @@
         activityRecommend: [],
         userRecommend: [],
         busy: false,
-        page: 0
+        page: 0,
+        active: 'tab-circleRecommend'
       }
     },
     computed: {
@@ -136,34 +178,57 @@
 </script>
 
 <style scoped lang="scss">
-    .my-swipe {
-        height: 200px;
-        width: 100%;
-        color: #fff;
-        font-size: 30px;
-        text-align: center;
+  @import "../assets/util.scss";
+  @import "../assets/var.scss";
+  .tab-container {
+    margin: 0 $horizontal-margin;
+  }
+  #navbar {
+    margin-bottom: 5px; // 避免挡住下方边框
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    .navbar-item {
+      flex: 1 1 200px;
+      padding: 1em 0;
+      display: block;
+    }
+    .is-selected {
+      color: $main-red;
+      border-bottom: 3px solid $main-red;
     }
 
-    .slide1 {
-        background-color: #0089dc;
-        color: #fff;
-    }
+    @include clearfix()
+  }
 
-    .slide2 {
-        background-color: #ffd705;
-        color: #000;
-    }
+  .my-swipe {
+      height: 100px;
+      width: 100%;
+      color: #fff;
+      font-size: 30px;
+      text-align: center;
+  }
 
-    .slide3 {
-        background-color: #ff2d4b;
-        color: #fff;
+  .slide1 {
+      background-color: #0089dc;
+      color: #fff;
+  }
 
-    }
+  .slide2 {
+      background-color: #ffd705;
+      color: #000;
+  }
 
-    .recommend {
-        background-color: white;
-        margin: 0px 0;
-        box-shadow: 1px black;
-    }
+  .slide3 {
+      background-color: #ff2d4b;
+      color: #fff;
+
+  }
+
+  .recommend {
+      background-color: white;
+      margin: 0px 0;
+      box-shadow: 1px black;
+  }
 
 </style>

@@ -184,8 +184,8 @@ export default {
         let date = new Date()
         let reply = {
           // id: Number,
-          postId: this.$route.params.id,
-          uid: this.$store.state.uid,
+          uid: this.$store.state.MeState.uid,
+          postId: parseInt(this.$route.params.id),
           content: val.value,
           date
         }

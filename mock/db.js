@@ -7,6 +7,31 @@ let circleRecNum = r(15, 25)
 let rNum = r(10, 20)
 let circlesNum = r(50, 100)
 
+function genAppointmentPage () {
+	return {
+	  price: 2.99,
+	  userType:"common",
+	  category:{
+	    1: '唱k',
+	    2: '旅游',
+	    3: '逛街',
+	    4: '看电影'
+	  },
+	  red: [
+	    {
+	      circleId:1,
+	      redId:1,
+	      redName: '小张'
+	    },
+	    {
+	      circleId:2,
+	      redId:2,
+	      redName: '小明'
+	    },
+	  ]
+	}
+}
+
 function genActivity () {
 	let arr = []
 	for (let i=0; i<r(30, 40); i++) {
@@ -117,6 +142,8 @@ function genStateInfo () {
 		'uid': 1111,
 		'avatar': 'https://s3.amazonaws.com/uifaces/faces/twitter/timgthomas/128.jpg',
 		'joinedCircles': [1, 2, 3, 4, 5],
+		'joinedActivities': [1, 2, 3, 4, 5],
+		'appliedCircles': [],
 		'unreadMsg': 45,
 		nickname: f.internet.userName(),
 		balance: r(300, 1000),
@@ -154,7 +181,7 @@ function genUsers ()  {
 			faith: '伊斯兰教',
 			starsign: '处女座',
 			isvip: 1,
-			avatar: f.image.avatar(50, 50),
+			avatar: f.image.avatar(300, 300),
 			spouseCondition
 		}
 		users.push(tmp)
@@ -475,8 +502,37 @@ module.exports = function() {
 	}
 	data.circles = data.circles.concat(circles)
 
-	// /users
+	function genActivitiesJoined () {
+		let arr = []
+		for (let i=0; i<r(10, 20); i++) {
+			let tmp = {
+				id: i,
+				type: 'activities',
+				circleId: r(1, 10), // 可以不要
+				name: faker.commerce.product(),
+				introduction: faker.lorem.sentences(),
+				attendance: r(1000, 2999),
+				logo: faker.image.image(50, 50),
+				durationstart: '2016-12-5',
+				durationend: '2016-12-20'
+			}
+			arr.push(tmp)
+		}
+		return arr
+	}
 
+	function genConsumeHistory () {
+		let arr = []
+		for (let i=0; i<r(10, 20); i++) {
+			let tmp = {
+				name: f.lorem.word(),
+				date: f.date.recent(),
+				price: r(1, 10)
+			}
+			arr.push(tmp)
+		}
+		return arr
+	}
 
   // /weixin
   data.weixin = genWXData()
@@ -505,6 +561,15 @@ module.exports = function() {
 	data.meRecommend = genAUserList()
 	data.album = genAlbum()
 	data.activities = genActivity()
-	data.right = {right: false}
+	data.right = {right: true}
+	data.activitiesJoined = genActivitiesJoined()
+	data.consumeHistory = genConsumeHistory()
+	data.vipPage = {
+		price: 10,
+		items: [1, 3, 6, 12, 24]
+	}
+	// 用来测试提交数据是否成功提交
+	data.postData = []
+	data.appointmentPage = genAppointmentPage()
 	return data;
 }

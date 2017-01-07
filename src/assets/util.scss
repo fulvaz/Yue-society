@@ -1,3 +1,5 @@
+@import "./var.scss";
+
 @mixin clearfix {
   &:after {
     content: "";
@@ -23,4 +25,20 @@
     color: $color;
     text-decoration: none;
   }
+}
+
+@mixin section-title {
+  font-size: $section-title-size;
+  color: $section-title-color;
+}
+
+@mixin item-title {
+  font-size: $item-size;
+  color: $item-color;
+  font-weight: $item-weight;
+}
+
+@mixin item-description {
+  font-size: $description-size;
+  color: $description-color;
 }

@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     ifFromMe (uid) {
-      return this.$store.state.MeState.id === uid
+      return this.$store.state.MeState.uid === parseInt(uid)
     },
     date2YMDHMM (date) {
       return utils.date2YMDHMM(date)

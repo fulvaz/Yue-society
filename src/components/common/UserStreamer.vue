@@ -1,8 +1,10 @@
 <template>
    <div class="streamer">
-       <h2 class="title">—— {{title}} ——</h2>
+       <h2 v-if="title.length !== 0" class="title">{{title}}</h2>
        <div class="content-container">
-            <router-link v-for="item in items" :to="'/users/' + item.id"><card class="card" :user="item"></card></router-link>
+            <router-link v-for="item in items" :to="toPrefix + '/' + item.id">
+              <card class="card" :user="item"></card>
+            </router-link>
        </div>
    </div>
 </template>
@@ -15,22 +17,24 @@
         'card': Card
       },
       props: {
-        title: '',
-        items: Array
+        title: {
+          type: String,
+          default: ''
+        },
+        items: Array,
+        toPrefix: ''
       }
     }
 </script>
 
 <style scoped lang="scss">
+    @import "../../assets/index.scss";
     .streamer {
-        margin: 10px 0;
-        padding: 10px;
         background-color: white;
     }
 
     .title {
-        font-size: 1.2rem;
-        text-align: center;
+      @include section-title();
     }
 
     .content-container {
@@ -39,9 +43,15 @@
         justify-content: flex-start;
 
         a {
+          margin-right: $horizontal-margin;
+          margin-bottom: $horizontal-margin;
+          flex: 1 1 40%;
           display: block;
           width: calc(50% - 30px);
-          margin: 15px;
+
+          &:nth-child(even) {
+            margin-right: 0;
+          }
         }
 
         .card {

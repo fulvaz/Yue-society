@@ -8,9 +8,10 @@
         <span class="username">{{nickname}}</span>
         <span class="location">{{livingPlace}}</span>
         <div class="btns">
-          <button v-if="ifFocused" class="focuse-btn btn" @click="handleFocus">关注</button>
+          <button v-if="!ifFocused" class="focuse-btn btn" @click="handleFocus">关注</button>
           <button v-else class="unfocuse-btn btn" @click="handleUnfocus">取消关注</button>
           <button class="msg-btn btn" @click="handleMsg">私信</button>
+          <button class="appointment-btn btn" @click="handleAppointment">红娘约见</button>
         </div>
       </div>
       <p class="introduction">{{introduction}}</p>
@@ -42,6 +43,18 @@
         </li>
       </fz-list>
     </section>
+
+    <!-- 弹出层显示约会见面 -->
+    <mt-popup
+      v-model="showPopup"
+      modal="false"
+      closeOnClickModal="false"
+      position="right"
+      class="popup-appointment"
+      style="z-index: 4000"
+    >
+      <appointment></appointment>
+    </mt-popup>
   </div>
 </template>
 
@@ -65,6 +78,9 @@
     background-color: #A0592B;
 
     .avatar {
+      width: 100px;
+      height: 100px;
+      border: none;
       border-radius: 50%;
     }
   }
@@ -74,9 +90,11 @@
     padding: 18px 18px 15px 18px;
     background-color: white;
     .btns {
-      position: absolute;
-      top: 18px;
-      right: 18px;
+      // position: absolute;
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      @include clearfix();
     }
     .btn {
       width: 90px;
@@ -86,11 +104,13 @@
       background-color: #42bd56;
       border: none;
       border-radius: 3px;
-      float: right;
     }
 
     .msg-btn {
-      margin-right: 10px;
+      background-color: #FF2944;
+    }
+
+    .appointment-btn {
       background-color: #FF2944;
     }
 
@@ -158,6 +178,13 @@
   .details {
     margin-top: 15px;
   }
+
+  .popup-appointment {
+    position: fixed;
+    z-index: 4000 !important;
+    width: 100vw;
+    height: 100vh;
+  }
 </style>
 
 <script>
@@ -166,18 +193,23 @@ import * as api from '../../api/index.js'
 import Tag from '../common/tag'
 import List from '../common/List'
 import * as utils from '../../utils/utils.js'
+import { Popup } from 'mint-ui'
+import Appointment from './Appointment'
 export default {
   methods: {
+    handleAppointment () {
+      this.$router.push('/users/appointment/' + this.$route.params.uid)
+    },
     handleFocus () {
-      api.focus(this.$route.params.uid).then(response => {
-        this.$store.dispatch('focus')
+      api.focus(parseInt(this.$route.params.uid)).then(response => {
+        this.$store.dispatch('focus', this.$route.params.uid)
       }).catch(response => {
         console.error(response)
       })
     },
     handleUnfocus () {
-      api.focus(this.$route.params.uid).then(response => {
-        this.$store.dispatch('unfocus')
+      api.unfocus(parseInt(this.$route.params.uid)).then(response => {
+        this.$store.dispatch('unfocus', this.$route.params.uid)
       }).catch(response => {
         console.error(response)
       })
@@ -190,7 +222,12 @@ export default {
   },
   components: {
     'fz-list': List,
-    'fz-tag': Tag
+    'fz-tag': Tag,
+    'mt-popup': Popup,
+    'appointment': Appointment
+  },
+  updated () {
+    // this.showPopup = true
   },
   created () {
     api.getUser(this.$route.params.uid).then(response => {
@@ -203,7 +240,7 @@ export default {
   },
   computed: {
     ifFocused () {
-      return this.$store.state.MeState.focus.indexOf(this.$route.params.uid) !== -1
+      return this.$store.state.MeState.focus.indexOf(parseInt(this.$route.params.uid)) !== -1
     },
     tags () {
       return [this.height + '厘米', '年收入' + this.income + '元', this.degree, this.house, this.car + '车', this.school]
@@ -262,7 +299,8 @@ export default {
       birthplace: '',
       faith: '',
       starsign: '',
-      spouseCondition: {} // 测试下是否会响应式 大概是不会, 除非用特别的赋值方式
+      spouseCondition: {}, // 测试下是否会响应式 大概是不会, 除非用特别的赋值方式
+      showPopup: false
     }
   }
 }

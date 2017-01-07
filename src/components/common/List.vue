@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2>{{title}}</h2>
+        <h2 v-if="title.length !== 0">{{title}}</h2>
         <ul>
             <slot></slot>
         </ul>
@@ -10,7 +10,10 @@
 <script>
   export default {
     props: {
-      title: ''
+      title: {
+        type: String,
+        default: ''
+      }
     }
   }
 </script>
@@ -18,8 +21,6 @@
 <style scoped lang="scss">
     @import "../../assets/util.scss";
     .container {
-        padding: 0 18px;
-        padding-bottom: 18px;
         background-color: #fff;
         overflow: hidden;
 

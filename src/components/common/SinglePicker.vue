@@ -1,13 +1,13 @@
 <template lang="html">
 <div class="container">
-  <mt-popup
+  <picker-popup
           ref="popup"
           class="popup"
           position="bottom"
           v-model="visible"
           popup-transition="popup-fade">
     <mt-picker ref="picker" :slots="slotPicker" @change="onChange"></mt-picker>
-  </mt-popup>
+  </picker-popup>
   <mt-field :label="label" :placeholder="placeholder" :value="value" @click.native="handleClick" readonly></mt-field>
 </div>
 </template>
@@ -25,7 +25,7 @@ export default {
   components: {
     'mt-field': Field,
     'mt-picker': Picker,
-    'mt-popup': Popup
+    'picker-popup': Popup
   },
   data () {
     return {
@@ -62,8 +62,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/var.scss";
 .container {
-  // border-bottom: 1px solid #d7d7d7;
+  border-bottom: 1px solid $border-color;
 }
 
 .popup {

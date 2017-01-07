@@ -259,6 +259,26 @@ export const getLooked = function () {
   })
 }
 
+export const getWhomIFocus = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.whomIFocus).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getAppointments = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.meAppointments).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
 export const getRecommend = function () {
   return new Promise((resolve, reject) => {
     vue.http.get(config.recommend).then(response => {
@@ -311,7 +331,10 @@ export const uploadImageId = function (msg) {
 
 export const focus = function (uid) {
   return new Promise((resolve, reject) => {
-    vue.http.post(config.focus, {uid}).then(response => {
+    let data = {
+      uid
+    }
+    vue.http.post(config.focus, data).then(response => {
       resolve(response)
     }, response => {
       reject(response)
@@ -320,8 +343,11 @@ export const focus = function (uid) {
 }
 
 export const unfocus = function (uid) {
+  let data = {
+    uid
+  }
   return new Promise((resolve, reject) => {
-    vue.http.post(config.unfocus, {uid}).then(response => {
+    vue.http.post(config.unfocus, data).then(response => {
       resolve(response)
     }, response => {
       reject(response)
@@ -459,10 +485,100 @@ export const getCirclePost = function (circleid, page, limit) {
 }
 
 export const getCircleActivity = function (circleid, page, limit) {
-  let api = config.dev ? `${config.circlesApi}/${circleid}/activities` : `${config.postsApi}/activities/${circleid}`
+  let api = `${config.circlesApi}/${circleid}/activities`
   console.log(api)
   return new Promise((resolve, reject) => {
     vue.http.get(api + filterPL(page, limit)).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const joinCircle = function (data) {
+  return new Promise((resolve, reject) => {
+    vue.http.post(config.joinCircle, data).then(response => {
+      resolve(response)
+    }, res => {
+      reject(res)
+    })
+  })
+}
+
+export const getActivitiesJoined = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(`${config.activitiesJoined}`).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getConsumeHistory = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(`${config.consumeHistory}`).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getBuyVipPage = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(`${config.buyVipPage}`).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getBuyCirclePage = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(`${config.buyCirclePage}`).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const buyVip = function (data) {
+  return new Promise((resolve, reject) => {
+    vue.http.put(config.buyVip, data).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const buyCircle = function (data) {
+  return new Promise((resolve, reject) => {
+    vue.http.put(config.buyCircle, data).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const makeAppointment = function (data) {
+  return new Promise((resolve, reject) => {
+    vue.http.put(config.makeAppointment, data).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getAppointmentPageInfo = function (uid) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(`${config.userApi}/${uid}/meeting`).then((response) => {
       resolve(response)
     }, response => {
       reject(response)

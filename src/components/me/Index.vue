@@ -5,9 +5,10 @@
       <div class="detail">
         <span class="nickname">{{nickname}}</span>
         <div class="other-detail">
-          <router-link class="balance" to="/me/balance">余额 {{balance}}元</router-link>
+          <router-link class="balance" to="/me/consume_history">余额 {{balance}}元</router-link>
           <router-link class="looked" to="/me/looked">看过我 {{looked}}</router-link>
           <router-link class="focused" to="/me/focused">关注我 {{focused}}</router-link>
+          <router-link class="whom-i-focus" to="/me/focus_who">已关注 {{focus}}</router-link>
         </div>
       </div>
     </header>
@@ -21,11 +22,23 @@
       <fz-icon-item label="择偶条件" to="spouse" class="icon icon-condition" :append="true">
         <i slot="icon" class="fa fa-heart fa-2x icon-condition" aria-hidden="true"></i>
       </fz-icon-item>
-      <fz-icon-item label="购买服务" to="srevice" class="icon" :append="true">
+      <fz-icon-item label="购买服务" to="service" class="icon" :append="true">
         <i slot="icon" class="fa fa-hand-o-down fa-2x icon-service" aria-hidden="true"></i>
       </fz-icon-item>
       <fz-icon-item label="推荐人" to="recommend" class="icon" :append="true">
         <i slot="icon" class="fa fa-users fa-2x icon-recommend" aria-hidden="true"></i>
+      </fz-icon-item>
+      <fz-icon-item label="约见过" to="appointment" class="icon" :append="true">
+        <i slot="icon" class="fa fa-user-circle fa-2x icon-info" aria-hidden="true"></i>
+      </fz-icon-item>
+      <fz-icon-item label="已参加活动" to="activitiesJoined" class="icon" :append="true">
+        <i slot="icon" class="fa fa-user-circle fa-2x icon-info" aria-hidden="true"></i>
+      </fz-icon-item>
+      <fz-icon-item label="充值" to="deposite" class="icon" :append="true">
+        <i slot="icon" class="fa fa-user-circle fa-2x icon-info" aria-hidden="true"></i>
+      </fz-icon-item>
+      <fz-icon-item label="消费记录" to="consumeHistory" class="icon" :append="true">
+        <i slot="icon" class="fa fa-user-circle fa-2x icon-info" aria-hidden="true"></i>
       </fz-icon-item>
     </section>
   </div>
@@ -48,6 +61,7 @@
         balance: state => state.MeState.balance,
         looked: state => state.MeState.looked,
         focused: state => state.MeState.focused,
+        focus: state => state.MeState.focus.length,
         nickname: state => state.MeState.nickname,
         avatar: state => state.MeState.avatar
       })

@@ -15,6 +15,7 @@
     "font-awesome": "^4.7.0",
     "mint-ui": "^2.0.6",
     "normalize-scss": "^6.0.0",
+    "vee-validate": "^2.0.0-beta.18",
     "vue": "^2.1.0",
     "vue-infinite-scroll": "^2.0.0",
     "vue-lazyload": "^0.9.4",
@@ -52,6 +53,7 @@
     "node-sass": "^3.13.0",
     "opn": "^4.0.2",
     "ora": "^0.3.0",
+    "postcss-loader": "^1.2.1",
     "sass-loader": "^4.0.2",
     "semver": "^5.3.0",
     "shelljs": "^0.7.4",
@@ -67,6 +69,11 @@
     "webpack-hot-middleware": "^2.12.2",
     "webpack-merge": "^0.14.1"
   },
+  "browserslist": [
+    "> 1%",
+    "ios >= 8",
+    "android >= 4.4"
+  ],
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"

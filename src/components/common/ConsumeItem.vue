@@ -1,9 +1,9 @@
 <template>
   <div class="list-item">
-    <img class="logo" :src="logo" >
     <div class="main">
-      <h2 class="content-title">{{contentTitle}}</h2>
-      <h3 class="content-subtitle">{{contentSubtitle}}</h3>
+      <h2 class="content-title">{{item}}</h2>
+      <h3 class="content-subtitle">{{date}}</h3>
+      <h3 class="content-subtitle price">{{price}} 元</h3>
     </div>
   </div>
 </template>
@@ -11,9 +11,9 @@
 <script>
    export default {
      props: {
-       'logo': '',
-       'content-title': '',
-       'content-subtitle': ''
+       'price': '',
+       'item': '',
+       'date': ''
      },
      computed: {
      }
@@ -21,33 +21,32 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/index.scss";
   .list-item {
     width: 100%;
     overflow: hidden;
-    border-bottom: 1px solid $list-border-color;
-
-    .logo {
-      float: left;
-      width: 50px;
-      height: 50px;
-    }
 
     .main {
+      position: relative;
       height: 50px;
-      margin-left: 60px;
-
       .content-title {
-        @include item-title();
         margin: 0;
+        font-size: 17px;
+        line-height: 18px;
         overflow: hidden;
       }
 
       .content-subtitle {
-        @include item-description();
         bottom: 0;
+        font-size: 12px;
         margin: 0;
         margin-top: 5px;
+        color: #b3b3b3;
+      }
+
+      .price {
+        position: absolute;
+        right: 0;
+        top: 0;
       }
     }
   }

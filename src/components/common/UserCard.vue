@@ -1,5 +1,6 @@
 <template>
     <div class="card">
+        <div class="avatar" v-lazy:background-image="user.avatar"></div>
         <div class="info">
             <p>
                 <span class="name">{{user.name}}</span>
@@ -7,7 +8,6 @@
                 <span class="age">{{user.age}}岁</span>
             </p>
         </div>
-        <div class="avatar" v-lazy:background-image="user.avatar"></div>
     </div>
 </template>
 
@@ -25,20 +25,18 @@
 </script>
 
 <style scoped lang="scss">
+    @import "../../assets/index.scss";
     .card {
         position: relative;
     }
 
     .avatar {
         box-sizing: border-box;
-
-        background: #888;
         background-size: cover;
         background-position: center;
         z-index: -1;
         overflow: hidden;
-        border: 1px solid #b3b3b3;
-
+        border: 1px solid $card-border-color;
 
         &:after {
             margin-bottom: 100%;
@@ -48,38 +46,32 @@
     }
 
     .info {
-        position: absolute;
-        bottom: 0;
-
+        margin-top: -3px;
         width: 100%;
-        height: 2.5em;
-
+        // height: 16px;
         box-sizing: border-box;
         background: white;
-        border: 1px solid #b3b3b3;
+        border: 1px solid $card-border-color;
 
         p {
-            position: absolute;
-            bottom: 0;
             margin: 0;
-            margin-bottom: 5px;
-
+            padding: .5em 0;
             width: 100%;
-            line-height: 1;
+            line-height: 14px;
             text-align: center;
 
             .name {
-                font-size: 1.1rem;
+                font-size: 14px;
             }
 
             .location {
-                color: #888;
-                font-size: .9rem;
+                color: $description-color;
+                font-size: $description-size;
             }
 
             .age {
-                color: #888;
-                font-size: .9rem;
+                color: $description-color;
+                font-size: $description-size;
             }
         }
     }

@@ -153,7 +153,6 @@
     methods: {
       open (picker) {
         this.$refs[picker].open()
-        console.log(this.$refs)
       },
       onSexChange (picker, values) {
         this.sex = values[0]

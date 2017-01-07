@@ -37,7 +37,7 @@ export default {
         title: this.title,
         content: this.content,
         uid: this.$store.state.MeState.uid,
-        circleId: this.$route.params.id,
+        circleId: parseInt(this.$route.params.id),
         date: (new Date()).toString(),
         type: '交友' // TODO 应该可以选!
       }
