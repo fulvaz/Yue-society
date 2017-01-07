@@ -38,7 +38,7 @@ function genActivity () {
 		arr.push({
 			id: i,
 			type: 'activities',
-			circleId: r(1, 10), // 可以不要
+			circleId: r(0, 3), // 可以不要
 			title: faker.commerce.product(),
 			content: faker.lorem.sentences(),
 			attendance: r(1000, 2999),

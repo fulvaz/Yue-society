@@ -25,7 +25,7 @@
   .list-item {
     width: 100%;
     overflow: hidden;
-    border-bottom: 1px solid $list-border-color;
+    // border-top: 1px solid $list-border-color;
 
     .logo {
       float: left;

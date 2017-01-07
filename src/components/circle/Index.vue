@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
-        <slider class="circle-recommend recommend" :title="'—— 圈子推荐 ——'">
+    <div class="index-container">
+        <slider class="circle-recommend recommend" title="圈子推荐">
             <slider-item v-for="item in circleRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :to="'/circles/' + item.id"></slider-item>
         </slider>
         <!-- <div class="more"><router-link to="/circles">发现更多圈子</router-link></div> -->
@@ -76,16 +76,14 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/util.scss";
-  .container {
-      & > * {
-        margin-bottom: 10px;
-      }
+  @import "../../assets/index.scss";
+  .index-container {
+      background-color: #fff;
+      padding: $horizontal-margin;
   }
 
   .circle-recommend {
     background-color: #fff;
-    margin-bottom: 0;
   }
 
   .more {
@@ -104,8 +102,8 @@
   .circle-my {
       li {
         list-style: none;
-        padding: 15px 0px;
-        border-top: 1px solid #F1F1F1;
+        padding: $list-padding 0px;
+        border-top: 1px solid $list-border-color;
 
         &:last-child {
           border-bottom: 1px solid #F1F1F1;

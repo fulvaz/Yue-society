@@ -9,7 +9,6 @@
           <button class="btn-post" v-else-if="ifApplied">已申请</button>
           <button class="btn-post" v-else-if="!auth" @click="buyCircle">购买发帖权利</button>
           <button class="btn-post" v-else @click="newPost">发言</button>
-          <!-- <button class="btn-service">联系红娘</button> -->
         </div>
       </div>
     </header>
@@ -255,10 +254,10 @@
       display: flex;
       justify-content: space-around;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 3px;
       .navbar-item {
         flex: 1 1 200px;
-        padding: 17px 0;
+        padding: 14px 0;
         display: block;
       }
 

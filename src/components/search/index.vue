@@ -1,9 +1,11 @@
 <template lang="html">
   <div class="container">
     <search-bar></search-bar>
-    <list v-for="module in Object.keys(tags)" :title="module" class="tag-module">
-      <list-tags :tags="tags[module]"></list-tags>
-    </list>
+    <section class="main">
+      <list v-for="module in Object.keys(tags)" :title="module" class="tag-module">
+        <list-tags :tags="tags[module]"></list-tags>
+      </list>
+    </section>
   </div>
 </template>
 
@@ -34,6 +36,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "../../assets/index.scss";
+  .main {
+    padding: 0 $horizontal-margin;
+  }
   .tag-module {
     padding-bottom: 15px;
   }

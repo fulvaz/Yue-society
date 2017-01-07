@@ -42,3 +42,10 @@
   font-size: $description-size;
   color: $description-color;
 }
+
+@mixin list-border {
+  border-top: $list-border;
+  &:first-child {
+    border-top: none;
+  }
+}

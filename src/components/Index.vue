@@ -14,7 +14,7 @@
           <mt-tab-container class="tab-container" v-model="active">
             <mt-tab-container-item id="tab-circleRecommend">
               <list class="circleRecommend">
-                  <li v-for="circle in circleRecommend">
+                  <li v-for="circle in circleRecommend" class="recommend">
                     <router-link :to="`/activities/${circle.id}`">
                       <list-item
                         :content-title="circle.contentTitle"
@@ -26,8 +26,8 @@
               </list>
             </mt-tab-container-item>
             <mt-tab-container-item id="tab-activitiesRecommend">
-              <list class="activitiesRecommend">
-                  <li v-for="circle in activityRecommend">
+              <list class="activitiesRecommend recommend">
+                  <li v-for="circle in activityRecommend" class="recommend">
                     <router-link :to="`/activities/${circle.id}`">
                       <list-item
                         :content-title="circle.contentTitle"
@@ -226,6 +226,8 @@
   }
 
   .recommend {
+      @include list-border();
+      padding: $list-padding 0 ;
       background-color: white;
       margin: 0px 0;
       box-shadow: 1px black;

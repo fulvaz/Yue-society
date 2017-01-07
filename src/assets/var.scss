@@ -1,14 +1,23 @@
-$border-color: rgb(240, 240, 240);
-$list-border-color: rgb(240, 240, 240);
-$card-border-color: #ccc;
-$section-margin: 15px;
 $main-red: #C52C24;
+
+$border-color: rgb(240, 240, 240);
+
+$card-border-color: #ccc;
+
+$list-border-color: rgb(240, 240, 240);
+$list-border: 1px solid $list-border-color;
+$list-padding: 5px;
+
+$section-margin: 15px;
 $section-title-size: 15px;
 $section-title-color: rgb(170, 170, 170);
+
 $item-size: 17px;
 $item-color: #494949;
 $item-weight: 500;
+
 $description-size: 12px;
 $description-color: #aaa;
+
 $less-important-color: #ccc;
 $horizontal-margin: 18px;

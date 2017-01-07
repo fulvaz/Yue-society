@@ -46,6 +46,7 @@
 </script>
 
 <style scoped lang="scss">
+    @import "../../assets/index.scss";
     .slider-item {
         float: left;
         margin-right: 10px;
@@ -61,9 +62,8 @@
 
             .content-title {
                 margin: 0;
-                font-size: 17px;
-
                 overflow: hidden;
+                @include item-title();
             }
 
             .content-subtitle {

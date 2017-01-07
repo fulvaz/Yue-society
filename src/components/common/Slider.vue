@@ -1,6 +1,6 @@
 <template>
     <div class="slider">
-        <h2 class="title">{{title}}</h2>
+        <h2 v-if="title.length !== 0" class="title">{{title}}</h2>
         <div class="slide">
             <div class="slide-container" :style="{width: `${itemsNum*100}%`}">
                 <slot></slot>
@@ -22,7 +22,10 @@
        this.itemsNum = this.$children.length
      },
      props: {
-       'title': ''
+       'title': {
+         type: String,
+         default: ''
+       }
      },
      components: {
        'item': SliderItem
@@ -37,18 +40,16 @@
 
 <style scoped lang="scss">
     .slider {
-        @import "../../assets/util.scss";
+        @import "../../assets/index.scss";
         @include clearfix;
 
         width: 100%;
-        padding: 1rem;
         overflow: hidden;
         box-sizing: border-box;
 
         .title {
             margin-top: 0;
-            text-align: center;
-            font-size: 1.2rem;
+            @include section-title();
         }
 
         .logo {
