@@ -35,7 +35,6 @@ export default {
   },
   computed: {
     ifMe () {
-      // return true // TODO delete this
       return this.uid === this.$store.state.MeState.uid
     }
   },
@@ -75,13 +74,14 @@ export default {
   },
   methods: {
     handleUploadBtn () {
+      let that = this
       wx.chooseImage({
-        count: 1, // 默认9
+        count: 9, // 默认9
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
         success: function (res) {
           console.log(res.localIds)
-          this.uploadImage(res.localIds)
+          that.uploadImage(res.localIds)
         }
       })
     },
@@ -94,19 +94,31 @@ export default {
       })
     },
     uploadImage (localIds) {
-      console.log(localIds)
+      let that = this
+      let i = 0
       function uploadToWX (id) {
-        let i = 0
         wx.uploadImage({
           localId: id, // 需要上传的图片的本地ID，由chooseImage接口获得
           isShowProgressTips: 1, // 默认为1，显示进度提示
           success: function (res) {
+            // console.log(res.serverId)
             api.uploadImageId({serverId: res.serverId}).then(response => {
-              this.images.unshift(res.serverId)
+              // 更新数组, 触发响应
+              that.images.unshift(id)
               ++i
-              if (i >= localIds.length) return
+              // console.log(that.images)
+              // console.log(i)
+              // console.log(localIds.length)
+
+              // 上传完毕
+              if (i >= localIds.length) {
+                console.log(i)
+                that.handleSuccess('UPLOAD_IMAGE_SUCCESS')
+                return
+              }
               uploadToWX(localIds[i])
             }).catch(response => {
+              that.handleFail('UPLOAD_IMAGE_FAIL')
               console.error(response)
             })
           }

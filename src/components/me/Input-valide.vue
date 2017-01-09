@@ -70,7 +70,6 @@ export default {
   .container {
     width: 100%;
     padding: 12px 0;
-    border-bottom: 1px solid #d5d5d5;
     // height: 48px;
     .error {
       border: 1px solid red;

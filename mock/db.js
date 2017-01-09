@@ -42,7 +42,7 @@ function genActivity () {
 			title: faker.commerce.product(),
 			content: faker.lorem.sentences(),
 			attendance: r(1000, 2999),
-			logo: faker.image.image(50, 50),
+			logo: faker.image.image(r(50, 100), r(50, 100)),
 			durationstart: '2016-12-5',
 			durationend: '2016-12-20',
 			location: f.address.state()
@@ -71,7 +71,7 @@ function genAUserList () {
 	for (let i=0; i<r(30, 50); i++) {
 		arr.push({
 			uid: i,
-			avatar: f.image.avatar(200, 200),
+			avatar: f.image.avatar(r(200, 300), r(200, 300)),
 			nickname: f.internet.userName(),
 			introduction: f.lorem.sentence()
 		})
@@ -82,9 +82,9 @@ function genAUserList () {
 function genChat () {
 	let msgs = []
 	let fromName = f.internet.userName()
-	let fromAvatar = f.image.avatar()
+	let fromAvatar = f.image.avatar(r(200, 300), r(200, 300))
 	let meName = f.internet.userName()
-	let meAvatar = f.image.avatar()
+	let meAvatar = f.image.avatar(r(200, 300), r(200, 300))
 
 	for (let i=0; i<r(100, 200); i++) {
 		let meMsg = {
@@ -380,7 +380,7 @@ module.exports = function() {
 		let tmp = {
 			id: i,
 			type: 'circles',
-			name: faker.name.jobType(),
+			name: '圈' + faker.name.jobType(),
 			location: faker.address.state(),
 			introduction: faker.lorem.sentences(),
 			logo: faker.image.image(50, 50)
@@ -397,7 +397,7 @@ module.exports = function() {
 			id: i,
 			type: 'activities',
 			circleId: r(1, 10), // 可以不要
-			title: faker.commerce.product(),
+			title: '活' + faker.commerce.product(),
 			content: faker.lorem.sentences(),
 			attendance: r(1000, 2999),
 			logo: faker.image.image(50, 50),

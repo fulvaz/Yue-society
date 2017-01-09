@@ -40,10 +40,11 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  @import "../../assets/index.scss";
   .message {
     position: relative;
-    padding: 15px 0;
+    padding: $list-padding 0;
     border-bottom: 1px solid #dfdfdf;
   }
 

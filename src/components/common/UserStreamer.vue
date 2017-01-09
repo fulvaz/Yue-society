@@ -2,7 +2,7 @@
    <div class="streamer">
        <h2 v-if="title.length !== 0" class="title">{{title}}</h2>
        <div class="content-container">
-            <router-link v-for="item in items" :to="toPrefix + '/' + item.id">
+            <router-link v-for="item in items" :to="'/users' + '/' + item.id">
               <card class="card" :user="item"></card>
             </router-link>
        </div>
@@ -21,8 +21,7 @@
           type: String,
           default: ''
         },
-        items: Array,
-        toPrefix: ''
+        items: Array
       }
     }
 </script>

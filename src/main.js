@@ -7,6 +7,7 @@ import InfiniteScroll from 'vue-infinite-scroll'
 import Vuex from 'vuex'
 import VeeValidate from 'vee-validate'
 import localeMsg from './utils/zh_CN.js'
+import Toast from './plugin/Toast.js'
 
 import Index from 'components/Index'
 import CircleIndex from 'components/circle/Index'
@@ -42,9 +43,6 @@ import store from './store/index.js'
 import * as utils from './utils/utils.js'
 import config from './config/setting.js'
 
-Vue.config.debug = config.dev
-Vue.config.silent = !config.dev
-
 Vue.use(Router)
 Vue.use(VueResource)
 Vue.use(VueLazyload, {
@@ -63,10 +61,11 @@ Vue.use(VeeValidate, {
     }
   }
 })
+Vue.use(Toast)
 
 // input css resources
 require('vue-swipe/dist/vue-swipe.css')
-require('mint-ui/lib/style.min.css')
+require('./assets/mt-style.css')
 
 /* eslint-disable no-new */
 // new Vue({
@@ -118,13 +117,16 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.path !== '/auth') {
     // 如果在本地测试登录功能, 你需要注释下面这行, 然后将下下行解除注释
-    if (!utils.getCookie(document.cookie).auth && !config.dev) next('/auth')
+    let cookieAuth = utils.getCookie(document.cookie).auth
+    if (cookieAuth && cookieAuth === 'false' && !config.dev) next('/auth')
     // if (!utils.getCookie(document.cookie).auth) next('/auth')
     else {
       // 业务逻辑
       // 修改状态栏状态
       store.dispatch('itemClicked', config.tabbarItems[to.path])
-      store.dispatch('fetchMeState', next) // 保证先更新个人信息  TODO 优化?
+      store.dispatch('fetchMeState').then(res => {
+        next()
+      })
     }
   } else {
     next()

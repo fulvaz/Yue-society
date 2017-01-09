@@ -71,7 +71,6 @@ export default {
     width: 100%;
     padding: 12px 0;
     // height: 48px;
-    border-bottom: 1px solid #d5d5d5;
     .error {
       border: 1px solid red;
     }

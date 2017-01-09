@@ -1,6 +1,7 @@
 $main-red: #C52C24;
 
 $border-color: rgb(240, 240, 240);
+$mt-border-color: #CBCBCB;  // border color of mint-ui input component
 
 $card-border-color: #ccc;
 
@@ -35,3 +36,8 @@ $douban-icon-orange: #FF6D3B;
 $douban-green: #148222;
 $douban-orange: #F5B973;
 $douban-blue: #F5B973;
+
+$global-background-color: #f7f7f7; // !将全局背景颜色应用到需要的组件中去, 而不是应用到全局
+
+$tabbar-height: 53px;
+$content-height: calc(100vh - #{$tabbar-height});

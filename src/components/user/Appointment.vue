@@ -65,10 +65,11 @@ export default {
         }
         // send data
         let data = {}
+        this.openIndicator()
         api.makeAppointment(data).then(res => {
-          // TODO 提示信息
+          this.handleSuccess('APPOINTMENT_REQ_SUCCESS')
         }, res => {
-          // TODO 提示信息
+          this.handleSuccess('APPOINTMENT_REQ_FAIL')
           console.error(res)
         })
       })

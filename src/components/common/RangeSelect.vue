@@ -55,7 +55,7 @@ export default {
     align-items: center;
     margin: 0 10px;
     height: 100%;
-    border-bottom: 1px solid #f7f7f7;
+    // border-bottom: 1px solid #f7f7f7;
     box-sizing: border-box; // 边界会被盖住, 天杀的w3c
 
     .label {

@@ -215,7 +215,6 @@ export default {
       })
     },
     handleMsg () {
-      // TODO 收费权限?
       console.log('/message/chat/' + this.$route.params.uid)
       this.$router.push('/message/chat/' + this.$route.params.uid)
     }

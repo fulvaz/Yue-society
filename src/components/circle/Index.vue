@@ -33,7 +33,6 @@
     methods: {
       fetchCircleRecommend () {
         this.$http.get(Config.circlesRecommendsApi).then((response) => {
-          // TODO 处理异常 全部返回200
           let remoteData
           // 有些服务器返回字符串, 有些则是JSON, 需要判断
           if (typeof response.body === 'object') remoteData = response.body
@@ -56,7 +55,7 @@
           })
           this.circleRecommend = this.circleRecommend.concat(tmp)
         }, (response) => {
-
+          this.toastNetErrMsg(response.status)
         })
       },
       fetchMyCircle () {

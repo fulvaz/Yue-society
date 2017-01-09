@@ -61,12 +61,14 @@ export default {
         uid: this.$store.state.MeState.uid,
         activityId: parseInt(this.$route.params.id)
       }
+      this.openIndicator()
       api.takePartIn(data).then(res => {
-        // TODO 提示信息
+        this.handleSuccess('ENTER_ACTIVITY_SUCCESS')
         let actId = this.$route.params.id
         this.$store.dispatch('takePartInActivity', parseInt(actId))
       }).catch(res => {
-        // TODO 错误
+        this.handleFail('ENTER_ACTIVITY_FAIL')
+        this.closeIndicator()
         console.error(res)
       })
     },

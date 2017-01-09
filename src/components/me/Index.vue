@@ -5,7 +5,7 @@
       <div class="detail">
         <span class="nickname">{{nickname}}</span>
         <div class="other-detail">
-          <router-link class="balance" to="/me/consume_history">余额 {{balance}}元</router-link>
+          <router-link class="balance" to="/me/consumeHistory">余额 {{balance}}元</router-link>
           <router-link class="looked" to="/me/looked">看过我 {{looked}}</router-link>
           <router-link class="focused" to="/me/focused">关注我 {{focused}}</router-link>
           <router-link class="whom-i-focus" to="/me/focus_who">已关注 {{focus}}</router-link>
@@ -77,8 +77,11 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/util.scss";
+  @import "../../assets/index.scss";
   .container {
+    width: 100%;
+    height: $content-height;
+    background-color: $global-background-color;
   }
 
   .profile {

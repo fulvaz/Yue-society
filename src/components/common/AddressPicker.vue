@@ -112,7 +112,6 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  border-bottom: 1px solid #d5d5d5;
 }
 .popup {
   width: 100%;

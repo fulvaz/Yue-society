@@ -58,10 +58,11 @@ export default {
         date,
         content: this.reply
       }
-
+      this.openIndicator()
       api.replyMsg(to, reply).then(response => {
+        this.handleSuccess('SEND_MSG_SUCCESS')
       }).catch(response => {
-        // TODO 处理错误
+        this.handleFail('SEND_MSG_FAIL')
         console.error(response)
       })
 

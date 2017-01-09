@@ -36,9 +36,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "../../assets/index.scss";
   li {
     position: relative;
-    padding: 15px 0;
+    padding: $list-padding 0;
     border-bottom: 1px solid #dfdfdf;
   }
 </style>

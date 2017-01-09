@@ -2,7 +2,9 @@
   <div class="container">
     <list title="私信" class="message-list">
       <li class="message" v-for="msg in msgList" @click="resetCount(msg.uid)">
-        <router-link :to="'/message/chat/' + msg.uid"><list-item :logo="msg.avatar" :content-title="msg.nickname" :content-subtitle="msg.lastMsg"></list-item></router-link>
+        <router-link :to="'/message/chat/' + msg.uid">
+          <list-item :logo="msg.avatar" :content-title="msg.nickname" :content-subtitle="msg.lastMsg"></list-item>
+        </router-link>
         <mt-badge color="#fe6431" size="small" class="badge" v-if="msg.unread > 0">{{msg.unread}}</mt-badge>
       </li>
     </list>
@@ -50,16 +52,17 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+  @import "../../assets/index.scss";
   .message {
     position: relative;
-    padding: 15px 0;
+    padding: $list-padding 0;
     border-bottom: 1px solid #dfdfdf;
   }
 
   .badge {
     position: absolute;
-    top: 12px;
+    top: 2px;
     left: 35px;
   }
 </style>

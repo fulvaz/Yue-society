@@ -19,13 +19,13 @@
 </script>
 
 <style scoped lang="scss">
-    @import "../../assets/util.scss";
+    @import "../../assets/index.scss";
     .container {
         background-color: #fff;
         overflow: hidden;
 
         h2 {
-            margin: 15px 0;
+            margin: 10px 0;
             font-size: 15px;
             font-weight: normal;
             color: #aaa;

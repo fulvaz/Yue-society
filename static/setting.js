@@ -1,6 +1,6 @@
 'use strict';
 
-var dev = true;
+var dev = false;
 var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.resontek.com';
 
 var pageFilter = dev ? '_page' : 'page';
@@ -23,7 +23,7 @@ var devApis = {
   'searchTags': apiPrefix + '/circleTags',
   'circleByTag': apiPrefix + '/getTags',
   'stateInfo': apiPrefix + '/stateInfo',
-  'authPath': 'static/auth.html',
+  'authPath': '/authorize',
   'applyCircleApi': apiPrefix + '/applyForCircle',
   'msgList': apiPrefix + '/msgList',
   'resetUidCount': apiPrefix + '/postData',
@@ -51,7 +51,9 @@ var devApis = {
   'buyCirclePage': apiPrefix + '/vipPage',
   'buyVip': apiPrefix + '/postData',
   'buyCircle': apiPrefix + '/postData',
-  'makeAppointment': apiPrefix + '/postData'
+  'makeAppointment': apiPrefix + '/postData',
+  // new
+  'meAppointments': apiPrefix + '/meRecommend'
 };
 
 var apis = {

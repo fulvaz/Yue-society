@@ -52,14 +52,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../assets/util.scss';
+  @import '../../assets/index.scss';
   a {
     @include reseta(#000);
   }
 
   .subject {
-    padding: 10px 0px;
-    border-bottom: 1px solid rgb(242, 242, 242);
-
+    padding: $list-padding 0px;
+    @include list-border;
   }
 </style>

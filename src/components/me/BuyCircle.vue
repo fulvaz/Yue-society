@@ -65,10 +65,11 @@ export default {
         price: this.price * month,
         month
       }
+      this.openIndicator()
       api.buyCircle(data).then(res => {
-        // TODO 提示信息
+        this.handleSuccess('PAY_SUCCESS')
       }).catch(res => {
-        // TODO 提示信息
+        this.handleFail('PAY_FAIL')
       })
     }
   }

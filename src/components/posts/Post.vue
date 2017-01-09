@@ -180,7 +180,6 @@ export default {
   methods: {
     handleClick () {
       MessageBox.prompt('请输入你的回复').then(val => {
-        // TODO 需要刷新页面，测试是否添加了新的回复
         let date = new Date()
         let reply = {
           // id: Number,
@@ -189,15 +188,19 @@ export default {
           content: val.value,
           date
         }
-        api.replyPost(this.id, reply)
-
-        let replyDisplay = {
-          author: this.$store.state.MeState.nickname,
-          authorAvator: this.$store.state.MeState.avatar,
-          date: utils.date2YMDHMM(date),
-          content: val.value
-        }
-        this.replies.push(replyDisplay)
+        this.openIndicator()
+        api.replyPost(this.id, reply).then(response => {
+          this.handleSuccess('REPLY_POST_SUCCESS')
+          let replyDisplay = {
+            author: this.$store.state.MeState.nickname,
+            authorAvator: this.$store.state.MeState.avatar,
+            date: utils.date2YMDHMM(date),
+            content: val.value
+          }
+          this.replies.push(replyDisplay)
+        }).catch(response => {
+          this.handleFail('REPLY_POST_FAIL')
+        })
       })
     }
   }

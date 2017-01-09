@@ -49,3 +49,10 @@
     border-top: none;
   }
 }
+
+@mixin mt-list-border {
+  border-top: 1px solid $mt-border-color;
+  &:first-child {
+    border-top: none;
+  }
+}

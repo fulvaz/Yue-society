@@ -116,18 +116,14 @@
       }
     },
     watch: {
-      // 有新帖子则添加到列表中 暂时取消这个功能 TODO 修改为发布成功后重新获取post列表
-      // postNew () {
-      //   this.posts.unshift({
-      //     author: this.$store.state.MeState.nickname,
-      //     authorAvatar: this.$store.state.MeState.avatar,
-      //     circleId: parseInt(this.$route.params.id),
-      //     ...this.postNew
-      //   })
-      // }
+      postNew () {
+        this.posts = []
+        this.postPage = 0
+        this.fetchPosts()
+      }
     },
     beforeRouteEnter (to, from, next) {
-      api.authCircle().then(res => {
+      api.authCircle(to.params.id).then(res => {
         next(vm => {
           vm.auth = utils.response2Data(res).right
         })
@@ -153,12 +149,13 @@
             content: val.value,
             date: (new Date()).toString()
           }
+          this.openIndicator()
           api.joinCircle(apply).then(response => {
-            // TODO 提示信息
             let circleId = parseInt(this.$route.params['id'])
             this.$store.dispatch('applyCircle', circleId)
+            this.handleSuccess('APPLY_CIRCLE_SUCCESS')
           }).catch(response => {
-            // TODO 提示信息
+            this.handleSuccess('APPLY_CIRCLE_FAIL')
           })
         })
       },
@@ -278,12 +275,13 @@
     }
 
     .post-container {
-      margin-left: 10px;
+      padding: 0 $horizontal-margin;
+      box-sizing: border-box;
     }
 
     .post {
-      border-bottom: 1px solid #ECECEC;
-
+      padding: $list-padding 0;
+      @include list-border;
     }
   }
 

@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="container">
+  <div class="fz-textarea-container">
     <div class="wrapper">
       <label class="label" for="select">{{label}}</label>
       <div class="input">

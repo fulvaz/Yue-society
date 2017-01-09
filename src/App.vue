@@ -58,7 +58,6 @@ export default {
   }
 
   #app {
-    background-color: #f7f7f7;
     min-height: calc(100vh - 53px);
     margin-bottom: 53px;
 

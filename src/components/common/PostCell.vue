@@ -22,17 +22,14 @@
 <style scoped lang="scss">
     @import "../../assets/util.scss";
     .slider-item {
-        padding: 10px 18px 20px 26px;
         width: 100%;
         margin-right: 10px;
         background-color: #fff;
         box-sizing: border-box;
 
-        &:last-child {
-          border: none;
-        }
-
         .logo {
+            position: relative;
+            top: 2px;
             float: left;
             width: 16px;
             height: 16px;
@@ -40,32 +37,29 @@
         }
 
         .main {
-            margin-left: 30px;
+            margin-left: 25px;
 
             .title {
                 margin: 0;
-                font-size: 17px;
-                color: #494949;
+                @include item-title;
                 overflow: hidden;
             }
 
             .info {
+              @include item-description;
               margin: 0;
               margin-top: 6px;
+              @include clearfix;
             }
 
             .date {
                 float: right;
                 margin: 0;
-                font-size: 12px;
-                color: #ccc;
             }
 
             .author {
                 float: left;
                 margin: 0;
-                font-size: 14px;
-                color: #aaa;
             }
 
             @include clearfix()

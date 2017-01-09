@@ -1,15 +1,14 @@
 <template lang="html">
   <div class="container">
-    <address-picker label="出生地" v-model="birthplace"></address-picker>
-    <address-picker label="居住地" v-model="livingPlace"></address-picker>
-    <picker v-model="ageRange" label="年龄范围" :picker="agePicker.picker" :slotVal="agePicker.data"></picker>
-    <picker v-model="weightRange" label="体重范围" :picker="weightPicker.picker" :slotVal="weightPicker.data"></picker>
-    <picker v-model="heightRange" label="身高范围" :picker="heightPicker.picker" :slotVal="heightPicker.data"></picker>
-    <!-- 代码凌乱的原因是我老是在改架构却不肯重构 -->
-    <num-range-picker v-model="revenueRange" label="收入范围" :slotVal="revenuelist"></num-range-picker>
-    <num-range-picker v-model="degreeRange" label="学历范围" :slotVal="degreeList"></num-range-picker>
-    <mt-button type="primary" class="btn-confirm" @click.native="sendRegData">更新</mt-button>
-
+    <address-picker label="出生地" v-model="birthplace" class="field"></address-picker>
+    <address-picker label="居住地" v-model="livingPlace" class="field"></address-picker>
+    <picker v-model="ageRange" label="年龄范围" :picker="agePicker.picker" :slotVal="agePicker.data" class="field"></picker>
+    <picker v-model="weightRange" label="体重范围" :picker="weightPicker.picker" :slotVal="weightPicker.data" class="field"></picker>
+    <picker v-model="heightRange" label="身高范围" :picker="heightPicker.picker" :slotVal="heightPicker.data" class="field"></picker>
+    <!-- 代码凌乱的原因是我老是在改架构却不肯重构 update: 总算没那么乱了 -->
+    <num-range-picker v-model="revenueRange" label="收入范围" :slotVal="revenuelist" class="field"></num-range-picker>
+    <num-range-picker v-model="degreeRange" label="学历范围" :slotVal="degreeList" class="field"></num-range-picker>
+    <mt-button type="primary" class="btn-confirm class" @click.native="sendRegData">更新</mt-button>
   </div>
 </template>
 
@@ -196,12 +195,17 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  @import "../../assets/index.scss";
   .container {
     background-color: white;
   }
 
   .btn-confirm {
     width: 100%;
+  }
+
+  .field {
+    @include mt-list-border;
   }
 </style>

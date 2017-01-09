@@ -1,13 +1,15 @@
 <template lang="html">
-  <list :title="'消费记录'" class="circle-my">
-      <li v-for="history in historys">
-        <list-item
-          :item="history.name"
-          :date="date2YMDHMM(history.date)"
-          :price="history.price">
-        </list-item>
-      </li>
-  </list>
+  <div class="container">
+    <list :title="'消费记录'" class="circle-my">
+        <li v-for="history in historys">
+          <list-item
+            :item="history.name"
+            :date="date2YMDHMM(history.date)"
+            :price="history.price">
+          </list-item>
+        </li>
+    </list>
+  </div>
 </template>
 
 <script>
@@ -39,9 +41,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "../../assets/index.scss";
+
+  .container {
+    padding: 0 $horizontal-margin;
+    background-color: white;
+  }
+
   li {
     position: relative;
-    padding: 15px 0;
+    padding: $list-padding 0;
     border-bottom: 1px solid #dfdfdf;
   }
 </style>

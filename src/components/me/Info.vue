@@ -1,26 +1,26 @@
 <template lang="html">
   <div class="container">
-    <fz-input ref="nickname" v-model="nickname" label="昵称" type="nickname" :maxLength="10"></fz-input>
-    <fz-textarea ref="introduction" v-model="introduction" label="自我介绍" type="introduction" :maxLength="100"></fz-textarea>
-    <fz-input ref="realname" v-model="realname" label="真实姓名" type="realname" :maxLength="10"></fz-input>
-    <fz-input ref="school" v-model="school" label="毕业学校" type="school" :maxLength="10"></fz-input>
+    <fz-input ref="nickname" v-model="nickname" label="昵称" type="nickname" :maxLength="10" class="field"></fz-input>
+    <fz-textarea ref="introduction" v-model="introduction" label="自我介绍" type="introduction" :maxLength="100" class="field"></fz-textarea>
+    <fz-input ref="realname" v-model="realname" label="真实姓名" type="realname" :maxLength="10" class="field"></fz-input>
+    <fz-input ref="school" v-model="school" label="毕业学校" type="school" :maxLength="10" class="field"></fz-input>
     <!-- <fz-input ref="age" v-model="age" label="年龄" type="age" :maxLength="2" :regExp="'^\\d\\d$'"></fz-input> -->
-    <fz-input ref="height" v-model="height" label="身高" type="height" :maxLength="3" :regExp="'^\\d\\d\\d$'"></fz-input>
-    <fz-input ref="weight" v-model="weight" label="体重" type="weight" :maxLength="3" :regExp="'^\\d\\d$'"></fz-input>
-    <fz-input ref="income" v-model="income" label="年收入" type="income" :maxLength="20" :regExp="'^\\d+$'"></fz-input>
-    <address-picker label="出生地" v-model="birthplace"></address-picker>
-    <address-picker label="居住地" v-model="livingPlace"></address-picker>
-    <fz-singlepicler label="房子" :slotVals="selectHouse" v-model="house"></fz-singlepicler>
-    <fz-datepicker label="生日" v-model="birthday"></fz-datepicker>
-    <fz-singlepicler label="性别" :slotVals="selectSex" v-model="sex"></fz-singlepicler>
-    <fz-singlepicler label="血型" :slotVals="selectBloodtype" v-model="bloodtype"></fz-singlepicler>
-    <fz-singlepicler label="车" :slotVals="selectCar" v-model="car"></fz-singlepicler>
-    <fz-singlepicler label="学历" :slotVals="selectDegree" v-model="degree"></fz-singlepicler>
-    <fz-singlepicler label="信仰" :slotVals="selectFaith" v-model="faith"></fz-singlepicler>
-    <fz-singlepicler label="生肖" :slotVals="selectLunar" v-model="lunar"></fz-singlepicler>
-    <fz-singlepicler label="婚姻状况" :slotVals="selectMarriage" v-model="marriage"></fz-singlepicler>
-    <fz-singlepicler label="民族" :slotVals="selectNation" v-model="nation"></fz-singlepicler>
-    <fz-singlepicler label="星座" :slotVals="selectStarsign" v-model="starsign"></fz-singlepicler>
+    <fz-input ref="height" v-model="height" label="身高" type="height" :maxLength="3" :regExp="'^\\d\\d\\d$'" class="field"></fz-input>
+    <fz-input ref="weight" v-model="weight" label="体重" type="weight" :maxLength="3" :regExp="'^\\d\\d$'" class="field"></fz-input>
+    <fz-input ref="income" v-model="income" label="年收入" type="income" :maxLength="20" :regExp="'^\\d+$'" class="field"></fz-input>
+    <address-picker label="出生地" v-model="birthplace" class="field"></address-picker>
+    <address-picker label="居住地" v-model="livingPlace" class="field"></address-picker>
+    <fz-datepicker label="生日" v-model="birthday" class="field"></fz-datepicker>
+    <fz-singlepicler label="房子" :slotVals="selectHouse" v-model="house" class="field"></fz-singlepicler>
+    <fz-singlepicler label="性别" :slotVals="selectSex" v-model="sex" class="field"></fz-singlepicler>
+    <fz-singlepicler label="血型" :slotVals="selectBloodtype" v-model="bloodtype" class="field"></fz-singlepicler>
+    <fz-singlepicler label="车" :slotVals="selectCar" v-model="car" class="field"></fz-singlepicler>
+    <fz-singlepicler label="学历" :slotVals="selectDegree" v-model="degree" class="field"></fz-singlepicler>
+    <fz-singlepicler label="信仰" :slotVals="selectFaith" v-model="faith" class="field"></fz-singlepicler>
+    <fz-singlepicler label="生肖" :slotVals="selectLunar" v-model="lunar" class="field"></fz-singlepicler>
+    <fz-singlepicler label="婚姻状况" :slotVals="selectMarriage" v-model="marriage" class="field"></fz-singlepicler>
+    <fz-singlepicler label="民族" :slotVals="selectNation" v-model="nation" class="field"></fz-singlepicler>
+    <fz-singlepicler label="星座" :slotVals="selectStarsign" v-model="starsign" class="field"></fz-singlepicler>
     <mt-button type="primary" class="submit-btn" @click="handleSubmit">提交</mt-button>
   </div>
 </template>
@@ -104,10 +104,13 @@ export default {
           starsign: utils.value2Key(this.selectableItems.starsign, this.starsign),
           weight: this.weight
         }
+        this.openIndicator()
         api.sendMeInfo(this.$store.state.MeState.uid, data).then(response => {
-          // 跳转
+          this.handleSuccess('EDIT_BASIC_SUCCESS')
+          this.$router.push('/me')
         }).catch(response => {
-          // TODO 错误处理
+          console.error(response)
+          this.handleFail('EDIT_BASIC_FAIL')
         })
       }
     }
@@ -159,7 +162,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .container > * {
+  @import "../../assets/index.scss";
+  .field {
+    border-top: 1px solid $mt-border-color;
+    &:first-child {
+      border-top: none;
+    }
+
+    .mint-cell .mint-cell-wrapper {
+      background-image: none !important;
+    }
   }
 
   .container {

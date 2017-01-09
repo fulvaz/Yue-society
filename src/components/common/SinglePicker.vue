@@ -64,7 +64,6 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/var.scss";
 .container {
-  border-bottom: 1px solid $border-color;
 }
 
 .popup {

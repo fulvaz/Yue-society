@@ -445,9 +445,9 @@ export const takePartIn = function (msg) {
   })
 }
 
-export const authCircle = function () {
+export const authCircle = function (circleId) {
   return new Promise((resolve, reject) => {
-    vue.http.get(config.authCircle).then(response => {
+    vue.http.get(config.authCircle + '/' + circleId).then(response => {
       resolve(response)
     }, response => {
       reject(response)

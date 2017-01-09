@@ -64,10 +64,11 @@ export default {
         price: this.price * month,
         month
       }
+      this.openIndicator()
       api.buyVip(data).then(res => {
-        // TODO 提示信息
+        this.handleSuccess('PAY_SUCCESS')
       }).catch(res => {
-        // TODO 提示信息
+        this.handleFail('PAY_FAIL')
       })
     }
   }
@@ -78,6 +79,7 @@ export default {
   .container {
     box-sizing: border-box;
     padding: 18px;
+    background-color: white;
   }
 
   .submit {

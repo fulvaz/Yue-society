@@ -16,13 +16,15 @@ const state = {
 }
 
 const actions = {
-  fetchMeState (context, callback) {
-    api.fetchStateInfo().then(response => {
-      context.commit('SAVE_ME_STATE', response)
-      if (callback) callback()
-    }).catch(response => {
-      if (callback) callback()
-      console.error(response)
+  fetchMeState (context) {
+    return new Promise((resolve, reject) => {
+      api.fetchStateInfo().then(response => {
+        context.commit('SAVE_ME_STATE', response)
+        resolve(response)
+      }).catch(response => {
+        reject(response)
+        console.error(response)
+      })
     })
   },
   readMsg (context, val) {

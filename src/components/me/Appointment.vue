@@ -1,5 +1,7 @@
 <template lang="html">
+  <div class="container">
     <user-list title="我约见过的人" :users="users"></user-list>
+  </div>
 </template>
 
 <script>
@@ -23,5 +25,8 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+  @import "../../assets/index.scss";
+  .container {
+  }
 </style>

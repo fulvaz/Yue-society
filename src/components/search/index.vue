@@ -38,6 +38,7 @@ export default {
 <style lang="scss" scoped>
   @import "../../assets/index.scss";
   .main {
+    background-color: white;
     padding: 0 $horizontal-margin;
   }
   .tag-module {

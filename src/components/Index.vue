@@ -15,7 +15,7 @@
             <mt-tab-container-item id="tab-circleRecommend">
               <list class="circleRecommend">
                   <li v-for="circle in circleRecommend" class="recommend">
-                    <router-link :to="`/activities/${circle.id}`">
+                    <router-link :to="`/circles/${circle.id}`">
                       <list-item
                         :content-title="circle.contentTitle"
                         :content-subtitle="circle.contentSubtitle"
@@ -115,8 +115,7 @@
           })
           this.activityRecommend = this.activityRecommend.concat(tmp)
         }).catch((err) => {
-          console.log('connection err')
-          console.log(err)
+          console.error(err)
         })
       },
       fetchCircleRecommend () {
@@ -132,8 +131,7 @@
           })
           this.circleRecommend = this.circleRecommend.concat(tmp)
         }).catch((e) => {
-          console.log('connection err')
-          console.log(e)
+          console.error(e)
         })
       },
       fetchActivitiesRecommend () {
@@ -165,7 +163,7 @@
           this.userRecommend = this.userRecommend.concat(response)
           this.busy = false
         }).catch((err) => {
-          console.log(err)
+          console.error(err)
         })
       },
       loadMore () {
@@ -181,7 +179,8 @@
   @import "../assets/util.scss";
   @import "../assets/var.scss";
   .tab-container {
-    margin: 0 $horizontal-margin;
+    padding: 0 $horizontal-margin;
+    background-color: white;
   }
   #navbar {
     margin-bottom: 5px; // 避免挡住下方边框

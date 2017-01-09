@@ -53,6 +53,7 @@ export default {
 
 <style lang="scss" scoped>
   .container {
+    background-color: white;
     box-sizing: border-box;
     padding: 18px;
   }

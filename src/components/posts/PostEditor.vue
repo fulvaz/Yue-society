@@ -41,12 +41,14 @@ export default {
         date: (new Date()).toString(),
         type: '交友' // TODO 应该可以选!
       }
+      this.openIndicator()
       api.newPost(data).then(response => {
-        // TODO 提示信息
+        this.handleSuccess('NEW_POST_SUCCESS')
         this.$emit('input', data)
         this.close()
       }).catch(response => {
         console.error(response)
+        this.handleFail('NEW_POST_FAIL')
       })
     },
     close () {
