@@ -564,10 +564,18 @@ module.exports = function() {
 	data.right = {right: true}
 	data.activitiesJoined = genActivitiesJoined()
 	data.consumeHistory = genConsumeHistory()
-	data.vipPage = {
-		price: 10,
-		items: [1, 3, 6, 12, 24]
-	}
+	data.vipPage = [
+	  {
+	    id:1,
+	    month:3,
+	    price:1.99
+	  },
+	  {
+	    id:2,
+	    month:6,
+	    price:6.99
+	  }
+	]
 	// 用来测试提交数据是否成功提交
 	data.postData = []
 	data.appointmentPage = genAppointmentPage()

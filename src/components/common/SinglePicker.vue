@@ -29,6 +29,7 @@ export default {
   },
   data () {
     return {
+      firstRun: true, // 只能用这种方法来解决一个坑 [捂脸] setSlotValues也会触发change, 导致一初始化就将获得的数据改为错误值
       visible: false,
       slotPicker: []
     }
@@ -41,17 +42,23 @@ export default {
       // 通过picker的内部api设置values
       if (this.slotVals === undefined) return
       let arr = this.slotVals.map(e => e)
-      this.$refs.picker.setSlotValues(0, arr)
+      this.$refs.picker.setSlotValues(0, arr) // 也会触发change
     }
   },
   methods: {
     onChange (picker, values) {
       // 组件的一个小bug 以后再说
+      if (this.firstRun) {
+        this.firstRun = false
+        return
+      }
+      console.log('change! ' + values[0])
       this.$emit('input', values[0])
     },
     handleClick () {
+      // 在选择框选中获取值
+      if (this.value !== undefined) this.$refs.picker.setSlotValue(0, this.value)
       this.visible = true
-      if (this.value && this.value !== 0) this.$refs.picker.setSlotValue(this.value)
     },
     open () {
       this.visible = true

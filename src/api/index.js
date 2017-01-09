@@ -279,6 +279,16 @@ export const getAppointments = function () {
   })
 }
 
+export const getAppointed = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.meAppointed).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
 export const getRecommend = function () {
   return new Promise((resolve, reject) => {
     vue.http.get(config.recommend).then(response => {
@@ -456,6 +466,7 @@ export const authCircle = function (circleId) {
 }
 
 export const getCircleInfo = function (id) {
+  console.log(`${config.circlesApi}/${id}`)
   return new Promise((resolve, reject) => {
     vue.http.get(`${config.circlesApi}/${id}`).then((response) => {
       resolve(response)

@@ -2,9 +2,9 @@
   <div class="container">
     <address-picker label="出生地" v-model="birthplace" class="field"></address-picker>
     <address-picker label="居住地" v-model="livingPlace" class="field"></address-picker>
-    <picker v-model="ageRange" label="年龄范围" :picker="agePicker.picker" :slotVal="agePicker.data" class="field"></picker>
-    <picker v-model="weightRange" label="体重范围" :picker="weightPicker.picker" :slotVal="weightPicker.data" class="field"></picker>
-    <picker v-model="heightRange" label="身高范围" :picker="heightPicker.picker" :slotVal="heightPicker.data" class="field"></picker>
+    <num-range-picker v-model="ageRange" label="年龄范围" :slotVal="ageList" class="field"></num-range-picker>
+    <num-range-picker v-model="weightRange" label="体重范围" :slotVal="weightList" class="field"></num-range-picker>
+    <num-range-picker v-model="heightRange" label="身高范围" :slotVal="heightList" class="field"></num-range-picker>
     <!-- 代码凌乱的原因是我老是在改架构却不肯重构 update: 总算没那么乱了 -->
     <num-range-picker v-model="revenueRange" label="收入范围" :slotVal="revenuelist" class="field"></num-range-picker>
     <num-range-picker v-model="degreeRange" label="学历范围" :slotVal="degreeList" class="field"></num-range-picker>
@@ -21,9 +21,9 @@ import NumRangePicker from '../common/NumRangePicker'
 import AddressPicker from '../common/AddressPicker'
 // import {value2Id} from '../../utils/utils.js'
 
-const ageList = utils.genAgeObj(18, 60)
-const weightList = utils.genAgeObj(30, 100)
-const heightList = utils.genAgeObj(120, 200)
+const ageList = utils.rangeArr(18, 60)
+const weightList = utils.rangeArr(30, 100)
+const heightList = utils.rangeArr(120, 200)
 // const revenuelist = {
 //   1000: ['1000', '3000', '5000', '7000', '8000', '9000', '10000'],
 //   3000: ['5000', '7000', '8000', '9000', '10000']
@@ -56,23 +56,9 @@ export default {
       endrevenue: 0,
       birthplace: '',
       selectableItem: {},
-      ageRange: [],
-      agePicker: {
-        picker: utils.pickerHelper([Object.keys(ageList), ageList[Object.keys(ageList)[0]]]),
-        data: {...ageList}
-      },
-      weightPicker: {
-        picker: utils.pickerHelper([Object.keys(weightList), weightList[Object.keys(weightList)[0]]]),
-        data: {...weightList}
-      },
-      heightPicker: {
-        picker: utils.pickerHelper([Object.keys(heightList), heightList[Object.keys(heightList)[0]]]),
-        data: {...heightList}
-      },
-      // revenuePicker: {
-      //   picker: utils.pickerHelper([Object.keys(revenuelist), revenuelist[Object.keys(revenuelist)[0]]]),
-      //   data: {...revenuelist}
-      // },
+      ageList: ageList,
+      weightList: weightList,
+      heightList: heightList,
       revenuelist: revenuelist,
       degreeSelect: {}
     }
@@ -85,6 +71,15 @@ export default {
       set (val) {
         this.startweight = val[0]
         this.endweight = val[1]
+      }
+    },
+    ageRange: {
+      get () {
+        return [this.startage, this.endage]
+      },
+      set (val) {
+        this.startage = val[0]
+        this.endage = val[1]
       }
     },
     heightRange: {
@@ -148,16 +143,16 @@ export default {
         endrevenue: this.endrevenue,
         birthplace: this.birthplace
       }
-      updateSpouse(this.id, data).catch(res => {
+      updateSpouse(this.id, data).then(res => {
+        this.handleSuccess('EDIT_CONDITION_SUCCESS')
+        this.$router.push('/me')
+      }).catch(res => {
+        this.handleFail('EDIT_CONDITION_FAIL')
         console.err(res)
       })
     }
   },
   watch: {
-    ageRange: function (newRange) {
-      this.startage = newRange[0]
-      this.endage = newRange[1]
-    }
   },
   beforeRouteEnter (to, from, next) {
     let lastData = null

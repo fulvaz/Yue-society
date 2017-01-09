@@ -1,35 +1,52 @@
 <template lang="html">
-  <div v-show="show" class="container">
+  <div v-show="show" class="post-editor-container">
     <header>
       <span class="title">圈子发言</span>
       <button class="send-btn btn" @click="handleSend">发布</button>
       <button class="close-btn btn" @click="close">关闭</button>
     </header>
     <section class="editor">
-      <input type="text" name="title" v-model="title" class="title" placeholder="标题">
-      <textarea name="content" placeholder="正文" class="content" v-model="content"></textarea>
+      <input type="text" name="title" v-model="title" class="title" placeholder="标题" v-validate data-vv-rules="required">
+      <span class="errMsg" v-show="errors.has('title')">{{ errors.first('title') }}</span>
+      <textarea name="content" placeholder="正文" class="content" v-model="content" v-validate data-vv-rules="required"></textarea>
+      <span class="errMsg" v-show="errors.has('content')">{{ errors.first('content') }}</span>
     </section>
     <section class="functions">
-
+      <fz-picker class="type" label="帖子类型" v-model="type" :slotVals="Object.values(category)"></fz-picker>
     </section>
   </div>
 </template>
 
 <script>
 import * as api from '../../api/index.js'
+import * as utils from '../../utils/utils.js'
+import SinglePicker from '../common/SinglePicker'
 let that
 export default {
+  components: {
+    'fz-picker': SinglePicker
+  },
   props: {
+    category: {
+      type: Object,
+      default: {}
+    }
   },
   data () {
     return {
       show: false,
       title: '',
-      content: ''
+      content: '',
+      type: ''
     }
   },
   created () {
-    that = this
+    that = this // 给全局函数使用
+  },
+  watch: {
+    category () {
+      this.type = Object.values(this.category)[0]
+    }
   },
   methods: {
     handleSend (e) {
@@ -39,16 +56,22 @@ export default {
         uid: this.$store.state.MeState.uid,
         circleId: parseInt(this.$route.params.id),
         date: (new Date()).toString(),
-        type: '交友' // TODO 应该可以选!
+        type: parseInt(utils.value2Key(this.category, this.type))
       }
-      this.openIndicator()
-      api.newPost(data).then(response => {
-        this.handleSuccess('NEW_POST_SUCCESS')
-        this.$emit('input', data)
-        this.close()
-      }).catch(response => {
-        console.error(response)
-        this.handleFail('NEW_POST_FAIL')
+      this.$validator.validateAll().then(success => {
+        if (!success) return
+        this.openIndicator()
+        api.newPost(data).then(response => {
+          this.handleSuccess('NEW_POST_SUCCESS')
+          this.$emit('input', data)
+          // 清空输入框
+          this.title = ''
+          this.content = ''
+          this.close()
+        }).catch(response => {
+          console.error(response)
+          this.handleFail('NEW_POST_FAIL')
+        })
       })
     },
     close () {
@@ -66,11 +89,12 @@ export default {
 
 
 <style lang="scss" scoped>
-  @import '../../assets/util.scss';
-  .container {
+  @import '../../assets/index.scss';
+  .post-editor-container {
     z-index: 1000;
     position: fixed;
     box-sizing: border-box;
+    background-color: white;
     top: 0;
     left: 0;
     width: 100vw;
@@ -140,5 +164,13 @@ export default {
       height: 45px;
       border-bottom: 1px solid #F2F2F2;
       border-top: 1px solid #F2F2F2;
+
+      .type {
+        border: $list-border;
+      }
+  }
+
+  .errMsg {
+    @include errMsg;
   }
 </style>

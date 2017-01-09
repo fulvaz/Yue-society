@@ -25,13 +25,15 @@
         <tab-item :id="category" v-for="category in postCategory" class="navbar-item">{{category}}</tab-item>
       </nav-bar>
 
-      <tab-container v-model="tabActive" v-infinite-scroll="fetchPosts" infinite-scroll-distance="10" infinite-scroll-disabled="loadPostBusy">
+      <tab-container v-model="tabActive">
+        <!-- 不同选项的Container -->
         <tab-container-item v-for="category in postCategory" :id="category" class="post-container" >
           <router-link v-for="post in postsWithCategory[category]" :to="`/posts/${post.id}`" class="post">
             <post-cell :avatar="post.authorAvator" :title="post.title" :date="dateFormat(post.date)" :author="post.author"></post-cell>
           </router-link>
+          <button type="button" name="more" class="btn-more" @click="fetchPosts" disabled="!canLoadmore">点击更多</button>
         </tab-container-item>
-
+        <!-- 活动的Container -->
         <tab-container-item id="活动" class="post-container" >
           <router-link v-for="act in activities" :to="`/activities/${act.id}`" class="post">
             <post-cell :avatar="act.logo" :title="act.title" :date="dateFormat(act.date)" :author="act.location"></post-cell>
@@ -40,13 +42,13 @@
       </tab-container>
     </section>
 
-    <fz-editor v-model="postNew"></fz-editor>
+    <fz-editor v-model="postNew" :category="postCategory"></fz-editor>
   </div>
 </template>
 
 <script>
   // import Config from '../../config/setting'
-  import { TabContainer, TabContainerItem, Navbar, TabItem } from 'mint-ui'
+  import { TabContainer, TabContainerItem, Navbar, TabItem, Loadmore } from 'mint-ui'
   import PostCell from '../common/PostCell'
   import dateformat from 'dateformat'
   import MessageBox from '../common/MessageBox/MessageBox.js'
@@ -61,12 +63,12 @@
         'auth': false,
         'circleName': '',
         'news': '',
-        'postCategory': Object,
+        'postCategory': {},
         'memberNum': '',
         'CServices': [],
         'tabActive': '',
         posts: [],
-        loadPostBusy: false,
+        canLoadmore: true,
         postPage: 0,
         actPage: 0,
         postNew: '',
@@ -74,6 +76,7 @@
       }
     },
     components: {
+      'mt-loadmore': Loadmore,
       'tab-container': TabContainer,
       'tab-container-item': TabContainerItem,
       'post-cell': PostCell,
@@ -94,7 +97,7 @@
         console.error(response)
       })
       this.fetchPosts()
-      this.tabActive = '交友' // 导航页切换到第一页
+      this.tabActive = '活动' // 导航页切换到第一页
     },
     computed: {
       postsWithCategory () {
@@ -173,6 +176,7 @@
       //   })
       // },
       fetchPosts: function () {
+        this.openIndicator('加载中...')
         // 这个方案好蠢, 但是先用着
         const postPerPage = 20
         this.loadPostBusy = true
@@ -184,19 +188,17 @@
           post = remoteData
           return api.getCircleActivity(this.$route.params.id, this.actPage++, postPerPage)
         }).then(response => {
+          this.closeIndicator()
+          // 数据为空
+          if (response.length === 0) {
+            this.openIndicator('已经没有新帖子了', true)
+          }
+
           // 处理数据
           this.posts = this.posts.concat(post)
           this.activities = this.activities.concat(utils.response2Data(response))
-
-          // 处理懒加载问题
-          if (post.length === 0) {
-            window.setTimeout(e => {
-              this.loadPostBusy = false
-            }, 5000)
-            return
-          }
-          this.loadPostBusy = false
         }).catch(response => {
+          this.closeIndicator()
           console.error(response)
         })
       }
@@ -277,6 +279,16 @@
     .post-container {
       padding: 0 $horizontal-margin;
       box-sizing: border-box;
+    }
+
+    .btn-more {
+      width: 100%;
+      height: 40px;
+      font-size: $description-size;
+      color: $description-color;
+      border: none;
+      background: transparent;
+      border-bottom: $list-border;
     }
 
     .post {

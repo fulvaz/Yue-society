@@ -45,11 +45,10 @@ export default {
   created () {
     api.getBuyVipPage().then(response => {
       let data = utils.response2Data(response)
-      this.price = data.price
-      this.radioOptions = data.items.map(e => {
+      this.radioOptions = data.map(e => {
         return {
-          label: e + ' 个月',
-          value: '' + e
+          label: e.month + ' 个月' + '   ' + e.price + '元',
+          value: e.id + ''
         }
       })
     }).catch(response => {
@@ -58,11 +57,9 @@ export default {
   },
   methods: {
     handlePay () {
-      let month = parseInt(this.depositeVal)
       let data = {
         uid: this.$store.state.MeState.uid,
-        price: this.price * month,
-        month
+        vipType: parseInt(this.depositeVal)
       }
       this.openIndicator()
       api.buyVip(data).then(res => {

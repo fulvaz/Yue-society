@@ -14,9 +14,7 @@
 </template>
 
 <script>
-// 1. 在created内赋初值
-// 2. 这个空间初始化后values的值不是响应式的，所以异步获取的数据，需要手动更新一遍values
-// 3. 必须先初始化picker，后面直接修改picker会导致UI错乱
+// 这个组件的坑在于, 必须必须使用picker内部的方法去修改values, 否则不会触发更新
 import { Picker, Field, Popup } from 'mint-ui'
 import * as utils from '../../utils/utils.js'
 import config from '../../config/setting.js'
@@ -64,7 +62,7 @@ export default {
       if (!values[0]) values[0] = this.value[0] + ''
 
       // 如果左值大于右值，则重新设定右值
-      // 如果不指定具体值，而是比较index，组件通用性会强得多
+      // 如果不指定具体值，而是比较index，组件通用性会强得多, 但是要求数组必须是有序数组
 
       if (this.slotVal.indexOf(values[1]) < this.slotVal.indexOf(values[0])) picker.setSlotValue(1, values[0])
 

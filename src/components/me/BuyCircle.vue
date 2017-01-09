@@ -45,11 +45,10 @@ export default {
   created () {
     api.getBuyCirclePage().then(response => {
       let data = utils.response2Data(response)
-      this.price = data.price
-      this.radioOptions = data.items.map(e => {
+      this.radioOptions = data.map(e => {
         return {
-          label: e + ' 个月',
-          value: '' + e
+          label: e.month + ' 个月' + '   ' + e.price + '元',
+          value: e.id + ''
         }
       })
     }).catch(response => {
@@ -58,12 +57,10 @@ export default {
   },
   methods: {
     handlePay () {
-      let month = parseInt(this.depositeVal)
       let data = {
         uid: this.$store.state.MeState.uid,
-        circieId: parseInt(this.$route.params.id),
-        price: this.price * month,
-        month
+        circleId: parseInt(this.$route.params.id),
+        serviceId: parseInt(this.depositeVal)
       }
       this.openIndicator()
       api.buyCircle(data).then(res => {

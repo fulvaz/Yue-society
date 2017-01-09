@@ -1,6 +1,4 @@
-'use strict';
-
-var dev = false;
+var dev = true;
 var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.resontek.com';
 
 var pageFilter = dev ? '_page' : 'page';
@@ -53,7 +51,8 @@ var devApis = {
   'buyCircle': apiPrefix + '/postData',
   'makeAppointment': apiPrefix + '/postData',
   // new
-  'meAppointments': apiPrefix + '/meRecommend'
+  'meAppointments': apiPrefix + '/meRecommend',  // 我约的人页面
+  'meAppointed': apiPrefix + '/meRecommend' // 约我的人页面
 };
 
 var apis = {
@@ -89,7 +88,8 @@ var apis = {
   'unfocus': apiPrefix + '/users/unFollow', // 取消关注某人
   'newPost': apiPrefix + '/posts/add', // 创建新帖子
   'activityApi': apiPrefix + '/activities', // 获取某个活动的信息
-  'takePartInActivites': apiPrefix + '/circles/activity/attend' //参加某个活动
+  'takePartInActivites': apiPrefix + '/circles/activity/attend', //参加某个活动
+  'authCircle': apiPrefix + '/posts/right'
 };
 
 var api = dev ? devApis : apis;

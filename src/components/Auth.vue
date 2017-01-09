@@ -15,9 +15,7 @@ export default {
     let dest = config.authPath + '?redirectUrl=' + redirect + '&timestamp=' + Math.random()
     // if (process.env.NODE_ENV === 'development') dest = config.authPath + '?test=yzy' + '&redirectUrl=' + redirect + '&timestamp=' + Math.random()
     console.log(dest)
-    setTimeout(e => {
-      window.location = dest
-    }, 5000)
+    window.location.href = dest
   }
 }
 </script>

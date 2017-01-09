@@ -169,9 +169,11 @@ export default {
       border-top: none;
     }
 
-    .mint-cell .mint-cell-wrapper {
-      background-image: none !important;
-    }
+    background-color: white;
+
+    // .mint-cell .mint-cell-wrapper {
+    //   background-image: none !important;
+    // }
   }
 
   .container {

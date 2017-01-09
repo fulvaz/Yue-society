@@ -22,13 +22,16 @@
       <fz-icon-item label="择偶条件" to="spouse" class="icon icon-condition" :append="true">
         <i slot="icon" class="fa fa-heart fa-2x icon-condition" aria-hidden="true"></i>
       </fz-icon-item>
-      <fz-icon-item label="购买服务" to="service" class="icon" :append="true">
+      <fz-icon-item label="vip" to="service" class="icon" :append="true">
         <i slot="icon" class="fa fa-hand-o-down fa-2x icon-service" aria-hidden="true"></i>
       </fz-icon-item>
       <fz-icon-item label="推荐人" to="recommend" class="icon" :append="true">
         <i slot="icon" class="fa fa-users fa-2x icon-recommend" aria-hidden="true"></i>
       </fz-icon-item>
       <fz-icon-item label="约见过" to="appointment" class="icon" :append="true">
+        <i slot="icon" class="fa fa-user-circle fa-2x icon-info" aria-hidden="true"></i>
+      </fz-icon-item>
+      <fz-icon-item label="谁约过我" to="appointed" class="icon" :append="true">
         <i slot="icon" class="fa fa-user-circle fa-2x icon-info" aria-hidden="true"></i>
       </fz-icon-item>
       <fz-icon-item label="已参加活动" to="activitiesJoined" class="icon" :append="true">

@@ -14,9 +14,12 @@ let msgs = {
   'APPLY_CIRCLE_SUCCESS': '已发送申请',
   'APPLY_CIRCLE_FAIL': '网络错误, 请稍后重试',
   'PAY_SUCCESS': '购买成功',
+  'PAY_BALANCE_NOT_ENOUGH': '余额不足',
   'PAY_FAIL': '购买失败',
-  'EDIT_BASIC_SUCCESS': '修改个人信息成功',
-  'EDIT_BASIC_FAIL': '修改个人信息失败, 请重试',
+  'EDIT_BASIC_SUCCESS': '更新个人信息成功',
+  'EDIT_BASIC_FAIL': '更新个人信息失败, 请重试',
+  'EDIT_CONDITION_SUCCESS': '更新择偶条件成功',
+  'EDIT_CONDITION_FAIL': '网络错误, 请稍后重试',
   'APPOINTMENT_REQ_SUCCESS': '发送约会请求成功',
   'APPOINTMENT_REQ_FAIL': '网络错误, 请稍后重试',
   'UPLOAD_IMAGE_SUCCESS': '上传图片成功',
@@ -35,8 +38,8 @@ function toastNetErrMsg (code) {
   toastMsg(code + ' - 网络错误', true)
 }
 
-function openIndicator () {
-  Indicator.open()
+function openIndicator (msg) {
+  Indicator.open(msg)
 }
 
 function closeIndicator () {

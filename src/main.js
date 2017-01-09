@@ -29,6 +29,7 @@ import Focused from 'components/me/Focused'
 import Deposite from 'components/me/Deposite'
 import Recommend from 'components/me/Recommend'
 import MeAlbum from 'components/me/Album'
+import MeAppointed from 'components/me/Appointed'
 import BuyCircle from 'components/me/BuyCircle'
 import User from 'components/user/User'
 import Album from 'components/Album'
@@ -95,6 +96,7 @@ const routes = [
   {path: '/me/consumeHistory', component: ConsumeHistory},
   {path: '/me/service', component: Service},
   {path: '/me/buyCircle/:id', component: BuyCircle},
+  {path: '/me/appointed', component: MeAppointed},
   {path: '/test', component: Test},
   {path: '/posts/:id', component: Post},
   {path: '/auth', component: Auth},
@@ -118,7 +120,14 @@ router.beforeEach((to, from, next) => {
   if (to.path !== '/auth') {
     // 如果在本地测试登录功能, 你需要注释下面这行, 然后将下下行解除注释
     let cookieAuth = utils.getCookie(document.cookie).auth
-    if (cookieAuth && cookieAuth === 'false' && !config.dev) next('/auth')
+    if (config.dev) {
+      store.dispatch('itemClicked', config.tabbarItems[to.path])
+      store.dispatch('fetchMeState').then(res => {
+        next()
+      })
+      return
+    }
+    if (cookieAuth === undefined || cookieAuth === 'false') next('/auth')
     // if (!utils.getCookie(document.cookie).auth) next('/auth')
     else {
       // 业务逻辑
