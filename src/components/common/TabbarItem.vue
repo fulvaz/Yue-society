@@ -26,7 +26,8 @@
         return this.$store.state.TabState.idSelected
       },
       selected () {
-        let ifClicked = this.id === this.idSelected
+        // let ifClicked = this.id === this.idSelected
+        let ifClicked = false
         let ifRoute = this.id === config.tabbarItems[this.$route.path] // 高优先级
         // console.log(ifRoute || ifClicked)
         return ifRoute || ifClicked
@@ -50,7 +51,7 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/util.scss";
+  @import "../../assets/index.scss";
   .tabbar-item-wrapper {
     .icons {
       display: block;

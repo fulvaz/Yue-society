@@ -5,9 +5,9 @@
     <fz-input ref="realname" v-model="realname" label="真实姓名" type="realname" :maxLength="10" class="field"></fz-input>
     <fz-input ref="school" v-model="school" label="毕业学校" type="school" :maxLength="10" class="field"></fz-input>
     <!-- <fz-input ref="age" v-model="age" label="年龄" type="age" :maxLength="2" :regExp="'^\\d\\d$'"></fz-input> -->
-    <fz-input ref="height" v-model="height" label="身高" type="height" :maxLength="3" :regExp="'^\\d\\d\\d$'" class="field"></fz-input>
-    <fz-input ref="weight" v-model="weight" label="体重" type="weight" :maxLength="3" :regExp="'^\\d\\d$'" class="field"></fz-input>
-    <fz-input ref="income" v-model="income" label="年收入" type="income" :maxLength="20" :regExp="'^\\d+$'" class="field"></fz-input>
+    <fz-input ref="height" v-model="height" label="身高" type="height" :maxLength="3" :regExp="'^\\d\\d\\d$'" class="field" valAppend="厘米"></fz-input>
+    <fz-input ref="weight" v-model="weight" label="体重" type="weight" :maxLength="3" :regExp="'^\\d\\d$'" class="field" valAppend="公斤"></fz-input>
+    <fz-input ref="income" v-model="income" label="年收入" type="income" :maxLength="20" :regExp="'^\\d+$'" class="field" valAppend="万元"></fz-input>
     <address-picker label="出生地" v-model="birthplace" class="field"></address-picker>
     <address-picker label="居住地" v-model="livingPlace" class="field"></address-picker>
     <fz-datepicker label="生日" v-model="birthday" class="field"></fz-datepicker>
@@ -75,6 +75,7 @@ export default {
     })
   },
   methods: {
+
     handleSubmit () {
       this.ifValid = Object.values(validState).reduce((acc, curr) => {
         return acc && curr
@@ -86,22 +87,22 @@ export default {
           birthday: this.birthday,
           introduction: this.introduction,
           birthplace: this.birthplace,
-          bloodtype: utils.value2Key(this.selectableItems.bloodtype, this.bloodtype),
-          car: utils.value2Key(this.selectableItems.car, this.car),
-          degree: utils.value2Key(this.selectableItems.degree, this.degree),
-          faith: utils.value2Key(this.selectableItems.faith, this.faith),
+          bloodtype: this.bloodtype,
+          car: utils.value2Id(this.selectableItems.car, this.car),
+          degree: utils.value2Id(this.selectableItems.degree, this.degree),
+          faith: utils.value2Id(this.selectableItems.faith, this.faith),
           height: this.height,
-          house: utils.value2Key(this.selectableItems.house, this.house),
+          house: utils.value2Id(this.selectableItems.house, this.house),
           income: this.income,
           livingPlace: this.livingPlace,
-          lunar: utils.value2Key(this.selectableItems.lunar, this.lunar),
-          marriage: utils.value2Key(this.selectableItems.marriage, this.marriage),
-          nation: utils.value2Key(this.selectableItems.nation, this.nation),
+          lunar: utils.value2Id(this.selectableItems.lunar, this.lunar),
+          marriage: utils.value2Id(this.selectableItems.marriage, this.marriage),
+          nation: utils.value2Id(this.selectableItems.nation, this.nation),
           nickname: this.nickname,
           realname: this.realname,
           school: this.school,
-          sex: utils.value2Key(this.selectableItems.sex, this.sex),
-          starsign: utils.value2Key(this.selectableItems.starsign, this.starsign),
+          sex: utils.value2Id(this.selectableItems.sex, this.sex),
+          starsign: utils.value2Id(this.selectableItems.starsign, this.starsign),
           weight: this.weight
         }
         this.openIndicator()

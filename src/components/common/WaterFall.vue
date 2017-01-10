@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "../../assets/util.scss";
+  @import "../../assets/index.scss";
   .fz-waterfall-container {
     @include clearfix();
     margin: 0 18px;

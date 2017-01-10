@@ -579,5 +579,22 @@ module.exports = function() {
 	// 用来测试提交数据是否成功提交
 	data.postData = []
 	data.appointmentPage = genAppointmentPage()
+	data.register =
+	{
+    uid:1,
+    nickname:"hei",
+    avatar: f.images.avatar(),
+    location:"广东-广州",
+    userType:
+		{
+	    1:交友,
+	    2:相亲,
+	    3:闲逛
+		}
+	}
+	data.getVerify = {
+		errcode:0,
+    errmsg:"验证码发送成功"
+	}
 	return data;
 }

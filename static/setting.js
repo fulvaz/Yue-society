@@ -1,4 +1,4 @@
-var dev = true;
+var dev = false;
 var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.resontek.com';
 
 var pageFilter = dev ? '_page' : 'page';
@@ -52,7 +52,10 @@ var devApis = {
   'makeAppointment': apiPrefix + '/postData',
   // new
   'meAppointments': apiPrefix + '/meRecommend',  // 我约的人页面
-  'meAppointed': apiPrefix + '/meRecommend' // 约我的人页面
+  'meAppointed': apiPrefix + '/meRecommend', // 约我的人页面
+  'getReg': apiPrefix + '/register',
+  'sendReg': apiPrefix + '/postData',
+  'getVerify': apiPrefix + '/getVerify'
 };
 
 var apis = {

@@ -596,3 +596,33 @@ export const getAppointmentPageInfo = function (uid) {
     })
   })
 }
+
+export const getReg = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(`${config.getReg}`).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getVerify = function (mobile) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(`${config.getVerify}/${mobile}`).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const sendReg = function (data) {
+  return new Promise((resolve, reject) => {
+    vue.http.post(`${config.reg}`, data).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}

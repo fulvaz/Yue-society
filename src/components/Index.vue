@@ -201,7 +201,7 @@
   }
 
   .my-swipe {
-      height: 100px;
+      height: 25vh;
       width: 100%;
       color: #fff;
       font-size: 30px;

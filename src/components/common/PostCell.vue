@@ -20,7 +20,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import "../../assets/util.scss";
+    @import "../../assets/index.scss";
     .slider-item {
         width: 100%;
         margin-right: 10px;

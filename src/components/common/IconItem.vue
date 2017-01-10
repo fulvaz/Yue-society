@@ -36,7 +36,7 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/util.scss";
+  @import "../../assets/index.scss";
   .tabbar-item-wrapper {
     .icons {
       display: flex;

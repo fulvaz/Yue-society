@@ -3,8 +3,8 @@
     <div class="wrapper">
       <label class="label" for="select">{{label}}</label>
       <div class="input">
-        <input type="text" name="" :value="value" @input="handleChange" v-on:blur="validate" :class="{error: maxErr || nullErr || otherErr}">
-        <span class="append">{{valAppend}}</span>
+        <input type="text" name="" :value="value" @input="handleChange">
+        <span class="append" v-if="valAppend.length != 0">{{valAppend}}</span>
       </div>
     </div>
       <span class="errMsg" v-if="nullErr">不能为空</span>
@@ -14,9 +14,7 @@
 </template>
 
 <script>
-// 依赖valid-state.js以检查状态
 // import * as utils from '../../utils/utils.js'
-import validState from './valid-state.js'
 export default {
   props: {
     type: {
@@ -25,10 +23,6 @@ export default {
     value: '',
     label: '',
     valAppend: '',
-    maxLength: {
-      default: 10,
-      required: true
-    },
     regExp: {
       default: '.*'
     }
@@ -43,19 +37,6 @@ export default {
   methods: {
     handleChange (event) {
       this.$emit('input', event.target.value)
-    },
-    validate (event) {
-      if (this.value.length === 0) this.nullErr = true
-      else this.nullErr = false
-      if (this.value.length > this.maxLength) this.maxErr = true
-      else this.maxErr = false
-      if (this.regExp && (new RegExp(this.regExp)).test(this.value)) this.otherErr = false
-      else this.otherErr = true
-
-      // 修改全局状态 这里就不要用vuex了, 不作死, 上次的代码已经没法维护了
-      let ifErr = this.nullErr || this.maxErr
-      if (ifErr) validState.nickname = false
-      else validState.nickname = true
     }
   }
 }

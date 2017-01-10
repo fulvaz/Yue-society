@@ -45,8 +45,7 @@ export default {
 <style lang="scss">
   @import "~normalize-scss/sass/_normalize.scss";
   @import '~font-awesome/scss/font-awesome.scss';
-  @import "assets/util.scss";
-  @import "assets/var.scss";
+  @import "assets/index.scss";
 
   @include normalize;
   body {

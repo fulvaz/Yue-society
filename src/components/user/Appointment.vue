@@ -40,7 +40,8 @@ export default {
       this.redSlotVal = data.red.map(e => {
         return e.redName
       })
-      this.red = data.red[0].redName || ''
+
+      this.red = data.red[0] ? data.red[0].redName : ''
       this.appointmentType = data.category[Object.keys(data.category)[0]]
     }).catch(response => {
       console.error(response)

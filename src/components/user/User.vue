@@ -11,7 +11,8 @@
           <button v-if="!ifFocused" class="focuse-btn btn" @click="handleFocus">关注</button>
           <button v-else class="unfocuse-btn btn" @click="handleUnfocus">取消关注</button>
           <button class="msg-btn btn" @click="handleMsg">私信</button>
-          <button class="appointment-btn btn" @click="handleAppointment">红娘约见</button>
+          <!-- <button class="appointment-btn btn" @click="handleAppointment">红娘约见</button> -->
+          <button class="appointment-btn btn" @click="underDev">红娘约见</button>
         </div>
       </div>
       <p class="introduction">{{introduction}}</p>
@@ -59,7 +60,7 @@
 </template>
 
 <style scoped lang="scss">
-  @import "../../assets/util.scss";
+  @import "../../assets/index.scss";
 
   .container {
     background-color: transparent;
@@ -171,11 +172,13 @@
   }
 
   .conditions {
+    margin: 0 $horizontal-margin;
     margin-top: 15px;
     background-color: white;
   }
 
   .details {
+    margin: 0 $horizontal-margin;
     margin-top: 15px;
   }
 
@@ -197,6 +200,9 @@ import { Popup } from 'mint-ui'
 import Appointment from './Appointment'
 export default {
   methods: {
+    underDev () {
+      this.toastMsg('功能即将上线', true)
+    },
     handleAppointment () {
       this.$router.push('/users/appointment/' + this.$route.params.uid)
     },

@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <div class="btn-fixed">
-      <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入</button>
+      <!-- <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入</button> -->
+      <button class="btn-post" v-if="!ifJoin" @click="joinCircleWithoutAuth">加入</button>
       <button class="btn-post" v-else-if="ifApplied" disabled>已申请</button>
       <!-- 买发帖 -->
       <button class="btn-post" v-else-if="!auth" @click="buyCircle">发言</button>
@@ -162,6 +163,22 @@
           })
         })
       },
+      joinCircleWithoutAuth () {
+        let apply = {
+          uid: this.$store.state.MeState.uid,
+          circleId: parseInt(this.$route.params['id']),
+          content: '',
+          date: (new Date()).toString()
+        }
+        this.openIndicator()
+        api.joinCircle(apply).then(response => {
+          let circleId = parseInt(this.$route.params['id'])
+          this.$store.dispatch('applyCircle', circleId)
+          this.handleSuccess('APPLY_CIRCLE_SUCCESS')
+        }).catch(response => {
+          this.handleSuccess('APPLY_CIRCLE_FAIL')
+        })
+      },
       dateFormat (value) {
         return dateformat(value, 'mm-dd hh:MM')
       },
@@ -207,7 +224,7 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/util.scss";
+  @import "../../assets/index.scss";
   a {
     @include reseta(#aaa)
   }
