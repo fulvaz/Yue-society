@@ -104,7 +104,7 @@ export function Date2YMD (date) {
 export function date2YMDHMM (date) {
   date = new Date(date)
   let y = date.getFullYear()
-  let m = date.getMonth()
+  let m = date.getMonth() + 1
   let d = date.getDate()
   let hour = date.getHours()
   let min = date.getMinutes()

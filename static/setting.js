@@ -51,7 +51,6 @@ var devApis = {
   'buyVip': apiPrefix + '/postData',
   'buyCircle': apiPrefix + '/postData',
   'makeAppointment': apiPrefix + '/postData',
-  // new
   'meAppointments': apiPrefix + '/meRecommend',  // 我约的人页面
   'meAppointed': apiPrefix + '/meRecommend', // 约我的人页面
   'getReg': apiPrefix + '/register',
@@ -60,7 +59,10 @@ var devApis = {
   'circleMember': apiPrefix + '/meRecommend',
   'recentReg': apiPrefix + '/meRecommend',
   'recentLogin': apiPrefix + '/meRecommend',
-  'searchRecommend': apiPrefix + '/meRecommend'
+  'searchRecommend': apiPrefix + '/meRecommend',
+    // new
+  'createCirclePage': apiPrefix + '',
+  'createCircle': apiPrefix + ''
 };
 
 var apis = {

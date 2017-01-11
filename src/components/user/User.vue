@@ -7,15 +7,14 @@
       <div class="info">
         <span class="username">{{nickname}}</span>
         <span class="location">{{livingPlace}}</span>
-        <div class="btns">
-          <button v-if="!ifFocused" class="focuse-btn btn" @click="handleFocus">关注</button>
-          <button v-else class="unfocuse-btn btn" @click="handleUnfocus">取消关注</button>
-          <button class="msg-btn btn" @click="handleMsg">私信</button>
-          <!-- <button class="appointment-btn btn" @click="handleAppointment">红娘约见</button> -->
-          <button class="appointment-btn btn" @click="underDev">红娘约见</button>
-        </div>
       </div>
       <p class="introduction">{{introduction}}</p>
+      <div class="btns">
+        <button v-if="!ifFocused" class="focuse-btn btn" @click="handleFocus">关注</button>
+        <button v-else class="unfocuse-btn btn" @click="handleUnfocus">取消关注</button>
+        <button class="msg-btn btn" @click="handleMsg">私信</button>
+        <button class="appointment-btn btn" @click="underDev">红娘约见</button>
+      </div>
     </section>
     <section class="tags">
       <ul>
@@ -74,7 +73,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 195px;
+    height: 20vh;
     z-index: -1;
     background-color: #A0592B;
 

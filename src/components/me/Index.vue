@@ -14,19 +14,19 @@
     </header>
     <section class="main">
       <fz-icon-item label="基本信息" to="info" class="icon" :append="true">
-        <i slot="icon" class="fa fa-user-circle fa-2x icon-info" aria-hidden="true"></i>
+        <icon slot="icon" class="fa-icon fa-user-circle fa-2x icon-info" aria-hidden="true" name="user-circle"></icon>
       </fz-icon-item>
       <fz-icon-item label="相册" to="album" class="icon icon-photo" :append="true">
-        <i slot="icon" class="fa fa-picture-o fa-2x icon-photo" aria-hidden="true"></i>
+        <icon slot="icon" class="fa-icon fa-picture-o fa-2x icon-photo" aria-hidden="true" name="picture-o"></icon>
       </fz-icon-item>
       <fz-icon-item label="择偶条件" to="spouse" class="icon icon-condition" :append="true">
-        <i slot="icon" class="fa fa-heart fa-2x icon-condition" aria-hidden="true"></i>
+        <icon slot="icon" class="fa-icon fa-heart fa-2x icon-condition" aria-hidden="true" name="heart"></icon>
       </fz-icon-item>
       <!-- <fz-icon-item label="vip" to="service" class="icon" :append="true">
         <i slot="icon" class="fa fa-hand-o-down fa-2x icon-service" aria-hidden="true"></i>
       </fz-icon-item> -->
       <fz-icon-item label="推荐人" to="recommend" class="icon" :append="true">
-        <i slot="icon" class="fa fa-users fa-2x icon-recommend" aria-hidden="true"></i>
+        <icon slot="icon" class="fa-icon fa-users fa-2x icon-recommend" aria-hidden="true" name="users"></icon>
       </fz-icon-item>
       <!-- <fz-icon-item label="约见过" to="appointment" class="icon" :append="true">
         <i slot="icon" class="fa fa-user-circle fa-2x icon-info" aria-hidden="true"></i>
@@ -51,6 +51,11 @@
   // import config from '../../config/setting.js'
   import { mapState } from 'vuex'
   import IconItem from '../common/IconItem'
+  import Icon from 'vue-awesome/components/Icon'
+  import 'vue-awesome/icons/user-circle'
+  import 'vue-awesome/icons/users'
+  import 'vue-awesome/icons/picture-o'
+  import 'vue-awesome/icons/heart'
   export default {
     data () {
       return {
@@ -70,7 +75,8 @@
       })
     },
     components: {
-      'fz-icon-item': IconItem
+      'fz-icon-item': IconItem,
+      'icon': Icon
     },
     created () {
     },
@@ -140,6 +146,9 @@
     .icon {
       width: 25%;
       height: 100px;
+      box-sizing: border-box;
+      border-right: 1px solid $list-border-color;
+
       .icon-info {
         color: #2baf4b;
       }

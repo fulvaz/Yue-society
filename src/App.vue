@@ -12,7 +12,7 @@
         <icon slot="icon" aria-hidden="true" name="search"></icon>
       </tabbar-item>
       <tabbar-item :to="'/message'" :label="'私信'" :id="3">
-        <div class="msg" slot="icon">
+        <div class="msg-tab-icon" slot="icon">
           <icon aria-hidden="true" name="envelope"></icon>
           <mt-badge class="unread" size="small" color="#fe6431" v-if="unread > 0">{{unread}}</mt-badge>
         </div>
@@ -74,18 +74,10 @@ export default {
       .selected {
         color: #c52c24;
       }
-
-      .fa-icon {
-        width: 25px;
-        height: 25px;
-        font-size: 2em;
-      }
     }
-
-
   }
 
-  .msg {
+  .msg-tab-icon {
     position: relative;
     // TODO 这里只是hack, 不知道为什么div会多出了一点点高度
     height: 25px;
@@ -121,5 +113,10 @@ export default {
     list-style: none;
   }
 
+  .fa-icon {
+    width: 25px;
+    height: 25px;
+    font-size: 2em;
+  }
 
 </style>
