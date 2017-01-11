@@ -155,10 +155,15 @@ function genStateInfo () {
 
 function genUsers ()  {
 	let users = []
+	let album = []
+	for (let i=0; i<r(10, 20); i++) {
+		album.push(f.image.image(r(200, 300), r(200, 300)))
+	}
 	for (var i=0; i < r(20, 30); i++) {
 		let spouseCondition = genSpouse()
 		let tmp = {
-			id: 1000 + i,
+			id: i,
+			album: album,
 			introduction: f.lorem.sentence(),
 			nickname: f.internet.userName(),
 			realname: f.name.lastName(),
@@ -339,9 +344,6 @@ function genMeSelectable () {
   }
 }
 
-function genUser() {
-
-}
 
 function genMyInfo() {
 }
@@ -375,6 +377,7 @@ module.exports = function() {
 
 	// 生成/recommend?type=circle
 	let circleRecommend = []
+
 
 	for (let i=0; i<circleRecNum; i++) {
 		let tmp = {

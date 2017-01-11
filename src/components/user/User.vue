@@ -1,10 +1,15 @@
 <template lang="html">
   <div class="container">
     <header>
-      <img :src="avatar" :alt="nickname" class="avatar">
+      <fz-slider>
+        <fz-slider-item v-for="photo in album">
+          <img :src="photo" class="img">
+        </fz-slider-item>
+      </fz-slider>
     </header>
     <section class="main-info">
       <div class="info">
+        <img :src="avatar" :alt="nickname" class="avatar">
         <span class="username">{{nickname}}</span>
         <span class="location">{{livingPlace}}</span>
       </div>
@@ -70,18 +75,9 @@
   }
 
   header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 20vh;
-    z-index: -1;
-    background-color: #A0592B;
-
-    .avatar {
-      width: 100px;
-      height: 100px;
-      border: none;
-      border-radius: 50%;
+    .img {
+      width: 100%;
     }
   }
 
@@ -89,6 +85,16 @@
     position: relative;
     padding: 18px 18px 15px 18px;
     background-color: white;
+
+    .avatar {
+      float: left;
+      width: 40px;
+      height: 40px;
+      border: none;
+      margin-right: 5px;
+      border-radius: 50%;
+    }
+
     .btns {
       // position: absolute;
       margin-top: 15px;
@@ -191,6 +197,8 @@
 
 <script>
 // import wx from 'weixin-js-sdk'
+import Slider from '../common/Slider'
+import SliderItemContainer from '../common/SliderItemContainer'
 import * as api from '../../api/index.js'
 import Tag from '../common/tag'
 import List from '../common/List'
@@ -228,7 +236,9 @@ export default {
     'fz-list': List,
     'fz-tag': Tag,
     'mt-popup': Popup,
-    'appointment': Appointment
+    'appointment': Appointment,
+    'fz-slider': Slider,
+    'fz-slider-item': SliderItemContainer
   },
   updated () {
     // this.showPopup = true

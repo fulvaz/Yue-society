@@ -11,7 +11,6 @@
 
 <script>
    import SliderItem from './SliderItem'
-
    export default {
      data () {
        return {
@@ -44,6 +43,7 @@
         @include clearfix;
 
         width: 100%;
+        height: 100%;
         overflow: hidden;
         box-sizing: border-box;
 
@@ -60,6 +60,7 @@
 
         .slide {
             width: 100%;
+            height: 100%;
             overflow-x: scroll;
             overflow-y: hidden;
 
