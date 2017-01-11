@@ -57,6 +57,11 @@ function handleFail (msg, ifCustom) {
   closeIndicator()
 }
 
+function handleFailWithCode (status, statusText) {
+  toastMsg(`${status} ${statusText}`, true)
+  closeIndicator()
+}
+
 toast.install = function (Vue, options) {
   // 1. add global method or property
   Vue.prototype.toastMsg = toastMsg
@@ -65,6 +70,7 @@ toast.install = function (Vue, options) {
   Vue.prototype.handleSuccess = handleSuccess
   Vue.prototype.handleFail = handleFail
   Vue.prototype.toastNetErrMsg = toastNetErrMsg
+  Vue.prototype.handleFailWithCode = handleFailWithCode
   // 2. add a global asset
   // Vue.directive('my-directive', {
   //   bind (el, binding, vnode, oldVnode) {

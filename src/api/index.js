@@ -626,3 +626,15 @@ export const sendReg = function (data) {
     })
   })
 }
+
+// GET /circles/members/{circleId}/page/{page}/limitation/{limit}
+export const getCircleMember = function (circleId, page, limit) {
+  return new Promise((resolve, reject) => {
+    let api = config.dev ? `${config.circleMember}?_page=${page}&_limit=${limit}` : `${config.circleMember}/${circleId}/page/${page}/limitation/${limit}`
+    vue.http.get(api).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}

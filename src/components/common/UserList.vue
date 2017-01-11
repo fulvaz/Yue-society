@@ -26,9 +26,6 @@ export default {
     }
   },
   computed: {
-    msgLess () {
-      return this.msgList.lastMsg.slice(0, 40)
-    }
   },
   components: {
     'list': List,

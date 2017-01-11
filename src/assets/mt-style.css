@@ -1568,6 +1568,7 @@ display: inline-block;
   top: 50%;
   left: 50%;
   position: fixed;
+  z-index: 9999;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   border-radius: 5px;

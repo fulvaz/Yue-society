@@ -18,6 +18,9 @@
           <button class="btn-post" v-else-if="!auth" @click="buyCircle">购买发帖权利</button>
           <button class="btn-post" v-else @click="newPost">发言</button>
         </div> -->
+        <div class="btn-group">
+          <button class="btn-post" @click="openMemberList">成员</button>
+        </div>
       </div>
     </header>
     <section class="main">
@@ -43,6 +46,7 @@
       </tab-container>
     </section>
 
+    <member-list :users="members"></member-list>
     <fz-editor v-model="postNew" :category="postCategory"></fz-editor>
   </div>
 </template>
@@ -56,6 +60,7 @@
   import * as api from '../../api/index.js'
   import Editor from '../posts/PostEditor'
   import * as utils from '../../utils/utils.js'
+  import MemberList from './MemberList'
   // import { mapState } from 'vuex'
 
   export default {
@@ -73,7 +78,8 @@
         postPage: 0,
         actPage: 0,
         postNew: '',
-        activities: []
+        activities: [],
+        members: []
       }
     },
     components: {
@@ -83,7 +89,8 @@
       'post-cell': PostCell,
       'nav-bar': Navbar,
       'tab-item': TabItem,
-      'fz-editor': Editor
+      'fz-editor': Editor,
+      'member-list': MemberList
     },
     created () {
       api.getCircleInfo(this.$route.params.id).then(response => {
@@ -134,6 +141,13 @@
       })
     },
     methods: {
+      openMemberList () {
+        this.$router.push({
+          path: 'member',
+          append: true,
+          params: {id: this.$route.params.id}
+        })
+      },
       buyCircle () {
         this.$router.push({
           path: '/me/buyCircle',
@@ -234,7 +248,8 @@
     background-color: rgb(44, 175, 187);
 
     .container {
-      padding: 1em 0;
+      @include clearfix;
+      padding: 0.5em $horizontal-margin;
       // margin: 0 18px;
       // padding: 35px 0;
       text-align: center;
@@ -242,6 +257,7 @@
       background-color: rgb(44, 175, 187);
 
       .circle-name {
+        float: left;
         margin: 0;
         font-size: 24px;
       }
@@ -253,6 +269,7 @@
       }
 
       .btn-group {
+        float: right;
         .disabled {
           color: #aaa;
           border: 1px solid #aaa;

@@ -56,7 +56,8 @@ var devApis = {
   'meAppointed': apiPrefix + '/meRecommend', // 约我的人页面
   'getReg': apiPrefix + '/register',
   'sendReg': apiPrefix + '/postData',
-  'getVerify': apiPrefix + '/getVerify'
+  'getVerify': apiPrefix + '/getVerify',
+  'circleMember': apiPrefix + '/meRecommend'
 };
 
 var apis = {

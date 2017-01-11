@@ -43,12 +43,6 @@
             </mt-tab-container-item>
           </mt-tab-container>
         </section>
-        <!-- <slider class="circle-recommend recommend" :title="'—— 圈子推荐 ——'">
-            <slider-item v-for="item in circleRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :to="'/circles/' + item.id"></slider-item>
-        </slider>
-        <slider class="activity-recommend recommend" :title="'—— 活动推荐 ——'">
-            <slider-item v-for="item in activityRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :to="'/activities/' + item.id"></slider-item>
-        </slider> -->
     </div>
 </template>
 

@@ -13,6 +13,7 @@ import Toast from './plugin/Toast.js'
 import Index from 'components/Index'
 import CircleIndex from 'components/circle/Index'
 import Circle from 'components/circle/Circle'
+import CircleMember from 'components/circle/MemberList'
 import Registry from 'components/user/Registry'
 import MeIndex from 'components/me/Index'
 import MeInfo from 'components/me/Info'
@@ -20,7 +21,7 @@ import Test from 'components/Test'
 import MeSpouse from 'components/me/Spouse'
 import Post from 'components/posts/Post'
 import Auth from 'components/Auth'
-import Search from 'components/search/index'
+import SearchIndex from 'components/search/index'
 import SearchResult from 'components/search/result'
 import Tag from 'components/search/tag'
 import MessageList from 'components/message/index'
@@ -41,6 +42,7 @@ import Appointment from 'components/me/Appointment'
 import ActivitiesJoined from 'components/me/ActivitiesJoined'
 import ConsumeHistory from 'components/me/ConsumeHistory'
 import AppointmentRequest from 'components/user/Appointment'
+
 import store from './store/index.js'
 import * as utils from './utils/utils.js'
 import config from './config/setting.js'
@@ -81,6 +83,7 @@ const routes = [
   {path: '/index', component: Index},
   {path: '/circle', component: CircleIndex}, // "我的圈子"首页
   {path: '/circles/:id', component: Circle},
+  {path: '/circles/:id/member', component: CircleMember},
   {path: '/circles', component: CircleIndex}, // 返回全部圈子, 可以分类 可以搜索
   {path: '/reg', component: Registry}, //
   {path: '/me', component: MeIndex}, // 我的 页面
@@ -101,7 +104,7 @@ const routes = [
   {path: '/test', component: Test},
   {path: '/posts/:id', component: Post},
   {path: '/auth', component: Auth},
-  {path: '/search', component: Search},
+  {path: '/search', component: SearchIndex},
   {path: '/search/:query', component: SearchResult},
   {path: '/message', component: MessageList},
   {path: '/message/chat/:uid', component: Chat},
