@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="post-editor-container">
     <header>
       <span class="title">成员列表</span>

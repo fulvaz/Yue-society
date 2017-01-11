@@ -22,6 +22,7 @@ import MeSpouse from 'components/me/Spouse'
 import Post from 'components/posts/Post'
 import Auth from 'components/Auth'
 import SearchIndex from 'components/search/index'
+import Search from 'components/search/search'
 import SearchResult from 'components/search/result'
 import Tag from 'components/search/tag'
 import MessageList from 'components/message/index'
@@ -71,13 +72,6 @@ Vue.use(Toast)
 require('vue-swipe/dist/vue-swipe.css')
 require('./assets/mt-style.css')
 
-/* eslint-disable no-new */
-// new Vue({
-//   el: '#app',
-//   template: '<App/>',
-//   components: { App }
-// })
-
 const routes = [
   {path: '/', component: Index},
   {path: '/index', component: Index},
@@ -104,8 +98,9 @@ const routes = [
   {path: '/test', component: Test},
   {path: '/posts/:id', component: Post},
   {path: '/auth', component: Auth},
-  {path: '/search', component: SearchIndex},
-  {path: '/search/:query', component: SearchResult},
+  {path: '/search/index', component: SearchIndex},
+  {path: '/search/q', component: Search},
+  {path: '/search/q/:query', component: SearchResult},
   {path: '/message', component: MessageList},
   {path: '/message/chat/:uid', component: Chat},
   {path: '/users/appointment/:uid', component: AppointmentRequest},

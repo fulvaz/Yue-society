@@ -46,7 +46,6 @@
       </tab-container>
     </section>
 
-    <member-list :users="members"></member-list>
     <fz-editor v-model="postNew" :category="postCategory"></fz-editor>
   </div>
 </template>
@@ -60,7 +59,6 @@
   import * as api from '../../api/index.js'
   import Editor from '../posts/PostEditor'
   import * as utils from '../../utils/utils.js'
-  import MemberList from './MemberList'
   // import { mapState } from 'vuex'
 
   export default {
@@ -89,8 +87,7 @@
       'post-cell': PostCell,
       'nav-bar': Navbar,
       'tab-item': TabItem,
-      'fz-editor': Editor,
-      'member-list': MemberList
+      'fz-editor': Editor
     },
     created () {
       api.getCircleInfo(this.$route.params.id).then(response => {

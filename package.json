@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "dateformat": "^2.0.0",
-    "font-awesome": "^4.7.0",
     "mint-ui": "^2.0.6",
     "normalize-scss": "^6.0.0",
     "vee-validate": "^2.0.0-beta.18",
@@ -20,8 +19,10 @@
     "vue-awesome": "^2.0.3",
     "vue-infinite-scroll": "^2.0.0",
     "vue-lazyload": "^0.9.4",
+    "vue-popup": "^0.2.14",
     "vuex": "^2.1.1",
-    "vux": "^0.1.3"
+    "vux": "^0.1.3",
+    "weixin-js-sdk": "^1.0.7"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
@@ -70,11 +71,6 @@
     "webpack-hot-middleware": "^2.12.2",
     "webpack-merge": "^0.14.1"
   },
-  "browserslist": [
-    "> 1%",
-    "ios >= 8",
-    "android >= 4.4"
-  ],
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"

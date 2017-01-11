@@ -164,7 +164,6 @@
   let CANCEL_TEXT = '取消'
 
   import Popup from 'vue-popup'
-
   export default {
     mixins: [ Popup ],
 

@@ -57,7 +57,10 @@ var devApis = {
   'getReg': apiPrefix + '/register',
   'sendReg': apiPrefix + '/postData',
   'getVerify': apiPrefix + '/getVerify',
-  'circleMember': apiPrefix + '/meRecommend'
+  'circleMember': apiPrefix + '/meRecommend',
+  'recentReg': apiPrefix + '/meRecommend',
+  'recentLogin': apiPrefix + '/meRecommend',
+  'searchRecommend': apiPrefix + '/meRecommend'
 };
 
 var apis = {

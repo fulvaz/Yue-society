@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     handleSearch () {
-      this.$router.push('/search/' + this.query)
+      this.$router.push('/search/q/' + this.query)
     }
   },
   created () {

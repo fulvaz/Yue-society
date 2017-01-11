@@ -1,67 +1,163 @@
 <template lang="html">
-  <section class="main">
-    <nav-bar v-model="active" id="navbar">
-      <tab-item id="tab-recent-reg" class="navbar-item">最新注册</tab-item>
-      <tab-item id="tab-recent-login" class="navbar-item">最新登录</tab-item>
-      <tab-item id="tab-recommend" class="navbar-item">为你推荐</tab-item>
-    </nav-bar>
-    <mt-tab-container class="tab-container" v-model="active">
-      <mt-tab-container-item id="tab-recent-reg">
-        <list class="recommend">
-            <li v-for="circle in circleRecommend" class="recommend">
-              <router-link :to="`/circles/${circle.id}`">
-                <list-item
-                  :content-title="circle.contentTitle"
-                  :content-subtitle="circle.content"
-                  :logo="circle.logo">
-                </list-item>
-              </router-link>
-            </li>
-        </list>
-      </mt-tab-container-item>
-      <mt-tab-container-item id="tab-recent-logind">
-        <list class="recommend">
-            <li v-for="circle in activityRecommend" class="recommend">
-              <router-link :to="`/activities/${circle.id}`">
-                <list-item
-                  :content-title="circle.contentTitle"
-                  :content-subtitle="circle.contentSubtitle"
-                  :logo="circle.logo">
-                </list-item>
-              </router-link>
-            </li>
-        </list>
-      </mt-tab-container-item>
-      <mt-tab-container-item id="tab-recommend">
-        <list class="recommend">
-            <li v-for="circle in activityRecommend" class="recommend">
-              <router-link :to="`/activities/${circle.id}`">
-                <list-item
-                  :content-title="circle.contentTitle"
-                  :content-subtitle="circle.contentSubtitle"
-                  :logo="circle.logo">
-                </list-item>
-              </router-link>
-            </li>
-        </list>
-      </mt-tab-container-item>
-    </mt-tab-container>
-  </section
+  <div class="container">
+    <section class="main">
+      <nav-bar v-model="active" id="navbar">
+        <tab-item id="tab-recent-reg" class="navbar-item">最新注册</tab-item>
+        <tab-item id="tab-recent-login" class="navbar-item">最新登录</tab-item>
+        <tab-item id="tab-recommend" class="navbar-item">为你推荐</tab-item>
+      </nav-bar>
+      <mt-tab-container class="tab-container" v-model="active">
+        <mt-tab-container-item id="tab-recent-reg">
+          <list class="recommend">
+              <li v-for="circle in recentReg" class="recommend">
+                <router-link :to="`/users/${circle.uid}`">
+                  <list-item
+                    :content-title="circle.nickname"
+                    :content-subtitle="circle.introduction"
+                    :logo="circle.avatar">
+                  </list-item>
+                </router-link>
+              </li>
+              <button type="button" name="button" class="btn-load-more" @click="loadRecentReg">点击加载更多</button>
+          </list>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="tab-recent-login">
+          <list class="recommend">
+              <li v-for="circle in recentLogin" class="recommend">
+                <router-link :to="`/users/${circle.uid}`">
+                  <list-item
+                    :content-title="circle.nickname"
+                    :content-subtitle="circle.introduction"
+                    :logo="circle.avatar">
+                  </list-item>
+                </router-link>
+              </li>
+              <button type="button" name="button" class="btn-load-more" @click="loadRecentLogin">点击加载更多</button>
+          </list>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="tab-recommend">
+          <list class="recommend">
+              <li v-for="circle in userRecommend" class="recommend">
+                <router-link :to="`/users/${circle.uid}`">
+                  <list-item
+                    :content-title="circle.nickname"
+                    :content-subtitle="circle.introduction"
+                    :logo="circle.avatar">
+                  </list-item>
+                </router-link>
+              </li>
+              <button type="button" name="button" class="btn-load-more" @click="loadUserRecommend">点击加载更多</button>
+          </list>
+        </mt-tab-container-item>
+      </mt-tab-container>
+    </section>
+    <float-button>
+      <button class="btn-post" @click="search">搜索</button>
+    </float-button>
+  </div>
 </template>
 
 <script>
-import {TabContainer}
+import {TabContainer, TabContainerItem, Navbar, TabItem} from 'mint-ui'
+import List from '../common/List'
+import ListItem from '../common/ListItem'
+import FloatButton from '../common/FloatButton'
+import * as api from '../../api/index.js'
+import * as utils from '../../utils/utils.js'
 export default {
+  created () {
+    Promise.all([
+      api.getRecentLogin(this.recentRegPage++, 10),
+      api.getRecentReg(this.recentLoginPage++, 10),
+      api.getSearchRecommend(this.userRecommendPage++, 10)
+    ]).then(res => {
+      this.recentLogin = utils.response2Data(res[0])
+      this.recentReg = utils.response2Data(res[1])
+      this.userRecommend = utils.response2Data(res[2])
+    }).catch(res => {
+      this.handleFailWithCode(res.status, res.statusText)
+    })
+  },
+  components: {
+    'nav-bar': Navbar,
+    'mt-tab-container': TabContainer,
+    'mt-tab-container-item': TabContainerItem,
+    'list': List,
+    'list-item': ListItem,
+    'tab-item': TabItem,
+    'float-button': FloatButton
+  },
   data () {
     return {
+      recentReg: [],
+      recentRegPage: 0,
+      recentLogin: [],
+      recentLoginPage: 0,
+      userRecommend: [],
+      userRecommendPage: 0,
       active: 'tab-recent-reg'
+    }
+  },
+  methods: {
+    search () {
+      this.$router.push({
+        path: '/search/q'
+      })
+    },
+    loadRecentLogin () {
+      this.openIndicator()
+      api.getRecentLogin(this.recentLoginPage++, 10).then(res => {
+        this.closeIndicator()
+        let data = utils.response2Data(res)
+        this.recentLogin = this.recentLogin.concat(data)
+        if (data.length === 0) {
+          let err = new Error()
+          err.status = ''
+          err.statusText = '没有新内容了'
+          throw err
+        }
+      }).catch(res => {
+        this.handleFailWithCode(res.status, res.statusText)
+      })
+    },
+    loadRecentReg () {
+      this.openIndicator()
+      api.getRecentReg(this.recentRegPage++, 10).then(res => {
+        this.closeIndicator()
+        let data = utils.response2Data(res)
+        this.recentReg = this.recentReg.concat(data)
+        if (data.length === 0) {
+          let err = new Error()
+          err.status = ''
+          err.statusText = '没有新内容了'
+          throw err
+        }
+      }).catch(res => {
+        this.handleFailWithCode(res.status, res.statusText)
+      })
+    },
+    loadUserRecommend () {
+      this.openIndicator()
+      api.getSearchRecommend(this.userRecommendPage++, 10).then(res => {
+        this.closeIndicator()
+        let data = utils.response2Data(res)
+        this.userRecommend = this.userRecommend.concat(data)
+        if (data.length === 0) {
+          let err = new Error()
+          err.status = ''
+          err.statusText = '没有新内容了'
+          throw err
+        }
+      }).catch(res => {
+        this.handleFailWithCode(res.status, res.statusText)
+      })
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-  @import "../assets/index.scss";
+  @import "../../assets/index.scss";
   .tab-container {
     padding: 0 $horizontal-margin;
     background-color: white;
@@ -92,4 +188,10 @@ export default {
       box-shadow: 1px black;
   }
 
-</style
+  .btn-load-more {
+    width: 100%;
+    font-size: $description-size;
+    color: $description-color;
+  }
+
+</style>

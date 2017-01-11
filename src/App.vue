@@ -8,7 +8,7 @@
       <tabbar-item :to="'/circle'" :label="'圈子'" :id="1">
         <icon slot="icon" aria-hidden="true" name="circle-o"></icon>
       </tabbar-item>
-      <tabbar-item :to="'/search'" :label="'搜索'" :id="2">
+      <tabbar-item :to="'/search/index'" :label="'搜索'" :id="2">
         <icon slot="icon" aria-hidden="true" name="search"></icon>
       </tabbar-item>
       <tabbar-item :to="'/message'" :label="'私信'" :id="3">

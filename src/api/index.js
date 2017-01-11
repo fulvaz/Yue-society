@@ -638,3 +638,37 @@ export const getCircleMember = function (circleId, page, limit) {
     })
   })
 }
+
+export const getRecentLogin = function (page, limit) {
+  return new Promise((resolve, reject) => {
+    let api = config.dev ? `${config.recentLogin}?_page=${page}&_limit=${limit}` : `${config.recentLogin}/page/${page}/limitation/${limit}`
+    vue.http.get(api).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+// GET /search/users/newSignUp/page/{page}/limitation/{limit}
+export const getRecentReg = function (page, limit) {
+  return new Promise((resolve, reject) => {
+    let api = config.dev ? `${config.recentReg}?_page=${page}&_limit=${limit}` : `${config.recentReg}/page/${page}/limitation/${limit}`
+    vue.http.get(api).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getSearchRecommend = function (page, limit) {
+  return new Promise((resolve, reject) => {
+    let api = config.dev ? `${config.searchRecommend}?_page=${page}&_limit=${limit}` : `${config.searchRecommend}/page/${page}/limitation/${limit}`
+    vue.http.get(api).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}

@@ -143,9 +143,8 @@
         })
       },
       fetchUserRecommend: function () {
-        this.page++
         // `${Config.usersRecommendsApi}?_page=${this.page}&_limit=5`
-        api.fetchUserRecommend(this.page, 10).then((response) => {
+        api.fetchUserRecommend(this.page++, 10).then((response) => {
           // 遇到空数据就返回空
           if (response.length === 0) {
             this.busy = true
