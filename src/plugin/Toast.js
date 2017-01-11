@@ -23,7 +23,8 @@ let msgs = {
   'APPOINTMENT_REQ_SUCCESS': '发送约会请求成功',
   'APPOINTMENT_REQ_FAIL': '网络错误, 请稍后重试',
   'UPLOAD_IMAGE_SUCCESS': '上传图片成功',
-  'UPLOAD_IMAGE_FAIL': '图片上传失败'
+  'UPLOAD_IMAGE_FAIL': '图片上传失败',
+  'REG_SUCCESS': '注册成功'
 }
 
 function toastMsg (msg, ifCustom) {
@@ -46,13 +47,13 @@ function closeIndicator () {
   Indicator.close()
 }
 
-function handleSuccess (msg) {
-  toastMsg(msg)
+function handleSuccess (msg, ifCustom) {
+  toastMsg(msg, ifCustom)
   closeIndicator()
 }
 
-function handleFail (msg) {
-  toastMsg(msg)
+function handleFail (msg, ifCustom) {
+  toastMsg(msg, ifCustom)
   closeIndicator()
 }
 

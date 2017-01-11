@@ -7,6 +7,7 @@ import InfiniteScroll from 'vue-infinite-scroll'
 import Vuex from 'vuex'
 import VeeValidate from 'vee-validate'
 import localeMsg from './utils/zh_CN.js'
+import localAttr from './utils/zh_CN_attr.js'
 import Toast from './plugin/Toast.js'
 
 import Index from 'components/Index'
@@ -58,7 +59,7 @@ Vue.use(VeeValidate, {
   dictionary: {
     'zh-CN': {
       messages: localeMsg,
-      attributes: localeMsg
+      attributes: localAttr
     }
   }
 })
@@ -157,7 +158,15 @@ router.beforeEach((to, from, next) => {
 
 Vue.http.interceptors.push((request, next) => {
   request.credentials = true
-  next()
+  next(response => {
+    // 处理服务端返回的状态
+    let data = utils.response2Data(response)
+    if (data.errcode && data.errcode !== 0) {
+      response.status = data.errcode
+      response.statusText = data.errmsg
+      response.ok = false
+    }
+  })
 })
 
 let vue = new Vue({

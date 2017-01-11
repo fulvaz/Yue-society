@@ -18,7 +18,7 @@
                     <router-link :to="`/circles/${circle.id}`">
                       <list-item
                         :content-title="circle.contentTitle"
-                        :content-subtitle="circle.contentSubtitle"
+                        :content-subtitle="circle.content"
                         :logo="circle.logo">
                       </list-item>
                     </router-link>

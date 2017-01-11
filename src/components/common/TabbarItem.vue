@@ -54,8 +54,13 @@
   @import "../../assets/index.scss";
   .tabbar-item-wrapper {
     .icons {
-      display: block;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
       height: 100%;
+      & > * {
+        flex: 1 1 100%;
+      }
       @include reseta(#888);
       .icon {
         display: block;

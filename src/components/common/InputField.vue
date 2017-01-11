@@ -3,34 +3,34 @@
     <div class="wrapper">
       <label class="label" for="select">{{label}}</label>
       <div class="input">
-        <input type="text" name="" :value="value" @input="handleChange" v-on:blur="validate" :class="{error: maxErr || nullErr || otherErr}">
-        <span class="append">{{valAppend}}</span>
+        <input type="text" :value="value" @blur="handleChange" :class="{error: hasError}" :placeholder="placeholder" :disabled="disabled">
+        <div class="append">
+          <slot></slot>
+        </div>
+        <span v-show="valAppend.length !== 0" class="append">{{valAppend}}</span>
       </div>
     </div>
-      <span class="errMsg" v-if="nullErr">不能为空</span>
-      <span class="errMsg" v-if="maxErr">不能超过{{maxLength}}个字符</span>
-      <span class="errMsg" v-if="otherErr">输入无效</span>
+      <span class="errMsg" v-if="hasError">{{errMsg}}</span>
   </div>
 </template>
 
 <script>
-// 依赖valid-state.js以检查状态
+// 依赖 vee-validate
 // import * as utils from '../../utils/utils.js'
-import validState from './valid-state.js'
 export default {
   props: {
-    type: {
-      required: true
+    hasError: false,
+    errMsg: '',
+    placeholder: '',
+    disabled: {
+      type: [Boolean, String],
+      default: false
     },
     value: '',
     label: '',
-    valAppend: '',
-    maxLength: {
-      default: 10,
-      required: true
-    },
-    regExp: {
-      default: '.*'
+    valAppend: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -43,26 +43,13 @@ export default {
   methods: {
     handleChange (event) {
       this.$emit('input', event.target.value)
-    },
-    validate (event) {
-      if (this.value.length === 0) this.nullErr = true
-      else this.nullErr = false
-      if (this.value.length > this.maxLength) this.maxErr = true
-      else this.maxErr = false
-      if (this.regExp && (new RegExp(this.regExp)).test(this.value)) this.otherErr = false
-      else this.otherErr = true
-
-      // 修改全局状态 这里就不要用vuex了, 不作死, 上次的代码已经没法维护了
-      let ifErr = this.nullErr || this.maxErr
-      if (ifErr) validState.nickname = false
-      else validState.nickname = true
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+  @import "../../assets/index.scss";
   // 重置移动设备默认样式
   .select {
     -webkit-appearance: none;
@@ -102,13 +89,19 @@ export default {
       flex: 1;
       input {
         width: 100%;
+        &::-webkit-input-placeholder {
+          font-size: $description-size;
+        }
       }
+
       .append {
         position: absolute;
         top: 0;
         right: 0;
         display: block;
-        width: 50px;
+        width: 100px;
+        height: 20px;
+        font-size: $description-size;
       }
     }
   }

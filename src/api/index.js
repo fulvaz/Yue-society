@@ -607,7 +607,7 @@ export const getReg = function () {
   })
 }
 
-export const getVerify = function (mobile) {
+export const getVerifyCode = function (mobile) {
   return new Promise((resolve, reject) => {
     vue.http.get(`${config.getVerify}/${mobile}`).then((response) => {
       resolve(response)
@@ -619,7 +619,7 @@ export const getVerify = function (mobile) {
 
 export const sendReg = function (data) {
   return new Promise((resolve, reject) => {
-    vue.http.post(`${config.reg}`, data).then((response) => {
+    vue.http.put(`${config.sendReg}`, data).then((response) => {
       resolve(response)
     }, response => {
       reject(response)

@@ -3,7 +3,9 @@
     <router-link :to="to" class="icons" :append="append">
       <div class="icons-wrapper">
         <img v-if="icon" :src="icon">
-        <div class="icon"><slot name="icon" ></slot></div>
+        <div class="icon">
+          <slot name="icon" ></slot>
+        </div>
         <label class="name" >{{label}}</label>
       </div>
     </router-link>

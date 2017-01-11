@@ -38,13 +38,13 @@ module.exports = {
         test: /\.vue$/,
         loader: 'eslint',
         include: projectRoot,
-        exclude: /node_modules/
+        exclude: /node_modules(?![\\/]vue-awesome[\\/])/
       },
       {
         test: /\.js$/,
         loader: 'eslint',
         include: projectRoot,
-        exclude: /node_modules/
+        exclude: /node_modules(?![\\/]vue-awesome[\\/])/
       }
     ],
     loaders: [
@@ -55,13 +55,13 @@ module.exports = {
       {
         test: /\.(sass|scss)$/,
         loader: 'sass',
-        exclude: /node_modules/
+        exclude: /node_modules(?![\\/]vue-awesome[\\/])/
       },
       {
         test: /\.js$/,
         loader: 'babel',
         include: projectRoot,
-        exclude: /node_modules/
+        exclude: /node_modules(?![\\/]vue-awesome[\\/])/
       },
       {
         test: /\.json$/,

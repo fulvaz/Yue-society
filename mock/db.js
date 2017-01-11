@@ -583,17 +583,17 @@ module.exports = function() {
 	{
     uid:1,
     nickname:"hei",
-    avatar: f.images.avatar(),
+    avatar: f.image.avatar(),
     location:"广东-广州",
     userType:
 		{
-	    1:交友,
-	    2:相亲,
-	    3:闲逛
+	    1: '交友',
+	    2: '相亲',
+	    3: '闲逛'
 		}
 	}
 	data.getVerify = {
-		errcode:0,
+		errcode: 0,
     errmsg:"验证码发送成功"
 	}
 	return data;

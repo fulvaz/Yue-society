@@ -17,6 +17,7 @@
     "normalize-scss": "^6.0.0",
     "vee-validate": "^2.0.0-beta.18",
     "vue": "^2.1.0",
+    "vue-awesome": "^2.0.3",
     "vue-infinite-scroll": "^2.0.0",
     "vue-lazyload": "^0.9.4",
     "vuex": "^2.1.1",

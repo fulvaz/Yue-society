@@ -1,4 +1,5 @@
-var dev = false;
+
+var dev = true;
 var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.resontek.com';
 
 var pageFilter = dev ? '_page' : 'page';
