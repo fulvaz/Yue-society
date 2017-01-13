@@ -1,42 +1,24 @@
-<template>
-  <div class="container">
-    <test-child v-on:haha="hi" v-model="a"></test-child>
-    <p>zheliyou: {{a}}</p>
-    <select>
-      <option value="">ggg</option>
-      <option value="">ggg</option>
-      <option value="">ggg</option>
-    </select>
-  </div>
+<template lang="html">
+  <vue-core-image-upload
+  crop-ratio="1:1"
+  v-bind:class="['pure-button','pure-button-primary','js-btn-crop']"
+  v-bind:crop="true"
+  url="./crop.php"
+  extensions="png,gif,jpeg,jpg"
+  text="修改头像"
+  class="upload-sign"
+  >
+</vue-core-image-upload>
 </template>
 
 <script>
-  import TestChild from './TestChild'
-  export default {
-    data () {
-      return {
-        a: ''
-      }
-    },
-    components: {
-      'test-child': TestChild
-    },
-    created () {
-      this.$store.dispatch('fetchAjax')
-      this.$on('inputtest', (val) => {
-        console.log(val)
-      })
-    },
-    methods: {
-      hi () {
-        console.log('jo')
-      },
-      updateValue (val) {
-        this.value = val
-      }
-    }
+import VueCoreImageUpload from './common/external/vue-core-image-upload/src/index.js'
+export default {
+  components: {
+    'vue-core-image-upload': VueCoreImageUpload
   }
+}
 </script>
 
-<style scoped lang="scss">
+<style lang="css">
 </style>

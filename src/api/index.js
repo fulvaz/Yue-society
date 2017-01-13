@@ -155,10 +155,7 @@ export const fetchCircleByTag = function (query) {
 export const fetchMeInfo = function () {
   return new Promise((resolve, reject) => {
     vue.http.get(config.meApi).then((response) => {
-      let remoteData
-      if (typeof response.body === 'object') remoteData = response.body
-      else remoteData = JSON.parse(response.body)
-      resolve(remoteData)
+      resolve(response)
     }, response => {
       reject(response)
     })
@@ -666,6 +663,17 @@ export const getSearchRecommend = function (page, limit) {
   return new Promise((resolve, reject) => {
     let api = config.dev ? `${config.searchRecommend}?_page=${page}&_limit=${limit}` : `${config.searchRecommend}/page/${page}/limitation/${limit}`
     vue.http.get(api).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+// getSliderContent
+export const getSliderContent = function (page, limit) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.getSliderContent).then((response) => {
       resolve(response)
     }, response => {
       reject(response)

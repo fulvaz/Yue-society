@@ -10,13 +10,14 @@
     >
   </mt-datetime-picker>
 
-  <mt-field :label="label" :placeholder="placeholder" @click.native="handleClick" :value="value" readonly></mt-field>
+  <fz-field :label="label" :placeholder="placeholder" @click.native="handleClick" :value="value" readonly></fz-field>
 </div>
 </template>
 
 <script>
 import {DatetimePicker, Field} from 'mint-ui'
 import * as utils from '../../utils/utils.js'
+import InputField from './InputField'
 
 export default {
   props: {
@@ -26,7 +27,8 @@ export default {
   },
   components: {
     'mt-field': Field,
-    'mt-datetime-picker': DatetimePicker
+    'mt-datetime-picker': DatetimePicker,
+    'fz-field': InputField
   },
   data () {
     return {

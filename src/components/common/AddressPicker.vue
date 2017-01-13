@@ -9,12 +9,13 @@
     <mt-picker ref="picker" :slots="picker" @change="onChange"></mt-picker>
   </mt-popup>
 
-  <mt-field :label="label" :placeholder="placeholder" :value="province + ' - ' + city" @click.native="handleClick" readonly></mt-field>
+  <fz-input :label="label" :placeholder="placeholder" :value="province + ' - ' + city" @click.native="handleClick" readonly  :hasError="hasError" :errMsg="errMsg"></fz-input>
 </div>
 </template>
 
 <script>
 import { Picker, Field, Popup } from 'mint-ui'
+import InputField from './InputField'
 import * as utils from '../../utils/utils.js'
 import config from '../../config/setting.js'
 
@@ -59,12 +60,15 @@ export default {
   props: {
     label: String,
     placeholder: String,
-    value: String
+    value: String,
+    errMsg: '',
+    hasError: false
   },
   components: {
     'mt-field': Field,
     'mt-picker': Picker,
-    'mt-popup': Popup
+    'mt-popup': Popup,
+    'fz-input': InputField
   },
   computed: {
     province () {

@@ -190,8 +190,15 @@ export default {
 
   .btn-load-more {
     width: 100%;
+    padding: 1em 0;
     font-size: $description-size;
     color: $description-color;
+    background: white;
+    appearance: none;
+  }
+
+  .btn-post {
+    background-color: $douban-green;
   }
 
 </style>

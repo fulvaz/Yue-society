@@ -33,6 +33,7 @@ export default {
     },
     addImages () {
       // console.log(this.$el.clientWidth)
+
       let colWidth = Math.floor((this.$el.clientWidth - 18) / this.numOfCols) // 58是margin
       let cols = []
       for (let i = 0; i < this.numOfCols; i++) {

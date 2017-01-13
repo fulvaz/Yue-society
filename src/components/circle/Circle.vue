@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div class="btn-fixed">
-      <!-- <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入</button> -->
-      <button class="btn-post" v-if="!ifJoin" @click="joinCircleWithoutAuth">加入</button>
+      <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入</button>
+      <!-- <button class="btn-post" v-if="!ifJoin" @click="joinCircleWithoutAuth">加入</button> -->
       <button class="btn-post" v-else-if="ifApplied" disabled>已申请</button>
       <!-- 买发帖 -->
-      <button class="btn-post" v-else-if="!auth" @click="buyCircle">发言</button>
+      <!-- <button class="btn-post" v-else-if="!auth" @click="buyCircle">购买发帖</button> -->
       <button class="btn-post" v-else @click="newPost">发言</button>
     </div>
     <header>
@@ -99,6 +99,7 @@
         this.CService = remoteData.CServiceId
         // this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
       }).catch(response => {
+        this.handleFailWithCode(response.status, response.statusText)
         console.error(response)
       })
       this.fetchPosts()
@@ -135,6 +136,8 @@
         next(vm => {
           vm.auth = utils.response2Data(res).right
         })
+      }).catch(res => {
+        next()
       })
     },
     methods: {
@@ -170,7 +173,7 @@
             this.$store.dispatch('applyCircle', circleId)
             this.handleSuccess('APPLY_CIRCLE_SUCCESS')
           }).catch(response => {
-            this.handleSuccess('APPLY_CIRCLE_FAIL')
+            this.handleFailWithCode(response.status, response.statusText)
           })
         })
       },

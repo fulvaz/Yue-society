@@ -1,9 +1,9 @@
 <template>
     <div class="container">
-        <swipe class="my-swipe" :speed="900">
-            <swipe-item class="slide1"></swipe-item>
-            <swipe-item class="slide2"></swipe-item>
-            <swipe-item class="slide3"></swipe-item>
+        <swipe class="my-swipe" :auto="3000" :showIndicators="false">
+          <swipe-item class="slider" v-for="src in sliderContent">
+            <img :src="src" class="slide-content">
+          </swipe-item>
         </swipe>
         <section class="main">
           <nav-bar v-model="active" id="navbar">
@@ -47,12 +47,12 @@
 </template>
 
 <script>
-  import { TabContainer, TabContainerItem, Navbar, TabItem } from 'mint-ui'
-  import {Swipe, SwipeItem} from 'vue-swipe'
+  import { Swipe, SwipeItem, TabContainer, TabContainerItem, Navbar, TabItem } from 'mint-ui'
   import Streamer from './common/UserStreamer'
   import List from './common/List'
   import ListItem from './common/ListItem'
   import * as api from '../api/index.js'
+  import * as utils from '../utils/utils.js'
 
   export default {
     components: {
@@ -71,6 +71,7 @@
     },
     data () {
       return {
+        sliderContent: [],
         circleRecommend: [],
         activityRecommend: [],
         userRecommend: [],
@@ -83,7 +84,7 @@
     },
     methods: {
       fetchData () {
-        Promise.all([api.fetchCircleRecommend(), api.fetchActivitiesRecommend()]).then((result) => {
+        Promise.all([api.fetchCircleRecommend(), api.fetchActivitiesRecommend(), api.getSliderContent()]).then((result) => {
           let tmp = result[0].map((e) => {
             e['contentTitle'] = e.name
             e['contentSubtitle'] = e.location
@@ -108,6 +109,8 @@
             return e
           })
           this.activityRecommend = this.activityRecommend.concat(tmp)
+
+          this.sliderContent = utils.response2Data(result[2]).h_img
         }).catch((err) => {
           console.error(err)
         })
@@ -201,20 +204,11 @@
       text-align: center;
   }
 
-  .slide1 {
-      background-color: #0089dc;
-      color: #fff;
+  .slide {
   }
 
-  .slide2 {
-      background-color: #ffd705;
-      color: #000;
-  }
-
-  .slide3 {
-      background-color: #ff2d4b;
-      color: #fff;
-
+  .slide-content {
+    width: 100vw;
   }
 
   .recommend {

@@ -60,6 +60,7 @@
         let data = utils.response2Data(response)
         this.nickname = data.nickname
         this.userTypes = data.userType
+        this.userType = data.userType[1]
         this.userTypeSlot = Object.values(data.userType)
       }).catch(response => {
       })

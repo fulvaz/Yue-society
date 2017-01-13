@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <header class="profile">
-      <img :src="avatar" class="avatar">
+      <div class="avatar" @click="changeAvatar">
+        <img :src="avatar">
+        <p class="upload-sign">修改头像</p>
+      </div>
       <div class="detail">
         <span class="nickname">{{nickname}}</span>
         <div class="other-detail">
@@ -56,6 +59,7 @@
   import 'vue-awesome/icons/users'
   import 'vue-awesome/icons/picture-o'
   import 'vue-awesome/icons/heart'
+  // import VueCoreImageUpload from 'vue-core-image-upload/'
   export default {
     data () {
       return {
@@ -81,6 +85,8 @@
     created () {
     },
     methods: {
+      changeAvatar () {
+      }
     }
   }
 </script>
@@ -97,31 +103,49 @@
     margin-bottom: 15px;
     height: 124px;
     background-color: #4b4b4b;
+    border: 1px solid transparent;
     .avatar {
+      position: relative;
       float: left;
       margin: 20px 0 0 20px;
       width: 70px;
       height: 70px;
       border: 2px solid white;
+      .upload-sign {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        margin: 0;
+        text-align: center;
+        line-height: $description-size;
+        font-size: $description-size;
+        color: white;
+        background: rgba(0, 0, 0, 0.5)
+      }
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
     .detail {
       margin-left: 106px;
-      padding-top: 29px;
+      margin-top: 20px;
       .nickname {
         padding-bottom: 5px;
         box-sizing: border-box;
         display: block;
         color: #fff;
-        font-size: 17px;
+        font-size: $item-size;
         border-bottom: 1px solid #818181;
       }
 
       .other-detail {
         display: flex;
         flex-wrap: wrap;
-        margin-top: 13px;
+        margin-top: $description-size;
         color: #fff;
-        font-size: 13px;
+        font-size: $description-size;
         a {
           @include reseta(#fff);
           margin-right: 20px;

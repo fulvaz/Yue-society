@@ -12,7 +12,7 @@
       <span class="errMsg" v-show="errors.has('content')">{{ errors.first('content') }}</span>
     </section>
     <section class="functions">
-      <fz-picker class="type" label="帖子类型" v-model="type" :slotVals="Object.values(category)"></fz-picker>
+      <fz-picker class="type" label="帖子类型" v-model="type" :slotVals="slotVal"></fz-picker>
     </section>
   </div>
 </template>
@@ -40,12 +40,18 @@ export default {
       type: ''
     }
   },
+  computed: {
+    slotVal () {
+      return utils.obj2arr(this.category)
+    }
+  },
   created () {
     that = this // 给全局函数使用
   },
   watch: {
     category () {
-      this.type = Object.values(this.category)[0]
+      if (this.category.length === 0) return
+      this.type = utils.obj2arr(this.category)[0]
     }
   },
   methods: {

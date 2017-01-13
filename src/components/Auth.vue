@@ -13,7 +13,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     let redirect = window.encodeURIComponent(from.path)
     let dest = config.authPath + '?redirectUrl=' + redirect + '&timestamp=' + Math.random()
-    if (process.env.NODE_ENV === 'development') dest = config.authPath + '?test=yzy' + '&redirectUrl=' + redirect + '&timestamp=' + Math.random()
+    // if (process.env.NODE_ENV === 'development') dest = config.authPath + '?test=yzy' + '&redirectUrl=' + redirect + '&timestamp=' + Math.random()
     console.log(dest)
     window.location.href = dest
   }

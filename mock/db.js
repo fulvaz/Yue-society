@@ -163,6 +163,7 @@ function genUsers ()  {
 		let spouseCondition = genSpouse()
 		let tmp = {
 			id: i,
+			uid: i,
 			album: album,
 			introduction: f.lorem.sentence(),
 			nickname: f.internet.userName(),
@@ -263,7 +264,7 @@ function genMe () {
 		 introduction: f.lorem.sentence(),
      nickname: f.internet.userName(),
      realname: f.name.lastName(),
-     birthday: '1990-01-01',
+     birthday: '',
      livingPlace: '山东-临沂',
      height: r(150, 190),
      weight: r(100, 200),
@@ -537,6 +538,14 @@ module.exports = function() {
 		return arr
 	}
 
+	function genImages () {
+		let arr = []
+		for (let i=0; i<r(10, 30); i++) {
+			arr.push(f.image.image(320, 142))
+		}
+		return arr
+	}
+
   // /weixin
   data.weixin = genWXData()
 	data.WXConfig = {
@@ -548,7 +557,8 @@ module.exports = function() {
 		"url": "http://www.resontek.com/#/abc",
 		"jsApiList": ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'chooseWXPay']
 	}
-  data.me = genMe()
+  // data.me = genMe()
+	data.me = {"birthday":"1990-1-1","income":0,"nation":null,"faith":null,"account_status":0,"house":null,"isvip":0,"bloodtype":null,"livingPlace":"广东-广州","school":null,"car":"无","focusd":0,"marriage":null,"nickname":"张小明","id":20,"recommender":null,"lunar":null,"introduction":null,"height":0,"looked":0,"album":["http://app.resontek.com/album/20/yzy_1484158231.jpg","http://app.resontek.com/album/20/yzy_1484158210.jpg","http://app.resontek.com/album/20/yzy_1484151077.jpg","http://app.resontek.com/album/20/yzy_1484151076.jpg"],"sex":"男","degree":null,"weight":0,"avatar":"http://wx.qlogo.cn/mmopen/OshmP2dkrSAmOY4EeFiaLd8XANNG9nVhq6ialo4r8GUlAJ9xxq9gqA6MTBu82ibMo4TJSPVFemPicEcnqJUqxcdb5JUTkxBvdZED/0","balacne":0.0,"realname":null,"starsign":null,"birthplace":null,"age":27,"perfection":0}
   data.users = [genMe(), ...genUsers()]
   // /meSelectable
   data.meSelectable = genMeSelectable()
@@ -598,6 +608,10 @@ module.exports = function() {
 	data.getVerify = {
 		errcode: 0,
     errmsg:"验证码发送成功"
+	}
+	data.images = genImages()
+	data.sliderContent = {
+		h_img: ['http://app.resontek.com/static/img/home_img1.jpg', 'http://app.resontek.com/static/img/home_img2.jpg']
 	}
 	return data;
 }

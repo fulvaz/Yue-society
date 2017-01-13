@@ -1,11 +1,14 @@
 <template lang="html">
   <div class="container">
-    <header>
-      <fz-slider>
+    <header v-show="album.length !== 0">
+      <!-- <fz-slider>
         <fz-slider-item v-for="photo in album">
-          <img :src="photo" class="img">
+          <img :src="photo" class="photo">
         </fz-slider-item>
-      </fz-slider>
+      </fz-slider> -->
+      <div class="photo-container">
+        <tr><td class="photo-cell" v-for="photo in album"><img :src="photo" class="photo"></td></tr>
+      </div>
     </header>
     <section class="main-info">
       <div class="info">
@@ -76,8 +79,18 @@
 
   header {
     height: 20vh;
-    .img {
-      width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    .photo-container {
+      display: table;
+      // width: 1000%;
+    }
+    .photo-cell {
+        padding: 0 $horizontal-margin;
+    }
+
+    .photo {
+      height: 25vh;
     }
   }
 
@@ -100,6 +113,7 @@
       margin-top: 15px;
       display: flex;
       justify-content: space-between;
+      width: 100%;
       @include clearfix();
     }
     .btn {
@@ -257,7 +271,14 @@ export default {
       return this.$store.state.MeState.focus.indexOf(parseInt(this.$route.params.uid)) !== -1
     },
     tags () {
-      return [this.height + '厘米', '年收入' + this.income + '元', this.degree, this.house, this.car + '车', this.school]
+      let arr = []
+      if (this.height) arr.push(this.height + '厘米')
+      if (this.degree) arr.push(this.degree)
+      if (this.house) arr.push(this.house)
+      if (this.car) arr.push(this.car + '车')
+      if (this.school) arr.push(this.school)
+      return arr
+      // return [, '年收入' + this.income + '元', this.degree, this.house, this.car + '车', this.school]
     },
     conditions () {
       return {

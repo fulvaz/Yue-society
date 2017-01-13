@@ -62,7 +62,8 @@ var devApis = {
   'searchRecommend': apiPrefix + '/meRecommend',
     // new
   'createCirclePage': apiPrefix + '',
-  'createCircle': apiPrefix + ''
+  'createCircle': apiPrefix + '',
+  'getSliderContent': apiPrefix + '/sliderContent'
 };
 
 var apis = {
@@ -99,7 +100,8 @@ var apis = {
   'newPost': apiPrefix + '/posts/add', // 创建新帖子
   'activityApi': apiPrefix + '/activities', // 获取某个活动的信息
   'takePartInActivites': apiPrefix + '/circles/activity/attend', //参加某个活动
-  'authCircle': apiPrefix + '/posts/right'
+  'authCircle': apiPrefix + '/posts/right',
+  'getSliderContent': apiPrefix + '/homeImg'
 };
 
 var api = dev ? devApis : apis;

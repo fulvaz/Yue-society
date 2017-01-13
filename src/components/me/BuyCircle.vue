@@ -66,7 +66,7 @@ export default {
       api.buyCircle(data).then(res => {
         this.handleSuccess('PAY_SUCCESS')
       }).catch(res => {
-        this.handleFail('PAY_FAIL')
+        this.handleFailWithCode(res.status, res.statusText)
       })
     }
   }

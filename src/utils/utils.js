@@ -139,8 +139,8 @@ export function getCookie (cookie) {
 
 export function obj2arr (obj) {
   let arr = []
-  Object.values(obj).forEach(e => {
-    arr.push(e)
+  Object.keys(obj).forEach(e => {
+    arr.push(obj[e])
   })
   return arr
 }

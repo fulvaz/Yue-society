@@ -8,22 +8,26 @@
           popup-transition="popup-fade">
     <mt-picker ref="picker" :slots="slotPicker" @change="onChange"></mt-picker>
   </picker-popup>
-  <mt-field :label="label" :placeholder="placeholder" :value="value" @click.native="handleClick" readonly></mt-field>
+  <fz-input :label="label" :placeholder="placeholder" :value="value" @click.native="handleClick" readonly :hasError="hasError" :errMsg="errMsg" ></fz-input>
 </div>
 </template>
 
 <script>
 import { Picker, Field, Popup } from 'mint-ui'
+import InputField from './InputField'
 import * as utils from '../../utils/utils.js'
 export default {
   props: {
     label: String,
     placeholder: String,
     slotVals: Array,
-    value: String
+    value: String,
+    hasError: false,
+    errMsg: ''
   },
   components: {
     'mt-field': Field,
+    'fz-input': InputField,
     'mt-picker': Picker,
     'picker-popup': Popup
   },
@@ -57,7 +61,10 @@ export default {
     },
     handleClick () {
       // 在选择框选中获取值
-      if (this.value !== undefined) this.$refs.picker.setSlotValue(0, this.value)
+      if (this.value) this.$refs.picker.setSlotValue(0, this.value)
+      else {
+        this.$refs.picker.setSlotValue(0, this.slotVals[0])
+      }
       this.visible = true
     },
     open () {

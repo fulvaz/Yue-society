@@ -1,9 +1,9 @@
 <template lang="html">
   <div class="container">
     <div class="wrapper">
-      <label class="label" for="select">{{label}}</label>
+      <label class="label" for="select">{{required ? label + ' *' : label}}</label>
       <div class="input">
-        <input type="text" :value="value" @blur="handleChange" :class="{error: hasError}" :placeholder="placeholder" :disabled="disabled">
+        <input type="text" :value="value" @blur="handleChange" :class="{error: hasError}" :placeholder="placeholder" :disabled="disabled" :readonly="readonly">
         <div class="append">
           <slot></slot>
         </div>
@@ -19,6 +19,14 @@
 // import * as utils from '../../utils/utils.js'
 export default {
   props: {
+    readonly: {
+      type: Boolean,
+      default: false
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
     hasError: false,
     errMsg: '',
     placeholder: '',

@@ -10,6 +10,7 @@
       >
       </user-list>
     </section>
+    <button type="button" name="button" class="btn-load-more" @click="loadMore">点击加载更多</button>
   </div>
 </template>
 
@@ -31,7 +32,7 @@ export default {
   },
   created () {
     this.openIndicator()
-    api.getCircleMember(this.$route.params.id, this.page++, 0).then(e => {
+    api.getCircleMember(this.$route.params.id, this.page++, 10).then(e => {
       this.closeIndicator()
       this.users = utils.response2Data(e)
     }).catch(e => {
@@ -41,6 +42,14 @@ export default {
   methods: {
     close () {
       this.$router.go(-1)
+    },
+    loadMore () {
+      api.getCircleMember(this.$route.params.id, this.page++, 10).then(e => {
+        this.closeIndicator()
+        this.users = this.users.concat(utils.response2Data(e))
+      }).catch(e => {
+        this.handleFailWithCode(e.status, e.statusText)
+      })
     }
   }
 }
@@ -51,10 +60,6 @@ export default {
   .post-editor-container {
     box-sizing: border-box;
     background-color: white;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
   }
 
   header {
@@ -84,6 +89,15 @@ export default {
       border: none;
       background-color: transparent;
     }
+  }
+
+  .btn-load-more {
+    width: 100%;
+    padding: 1em 0;
+    font-size: $description-size;
+    color: $description-color;
+    background: white;
+    appearance: none;
   }
 
   .errMsg {

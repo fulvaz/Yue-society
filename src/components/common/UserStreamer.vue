@@ -2,7 +2,7 @@
    <div class="streamer">
        <h2 v-if="title.length !== 0" class="title">{{title}}</h2>
        <div class="content-container">
-            <router-link v-for="item in items" :to="'/users' + '/' + item.id">
+            <router-link v-for="item in items" :to="'/users' + '/' + item.uid">
               <card class="card" :user="item"></card>
             </router-link>
        </div>

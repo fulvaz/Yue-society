@@ -98,7 +98,7 @@ const routes = [
   {path: '/test', component: Test},
   {path: '/posts/:id', component: Post},
   {path: '/auth', component: Auth},
-  {path: '/search/index', component: SearchIndex},
+  {path: '/search/', component: SearchIndex},
   {path: '/search/q', component: Search},
   {path: '/search/q/:query', component: SearchResult},
   {path: '/message', component: MessageList},

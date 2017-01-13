@@ -28,6 +28,8 @@ export default {
   created () {
     api.fetchSearchTags().then(response => {
       this.tags = response
+      delete this.tags.errcode
+      delete this.tags.errmsg
     }).catch(response => {
       console.error(response)
     })

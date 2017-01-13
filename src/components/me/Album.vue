@@ -19,7 +19,7 @@ import * as api from '../../api/index.js'
 import * as utils from '../../utils/utils.js'
 import WaterFall from '../common/WaterFall'
 import { Indicator } from 'mint-ui'
-import config from '../../config/setting.js'
+// import config from '../../config/setting.js'
 export default {
   components: {
     'fz-water-fall': WaterFall
@@ -39,26 +39,26 @@ export default {
     }
   },
   created () {
-    let vm = this
-    Indicator.open('加载中...')
-    // console.log(wx)
-    api.getWXConfig(window.location.pathname + window.location.hash).then(response => {
-      let wxConfig = utils.response2Data(response)
-      wxConfig.jsApiList = [
-        'chooseImage',
-        'previewImage',
-        'uploadImage'
-      ]
-      wxConfig.debug = config.dev
-      wx.config(wxConfig)
-      wx.ready(function (res) {
-        vm.onLoad = true
-        Indicator.close()
-      })
-      wx.error(function (res) {
-        console.log('auth failed')
-      })
-    })
+    // let vm = this
+    // Indicator.open('加载中...')
+    // // console.log(wx)
+    // api.getWXConfig(window.location.pathname + window.location.hash).then(response => {
+    //   let wxConfig = utils.response2Data(response)
+    //   wxConfig.jsApiList = [
+    //     'chooseImage',
+    //     'previewImage',
+    //     'uploadImage'
+    //   ]
+    //   wxConfig.debug = process.env.NODE_ENV
+    //   wx.config(wxConfig)
+    //   wx.ready(function (res) {
+    //     vm.onLoad = true
+    //     Indicator.close()
+    //   })
+    //   wx.error(function (res) {
+    //     console.log('auth failed')
+    //   })
+    // })
     api.getAlbum(this.$store.state.MeState.uid).then(response => {
       let data = utils.response2Data(response)
       this.images = data.images

@@ -38,13 +38,13 @@ module.exports = {
         test: /\.vue$/,
         loader: 'eslint',
         include: projectRoot,
-        exclude: /node_modules(?![\\/]vue-awesome[\\/])/
+        exclude: [/node_modules(?![\\/]vue-awesome[\\/])/, /common\/external/]
       },
       {
         test: /\.js$/,
         loader: 'eslint',
         include: projectRoot,
-        exclude: /node_modules(?![\\/]vue-awesome[\\/])/
+        exclude: [/node_modules(?![\\/]vue-awesome[\\/])/, /common\/external/]
       }
     ],
     loaders: [
