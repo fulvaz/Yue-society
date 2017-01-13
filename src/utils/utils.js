@@ -113,6 +113,7 @@ export function date2YMDHMM (date) {
 }
 
 export function response2Data (response) {
+  console.log(response)
   let remoteData
   if (typeof response.body === 'object') remoteData = response.body
   else if (typeof response.body === 'string') remoteData = response.body

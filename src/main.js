@@ -116,30 +116,40 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path !== '/auth') {
-    // 如果在本地测试登录功能, 你需要注释下面这行, 然后将下下行解除注释
-    let cookieAuth = utils.getCookie(document.cookie).auth
-    if (config.dev) {
-      store.dispatch('itemClicked', config.tabbarItems[to.path])
-      store.dispatch('fetchMeState').then(res => {
+  // 业务逻辑函数
+  function afterAuth () {
+    // 对已注册用户开始正常的业务逻辑
+    // 修改状态栏状态
+    store.dispatch('itemClicked', config.tabbarItems[to.path])
+    // 获取stateInfo, 这个是很重要的api
+    store.dispatch('fetchMeState').then(data => {
+      // 没法啦, 判断手机验证是否成功只能放这了, 因为在stateInfo这个api里面
+      if (!data.mobileAuth) next('/reg')
+      else {
         next()
-      })
+      }
+    })
+  }
+
+  // 不能拦截去认证和注册页面的路由
+  if (to.path === '/auth' || to.path === '/reg') {
+    // 不阻止认证页面
+    next()
+  } else {
+    // 这个判断只是debug, 不用理
+    if (config.dev) {
+      afterAuth()
       return
     }
+
+    // 权限逻辑在这里
+    let cookieAuth = utils.getCookie(document.cookie).auth
+    // 没有注册的去微信认证
     if (cookieAuth === undefined || cookieAuth === 'false') next('/auth')
-    // if (!utils.getCookie(document.cookie).auth) next('/auth')
     else {
-      // 业务逻辑
-      // 修改状态栏状态
-      store.dispatch('itemClicked', config.tabbarItems[to.path])
-      store.dispatch('fetchMeState').then(res => {
-        next()
-      })
+      afterAuth()
     }
-  } else {
-    next()
   }
-  // auth
 })
 
 // const eventHub = new Vue()

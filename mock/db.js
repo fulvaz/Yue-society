@@ -140,6 +140,7 @@ function genMsgList () {
 function genStateInfo () {
 	return {
 		'uid': 1111,
+		'mobileAuth': true,
 		'avatar': 'https://s3.amazonaws.com/uifaces/faces/twitter/timgthomas/128.jpg',
 		'joinedCircles': [1, 2, 3, 4, 5],
 		'joinedActivities': [1, 2, 3, 4, 5],
