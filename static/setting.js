@@ -63,7 +63,8 @@ var devApis = {
     // new
   'createCirclePage': apiPrefix + '',
   'createCircle': apiPrefix + '',
-  'getSliderContent': apiPrefix + '/sliderContent'
+  'getSliderContent': apiPrefix + '/sliderContent',
+  'deletePhoto': ''
 };
 
 var apis = {

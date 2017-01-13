@@ -59,7 +59,7 @@ function genAlbum () {
 		album.nickname = f.internet.userName()
 		let images = []
 		for (let j=0; j<r(10, 30); j++) {
-			images.push(f.image.nightlife(r(100, 200), r(100, 200)))
+			images.push('static/test.jpg')
 		}
 		album.images = images
 	}

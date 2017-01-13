@@ -23,6 +23,7 @@ let msgs = {
   'APPOINTMENT_REQ_SUCCESS': '发送约会请求成功',
   'APPOINTMENT_REQ_FAIL': '网络错误, 请稍后重试',
   'UPLOAD_IMAGE_SUCCESS': '上传图片成功',
+  'DELETE_IMAGE_SUCCESS': '删除图片成功',
   'UPLOAD_IMAGE_FAIL': '图片上传失败',
   'REG_SUCCESS': '注册成功'
 }

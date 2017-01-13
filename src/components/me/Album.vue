@@ -1,13 +1,23 @@
 <template lang="html">
   <div v-if="onLoad" class="container" @click="handlePreviewImage">
     <header>
-      <h1 class="title">{{nickname}}</h1>
-      <p class="subtitle">{{introduction}}</p>
-      <div class="btns">
+      <!-- <h1 class="title">{{nickname}}</h1> -->
+      <!-- <p class="subtitle">{{introduction}}</p> -->
+      <div class="btns" v-if="mode === 'normal'">
           <button class="upload-btn btn" @click="handleUploadBtn">上传</button>
+          <button class="upload-btn btn" @click="changeToDeleteMode">删除</button>
+      </div>
+      <div class="btns" v-if="mode === 'delete'">
+          <button class="upload-btn btn" @click="changeToNormalMode">完成</button>
+          <button class="upload-btn btn" @click="handleDelete">删除</button>
       </div>
     </header>
-    <fz-water-fall :images="images"></fz-water-fall>
+    <fz-grid>
+      <fz-grid-item v-for="(img, index) in images" class="grid-item" @click.native="handleImgSelect">
+        <input v-show="mode === 'delete'" type="checkbox" :value="index" class="image-select">
+        <fz-cover-img :img="img"></fz-cover-img>
+      </fz-grid-item>
+    </fz-grid>
   </div>
 </template>
 
@@ -17,20 +27,25 @@
 import wx from 'weixin-js-sdk'
 import * as api from '../../api/index.js'
 import * as utils from '../../utils/utils.js'
-import WaterFall from '../common/WaterFall'
+import Grid from '../common/layouts/Grid'
+import GridItem from '../common/layouts/GridItem'
+import CoverImg from '../common/ImageCover'
 import { Indicator } from 'mint-ui'
-// import config from '../../config/setting.js'
 export default {
   components: {
-    'fz-water-fall': WaterFall
+    'fz-grid': Grid,
+    'fz-grid-item': GridItem,
+    'fz-cover-img': CoverImg
   },
   data () {
     return {
-      onLoad: false,
+      onLoad: true,
       images: [],
       uid: 0,
       nickname: '',
-      introduction: ''
+      introduction: '',
+      mode: 'normal',
+      imgToDelete: []
     }
   },
   computed: {
@@ -73,6 +88,18 @@ export default {
     Indicator.close()
   },
   methods: {
+    handleImgSelect (e) {
+      if (e.target.nodeName.toLowerCase() !== 'input') return
+      console.log(e.target.value)
+      this.imgToDelete.push(e.target.value)
+    },
+    changeToNormalMode () {
+      this.mode = 'normal'
+      this.imgToDelete = []
+    },
+    changeToDeleteMode () {
+      this.mode = 'delete'
+    },
     handleUploadBtn () {
       let that = this
       wx.chooseImage({
@@ -80,9 +107,22 @@ export default {
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
         success: function (res) {
-          console.log(res.localIds)
+          // console.log(res.localIds)
           that.uploadImage(res.localIds)
         }
+      })
+    },
+    handleDelete () {
+      let data = this.imgToDelete.map(key => {
+        return this.images[key]
+      })
+      this.openIndicator()
+      api.deletePhoto(data).then(res => {
+        this.changeToNormalMode()
+        this.handleSuccess('DELETE_IMAGE_SUCCESS')
+      }).catch(res => {
+        this.handleFailWithCode(res.status, res.statusText)
+        this.changeToNormalMode()
       })
     },
     handlePreviewImage (event) {
@@ -132,6 +172,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "../../assets/index.scss";
   .btn {
     padding: 5px 20px;
     height: 30px;
@@ -143,7 +184,7 @@ export default {
   }
 
   header {
-    margin: 0 18px;
+    margin: $horizontal-margin 18px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -159,9 +200,14 @@ export default {
       margin-bottom: 20px;
       font-size: 12px;
     }
+  }
 
-    .btn {
-      margin-bottom: 30px;
+  .grid-item {
+    position: relative;
+    width: 33%;
+    .image-select {
+      position: absolute;
+      z-index: 1;
     }
   }
 </style>

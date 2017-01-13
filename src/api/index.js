@@ -680,3 +680,13 @@ export const getSliderContent = function (page, limit) {
     })
   })
 }
+
+export const deletePhoto = function (data) {
+  return new Promise((resolve, reject) => {
+    vue.http.put(`${config.deletePhoto}`, data).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
