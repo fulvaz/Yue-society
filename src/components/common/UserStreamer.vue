@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    // 重构一下就是个流式布局的可复用组件
+    // 重构一下就是个流式布局的可复用组件 Update: 重构过了, 现在是gird layout
     import Card from './UserCard'
     export default {
       components: {
@@ -39,23 +39,23 @@
     .content-container {
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
+        align-items: center;
 
         a {
-          margin-right: $horizontal-margin;
-          margin-bottom: $horizontal-margin;
-          flex: 1 1 40%;
+          float: left;
+          margin-right: 10px;
+          margin-bottom: 10px;
           display: block;
-          width: calc(50% - 30px);
-
-          &:nth-child(even) {
+          width: calc((100% - 20px) / 3);
+          // width: calc(50% - 30px);
+          &:nth-child(3n) {
             margin-right: 0;
           }
         }
 
         .card {
-            float: left;
-            width: 100%;
+            // float: left;
+            // width: 100%;
         }
     }
 

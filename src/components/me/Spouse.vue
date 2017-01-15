@@ -2,11 +2,11 @@
   <div class="container">
     <address-picker label="出生地" v-model="birthplace" class="field"></address-picker>
     <address-picker label="居住地" v-model="livingPlace" class="field"></address-picker>
-    <num-range-picker v-model="ageRange" label="年龄范围" :slotVal="ageList" class="field"></num-range-picker>
-    <num-range-picker v-model="weightRange" label="体重范围" :slotVal="weightList" class="field"></num-range-picker>
-    <num-range-picker v-model="heightRange" label="身高范围" :slotVal="heightList" class="field"></num-range-picker>
+    <num-range-picker v-model="ageRange" label="年龄范围" valAppend="岁" :slotVal="ageList" class="field"></num-range-picker>
+    <num-range-picker v-model="weightRange" label="体重范围" valAppend="公斤" :slotVal="weightList" class="field"></num-range-picker>
+    <num-range-picker v-model="heightRange" label="身高范围" valAppend="厘米" :slotVal="heightList" class="field"></num-range-picker>
     <!-- 代码凌乱的原因是我老是在改架构却不肯重构 update: 总算没那么乱了 -->
-    <num-range-picker v-model="revenueRange" label="收入范围" :slotVal="revenuelist" class="field"></num-range-picker>
+    <num-range-picker v-model="revenueRange" label="年收入范围"  valAppend="万元" :slotVal="revenuelist" class="field"></num-range-picker>
     <num-range-picker v-model="degreeRange" label="学历范围" :slotVal="degreeList" class="field"></num-range-picker>
     <mt-button type="primary" class="btn-confirm class" @click.native="sendRegData">更新</mt-button>
   </div>
@@ -28,7 +28,7 @@ const heightList = utils.rangeArr(120, 200)
 //   1000: ['1000', '3000', '5000', '7000', '8000', '9000', '10000'],
 //   3000: ['5000', '7000', '8000', '9000', '10000']
 // }
-const revenuelist = ['1000', '3000', '5000', '7000', '8000', '9000', '10000']
+const revenuelist = ['0', '5', '10', '15', '20', '25', '30', '40', '50', '60']
 
 // 这么处理的原因是发生了一个神奇的bug
 

@@ -43,6 +43,7 @@ import Appointment from 'components/me/Appointment'
 import ActivitiesJoined from 'components/me/ActivitiesJoined'
 import ConsumeHistory from 'components/me/ConsumeHistory'
 import AppointmentRequest from 'components/user/Appointment'
+import Demo from 'components/Demo'
 
 import store from './store/index.js'
 import * as utils from './utils/utils.js'
@@ -107,6 +108,7 @@ const routes = [
   {path: '/users/:uid', component: User},
   {path: '/tags/:tag', component: Tag},
   {path: '/albums/:uid', component: Album},
+  {path: '/demo', component: Demo},
   {path: '/activities/:id', component: Activity}
 ]
 

@@ -6,7 +6,7 @@
           <img :src="photo" class="photo">
         </fz-slider-item>
       </fz-slider> -->
-      <div class="photo-container">
+      <div class="photo-container" @click="handlePreviewImage">
         <tr><td class="photo-cell" v-for="photo in album"><img :src="photo" class="photo"></td></tr>
       </div>
     </header>
@@ -33,9 +33,10 @@
     <section class="conditions">
       <fz-list title="择偶条件">
         <li v-for="(value, key) in conditions">
-          <div class="wrapper">
+          <div class="wrapper" v-show="value !== null">
             <span class="key">{{key}}</span>
             <span class="value">{{value}}</span>
+            <span class="unit" v-if="units[key]">{{units[key]}}</span>
           </div>
         </li>
       </fz-list>
@@ -44,9 +45,10 @@
     <section class="details">
       <fz-list title="基本信息">
         <li v-for="(value, key) in info">
-          <div class="wrapper">
+          <div class="wrapper" v-show="value !== null">
             <span class="key">{{key}}</span>
             <span class="value">{{value}}</span>
+            <span class="unit" v-if="units[key]">{{units[key]}}</span>
           </div>
         </li>
       </fz-list>
@@ -86,7 +88,8 @@
       // width: 1000%;
     }
     .photo-cell {
-        padding: 0 $horizontal-margin;
+        border-right: 1px solid $list-border-color;
+        padding: 0 8px;
     }
 
     .photo {
@@ -180,13 +183,16 @@
     .key {
       display: inline-block;
       width: 100px;
-      font-size: 13px;
+      font-size: $description-size;
       line-height: 33px;
     }
     .value {
       display: inline-block;
-      font-size: 13px;
+      font-size: $description-size;
       line-height: 33px;
+    }
+    .unit {
+      font-size: $description-size;
     }
   }
 
@@ -219,6 +225,8 @@ import List from '../common/List'
 import * as utils from '../../utils/utils.js'
 import { Popup } from 'mint-ui'
 import Appointment from './Appointment'
+import wx from 'weixin-js-sdk'
+import units from '../../assets/units.js'
 export default {
   methods: {
     underDev () {
@@ -241,6 +249,27 @@ export default {
         console.error(response)
       })
     },
+    handlePreviewImage (event) {
+      let vm = this
+      if (event.target.nodeName.toLowerCase() !== 'img') return
+      this.openIndicator()
+      api.getWXConfig(window.location.pathname + window.location.hash).then(response => {
+        let wxConfig = utils.response2Data(response)
+        wxConfig.jsApiList = [
+          'previewImage'
+        ]
+        // wxConfig.debug = process.env.NODE_ENV
+        wx.config(wxConfig)
+        wx.ready(function (res) {
+          vm.closeIndicator()
+          let img = event.target
+          api.wxPreviewImage(img.src, vm.album)
+        })
+        wx.error(function (res) {
+          console.log('auth failed')
+        })
+      })
+    },
     handleMsg () {
       console.log('/message/chat/' + this.$route.params.uid)
       this.$router.push('/message/chat/' + this.$route.params.uid)
@@ -258,12 +287,10 @@ export default {
     // this.showPopup = true
   },
   created () {
+    this.units = units
     api.getUser(this.$route.params.uid).then(response => {
       let data = utils.response2Data(response)
-      let keys = Object.keys(utils.objAssign(this.$data))
-      keys.forEach(e => {
-        this[e] = data[e]
-      })
+      utils.batchAssign(data, this)
     })
   },
   computed: {
@@ -277,6 +304,11 @@ export default {
       if (this.house) arr.push(this.house)
       if (this.car) arr.push(this.car + '车')
       if (this.school) arr.push(this.school)
+      if (this.circleJoined.length !== 0) {
+        this.circleJoined.forEach(circle => {
+          arr.push(circle.name)
+        })
+      }
       return arr
       // return [, '年收入' + this.income + '元', this.degree, this.house, this.car + '车', this.school]
     },
@@ -285,7 +317,7 @@ export default {
         '体重': `${this.spouseCondition.startweight} - ${this.spouseCondition.endweight}`,
         '身高': `${this.spouseCondition.startheight} - ${this.spouseCondition.endheight}`,
         '年龄': `${this.spouseCondition.startage} - ${this.spouseCondition.endage}`,
-        '学历': `${this.spouseCondition.startdegree} - ${this.spouseCondition.enddegree}`,
+        // '学历': `${this.spouseCondition.startdegree} - ${this.spouseCondition.enddegree}`,
         '收入': `${this.spouseCondition.startrevenue} - ${this.spouseCondition.endrevenue}`,
         '现居地': this.spouseCondition.livingPlace,
         '出生地': this.spouseCondition.birthplace
@@ -298,7 +330,7 @@ export default {
         '年龄': this.age,
         '身高': this.height,
         '收入': this.income,
-        '学历': this.degree,
+        // '学历': this.degree,
         '婚姻状况': this.marriage,
         '房子': this.house,
         '车': this.car,
@@ -314,6 +346,7 @@ export default {
   data () {
     return {
       uid: 0,
+      units: {},
       sex: '',
       introduction: '',
       // 个人信息
@@ -335,7 +368,8 @@ export default {
       faith: '',
       starsign: '',
       spouseCondition: {}, // 测试下是否会响应式 大概是不会, 除非用特别的赋值方式
-      showPopup: false
+      showPopup: false,
+      circleJoined: []
     }
   }
 }

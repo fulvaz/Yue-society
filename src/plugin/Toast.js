@@ -1,6 +1,8 @@
 import {Toast, Indicator} from 'mint-ui'
 
-let toast = {}
+let toast = {
+  Indicator: Indicator
+}
 
 let msgs = {
   'ENTER_ACTIVITY_SUCCESS': '参加活动成功',

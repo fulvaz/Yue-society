@@ -1,75 +1,137 @@
 <template>
     <div class="index-container">
-        <slider class="circle-recommend recommend" title="圈子推荐">
-            <slider-item v-for="item in circleRecommend" :logo="item.logo" :content-title="item.contentTitle" :content-subtitle="item.contentSubtitle" :content="item.content" :to="'/circles/' + item.id"></slider-item>
-        </slider>
-        <!-- <div class="more"><router-link to="/circles">发现更多圈子</router-link></div> -->
-        <circle-list :title="'我的圈子'" class="circle-my">
-            <li v-for="circle in myCircles"><router-link :to="`/circles/${circle.id}`"><circle-list-item :content-title="circle.name" :content-subtitle="circle.memberNum + ' 人'" :logo="circle.logo"></circle-list-item></router-link></li>
-        </circle-list>
+      <section class="main">
+        <nav-bar v-model="active" id="navbar">
+          <tab-item id="tab-myCircle" class="navbar-item">我的圈子</tab-item>
+          <tab-item id="tab-circleRecommend" class="navbar-item">推荐圈子</tab-item>
+          <tab-item id="tab-circleSearch" class="navbar-item">圈子搜索</tab-item>
+        </nav-bar>
+        <mt-tab-container class="tab-container" v-model="active">
+          <mt-tab-container-item id="tab-myCircle">
+            <list class="recommend">
+                <li v-for="item in myCDisplay" class="recommend">
+                  <router-link :to="`/circles/${item.id}`">
+                    <!-- <list-item-detailed
+                      :name="item.name"
+                      :subtitle="item.subtitle"
+                      :logo="item.logo"
+                      :tags="item.tags"
+                      :intro="item.intro"
+                      >
+                    </list-item-detailed> -->
+                    <circle-list :title="''" class="circle-my">
+                        <li v-for="circle in myCircles"><router-link :to="`/circles/${circle.id}`"><circle-list-item :content-title="circle.name" :content-subtitle="circle.memberNum + ' 人'" :logo="circle.logo"></circle-list-item></router-link></li>
+                    </circle-list>
+                  </router-link>
+                </li>
+            </list>
+          </mt-tab-container-item>
+          <mt-tab-container-item id="tab-circleRecommend">
+            <list class="recommend">
+                <li v-for="item in cRecDisplay" class="recommend">
+                  <router-link :to="`/circles/${item.id}`">
+                    <list-item-detailed
+                      :name="item.name"
+                      :subtitle="item.subtitle"
+                      :logo="item.logo"
+                      :tags="item.tags"
+                      :intro="item.intro"
+                      >
+                    </list-item-detailed>
+                  </router-link>
+                </li>
+            </list>
+          </mt-tab-container-item>
+          <mt-tab-container-item id="tab-circleSearch">
+          </mt-tab-container-item>
+        </mt-tab-container>
+      </section>
     </div>
 </template>
 
 <script>
+  import {TabContainer, TabContainerItem, Navbar, TabItem, Button} from 'mint-ui'
   import Slider from '../common/Slider'
   import SliderItem from '../common/SliderItem'
-  import Config from '../../config/setting'
   import List from '../common/List'
   import ListItem from '../common/ListItem'
+  import DetailedListItem from '../common/DetailedListItem'
+  import * as api from '../../api/index.js'
+  import * as utils from '../../utils/utils.js'
 
   export default {
     data () {
       return {
         circleRecommend: [],
-        myCircles: []
+        myCircles: [],
+        active: 'tab-circleRecommend'
+      }
+    },
+    computed: {
+      cRecDisplay () {
+        return this.circleRecommend.map(e => {
+          let tags = e.tags
+          if (e.ifHot) tags.push('热门圈子')
+
+          let obj = {
+            id: e.id,
+            name: e.name,
+            subtitle: `${e.location} / ${e.category}`,
+            logo: e.logo,
+            intro: e.introduction,
+            tags: tags
+          }
+          return obj
+        })
+      },
+      myCDisplay () {
+        return this.myCircles.map(e => {
+          let tags = e.tags
+          let obj = {
+            id: e.id,
+            name: e.name,
+            subtitle: `${e.location} / ${e.category}`,
+            logo: e.logo,
+            intro: e.introduction,
+            tags: tags
+          }
+          return obj
+        })
       }
     },
     components: {
+      'mt-button': Button,
+      'mt-tab-container-item': TabContainerItem,
+      'mt-tab-container': TabContainer,
+      'nav-bar': Navbar,
+      'tab-item': TabItem,
       'slider': Slider,
       'slider-item': SliderItem,
       'circle-list': List,
-      'circle-list-item': ListItem
+      'circle-list-item': ListItem,
+      'list': List,
+      'list-item-detailed': DetailedListItem,
+      'list-item': ListItem
     },
     methods: {
       fetchCircleRecommend () {
-        this.$http.get(Config.circlesRecommendsApi).then((response) => {
-          let remoteData
-          // 有些服务器返回字符串, 有些则是JSON, 需要判断
-          if (typeof response.body === 'object') remoteData = response.body
-          else remoteData = JSON.parse(response.body)
-          // 为了组件复用, 这里需要重新组装一下数据
-          /**
-
-            'contentTitle' <- name
-            'contentSubtitle' <- location
-            'content' <- introduction
-          **/
-          let tmp = remoteData.map((e) => {
-            e['contentTitle'] = e.name
-            e['contentSubtitle'] = e.location
-            e['content'] = e.introduction
-            delete e.name
-            delete e.location
-            delete e.introduction
-            return e
-          })
-          this.circleRecommend = this.circleRecommend.concat(tmp)
-        }, (response) => {
-          this.toastNetErrMsg(response.status)
+        api.fetchCircleRecommend().then(res => {
+          let remoteData = utils.response2Data(res)
+          this.circleRecommend = this.circleRecommend.concat(remoteData)
         })
       },
       fetchMyCircle () {
-        this.$http.get(Config.myCircles).then((response) => {
-          let remoteData
-          if (typeof response.body === 'object') remoteData = response.body
-          else remoteData = JSON.parse(response.body)
-          this.myCircles = remoteData
+        api.fetchMyCircle().then(res => {
+          let data = utils.response2Data(res)
+          this.myCircles = data
         })
       }
     },
     created () {
       this.fetchCircleRecommend()
       this.fetchMyCircle()
+    },
+    mounted () {
     }
   }
 </script>
@@ -78,39 +140,38 @@
   @import "../../assets/index.scss";
   .index-container {
       background-color: #fff;
-      padding: $horizontal-margin;
+      padding: 0;
   }
 
-  .circle-recommend {
-    background-color: #fff;
+  .tab-container {
+    padding: 0 $horizontal-margin;
+    background-color: white;
   }
-
-  .more {
-    background-color: #fff;
-    padding-bottom: 11px;
-
-    a {
+  #navbar {
+    margin-bottom: 5px; // 避免挡住下方边框
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    .navbar-item {
+      flex: 1 1 200px;
+      padding: 1em 0;
       display: block;
-      width: 100%;
-      text-align: center;
-      font-size: 15px;
-      @include reseta(#aaa);
     }
+    .is-selected {
+      color: $main-red;
+      border-bottom: 3px solid $main-red;
+    }
+
+    @include clearfix()
   }
 
-  .circle-my {
-      li {
-        list-style: none;
-        padding: $list-padding 0px;
-        border-top: 1px solid $list-border-color;
 
-        &:last-child {
-          border-bottom: 1px solid #F1F1F1;
-        }
-
-        a {
-          @include reseta(#000)
-        }
-      }
+  .recommend {
+      @include list-border();
+      padding: $list-padding 0 ;
+      background-color: white;
+      margin: 0px 0;
+      box-shadow: 1px black;
   }
+
 </style>

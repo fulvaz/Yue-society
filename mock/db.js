@@ -59,7 +59,7 @@ function genAlbum () {
 		album.nickname = f.internet.userName()
 		let images = []
 		for (let j=0; j<r(10, 30); j++) {
-			images.push('static/test.jpg')
+			images.push('http://app.resontek.com/static/test.jpg')
 		}
 		album.images = images
 	}
@@ -124,7 +124,7 @@ function genChat () {
 
 function genMsgList () {
 	let msgList = []
-	for (let i=0; i<10; i++) {
+	for (let i=0; i<5; i++) {
 		msgList.push({
 			uid: i,
 			nickname: f.internet.userName(),
@@ -141,6 +141,7 @@ function genStateInfo () {
 	return {
 		'uid': 1111,
 		'mobileAuth': true,
+		'ifAvailable': true,
 		'avatar': 'https://s3.amazonaws.com/uifaces/faces/twitter/timgthomas/128.jpg',
 		'joinedCircles': [1, 2, 3, 4, 5],
 		'joinedActivities': [1, 2, 3, 4, 5],
@@ -158,7 +159,8 @@ function genUsers ()  {
 	let users = []
 	let album = []
 	for (let i=0; i<r(10, 20); i++) {
-		album.push(f.image.image(r(200, 300), r(200, 300)))
+		// album.push(f.image.image(r(200, 300), r(200, 300)))
+		album.push('http://app.resontek.com/static/test.jpg')
 	}
 	for (var i=0; i < r(20, 30); i++) {
 		let spouseCondition = genSpouse()
@@ -166,6 +168,7 @@ function genUsers ()  {
 			id: i,
 			uid: i,
 			album: album,
+			circleJoined: [{id: 0, name: '圈常常常常常常常常'}, {id: 0, name: '圈常常'}, {id: 0, name: '圈常常圈常常圈常常圈常常圈常常'}],
 			introduction: f.lorem.sentence(),
 			nickname: f.internet.userName(),
 			realname: f.name.lastName(),
@@ -184,7 +187,7 @@ function genUsers ()  {
 			marriage: '未婚',
 			house: '租房',
 			car: '有',
-			birthplace: '北京-北京',
+			birthplace: '山东-临沂',
 			faith: '伊斯兰教',
 			starsign: '处女座',
 			isvip: 1,
@@ -254,6 +257,45 @@ function genSpouse () {
 		endrevenue: 8000,
 		birthplace: '广东-广州'
 	}
+}
+
+function genCircleDetail () {
+	let arr = []
+	for (let i=0; i<r(3, 20); i++) {
+		arr.push({
+			id: i,
+			name: f.lorem.word(),
+			location: f.address.state(),
+			category: '金融',
+			tags: ['高颜值', '吃吃喝喝', '高收入'],
+			introduction: f.lorem.sentence(),
+			logo: f.image.image(),
+			ifHot: r(0, 1) ? true : false
+		})
+	}
+	return arr
+}
+
+function genUserDetail () {
+	let arr = []
+	for (let i=0; i<r(3, 20); i++) {
+		arr.push({
+			uid: i,
+			nickname: f.lorem.word(),
+			sex: r(0, 1) ? '男' : '女',
+			livingplace: f.address.state(),
+			height: 999,
+			age:  27, // 用age加与我同年
+			income: r(0, 1) ? '5-10' : '20-100', // 大于10w收入稳定
+			school: '蓝翔',// 与我是校友tag
+			house: '已购房', // 已购房
+			car: '有', // 有车
+			birthplace: '山东-临沂',// 与我同乡
+			introduction: f.lorem.sentence(),
+			avatar: f.image.image(200, 200)
+		})
+	}
+	return arr
 }
 
 // 从这里开始有文档 见另外JSON文档
@@ -558,8 +600,8 @@ module.exports = function() {
 		"url": "http://www.resontek.com/#/abc",
 		"jsApiList": ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'chooseWXPay']
 	}
-  // data.me = genMe()
-	data.me = {"birthday":"1990-1-1","income":0,"nation":null,"faith":null,"account_status":0,"house":null,"isvip":0,"bloodtype":null,"livingPlace":"广东-广州","school":null,"car":"无","focusd":0,"marriage":null,"nickname":"张小明","id":20,"recommender":null,"lunar":null,"introduction":null,"height":0,"looked":0,"album":["http://app.resontek.com/album/20/yzy_1484158231.jpg","http://app.resontek.com/album/20/yzy_1484158210.jpg","http://app.resontek.com/album/20/yzy_1484151077.jpg","http://app.resontek.com/album/20/yzy_1484151076.jpg"],"sex":"男","degree":null,"weight":0,"avatar":"http://wx.qlogo.cn/mmopen/OshmP2dkrSAmOY4EeFiaLd8XANNG9nVhq6ialo4r8GUlAJ9xxq9gqA6MTBu82ibMo4TJSPVFemPicEcnqJUqxcdb5JUTkxBvdZED/0","balacne":0.0,"realname":null,"starsign":null,"birthplace":null,"age":27,"perfection":0}
+  data.me = genMe()
+	// data.me = {"birthday":"1990-1-1","income":0,"nation":null,"faith":null,"account_status":0,"house":null,"isvip":0,"bloodtype":null,"livingPlace":"广东-广州","school":null,"car":"无","focusd":0,"marriage":null,"nickname":"张小明","id":20,"recommender":null,"lunar":null,"introduction":null,"height":0,"looked":0,"album":["http://app.resontek.com/album/20/yzy_1484158231.jpg","http://app.resontek.com/album/20/yzy_1484158210.jpg","http://app.resontek.com/album/20/yzy_1484151077.jpg","http://app.resontek.com/album/20/yzy_1484151076.jpg"],"sex":"男","degree":null,"weight":0,"avatar":"http://wx.qlogo.cn/mmopen/OshmP2dkrSAmOY4EeFiaLd8XANNG9nVhq6ialo4r8GUlAJ9xxq9gqA6MTBu82ibMo4TJSPVFemPicEcnqJUqxcdb5JUTkxBvdZED/0","balacne":0.0,"realname":null,"starsign":null,"birthplace":null,"age":27,"perfection":0}
   data.users = [genMe(), ...genUsers()]
   // /meSelectable
   data.meSelectable = genMeSelectable()
@@ -614,5 +656,7 @@ module.exports = function() {
 	data.sliderContent = {
 		h_img: ['http://app.resontek.com/static/img/home_img1.jpg', 'http://app.resontek.com/static/img/home_img2.jpg']
 	}
+	data.userDetail = genUserDetail()  // 用来做推荐用户列表
+	data.circleDetail = genCircleDetail() // 用来做详细列表的, 并非圈子api
 	return data;
 }

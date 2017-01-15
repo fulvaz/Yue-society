@@ -8,6 +8,12 @@ export function value2Key (obj, val) {
   })[0]
 }
 
+export function objVals (obj) {
+  return Object.keys(obj).map(e => {
+    return obj[e]
+  })
+}
+
 // 小心使用这个函数, 只是强行转换了一下数字, 然而js的parseInt并没那么好用
 export function value2Id (obj, val) {
   return parseInt(value2Key(obj, val))
@@ -113,11 +119,14 @@ export function date2YMDHMM (date) {
 }
 
 export function response2Data (response) {
-  console.log(response)
+  // console.log(response)
+  // 说明请求返回的是错误信息
+  if (!response.body) return response
   let remoteData
   if (typeof response.body === 'object') remoteData = response.body
   else if (typeof response.body === 'string') remoteData = response.body
   else remoteData = JSON.parse(response.body)
+
   return remoteData
 }
 
@@ -167,4 +176,12 @@ export function objAssign (target, varArgs) {
     }
   }
   return to
+}
+
+export function batchAssign (data, to) {
+  Object.keys(data).forEach(key => {
+    if (data[key] && to[key] !== undefined) {
+      to[key] = data[key]
+    }
+  })
 }

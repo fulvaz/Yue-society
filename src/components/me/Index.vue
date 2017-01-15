@@ -3,7 +3,7 @@
     <header class="profile">
       <div class="avatar" @click="changeAvatar">
         <img :src="avatar">
-        <p class="upload-sign">修改头像</p>
+        <p class="upload-sign" @click="handleAvatarUpload">修改头像</p>
       </div>
       <div class="detail">
         <span class="nickname">{{nickname}}</span>
@@ -22,7 +22,7 @@
       <fz-icon-item label="相册" to="album" class="icon icon-photo" :append="true">
         <icon slot="icon" class="fa-icon fa-picture-o fa-2x icon-photo" aria-hidden="true" name="picture-o"></icon>
       </fz-icon-item>
-      <fz-icon-item label="择偶条件" to="spouse" class="icon icon-condition" :append="true">
+      <fz-icon-item v-show="ifAvailable" label="择偶条件" to="spouse" class="icon icon-condition" :append="true">
         <icon slot="icon" class="fa-icon fa-heart fa-2x icon-condition" aria-hidden="true" name="heart"></icon>
       </fz-icon-item>
       <!-- <fz-icon-item label="vip" to="service" class="icon" :append="true">
@@ -60,9 +60,12 @@
   import 'vue-awesome/icons/picture-o'
   import 'vue-awesome/icons/heart'
   // import VueCoreImageUpload from 'vue-core-image-upload/'
+  import avatarUpMix from '../../mixins/uploadWithWX'
   export default {
+    mixins: [avatarUpMix],
     data () {
       return {
+        avatar: ''
       }
     },
     props: {
@@ -75,7 +78,8 @@
         focused: state => state.MeState.focused,
         focus: state => state.MeState.focus.length,
         nickname: state => state.MeState.nickname,
-        avatar: state => state.MeState.avatar
+        ifAvailable: state => state.MeState.ifAvailable
+        // avatar: state => state.MeState.avatar
       })
     },
     components: {
@@ -83,6 +87,7 @@
       'icon': Icon
     },
     created () {
+      this.avatar = this.$store.state.MeState.avatar
     },
     methods: {
       changeAvatar () {

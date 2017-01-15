@@ -1,5 +1,5 @@
 <template lang="html">
-  <div v-if="onLoad" class="container" @click="handlePreviewImage">
+  <div v-if="onLoad" class="container">
     <header>
       <!-- <h1 class="title">{{nickname}}</h1> -->
       <!-- <p class="subtitle">{{introduction}}</p> -->
@@ -8,14 +8,14 @@
           <button class="upload-btn btn" @click="changeToDeleteMode">删除</button>
       </div>
       <div class="btns" v-if="mode === 'delete'">
-          <button class="upload-btn btn" @click="changeToNormalMode">完成</button>
+          <button class="upload-btn btn" @click="changeToNormalMode">取消</button>
           <button class="upload-btn btn" @click="handleDelete">删除</button>
       </div>
     </header>
-    <fz-grid>
+    <fz-grid @click.native="handlePreviewImage">
       <fz-grid-item v-for="(img, index) in images" class="grid-item" @click.native="handleImgSelect">
         <input v-show="mode === 'delete'" type="checkbox" :value="index" class="image-select">
-        <fz-cover-img :img="img"></fz-cover-img>
+        <fz-cover-img :img="img" class="cover-img"></fz-cover-img>
       </fz-grid-item>
     </fz-grid>
   </div>
@@ -54,26 +54,26 @@ export default {
     }
   },
   created () {
-    // let vm = this
-    // Indicator.open('加载中...')
-    // // console.log(wx)
-    // api.getWXConfig(window.location.pathname + window.location.hash).then(response => {
-    //   let wxConfig = utils.response2Data(response)
-    //   wxConfig.jsApiList = [
-    //     'chooseImage',
-    //     'previewImage',
-    //     'uploadImage'
-    //   ]
-    //   wxConfig.debug = process.env.NODE_ENV
-    //   wx.config(wxConfig)
-    //   wx.ready(function (res) {
-    //     vm.onLoad = true
-    //     Indicator.close()
-    //   })
-    //   wx.error(function (res) {
-    //     console.log('auth failed')
-    //   })
-    // })
+    let vm = this
+    Indicator.open('加载中...')
+    // console.log(wx)
+    api.getWXConfig(window.location.pathname + window.location.hash).then(response => {
+      let wxConfig = utils.response2Data(response)
+      wxConfig.jsApiList = [
+        'chooseImage',
+        'previewImage',
+        'uploadImage'
+      ]
+      // wxConfig.debug = process.env.NODE_ENV
+      wx.config(wxConfig)
+      wx.ready(function (res) {
+        vm.onLoad = true
+        Indicator.close()
+      })
+      wx.error(function (res) {
+        console.log('auth failed')
+      })
+    })
     api.getAlbum(this.$store.state.MeState.uid).then(response => {
       let data = utils.response2Data(response)
       this.images = data.images
@@ -95,7 +95,7 @@ export default {
     },
     changeToNormalMode () {
       this.mode = 'normal'
-      this.imgToDelete = []
+      // this.imgToDelete = []
     },
     changeToDeleteMode () {
       this.mode = 'delete'
@@ -118,6 +118,9 @@ export default {
       })
       this.openIndicator()
       api.deletePhoto(data).then(res => {
+        this.imgToDelete.forEach(key => {
+          this.images.splice(key, 1)
+        })
         this.changeToNormalMode()
         this.handleSuccess('DELETE_IMAGE_SUCCESS')
       }).catch(res => {
@@ -126,12 +129,9 @@ export default {
       })
     },
     handlePreviewImage (event) {
-      if (event.target.nodeName.toLowerCase() !== 'img') return
-      let img = event.target
-      wx.previewImage({
-        current: img.src,
-        urls: this.images
-      })
+      if (!event.target.classList.contains('cover-img')) return
+      let img = event.target.style.backgroundImage.slice(5, -2)
+      api.wxPreviewImage(img, this.images)
     },
     uploadImage (localIds) {
       let that = this
@@ -143,7 +143,7 @@ export default {
           isShowProgressTips: 0, // 默认为1，显示进度提示
           success: function (res) {
             // console.log(res.serverId)
-            api.uploadImageId({serverId: res.serverId}).then(response => {
+            api.uploadImageId(res.serverId).then(response => {
               // 更新数组, 触发响应
               that.images.unshift(id)
               ++i

@@ -7,9 +7,9 @@
         </swipe>
         <section class="main">
           <nav-bar v-model="active" id="navbar">
+            <tab-item id="tab-userRecommend" class="navbar-item">用户推荐</tab-item>
             <tab-item id="tab-circleRecommend" class="navbar-item">圈子推荐</tab-item>
             <tab-item id="tab-activitiesRecommend" class="navbar-item">活动推荐</tab-item>
-            <tab-item id="tab-userRecommend" class="navbar-item">用户推荐</tab-item>
           </nav-bar>
           <mt-tab-container class="tab-container" v-model="active">
             <mt-tab-container-item id="tab-circleRecommend">
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-  import { Swipe, SwipeItem, TabContainer, TabContainerItem, Navbar, TabItem } from 'mint-ui'
+  import { Swipe, SwipeItem, TabContainer, TabContainerItem, Navbar, TabItem, MessageBox } from 'mint-ui'
   import Streamer from './common/UserStreamer'
   import List from './common/List'
   import ListItem from './common/ListItem'
@@ -77,7 +77,7 @@
         userRecommend: [],
         busy: false,
         page: 0,
-        active: 'tab-circleRecommend'
+        active: 'tab-userRecommend'
       }
     },
     computed: {
@@ -85,7 +85,7 @@
     methods: {
       fetchData () {
         Promise.all([api.fetchCircleRecommend(), api.fetchActivitiesRecommend(), api.getSliderContent()]).then((result) => {
-          let tmp = result[0].map((e) => {
+          let tmp = utils.response2Data(result[0]).map((e) => {
             e['contentTitle'] = e.name
             e['contentSubtitle'] = e.location
             e['content'] = e.introduction
@@ -156,6 +156,12 @@
             }, 5000) // 收到了空数据则5秒后重试
             return
           }
+
+          // 处理一个新旧api切换的小问题
+          response = response.map(e => {
+            if (!e.name) e.name = e.nickname
+            return e
+          })
           this.userRecommend = this.userRecommend.concat(response)
           this.busy = false
         }).catch((err) => {
@@ -166,6 +172,10 @@
         this.busy = true
         this.fetchUserRecommend()
       }
+    },
+    mounted () {
+      let msg = '    欢迎加入月正圆婚恋网！本平台是严肃认真的婚恋交友社交平台，“为保证平台信息准确性，请真实完善个人信息”。平台功能只针对信息完善并实名认证的会员开放。系统实名认证功能正开发调试中，敬请期待！'
+      MessageBox('提示', msg)
     }
   }
 
@@ -218,5 +228,4 @@
       margin: 0px 0;
       box-shadow: 1px black;
   }
-
 </style>

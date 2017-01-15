@@ -1,4 +1,4 @@
-var CONFIRM_TEXT = '回复'
+var CONFIRM_TEXT = '提交'
 var CANCEL_TEXT = '取消'
 
 var defaults = {

@@ -1,5 +1,5 @@
 <template lang="html">
-    <router-link :to="to" class="tag"><span>{{text}}</span></router-link>
+    <router-link class="tag" :to="to"><span>{{text}}</span></router-link>
 </template>
 
 <script>
@@ -17,9 +17,9 @@ export default {
 <style lang="scss" scoped>
 .tag {
   display: inline-block;
-  padding: 0px 6px;
+  padding: 0px 2px;
   font-size: 12px;
-  line-height: 28px;
+  line-height: 20px;
   border-radius: 5px;
   background-color: rgb(230, 230, 230);
 }

@@ -9,20 +9,22 @@
     <mt-picker ref="picker" :slots="picker" @change="onChange"></mt-picker>
   </mt-popup>
 
-  <mt-field :label="label" :placeholder="placeholder" :value="value[0] + ' - ' + value[1]" @click.native="handleClick" readonly></mt-field>
+  <fz-field :label="label" :placeholder="placeholder" :value="value[0] + ' - ' + value[1]" @click.native="handleClick" readonly :valAppend="valAppend"></fz-field>
 </div>
 </template>
 
 <script>
 // 这个组件的坑在于, 必须必须使用picker内部的方法去修改values, 否则不会触发更新
-import { Picker, Field, Popup } from 'mint-ui'
+import { Picker, Popup } from 'mint-ui'
 import * as utils from '../../utils/utils.js'
 import config from '../../config/setting.js'
+import InputField from '../common/InputField'
 export default {
   props: {
     label: String,
     placeholder: String,
     // picker: Array,
+    valAppend: String,
     slotVal: {
       type: Array,
       default: []
@@ -30,9 +32,9 @@ export default {
     value: Array
   },
   components: {
-    'mt-field': Field,
     'mt-picker': Picker,
-    'mt-popup': Popup
+    'mt-popup': Popup,
+    'fz-field': InputField
   },
   computed: {
   },

@@ -3,9 +3,11 @@
         <div class="avatar" v-lazy:background-image="user.avatar"></div>
         <div class="info">
             <p>
-                <span class="name">{{user.name}}</span>
-                <span class="location">{{user.location}}</span>
-                <span class="age">{{user.age}}岁</span>
+              <span class="name">{{user.name}}</span>
+            </p>
+            <p>
+              <span class="location">{{user.location}}</span>
+              <span class="age">{{user.age}}岁</span>
             </p>
         </div>
     </div>
@@ -54,14 +56,15 @@
         border: 1px solid $card-border-color;
 
         p {
-            margin: 0;
-            padding: .5em 0;
+            margin: 0 0;
+            // padding: .5em 0;
             width: 100%;
             line-height: 14px;
             text-align: center;
 
             .name {
-                font-size: 14px;
+                font-size: $description-size;
+                color: $item-color;
             }
 
             .location {

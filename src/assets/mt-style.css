@@ -1663,7 +1663,7 @@ display: inline-block;
 .mint-msgbox-message {
   color: #999;
   margin: 0;
-  text-align: center;
+  text-align: left;
   line-height: 36px;
 }
 .mint-msgbox-btns {

@@ -34,10 +34,18 @@ export const updateSpouse = function (id, data) {
 export const fetchSelectableItem = function () {
   return new Promise((resolve, reject) => {
     vue.http.get(config.meSelectableApi).then((response) => {
-      let remoteData
-      if (typeof response.body === 'object') remoteData = response.body
-      else remoteData = JSON.parse(response.body)
+      let remoteData = utils.response2Data(response)
       resolve(remoteData)
+    }, (err) => {
+      reject(err)
+    })
+  })
+}
+
+export const fetchMyCircle = function () {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.myCircles).then((response) => {
+      resolve(response)
     }, (err) => {
       reject(err)
     })
@@ -47,10 +55,7 @@ export const fetchSelectableItem = function () {
 export const fetchCircleRecommend = function () {
   return new Promise((resolve, reject) => {
     vue.http.get(config.circlesRecommendsApi).then((response) => {
-      let remoteData
-      if (typeof response.body === 'object') remoteData = response.body
-      else remoteData = JSON.parse(response.body)
-      resolve(remoteData)
+      resolve(response)
     }, (response) => {
       reject(response)
     })
@@ -326,9 +331,21 @@ export const getAlbum = function (uid) {
   })
 }
 
-export const uploadImageId = function (msg) {
+export const uploadImageId = function (serverId) {
+  let data = {serverId: serverId}
   return new Promise((resolve, reject) => {
-    vue.http.post(config.uploadImage, msg).then(response => {
+    vue.http.post(config.uploadImage, data).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const uploadAvatarId = function (serverId) {
+  let data = serverId
+  return new Promise((resolve, reject) => {
+    vue.http.post(config.uploadAvatar, data).then(response => {
       resolve(response)
     }, response => {
       reject(response)
@@ -362,9 +379,9 @@ export const unfocus = function (uid) {
   })
 }
 
-export const wxAuth = function (href, jsApiList) {
+export const wxAuth = function (jsApiList) {
   return new Promise((resolve, reject) => {
-    getWXConfig(href).then(response => {
+    getWXConfig(window.location.pathname + window.location.hash).then(response => {
       let wxConfig = utils.response2Data(response)
       wxConfig.jsApiList = jsApiList
       wxConfig.debug = config.dev
@@ -377,15 +394,17 @@ export const wxAuth = function (href, jsApiList) {
       wx.error(function (res) {
         reject(res)
       })
+    }).catch(res => {
+      reject(res)
     })
   })
 }
 
-export const wxChooseImage = function () {
+export const wxChooseImage = function (count) {
   return new Promise((resolve, reject) => {
     wx.chooseImage({
-      count: 1, // 默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      count: count, // 默认9
+      sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         resolve(res)
@@ -410,12 +429,7 @@ export const wxUploadImage = function (localId) {
       localId, // 需要上传的图片的本地ID，由chooseImage接口获得
       isShowProgressTips: 1, // 默认为1，显示进度提示
       success: function (res) {
-        // 上传成功就向服务端发送id
-        uploadImageId({serverId: res.serverId}).then(response => {
-          resolve(response)
-        }).catch(response => {
-          reject(response)
-        })
+        resolve(res)
       },
       fail: res => reject(res)
     })

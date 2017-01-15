@@ -1,5 +1,5 @@
 
-var dev = true;
+var dev = false;
 var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.resontek.com';
 
 var pageFilter = dev ? '_page' : 'page';
@@ -7,8 +7,6 @@ var limitFilter = dev ? '_limit' : 'limitation';
 
 var devApis = {
   'apiPrefix': apiPrefix,
-  'circlesRecommendsApi': apiPrefix + '/recommends/circles',
-  'usersRecommendsApi': apiPrefix + '/userRecommends',
   'myCircles': apiPrefix + '/myCircles',
   'circlesApi': apiPrefix + '/circles', // 与post是关联的, /circles/0/posts 表示返回circles 0的全部posts
   'activitiesRecommendsApi': apiPrefix + '/recommends/activities',
@@ -60,11 +58,15 @@ var devApis = {
   'recentReg': apiPrefix + '/meRecommend',
   'recentLogin': apiPrefix + '/meRecommend',
   'searchRecommend': apiPrefix + '/meRecommend',
-    // new
   'createCirclePage': apiPrefix + '',
   'createCircle': apiPrefix + '',
   'getSliderContent': apiPrefix + '/sliderContent',
-  'deletePhoto': ''
+  'deletePhoto': '',
+  // new
+  'uploadAvatar': '',
+  'quitCircle': '',
+  'usersRecommendsApi': apiPrefix + '/userDetail',
+  'circlesRecommendsApi': apiPrefix + '/circleDetail' // 改成detail, 有问题直接切换就可以了
 };
 
 var apis = {
@@ -88,21 +90,44 @@ var apis = {
   'authPath': apiPrefix + '/authorize',
   'applyCircleApi': apiPrefix + '/circles/apply',
   'msgList': apiPrefix + '/message/list',
-  'resetUidCount': '',
+  'resetUidCount': apiPrefix + '/message/read',
   'chat': apiPrefix + '/message/chat',
   'wxConfig': apiPrefix + '/wechat/config?redirectUrl=',
+  //新api
   'looked': apiPrefix + '/users/me/visitors', // 谁看过了用户列表
   'recommend': apiPrefix + '/users/me/recommend', // 我推荐的人列表
-  'focused': apiPrefix + '/users/me/followers', // 谁关注我列表
+  'focused': apiPrefix + '/users/me/followMe', // 谁关注我列表
   'album': apiPrefix + '/users/me/album', // 相册图片列表
   'uploadImage': apiPrefix + '/users/me/album/upload', // 接受serverId的api
   'focus': apiPrefix + '/users/follow', // 关注某人
   'unfocus': apiPrefix + '/users/unFollow', // 取消关注某人
   'newPost': apiPrefix + '/posts/add', // 创建新帖子
-  'activityApi': apiPrefix + '/activities', // 获取某个活动的信息
+  'activityApi': apiPrefix + '/circles/activity', // 获取某个活动的信息
   'takePartInActivites': apiPrefix + '/circles/activity/attend', //参加某个活动
-  'authCircle': apiPrefix + '/posts/right',
-  'getSliderContent': apiPrefix + '/homeImg'
+  'authCircle': apiPrefix + '/posts/right',  // 圈子发言权限
+  'joinCircle': apiPrefix + '/circles/apply', // 加入某个圈子
+  'replyMsg': apiPrefix + '/message/reply', // 回复某个人的私信
+  'whomIFocus': apiPrefix + '/users/me/myFollow', // 我关注的人
+  'activitiesJoined': apiPrefix + '/users/activities', // 我参加的活动
+  'consumeHistory': apiPrefix + '/users/consumption', // 消费记录
+  'buyVipPage': apiPrefix + '/users/vip',
+  'buyCirclePage': apiPrefix + '/circles/service',
+  'buyVip': apiPrefix + '/users/vip/buy',
+  'buyCircle': apiPrefix + '/circles/service/buy',
+  'makeAppointment': apiPrefix + '/user/meeting/apply',
+  'meAppointments':apiPrefix + '/users/myMeeting',
+  'meAppointed':apiPrefix + '/users/meetingMe',
+  'getReg': apiPrefix + '/users/register',
+  'sendReg': apiPrefix + '/users/register',
+  'getVerify': apiPrefix + '/getVerify',
+  'circleMember': apiPrefix + '/circles/members',
+  'recentReg': apiPrefix + '/search/users/newSignUp',
+  'recentLogin': apiPrefix + '/search/users/newLogin',
+  'searchRecommend': apiPrefix + '/search/users/sameCity',
+  'createCirclePage': apiPrefix + '/circles/create',
+  'createCircle': apiPrefix + '/circles/create',
+  'getSliderContent': apiPrefix + '/homeImg',
+  'deletePhoto': apiPrefix+'/users/me/album/delete'
 };
 
 var api = dev ? devApis : apis;
