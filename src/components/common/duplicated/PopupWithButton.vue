@@ -1,7 +1,7 @@
 <template lang="html">
   <div v-show="show" class="post-editor-container">
     <header>
-      <span class="title">成员列表</span>
+      <span class="title">{{title}}</span>
       <button class="send-btn btn"></button>
       <button class="close-btn btn" @click="close">关闭</button>
     </header>
@@ -17,6 +17,7 @@ export default {
   components: {
   },
   props: {
+    title: String
   },
   data () {
     return {

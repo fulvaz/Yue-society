@@ -2,7 +2,9 @@
   <div class="list-item">
     <img class="logo" :src="logo" >
     <div class="main">
-      <div class="others"><slot></slot></div>
+      <div class="others">
+        <slot></slot>
+      </div>
       <h2 class="content-title">
         {{name}}
         <icon v-show="sex" slot="icon" class="icon-sex" aria-hidden="true" name="user" :class="{female: sex==='女', male: sex==='男'}"></icon>
@@ -106,6 +108,7 @@ export default {
 
       .others {
         float: right;
+        margin-right: 10px;
       }
     }
   }

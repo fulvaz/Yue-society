@@ -25,11 +25,12 @@ export default {
   data () {
     return {
       users: [],
-      me: {}
+      me: {},
+      upage: 0
     }
   },
   created () {
-    api.fetchUserRecommend().then(res => {
+    api.fetchUserRecommend(this.upage++, 10).then(res => {
       this.users = res
     })
     api.fetchMeInfo().then(res => {
@@ -40,10 +41,10 @@ export default {
     uDisplay () {
       return this.users.map(e => {
         let tags = []
-        if (e.age === this.me.age) tags.push('与我同年')
-        if (parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
-        if (e.school === this.me.school) tags.push('校友')
-        if (e.house === '已购房') tags.push('有房')
+        if (e.age && e.age === this.me.age) tags.push('与我同年')
+        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
+        if (e.school && e.school === this.me.school) tags.push('校友')
+        if (e.house && e.house === '已购房') tags.push('有房')
         if (e.car === '有') tags.push('有车')
         if (e.birthplace === this.me.birthplace) tags.push('同乡')
         let obj = {
@@ -52,7 +53,7 @@ export default {
           sex: e.sex,
           subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
           logo: e.avatar,
-          intro: e.introduction,
+          intro: e.introduction || '',
           tags: tags
         }
         return obj

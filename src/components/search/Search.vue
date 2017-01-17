@@ -1,49 +1,65 @@
 <template lang="html">
-  <div class="container">
-    <search-bar></search-bar>
-    <section class="main">
-      <list v-for="module in Object.keys(tags)" :title="module" class="tag-module">
-        <list-tags :tags="tags[module]"></list-tags>
-      </list>
-    </section>
+  <div class="circle-search-container">
+    <search-bar @search="handleSearch" v-model="query"></search-bar>
+    <user-list :users="resultDisplay"></user-list>
   </div>
 </template>
 
 <script>
-import SearchBar from './SearchBar'
-import ListTags from '../common/ListTags'
-import List from '../common/List'
 import * as api from '../../api/index.js'
+import * as utils from '../../utils/utils.js'
+import UserList from '../common/DetailedUserList'
+import searchBar from '../common/SearchBar'
 export default {
+  components: {
+    'search-bar': searchBar,
+    'user-list': UserList
+  },
   data () {
     return {
-      tags: {}
+      users: [],
+      query: '',
+      me: ''
     }
   },
-  components: {
-    'search-bar': SearchBar,
-    'list-tags': ListTags,
-    'list': List
-  },
   created () {
-    api.fetchSearchTags().then(response => {
-      this.tags = response
-      delete this.tags.errcode
-      delete this.tags.errmsg
-    }).catch(response => {
-      console.error(response)
+    api.fetchMeInfo().then(res => {
+      this.me = utils.response2Data(res)
     })
+  },
+  computed: {
+    resultDisplay () {
+      return this.users.map(e => {
+        let tags = []
+        if (e.age && e.age === this.me.age) tags.push('与我同年')
+        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
+        if (e.school && e.school === this.me.school) tags.push('校友')
+        if (e.house && e.house === '已购房') tags.push('有房')
+        if (e.car === '有') tags.push('有车')
+        if (e.birthplace === this.me.birthplace) tags.push('同乡')
+        let obj = {
+          id: e.uid,
+          name: e.nickname,
+          sex: e.sex,
+          subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
+          logo: e.avatar,
+          intro: e.introduction || '',
+          tags: tags
+        }
+        return obj
+      })
+    }
+  },
+  methods: {
+    handleSearch (query) {
+      let data = {query}
+      api.searchUsers(data).then(res => {
+        this.users = utils.response2Data(res)
+      })
+    }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-  @import "../../assets/index.scss";
-  .main {
-    background-color: white;
-    padding: 0 $horizontal-margin;
-  }
-  .tag-module {
-    padding-bottom: 15px;
-  }
+<style lang="css">
 </style>

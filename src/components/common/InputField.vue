@@ -103,10 +103,11 @@ export default {
       }
 
       .append {
+        display: flex;
+        align-items: center;
         position: absolute;
         top: 0;
         right: 0;
-        display: block;
         width: 100px;
         height: 20px;
         font-size: $description-size;

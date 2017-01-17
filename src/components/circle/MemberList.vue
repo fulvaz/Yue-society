@@ -5,36 +5,59 @@
       <button class="close-btn btn" @click="close">关闭</button>
     </header>
     <section class="editor">
-      <user-list
-        :users="users"
-      >
-      </user-list>
+      <detailed-user-list :users="userDisplay"></detailed-user-list>
     </section>
     <button type="button" name="button" class="btn-load-more" @click="loadMore">点击加载更多</button>
   </div>
 </template>
 
 <script>
-import Popup from '../common/PopupWithButton'
-import UserList from '../common/UserList'
+import DetailedUserList from '../common/DetailedUserList'
 import * as api from '../../api/index.js'
 import * as utils from '../../utils/utils.js'
 export default {
   data () {
     return {
       page: 0,
-      users: []
+      users: [],
+      me: {}
+    }
+  },
+  computed: {
+    // 数据例子!
+    userDisplay () {
+      return this.users.map(e => {
+        let tags = []
+        if (e.age && e.age === this.me.age) tags.push('与我同年')
+        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
+        if (e.school && e.school === this.me.school) tags.push('校友')
+        if (e.house && e.house === '已购房') tags.push('有房')
+        if (e.car === '有') tags.push('有车')
+        if (e.birthplace === this.me.birthplace) tags.push('同乡')
+        let obj = {
+          id: e.uid,
+          name: e.nickname,
+          sex: e.sex,
+          subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
+          logo: e.avatar,
+          intro: e.introduction || '',
+          tags: tags
+        }
+        return obj
+      })
     }
   },
   components: {
-    popup: Popup,
-    'user-list': UserList
+    'detailed-user-list': DetailedUserList
   },
   created () {
     this.openIndicator()
     api.getCircleMember(this.$route.params.id, this.page++, 10).then(e => {
       this.closeIndicator()
       this.users = utils.response2Data(e)
+      return api.fetchMeInfo()
+    }).then(res => {
+      this.me = utils.response2Data(res)
     }).catch(e => {
       this.handleFailWithCode(e.status, e.statusText)
     })

@@ -4,8 +4,9 @@
       <label class="label" for="select">{{required ? label + ' *' : label}}</label>
       <div class="input">
         <!-- <input type="text" :value="value" @blur="handleChange" :class="{error: hasError}" :placeholder="placeholder" :disabled="disabled" :readonly="readonly"> -->
-        <img class="uploaded-img" v-show="avatar">
-        <button type="button" name="button" class="upload-btn" @click="handleAvatarUpload">上传头像</button>
+        <img v-show="avatar.length !== 0"  class="uploaded-img" :src="avatar" @click="handleAvatarUpload">
+        <img v-show="avatar.length === 0" class="uploaded-img" src="static/plus.png" @click="handleAvatarUpload">
+        <!-- <button type="button" name="button" class="upload-btn" @click="handleAvatarUpload">上传头像</button> -->
         <div class="append">
           <slot></slot>
         </div>
@@ -19,10 +20,8 @@
 <script>
 // 依赖 vee-validate
 // import * as utils from '../../utils/utils.js'
-// import * as api from '../../api/index.js'
-import imgUpMix from '../../mixins/uploadWithWX.js'
+import * as api from '../../api/index.js'
 export default {
-  mixins: [imgUpMix],
   props: {
     readonly: {
       type: Boolean,
@@ -48,34 +47,36 @@ export default {
   },
   data () {
     return {
-      avatar: '',
       nullErr: false,
       maxErr: false,
-      otherErr: false
+      otherErr: false,
+      avatar: '',
+      _avatarTmp: ''
     }
   },
   methods: {
-    handleChange (event) {
-      this.$emit('input', event.target.value)
+    // 要求字段名为 avatar
+    handleAvatarUpload () {
+      this.openIndicator()
+      api.wxAuth(['chooseImage', 'uploadImage']).then(res => {
+        this.closeIndicator()
+        return api.wxChooseImage(1)
+      }).then(res => {
+        this._avatarTmp = res.localIds[0]
+        return api.wxUploadImage(res.localIds[0])
+      }).then(res => {
+        this.openIndicator()
+        return api.uploadAvatarId({serverId: res.serverId})
+      }).then(res => {
+        this.handleSuccess('UPLOAD_IMAGE_SUCCES')
+        this.avatar = this._avatarTmp
+        this.$emit('input', this.avatar) // vee-validate 验证需要input事件
+      }).catch(res => {
+        this.handleFailWithCode(res.status, res.statusText)
+      })
     }
-    // handleAvatarUpload () {
-    //   this.openIndicator()
-    //   api.wxAuth(['chooseImage', 'uploadImage']).then(res => {
-    //     this.closeIndicator()
-    //     console.log(res)
-    //     return api.wxChooseImage(1)
-    //   }).then(res => {
-    //     this.avatar = res.localIds[0]
-    //     return api.wxUploadImage(res.localIds[0])
-    //   }).then(res => {
-    //     this.openIndicator()
-    //     return api.uploadAvatarId(res.serverId)
-    //   }).then(res => {
-    //     this.handleSuccess('UPLOAD_IMAGE_SUCCES')
-    //   }).catch(res => {
-    //     this.handleFailWithCode(res.status, res.statusText)
-    //   })
-    // }
+  },
+  created () {
   }
 }
 </script>
@@ -125,16 +126,14 @@ export default {
 
       .uploaded-img {
         display: block;
+        background-color: #eee;
         width: 100px;
         height: 100px;
       }
 
       .append {
-        position: absolute;
-        top: 0;
-        right: 0;
         display: block;
-        width: 100px;
+        width: 100%;
         height: 20px;
         font-size: $description-size;
       }

@@ -1,37 +1,17 @@
 <template>
   <div class="container">
     <!-- 昵称 验证码 推荐人 用户类型 -->
-    <fz-field label="昵称" name="nickname" v-model="nickname" disabled="true"></fz-field>
-    <fz-avattar-uploader label="头像" v-model="avatar"
-      v-validate="avatar"
+    <fz-field label="昵称" name="nickname" v-model="nickname" disabled="true" class="field"></fz-field>
+    <fz-avattar-uploader label="头像" v-model="avatar" class="field"
+      v-validate
       data-vv-rules="required"
       data-vv-name="avatar"
       data-vv-value-path="avatar"
       :hasError="errors.has('avatar')"
       :errMsg="errors.first('avatar')"
-    ></fz-avattar-uploader>
-    <fz-field
-      label="手机号"
-      v-model="mobile"
-      placeholder="请输入手机号"
-      v-validate
-      data-vv-rules="required|digits:11"
-      data-vv-name="mobile"
-      data-vv-value-path="mobile"
-      :hasError="errors.has('mobile')"
-      :errMsg="errors.first('mobile')">
-    </fz-field>
-    <fz-field label="验证码" name="verifyCode" v-model="verifyCode" placeholder="请输入验证码"
-      v-validate
-      data-vv-rules="required|digits:6"
-      data-vv-name="verifyCode"
-      data-vv-value-path="verifyCode"
-      :hasError="errors.has('verifyCode')"
-      :errMsg="errors.first('verifyCode')"
     >
-      <button v-if="verifySent" type="button" name="button" disabled>已经发送验证码</button>
-      <button v-else type="button" name="button" @click="getVerifyCode">获取验证码</button>
-    </fz-field>
+      <p>请上传近期真实头像，平台将审核</p>
+    </fz-avattar-uploader>
     <fz-single-picker label="性别" :slotVals="selectSex" v-model="sex" class="field"
       v-validate="sex"
       :required="true"
@@ -43,7 +23,6 @@
     ></fz-single-picker>
     <fz-field ref="height" v-model="height" label="身高" class="field" valAppend="厘米"
       v-validate
-      :required="true"
       data-vv-rules="required|digits:3"
       data-vv-name="height"
       data-vv-value-path="height"
@@ -52,12 +31,11 @@
     ></fz-field>
     <fz-field ref="weight" v-model="weight" label="体重" class="field" valAppend="公斤"
       v-validate
-      :required="true"
       data-vv-rules="required|digits:2"
       data-vv-name="weight"
       data-vv-value-path="weight"
       :hasError="errors.has('weight')"
-      :errMsg="errors.first('weight')">
+      :errMsg="errors.first('weight')"
     ></fz-field>
     <fz-single-picker label="婚姻状况" :slotVals="selectMarriage" v-model="marriage" class="field"
       v-validate="marriage"
@@ -69,8 +47,31 @@
       :errMsg="errors.first('marriage')"
     ></fz-single-picker>
     <fz-datepicker label="生日" v-model="birthday" class="field"></fz-datepicker>
-    <fz-field label="推荐人" v-model="recommend" placeholder="无则留空"></fz-field>
-    <fz-single-picker label="交友类型" v-model="userType" :slotVals="userTypeSlot"></fz-single-picker>
+    <fz-field label="推荐人" v-model="recommend" placeholder="无则留空" class="field"></fz-field>
+    <fz-field
+      class="field"
+      label="手机号"
+      v-model="mobile"
+      placeholder="请输入手机号"
+      v-validate
+      data-vv-rules="required|digits:11"
+      data-vv-name="mobile"
+      data-vv-value-path="mobile"
+      :hasError="errors.has('mobile')"
+      :errMsg="errors.first('mobile')">
+    </fz-field>
+    <fz-field label="验证码" name="verifyCode" v-model="verifyCode" placeholder="请输入验证码" class="field"
+      v-validate
+      data-vv-rules="required|digits:6"
+      data-vv-name="verifyCode"
+      data-vv-value-path="verifyCode"
+      :hasError="errors.has('verifyCode')"
+      :errMsg="errors.first('verifyCode')"
+    >
+      <mt-button class="verify-code-btn" v-if="verifySent" type="default" name="button" size="small" disabled>已经发送验证码</mt-button>
+      <mt-button class="verify-code-btn" v-else type="default" name="button" size="small" @click="getVerifyCode">获取验证码</mt-button>
+    </fz-field>
+    <fz-single-picker label="交友类型" v-model="userType" :slotVals="userTypeSlot" class="field"></fz-single-picker>
     <mt-button type="primary" class="send-btn" @click="send">提交</mt-button>
   </div>
 </template>
@@ -96,13 +97,12 @@
         userTypeSlot: [],
         userTypes: {},
         recommend: '',
-        sex: '',
+        sex: '男',
         height: '',
         weight: '',
-        marriage: '',
+        marriage: '未婚',
         birthday: '1991-01-01',
         avatar: '',
-
         // select option
         selectSex: [],
         selectMarriage: [],
@@ -141,10 +141,10 @@
           if (success) {
             let data = {
               uid: this.uid,
-              sex: utils.value2Key(this.sex, this.selectDefinition.sex),
+              sex: utils.value2Key(this.selectDefinition.sex, this.sex),
               height: this.height,
               weight: this.weight,
-              marriage: utils.value2Key(this.marriage, this.selectDefinition.marriage),
+              marriage: utils.value2Key(this.selectDefinition.marriage, this.marriage),
               birthday: this.birthday,
               // avatar: '',
               verifyCode: this.verifyCode,
@@ -153,6 +153,7 @@
               userType: utils.value2Key(this.userTypes, this.userType),
               recommend: this.recommend
             }
+            console.log(data)
             return api.sendReg(data)
           } else {
             let err = new Error()
@@ -179,6 +180,24 @@
 </script>
 
 <style scoped lang="scss">
+  @import "../../assets/index.scss";
+  .field {
+    border-top: 1px solid $mt-border-color;
+    &:first-child {
+      border-top: none;
+    }
+
+    background-color: white;
+
+    // .mint-cell .mint-cell-wrapper {
+    //   background-image: none !important;
+    // }
+  }
+  .verify-code-btn {
+    font-size: $description-size;
+
+  }
+
   .send-btn {
     width: 100%;
   }

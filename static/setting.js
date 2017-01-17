@@ -1,5 +1,5 @@
 
-var dev = false;
+var dev = true;
 var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.resontek.com';
 
 var pageFilter = dev ? '_page' : 'page';
@@ -7,7 +7,7 @@ var limitFilter = dev ? '_limit' : 'limitation';
 
 var devApis = {
   'apiPrefix': apiPrefix,
-  'myCircles': apiPrefix + '/myCircles',
+
   'circlesApi': apiPrefix + '/circles', // 与post是关联的, /circles/0/posts 表示返回circles 0的全部posts
   'activitiesRecommendsApi': apiPrefix + '/recommends/activities',
   'meApi': apiPrefix + '/me',
@@ -20,7 +20,7 @@ var devApis = {
   'searchTags': apiPrefix + '/circleTags',
   'circleByTag': apiPrefix + '/getTags',
   'stateInfo': apiPrefix + '/stateInfo',
-  'authPath': '/authorize',
+  'authPath': 'static/auth.html',
   'applyCircleApi': apiPrefix + '/applyForCircle',
   'msgList': apiPrefix + '/msgList',
   'resetUidCount': apiPrefix + '/postData',
@@ -54,19 +54,25 @@ var devApis = {
   'getReg': apiPrefix + '/register',
   'sendReg': apiPrefix + '/postData',
   'getVerify': apiPrefix + '/getVerify',
-  'circleMember': apiPrefix + '/meRecommend',
-  'recentReg': apiPrefix + '/meRecommend',
-  'recentLogin': apiPrefix + '/meRecommend',
-  'searchRecommend': apiPrefix + '/meRecommend',
+
   'createCirclePage': apiPrefix + '',
   'createCircle': apiPrefix + '',
   'getSliderContent': apiPrefix + '/sliderContent',
   'deletePhoto': '',
-  // new
   'uploadAvatar': '',
   'quitCircle': '',
   'usersRecommendsApi': apiPrefix + '/userDetail',
-  'circlesRecommendsApi': apiPrefix + '/circleDetail' // 改成detail, 有问题直接切换就可以了
+  'circlesRecommendsApi': apiPrefix + '/circleDetail', // 改成detail, 有问题直接切换就可以了
+  'searchCircles': apiPrefix + '/circleDetail',
+  'myCircles': apiPrefix + '/circleDetail',
+  'recentReg': apiPrefix + '/userDetail',
+  'recentLogin': apiPrefix + '/userDetail',
+  'circleMember': apiPrefix + '/userDetail',
+  'searchRecommend': apiPrefix + '/userDetail',
+
+  // new
+  'getQrCode': apiPrefix + '/qrCode',
+  'searchUsers': apiPrefix + '/userDetail' // 也是详情
 };
 
 var apis = {
@@ -127,7 +133,9 @@ var apis = {
   'createCirclePage': apiPrefix + '/circles/create',
   'createCircle': apiPrefix + '/circles/create',
   'getSliderContent': apiPrefix + '/homeImg',
-  'deletePhoto': apiPrefix+'/users/me/album/delete'
+  'deletePhoto': apiPrefix+'/users/me/album/delete',
+  'uploadAvatar':apiPrefix+'/users/me/avatar/upload',
+  'quitCircle':apiPrefix+'/circles/quit'
 };
 
 var api = dev ? devApis : apis;

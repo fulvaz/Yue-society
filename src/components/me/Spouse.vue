@@ -16,7 +16,6 @@
 import {fetchSelectableItem, fetchSpouse, updateSpouse} from '../../api/index.js'
 import {Field, Button} from 'mint-ui'
 import * as utils from '../../utils/utils.js'
-import Picker from '../common/RangePicker'
 import NumRangePicker from '../common/NumRangePicker'
 import AddressPicker from '../common/AddressPicker'
 // import {value2Id} from '../../utils/utils.js'
@@ -28,14 +27,13 @@ const heightList = utils.rangeArr(120, 200)
 //   1000: ['1000', '3000', '5000', '7000', '8000', '9000', '10000'],
 //   3000: ['5000', '7000', '8000', '9000', '10000']
 // }
-const revenuelist = ['0', '5', '10', '15', '20', '25', '30', '40', '50', '60']
+const revenuelist = ['0', '5', '10', '15', '20', '25', '30', '40', '50', '60', '100']
 
 // 这么处理的原因是发生了一个神奇的bug
 
 export default {
   components: {
     'mt-button': Button,
-    picker: Picker,
     'num-range-picker': NumRangePicker,
     'mt-field': Field,
     'address-picker': AddressPicker

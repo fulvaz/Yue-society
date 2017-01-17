@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// 搜索内的悬浮按钮, 直接用
 export default {
 }
 </script>

@@ -72,6 +72,7 @@ Vue.use(Toast)
 // input css resources
 require('vue-swipe/dist/vue-swipe.css')
 require('./assets/mt-style.css')
+require('cropperjs/dist/cropper.min.css')
 
 const routes = [
   {path: '/', component: Index},
@@ -100,8 +101,8 @@ const routes = [
   {path: '/posts/:id', component: Post},
   {path: '/auth', component: Auth},
   {path: '/search/', component: SearchIndex},
-  {path: '/search/q', component: Search},
-  {path: '/search/q/:query', component: SearchResult},
+  {path: '/search/users', component: Search},
+  {path: '/search/users/:query', component: SearchResult},
   {path: '/message', component: MessageList},
   {path: '/message/chat/:uid', component: Chat},
   {path: '/users/appointment/:uid', component: AppointmentRequest},
@@ -144,7 +145,7 @@ router.beforeEach((to, from, next) => {
       return
     }
 
-    // 权限逻辑在这里
+    // 如果是去其他页面, 都要判断认证是否通过
     let cookieAuth = utils.getCookie(document.cookie).auth
     // 没有注册的去微信认证
     if (cookieAuth === undefined || cookieAuth === 'false') next('/auth')
@@ -153,18 +154,6 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
-
-// const eventHub = new Vue()
-
-// let events = {
-//   data () {
-//     return {
-//       'eventHub': eventHub
-//     }
-//   }
-// }
-
-// Vue.mixin(events)
 
 Vue.http.interceptors.push((request, next) => {
   request.credentials = true

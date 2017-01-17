@@ -1,6 +1,6 @@
 import {Toast, Indicator} from 'mint-ui'
 
-let toast = {
+let toastExport = {
   Indicator: Indicator
 }
 
@@ -27,7 +27,15 @@ let msgs = {
   'UPLOAD_IMAGE_SUCCESS': '上传图片成功',
   'DELETE_IMAGE_SUCCESS': '删除图片成功',
   'UPLOAD_IMAGE_FAIL': '图片上传失败',
-  'REG_SUCCESS': '注册成功'
+  'REG_SUCCESS': '注册成功',
+  'QUIT_CIRCLE_SUCCESS': '退出圈子成功'
+}
+
+function toast (msg) {
+  Toast({
+    message: msg,
+    position: 'bottom'
+  })
 }
 
 function toastMsg (msg, ifCustom) {
@@ -65,7 +73,7 @@ function handleFailWithCode (status, statusText) {
   closeIndicator()
 }
 
-toast.install = function (Vue, options) {
+toastExport.install = function (Vue, options) {
   // 1. add global method or property
   Vue.prototype.toastMsg = toastMsg
   Vue.prototype.openIndicator = openIndicator
@@ -74,6 +82,7 @@ toast.install = function (Vue, options) {
   Vue.prototype.handleFail = handleFail
   Vue.prototype.toastNetErrMsg = toastNetErrMsg
   Vue.prototype.handleFailWithCode = handleFailWithCode
+  Vue.prototype.toast = toast
   // 2. add a global asset
   // Vue.directive('my-directive', {
   //   bind (el, binding, vnode, oldVnode) {
@@ -97,4 +106,4 @@ toast.install = function (Vue, options) {
   // }
 }
 
-export default toast
+export default toastExport

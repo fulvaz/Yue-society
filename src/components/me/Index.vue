@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <header class="profile">
-      <div class="avatar" @click="changeAvatar">
+      <div class="avatar" @click="handleAvatarUpload">
         <img :src="avatar">
         <p class="upload-sign" @click="handleAvatarUpload">修改头像</p>
       </div>
@@ -60,9 +60,9 @@
   import 'vue-awesome/icons/picture-o'
   import 'vue-awesome/icons/heart'
   // import VueCoreImageUpload from 'vue-core-image-upload/'
-  import avatarUpMix from '../../mixins/uploadWithWX'
+  // import avatarUpMix from '../../mixins/uploadWithWX'
+  import * as api from '../../api/index.js'
   export default {
-    mixins: [avatarUpMix],
     data () {
       return {
         avatar: ''
@@ -90,7 +90,24 @@
       this.avatar = this.$store.state.MeState.avatar
     },
     methods: {
-      changeAvatar () {
+      handleAvatarUpload () {
+        this.openIndicator()
+        api.wxAuth(['chooseImage', 'uploadImage']).then(res => {
+          this.closeIndicator()
+          return api.wxChooseImage(1)
+        }).then(res => {
+          this._avatarTmp = res.localIds[0]
+          return api.wxUploadImage(res.localIds[0])
+        }).then(res => {
+          this.openIndicator()
+          return api.uploadAvatarId({serverId: res.serverId})
+        }).then(res => {
+          this.handleSuccess('UPLOAD_IMAGE_SUCCES')
+          this.avatar = this._avatarTmp
+          this.$emit('input', this.avatar) // vee-validate 验证需要input事件
+        }).catch(res => {
+          this.handleFailWithCode(res.status, res.statusText)
+        })
       }
     }
   }

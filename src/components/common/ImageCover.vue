@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// background-image 方式显示图片
 export default {
   props: {
     img: '',

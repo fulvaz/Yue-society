@@ -35,7 +35,7 @@
           <router-link v-for="post in postsWithCategory[category]" :to="`/posts/${post.id}`" class="post">
             <post-cell :avatar="post.authorAvator" :title="post.title" :date="dateFormat(post.date)" :author="post.author"></post-cell>
           </router-link>
-          <button type="button" name="more" class="btn-more" @click="fetchPosts" disabled="!canLoadmore">点击更多</button>
+          <button type="button" name="more" class="btn-more" @click="fetchPosts" >点击更多</button>
         </tab-container-item>
         <!-- 活动的Container -->
         <tab-container-item id="活动" class="post-container" >
@@ -47,15 +47,16 @@
     </section>
 
     <fz-editor v-model="postNew" :category="postCategory"></fz-editor>
+    <join-msg-edior v-model="msgJoin"></join-msg-edior>
   </div>
 </template>
 
 <script>
   // import Config from '../../config/setting'
   import { TabContainer, TabContainerItem, Navbar, TabItem, Loadmore } from 'mint-ui'
+  import JoinMsgEditor from './JoinMsgEditor'
   import PostCell from '../common/PostCell'
   import dateformat from 'dateformat'
-  import MessageBox from '../common/MessageBox/MessageBox.js'
   import * as api from '../../api/index.js'
   import Editor from '../posts/PostEditor'
   import * as utils from '../../utils/utils.js'
@@ -72,7 +73,7 @@
         'CServices': [],
         'tabActive': '',
         posts: [],
-        canLoadmore: true,
+        msgJoin: '',
         postPage: 0,
         actPage: 0,
         postNew: '',
@@ -87,7 +88,8 @@
       'post-cell': PostCell,
       'nav-bar': Navbar,
       'tab-item': TabItem,
-      'fz-editor': Editor
+      'fz-editor': Editor,
+      'join-msg-edior': JoinMsgEditor
     },
     created () {
       api.getCircleInfo(this.$route.params.id).then(response => {
@@ -160,22 +162,7 @@
         Editor.open()
       },
       joinCircle () {
-        MessageBox.prompt('输入加入圈子的验证信息').then(val => {
-          let apply = {
-            uid: this.$store.state.MeState.uid,
-            circleId: parseInt(this.$route.params['id']),
-            content: val.value,
-            date: (new Date()).toString()
-          }
-          this.openIndicator()
-          api.joinCircle(apply).then(response => {
-            let circleId = parseInt(this.$route.params['id'])
-            this.$store.dispatch('applyCircle', circleId)
-            this.handleSuccess('APPLY_CIRCLE_SUCCESS')
-          }).catch(response => {
-            this.handleFailWithCode(response.status, response.statusText)
-          })
-        })
+        JoinMsgEditor.open()
       },
       joinCircleWithoutAuth () {
         let apply = {
@@ -210,23 +197,23 @@
         this.openIndicator('加载中...')
         // 这个方案好蠢, 但是先用着
         const postPerPage = 20
-        this.loadPostBusy = true
-        let post
         api.getCirclePost(this.$route.params.id, this.postPage++, postPerPage).then((response) => {
           let remoteData
           if (typeof response.body === 'object') remoteData = response.body
           else remoteData = JSON.parse(response.body)
-          post = remoteData
+          if (remoteData.length === 0) {
+            this.toast('已经没有新帖子了')
+          }
+          this.posts = this.posts.concat(remoteData)
           return api.getCircleActivity(this.$route.params.id, this.actPage++, postPerPage)
         }).then(response => {
           this.closeIndicator()
           // 数据为空
           if (response.length === 0) {
-            this.openIndicator('已经没有新帖子了', true)
+            this.toast('已经没有新帖子了')
           }
 
           // 处理数据
-          this.posts = this.posts.concat(post)
           this.activities = this.activities.concat(utils.response2Data(response))
         }).catch(response => {
           this.closeIndicator()

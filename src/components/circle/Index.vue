@@ -6,43 +6,20 @@
           <tab-item id="tab-circleRecommend" class="navbar-item">推荐圈子</tab-item>
           <tab-item id="tab-circleSearch" class="navbar-item">圈子搜索</tab-item>
         </nav-bar>
+
+
         <mt-tab-container class="tab-container" v-model="active">
-          <mt-tab-container-item id="tab-myCircle">
-            <list class="recommend">
-                <li v-for="item in myCDisplay" class="recommend">
-                  <router-link :to="`/circles/${item.id}`">
-                    <!-- <list-item-detailed
-                      :name="item.name"
-                      :subtitle="item.subtitle"
-                      :logo="item.logo"
-                      :tags="item.tags"
-                      :intro="item.intro"
-                      >
-                    </list-item-detailed> -->
-                    <circle-list :title="''" class="circle-my">
-                        <li v-for="circle in myCircles"><router-link :to="`/circles/${circle.id}`"><circle-list-item :content-title="circle.name" :content-subtitle="circle.memberNum + ' 人'" :logo="circle.logo"></circle-list-item></router-link></li>
-                    </circle-list>
-                  </router-link>
-                </li>
-            </list>
+          <mt-tab-container-item id="tab-myCircle" class="tab-myCircle">
+            <my-circle-list-detailed :circle="myCircleDisplay">
+            </my-circle-list-detailed>
+            <!-- <load-more-btn></load-more-btn> -->
           </mt-tab-container-item>
           <mt-tab-container-item id="tab-circleRecommend">
-            <list class="recommend">
-                <li v-for="item in cRecDisplay" class="recommend">
-                  <router-link :to="`/circles/${item.id}`">
-                    <list-item-detailed
-                      :name="item.name"
-                      :subtitle="item.subtitle"
-                      :logo="item.logo"
-                      :tags="item.tags"
-                      :intro="item.intro"
-                      >
-                    </list-item-detailed>
-                  </router-link>
-                </li>
-            </list>
+            <circle-list-detailed :circle="recCircleDisplay"></circle-list-detailed>
+            <load-more-btn @click.native="fetchCircleRecommend"></load-more-btn>
           </mt-tab-container-item>
           <mt-tab-container-item id="tab-circleSearch">
+            <fz-search></fz-search>
           </mt-tab-container-item>
         </mt-tab-container>
       </section>
@@ -51,24 +28,28 @@
 
 <script>
   import {TabContainer, TabContainerItem, Navbar, TabItem, Button} from 'mint-ui'
-  import Slider from '../common/Slider'
-  import SliderItem from '../common/SliderItem'
   import List from '../common/List'
   import ListItem from '../common/ListItem'
   import DetailedListItem from '../common/DetailedListItem'
   import * as api from '../../api/index.js'
   import * as utils from '../../utils/utils.js'
+  import Search from './Search'
+  import circleList from '../common/DetailedCircleList'
+  import myCircleList from './MyCircleList'
+  import LoadMoreBtn from '../common/buttons/LoadMore'
 
   export default {
     data () {
       return {
         circleRecommend: [],
         myCircles: [],
-        active: 'tab-circleRecommend'
+        active: 'tab-circleRecommend',
+        circleRecommendPage: 0,
+        myCirclesPage: 0
       }
     },
     computed: {
-      cRecDisplay () {
+      recCircleDisplay () {
         return this.circleRecommend.map(e => {
           let tags = e.tags
           if (e.ifHot) tags.push('热门圈子')
@@ -84,7 +65,7 @@
           return obj
         })
       },
-      myCDisplay () {
+      myCircleDisplay () {
         return this.myCircles.map(e => {
           let tags = e.tags
           let obj = {
@@ -100,22 +81,24 @@
       }
     },
     components: {
+      'circle-list-detailed': circleList,
+      'fz-search': Search,
       'mt-button': Button,
       'mt-tab-container-item': TabContainerItem,
       'mt-tab-container': TabContainer,
       'nav-bar': Navbar,
       'tab-item': TabItem,
-      'slider': Slider,
-      'slider-item': SliderItem,
       'circle-list': List,
       'circle-list-item': ListItem,
       'list': List,
       'list-item-detailed': DetailedListItem,
-      'list-item': ListItem
+      'list-item': ListItem,
+      'load-more-btn': LoadMoreBtn,
+      'my-circle-list-detailed': myCircleList
     },
     methods: {
       fetchCircleRecommend () {
-        api.fetchCircleRecommend().then(res => {
+        api.fetchCircleRecommend(this.circleRecommendPage++, 10).then(res => {
           let remoteData = utils.response2Data(res)
           this.circleRecommend = this.circleRecommend.concat(remoteData)
         })
@@ -144,8 +127,12 @@
   }
 
   .tab-container {
-    padding: 0 $horizontal-margin;
+    // padding: 0 $horizontal-margin;
     background-color: white;
+    .tab-myCircle {
+      box-sizing: border-box;
+      // padding-right: $horizontal-margin;
+    }
   }
   #navbar {
     margin-bottom: 5px; // 避免挡住下方边框

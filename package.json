@@ -11,6 +11,7 @@
     "mock": "json-server --watch mock/db.js -r mock/route.json"
   },
   "dependencies": {
+    "cropperjs": "^1.0.0-beta",
     "dateformat": "^2.0.0",
     "jquery": "^3.1.1",
     "mint-ui": "^2.0.6",

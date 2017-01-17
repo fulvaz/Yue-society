@@ -56,9 +56,13 @@ export default {
     }
   }
   .content {
-    margin: 16px 0 16px 46px;
+    margin-left: 46px;
+    margin-bottom: 20px;
     font-size: 15px;
     line-height: 1.46;
     color: #494949;
+    p {
+      margin: 5px 0;
+    }
   }
 </style>

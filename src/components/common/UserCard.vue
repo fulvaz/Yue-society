@@ -6,7 +6,7 @@
               <span class="name">{{user.name}}</span>
             </p>
             <p>
-              <span class="location">{{user.location}}</span>
+              <span class="location">{{user.livingplace}}</span>
               <span class="age">{{user.age}}岁</span>
             </p>
         </div>

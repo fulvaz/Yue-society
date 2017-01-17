@@ -8,46 +8,16 @@
       </nav-bar>
       <mt-tab-container class="tab-container" v-model="active">
         <mt-tab-container-item id="tab-recent-reg">
-          <list class="recommend">
-              <li v-for="circle in recentReg" class="recommend">
-                <router-link :to="`/users/${circle.uid}`">
-                  <list-item
-                    :content-title="circle.nickname"
-                    :content-subtitle="circle.introduction"
-                    :logo="circle.avatar">
-                  </list-item>
-                </router-link>
-              </li>
-              <button type="button" name="button" class="btn-load-more" @click="loadRecentReg">点击加载更多</button>
-          </list>
+          <detailed-user-list :users="recentRegDisplay"></detailed-user-list>
+          <button type="button" name="button" class="btn-load-more" @click="loadRecentReg">点击加载更多</button>
         </mt-tab-container-item>
         <mt-tab-container-item id="tab-recent-login">
-          <list class="recommend">
-              <li v-for="circle in recentLogin" class="recommend">
-                <router-link :to="`/users/${circle.uid}`">
-                  <list-item
-                    :content-title="circle.nickname"
-                    :content-subtitle="circle.introduction"
-                    :logo="circle.avatar">
-                  </list-item>
-                </router-link>
-              </li>
-              <button type="button" name="button" class="btn-load-more" @click="loadRecentLogin">点击加载更多</button>
-          </list>
+          <detailed-user-list :users="recentLoginDisplay"></detailed-user-list>
+          <button type="button" name="button" class="btn-load-more" @click="loadRecentLogin">点击加载更多</button>
         </mt-tab-container-item>
         <mt-tab-container-item id="tab-recommend">
-          <list class="recommend">
-              <li v-for="circle in userRecommend" class="recommend">
-                <router-link :to="`/users/${circle.uid}`">
-                  <list-item
-                    :content-title="circle.nickname"
-                    :content-subtitle="circle.introduction"
-                    :logo="circle.avatar">
-                  </list-item>
-                </router-link>
-              </li>
-              <button type="button" name="button" class="btn-load-more" @click="loadUserRecommend">点击加载更多</button>
-          </list>
+          <detailed-user-list :users="recentRegDisplay"></detailed-user-list>
+          <button type="button" name="button" class="btn-load-more" @click="loadUserRecommend">点击加载更多</button>
         </mt-tab-container-item>
       </mt-tab-container>
     </section>
@@ -64,16 +34,19 @@ import ListItem from '../common/ListItem'
 import FloatButton from '../common/FloatButton'
 import * as api from '../../api/index.js'
 import * as utils from '../../utils/utils.js'
+import DetailedUserList from '../common/DetailedUserList'
 export default {
   created () {
     Promise.all([
       api.getRecentLogin(this.recentRegPage++, 10),
       api.getRecentReg(this.recentLoginPage++, 10),
-      api.getSearchRecommend(this.userRecommendPage++, 10)
+      api.getSearchRecommend(this.userRecommendPage++, 10),
+      api.fetchMeInfo()
     ]).then(res => {
       this.recentLogin = utils.response2Data(res[0])
       this.recentReg = utils.response2Data(res[1])
       this.userRecommend = utils.response2Data(res[2])
+      this.me = utils.response2Data(res[3])
     }).catch(res => {
       this.handleFailWithCode(res.status, res.statusText)
     })
@@ -85,7 +58,8 @@ export default {
     'list': List,
     'list-item': ListItem,
     'tab-item': TabItem,
-    'float-button': FloatButton
+    'float-button': FloatButton,
+    'detailed-user-list': DetailedUserList
   },
   data () {
     return {
@@ -95,13 +69,81 @@ export default {
       recentLoginPage: 0,
       userRecommend: [],
       userRecommendPage: 0,
-      active: 'tab-recent-reg'
+      active: 'tab-recent-reg',
+      me: {}
+    }
+  },
+  computed: {
+    recentLoginDisplay () {
+      return this.recentLogin.map(e => {
+        let tags = []
+        if (e.age && e.age === this.me.age) tags.push('与我同年')
+        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
+        if (e.school && e.school === this.me.school) tags.push('校友')
+        if (e.house && e.house === '已购房') tags.push('有房')
+        if (e.car === '有') tags.push('有车')
+        if (e.birthplace === this.me.birthplace) tags.push('同乡')
+        let obj = {
+          id: e.uid,
+          name: e.nickname,
+          sex: e.sex,
+          subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
+          logo: e.avatar,
+          intro: e.introduction || '',
+          tags: tags
+        }
+        return obj
+      })
+    },
+    // 数据例子!
+    recentRegDisplay () {
+      return this.recentReg.map(e => {
+        let tags = []
+        if (e.age && e.age === this.me.age) tags.push('与我同年')
+        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
+        if (e.school && e.school === this.me.school) tags.push('校友')
+        if (e.house && e.house === '已购房') tags.push('有房')
+        if (e.car === '有') tags.push('有车')
+        if (e.birthplace === this.me.birthplace) tags.push('同乡')
+        let obj = {
+          id: e.uid,
+          name: e.nickname,
+          sex: e.sex,
+          subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
+          logo: e.avatar,
+          intro: e.introduction || '',
+          tags: tags
+        }
+        return obj
+      })
+    },
+    // 数据例子!
+    userRecommendDisplay () {
+      return this.userRecommend.map(e => {
+        let tags = []
+        if (e.age && e.age === this.me.age) tags.push('与我同年')
+        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
+        if (e.school && e.school === this.me.school) tags.push('校友')
+        if (e.house && e.house === '已购房') tags.push('有房')
+        if (e.car === '有') tags.push('有车')
+        if (e.birthplace === this.me.birthplace) tags.push('同乡')
+        let obj = {
+          id: e.uid,
+          name: e.nickname,
+          sex: e.sex,
+          subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
+          logo: e.avatar,
+          intro: e.introduction || '',
+          tags: tags
+        }
+        return obj
+      })
     }
   },
   methods: {
     search () {
       this.$router.push({
-        path: '/search/q'
+        path: '/search/users'
       })
     },
     loadRecentLogin () {

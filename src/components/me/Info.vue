@@ -38,7 +38,7 @@
       data-vv-name="weight"
       data-vv-value-path="weight"
       :hasError="errors.has('weight')"
-      :errMsg="errors.first('weight')">
+      :errMsg="errors.first('weight')"
     ></fz-input>
     <address-picker label="出生地 *" v-model="birthplace" class="field"
       v-validate="birthplace"
@@ -60,7 +60,15 @@
     ></fz-singlepicler>
     <fz-datepicker label="生日" v-model="birthday" class="field"></fz-datepicker>
     <address-picker label="居住地" v-model="livingPlace" class="field"></address-picker>
-    <fz-textarea v-model="introduction" label="自我介绍" class="field">
+    <fz-textarea v-model="introduction" label="自我介绍" class="field"
+      v-validate="introduction"
+      :required="true"
+      data-vv-rules="required|min:30"
+      data-vv-name="introduction"
+      data-vv-value-path="introduction"
+      :hasError="errors.has('introduction')"
+      :errMsg="errors.first('introduction')"
+      >
     </fz-textarea>
     <fz-input ref="realname" v-model="realname" label="真实姓名" type="realname" :maxLength="10" class="field"></fz-input>
     <fz-input ref="school" v-model="school" label="毕业学校" type="school" :maxLength="10" class="field"></fz-input>
@@ -120,7 +128,7 @@ export default {
       this.selectNation = utils.obj2arr(response.nation)
       this.selectSex = utils.obj2arr(response.sex)
       this.selectStarsign = utils.obj2arr(response.starsign)
-      this.selectIncome = ['0 - 5', '5 - 10', '15 - 20', '25 - 30', '30 - 40', '40 - 50', '50 - 60']
+      this.selectIncome = ['0 - 5', '5 - 10', '10 - 20', '20 - 30', '30 - 50', '50以上']
       this.selectableItems = response
     }).catch(response => {
       console.error(response)

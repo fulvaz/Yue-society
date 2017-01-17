@@ -86,8 +86,8 @@ export default {
       this.$emit('input', [start, end])
     },
     handleClick () {
-      this.$refs.picker.setSlotValue(0, '' + this.value[0])
-      this.$refs.picker.setSlotValue(1, '' + this.value[1])
+      if (this.value[0] && this.slotVal.indexOf('' + this.value[0]) !== -1) this.$refs.picker.setSlotValue(0, '' + this.value[0])
+      if (this.value[1] && this.slotVal.indexOf('' + this.value[1]) !== -1) this.$refs.picker.setSlotValue(1, '' + this.value[1])
       this.visible = true
     },
     open () {

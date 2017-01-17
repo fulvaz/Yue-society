@@ -261,7 +261,7 @@ function genSpouse () {
 
 function genCircleDetail () {
 	let arr = []
-	for (let i=0; i<r(3, 20); i++) {
+	for (let i=0; i<r(40, 70); i++) {
 		arr.push({
 			id: i,
 			name: f.lorem.word(),
@@ -276,9 +276,10 @@ function genCircleDetail () {
 	return arr
 }
 
+
 function genUserDetail () {
 	let arr = []
-	for (let i=0; i<r(3, 20); i++) {
+	for (let i=0; i<r(30, 50); i++) {
 		arr.push({
 			uid: i,
 			nickname: f.lorem.word(),
@@ -658,5 +659,6 @@ module.exports = function() {
 	}
 	data.userDetail = genUserDetail()  // 用来做推荐用户列表
 	data.circleDetail = genCircleDetail() // 用来做详细列表的, 并非圈子api
+	data.qrCode = {qrCode: 'http://www.liantu.com/images/2013/liantu.png'}
 	return data;
 }

@@ -1,11 +1,6 @@
 <template lang="html">
   <div class="container">
     <header v-show="album.length !== 0">
-      <!-- <fz-slider>
-        <fz-slider-item v-for="photo in album">
-          <img :src="photo" class="photo">
-        </fz-slider-item>
-      </fz-slider> -->
       <div class="photo-container" @click="handlePreviewImage">
         <tr><td class="photo-cell" v-for="photo in album"><img :src="photo" class="photo"></td></tr>
       </div>
@@ -216,9 +211,6 @@
 </style>
 
 <script>
-// import wx from 'weixin-js-sdk'
-import Slider from '../common/Slider'
-import SliderItemContainer from '../common/SliderItemContainer'
 import * as api from '../../api/index.js'
 import Tag from '../common/tag'
 import List from '../common/List'
@@ -279,9 +271,7 @@ export default {
     'fz-list': List,
     'fz-tag': Tag,
     'mt-popup': Popup,
-    'appointment': Appointment,
-    'fz-slider': Slider,
-    'fz-slider-item': SliderItemContainer
+    'appointment': Appointment
   },
   updated () {
     // this.showPopup = true

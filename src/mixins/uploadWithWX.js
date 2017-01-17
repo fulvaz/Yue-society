@@ -1,6 +1,10 @@
 import * as api from '../api/index.js'
-let avaTmp = ''
 export default {
+  data () {
+    return {
+      _avatarTmp: ''
+    }
+  },
   methods: {
     // 要求字段名为 avatar
     handleAvatarUpload () {
@@ -9,14 +13,14 @@ export default {
         this.closeIndicator()
         return api.wxChooseImage(1)
       }).then(res => {
-        avaTmp = res.localIds[0]
+        this._avatarTmp = res.localIds[0]
         return api.wxUploadImage(res.localIds[0])
       }).then(res => {
         this.openIndicator()
         return api.uploadAvatarId({serverId: res.serverId})
       }).then(res => {
-        this.avatar = avaTmp
         this.handleSuccess('UPLOAD_IMAGE_SUCCES')
+        this.$emit('avatar-uploaded', this._avatarTmp)
       }).catch(res => {
         this.handleFailWithCode(res.status, res.statusText)
       })

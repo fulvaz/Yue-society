@@ -1,15 +1,19 @@
 <template>
   <div class="mint-msgbox-wrapper">
     <transition name="msgbox-bounce">
-      <div class="mint-msgbox" id="mint-msgbox" v-show="value">
-        <div id="mint-msgbox-content" v-if="message !== ''">
-          <!-- <div class="mint-msgbox-message" v-html="message"></div> -->
-          <div class="mint-msgbox-input" id="mint-msgbox-input" v-show="showInput">
-            <!-- <div class="mint-msgbox-errormsg" :style="{ visibility: !!editorErrorMessage ? 'visible' : 'hidden' }">{{ editorErrorMessage }}</div> -->
-            <textarea id="input" cols="30" rows="10" v-model="inputValue" ref="input" :placeholder="placeholder"></textarea>
+      <div class="mint-msgbox" v-show="value">
+        <div class="mint-msgbox-header" v-if="title !== ''">
+          <div class="mint-msgbox-title">{{ title }}</div>
+        </div>
+        <div class="mint-msgbox-content" v-if="message !== ''">
+          <div class="mint-msgbox-message" v-html="message"></div>
+          <div class="mint-msgbox-input" v-show="showInput">
+            <input v-model="inputValue" :placeholder="inputPlaceholder" ref="input">
+            <div class="mint-msgbox-errormsg" :style="{ visibility: !!editorErrorMessage ? 'visible' : 'hidden' }">{{ editorErrorMessage }}</div>
           </div>
         </div>
         <div class="mint-msgbox-btns">
+          <button :class="[ cancelButtonClasses ]" v-show="showCancelButton" @click="handleAction('cancel')">{{ cancelButtonText }}</button>
           <button :class="[ confirmButtonClasses ]" v-show="showConfirmButton" @click="handleAction('confirm')">{{ confirmButtonText }}</button>
         </div>
       </div>
@@ -17,34 +21,16 @@
   </div>
 </template>
 
-<style scoped>
-  #mint-msgbox-content {
-    margin: 18px 12px 0 12px;
-  }
-
-  #mint-msgbox {
-    border-radius: 15px;
-  }
-
-  #input {
-    width: 100%;
-    resize: none;
-    outline: none;
-  }
-
-  #mint-msgbox-input {
-    padding: 0;
-  }
-
+<style>
   @component-namespace mint {
     @component msgbox {
-      /*position: fixed;*/
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate3d(-50%, -50%, 0);
       background-color: #fff;
       width: 85%;
-      border-radius: 10px;
+      border-radius: 3px;
       font-size: 16px;
       -webkit-user-select: none;
       overflow: hidden;
@@ -56,8 +42,8 @@
       }
 
       @descendent content {
-        padding: 0px 20px 15px;
-        border-bottom: 5px solid #ddd;
+        padding: 10px 20px 15px;
+        border-bottom: 1px solid #ddd;
         min-height: 36px;
         position: relative;
       }
@@ -155,20 +141,19 @@
     opacity: 0;
     transform: translate3d(-50%, -50%, 0) scale(0.9);
   }
-
 </style>
-<style src="vue-popup/lib/popup.css"></style>
+<style src="mint-ui/src/style/popup.css"></style>
 
 <script type="text/babel">
-  let CONFIRM_TEXT = '回复'
-  let CANCEL_TEXT = '取消'
+  let CONFIRM_TEXT = '确定';
+  let CANCEL_TEXT = '取消';
 
-  import Popup from 'vue-popup'
+  import Popup from 'mint-ui/src/utils/popup';
+
   export default {
     mixins: [ Popup ],
 
     props: {
-      placeholder: '',
       modal: {
         default: true
       },
@@ -193,103 +178,110 @@
     },
 
     computed: {
-      confirmButtonClasses () {
-        let classes = 'mint-msgbox-btn mint-msgbox-confirm ' + this.confirmButtonClass
+      confirmButtonClasses() {
+        let classes = 'mint-msgbox-btn mint-msgbox-confirm ' + this.confirmButtonClass;
         if (this.confirmButtonHighlight) {
-          classes += ' mint-msgbox-confirm-highlight'
+          classes += ' mint-msgbox-confirm-highlight';
         }
-        return classes
+        return classes;
       },
-      cancelButtonClasses () {
-        let classes = 'mint-msgbox-btn mint-msgbox-cancel ' + this.cancelButtonClass
+      cancelButtonClasses() {
+        let classes = 'mint-msgbox-btn mint-msgbox-cancel ' + this.cancelButtonClass;
         if (this.cancelButtonHighlight) {
-          classes += ' mint-msgbox-cancel-highlight'
+          classes += ' mint-msgbox-cancel-highlight';
         }
-        return classes
+        return classes;
       }
     },
 
     methods: {
-      doClose () {
-        this.value = false
-        this._closing = true
+      doClose() {
+        this.value = false;
+        this._closing = true;
 
-        this.onClose && this.onClose()
+        this.onClose && this.onClose();
 
         setTimeout(() => {
           if (this.modal && this.bodyOverflow !== 'hidden') {
-            document.body.style.overflow = this.bodyOverflow
-            document.body.style.paddingRight = this.bodyPaddingRight
+            document.body.style.overflow = this.bodyOverflow;
+            document.body.style.paddingRight = this.bodyPaddingRight;
           }
-          this.bodyOverflow = null
-          this.bodyPaddingRight = null
-        }, 200)
-        this.opened = false
+          this.bodyOverflow = null;
+          this.bodyPaddingRight = null;
+        }, 200);
+        this.opened = false;
 
         if (!this.transition) {
-          this.doAfterClose()
+          this.doAfterClose();
         }
       },
 
-      handleAction (action) {
+      handleAction(action) {
         if (this.$type === 'prompt' && action === 'confirm' && !this.validate()) {
-          return
+          return;
         }
-        var callback = this.callback
-        this.value = false
-        callback(action)
+        var callback = this.callback;
+        this.value = false;
+        callback(action);
       },
 
-      validate () {
+      validate() {
         if (this.$type === 'prompt') {
-          if (this.inputValue && this.inputValue.length === 0) return false
-          else return true
+          var inputPattern = this.inputPattern;
+          if (inputPattern && !inputPattern.test(this.inputValue || '')) {
+            this.editorErrorMessage = this.inputErrorMessage || '输入的数据不合法!';
+            this.$refs.input.classList.add('invalid');
+            return false;
+          }
+          var inputValidator = this.inputValidator;
+          if (typeof inputValidator === 'function') {
+            var validateResult = inputValidator(this.inputValue);
+            if (validateResult === false) {
+              this.editorErrorMessage = this.inputErrorMessage || '输入的数据不合法!';
+              this.$refs.input.classList.add('invalid');
+              return false;
+            }
+            if (typeof validateResult === 'string') {
+              this.editorErrorMessage = validateResult;
+              return false;
+            }
+          }
         }
-
-        //   var inputPattern = this.inputPattern
-        //   if (inputPattern && !inputPattern.test(this.inputValue || '')) {
-        //     this.editorErrorMessage = this.inputErrorMessage || '输入的数据不合法!'
-        //     this.$refs.input.classList.add('invalid')
-        //     return false
-        //   }
-        //   var inputValidator = this.inputValidator
-        //   if (typeof inputValidator === 'function') {
-        //     var validateResult = inputValidator(this.inputValue)
-        //     if (validateResult === false) {
-        //       this.editorErrorMessage = this.inputErrorMessage || '输入的数据不合法!'
-        //       this.$refs.input.classList.add('invalid')
-        //       return false
-        //     }
-        //     if (typeof validateResult === 'string') {
-        //       this.editorErrorMessage = validateResult
-        //       return false
-        //     }
-        //   }
-        // }
-        // this.editorErrorMessage = ''
-        // this.$refs.input.classList.remove('invalid')
-        // return true
+        this.editorErrorMessage = '';
+        this.$refs.input.classList.remove('invalid');
+        return true;
       },
 
-      handleInputType (val) {
-        if (val === 'range' || !this.$refs.input) return
-        this.$refs.input.type = val
+      handleInputType(val) {
+        if (val === 'range' || !this.$refs.input) return;
+        this.$refs.input.type = val;
       }
     },
 
     watch: {
-      inputValue () {
+      inputValue() {
         if (this.$type === 'prompt') {
-          this.ifInputValid = this.validate()
+          this.validate();
         }
       },
 
-      inputType (val) {
-        this.handleInputType(val)
+      value(val) {
+        this.handleInputType(this.inputType);
+        if (val && this.$type === 'prompt') {
+          setTimeout(() => {
+            if (this.$refs.input) {
+              this.$refs.input.focus();
+            }
+          }, 500);
+        }
+      },
+
+      inputType(val) {
+        this.handleInputType(val);
       }
     },
 
-    data () {
+    data() {
       return {
         title: '',
         message: '',
@@ -309,7 +301,7 @@
         cancelButtonClass: '',
         editorErrorMessage: null,
         callback: null
-      }
+      };
     }
-  }
+  };
 </script>

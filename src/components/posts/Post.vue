@@ -33,8 +33,8 @@
       </ul>
     </section>
     <button class="new-post-btn" @click="handleClick">回复</button>
+    <editor v-model="newReply"></editor>
   </div>
-
 </template>
 
 <style lang="scss" scoped>
@@ -133,11 +133,12 @@
 import * as api from '../../api/index.js'
 import * as utils from '../../utils/utils.js'
 import Reply from './Reply'
-import { MessageBox } from '../common/MessageBox/MessageBox.js'
+import Editor from './ReplyEditor'
 
 export default {
   components: {
-    'fz-reply': Reply
+    'fz-reply': Reply,
+    'editor': Editor
   },
   data () {
     return {
@@ -152,7 +153,8 @@ export default {
       replies: [],
       circleName: '',
       circleMember: 0,
-      circleLogo: ''
+      circleLogo: '',
+      newReply: {}
     }
   },
   created () {
@@ -175,33 +177,39 @@ export default {
       console.error('[Post]: ' + res)
     })
   },
+  watch: {
+    newReply () {
+      this.replies.push(this.newReply)
+    }
+  },
   mounted () {
   },
   methods: {
     handleClick () {
-      MessageBox.prompt('请输入你的回复').then(val => {
-        let date = new Date()
-        let reply = {
-          // id: Number,
-          uid: this.$store.state.MeState.uid,
-          postId: parseInt(this.$route.params.id),
-          content: val.value,
-          date
-        }
-        this.openIndicator()
-        api.replyPost(this.id, reply).then(response => {
-          this.handleSuccess('REPLY_POST_SUCCESS')
-          let replyDisplay = {
-            author: this.$store.state.MeState.nickname,
-            authorAvator: this.$store.state.MeState.avatar,
-            date: utils.date2YMDHMM(date),
-            content: val.value
-          }
-          this.replies.push(replyDisplay)
-        }).catch(response => {
-          this.handleFail('REPLY_POST_FAIL')
-        })
-      })
+      Editor.open()
+      // MessageBox.prompt('请输入你的回复').then(val => {
+      //   let date = new Date()
+      //   let reply = {
+      //     // id: Number,
+      //     uid: this.$store.state.MeState.uid,
+      //     postId: parseInt(this.$route.params.id),
+      //     content: val.value,
+      //     date
+      //   }
+      //   this.openIndicator()
+      //   api.replyPost(this.id, reply).then(response => {
+      //     this.handleSuccess('REPLY_POST_SUCCESS')
+      //     let replyDisplay = {
+      //       author: this.$store.state.MeState.nickname,
+      //       authorAvator: this.$store.state.MeState.avatar,
+      //       date: utils.date2YMDHMM(date),
+      //       content: val.value
+      //     }
+      //     this.replies.push(replyDisplay)
+      //   }).catch(response => {
+      //     this.handleFail('REPLY_POST_FAIL')
+      //   })
+      // })
     }
   }
 }

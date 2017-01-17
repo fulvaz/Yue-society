@@ -42,9 +42,9 @@ export const fetchSelectableItem = function () {
   })
 }
 
-export const fetchMyCircle = function () {
+export const fetchMyCircle = function (page, limit) {
   return new Promise((resolve, reject) => {
-    vue.http.get(config.myCircles).then((response) => {
+    vue.http.get(config.myCircles + filterPL(page, limit)).then((response) => {
       resolve(response)
     }, (err) => {
       reject(err)
@@ -52,9 +52,9 @@ export const fetchMyCircle = function () {
   })
 }
 
-export const fetchCircleRecommend = function () {
+export const fetchCircleRecommend = function (page, limit) {
   return new Promise((resolve, reject) => {
-    vue.http.get(config.circlesRecommendsApi).then((response) => {
+    vue.http.get(config.circlesRecommendsApi + filterPL(page, limit)).then((response) => {
       resolve(response)
     }, (response) => {
       reject(response)
@@ -120,6 +120,26 @@ export const replyPost = function (postId, data) {
       resolve(response)
     }, res => {
       reject(res)
+    })
+  })
+}
+
+export const searchCircles = function (data) {
+  return new Promise((resolve, reject) => {
+    vue.http.post(config.searchCircles, data).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const searchUsers = function (data) {
+  return new Promise((resolve, reject) => {
+    vue.http.post(config.searchUsers, data).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
     })
   })
 }
@@ -695,12 +715,32 @@ export const getSliderContent = function (page, limit) {
   })
 }
 
+export const getQrCode = function (page, limit) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.getQrCode).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
 export const deletePhoto = function (data) {
   return new Promise((resolve, reject) => {
     vue.http.put(`${config.deletePhoto}`, data).then((response) => {
       resolve(response)
     }, response => {
       reject(response)
+    })
+  })
+}
+
+export const quitCircle = function (data) {
+  return new Promise((resolve, reject) => {
+    vue.http.post(config.quitCircle, data).then(res => {
+      resolve(res)
+    }, res => {
+      reject(res)
     })
   })
 }

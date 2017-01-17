@@ -19,9 +19,9 @@
   }
   function handleClick () {
     // set cookie
-    let prefix = 'http://www.resontek.com/#'
-    console.log(prefix + search2query(window.location.search).redirectUrl)
-    window.location = prefix + search2query(window.location.search).redirectUrl
+    // let prefix = 'http://www.resontek.com/#'
+    // console.log( prefix + search2query(window.location.search).redirectUrl)
+    window.location = 'app.resontek.com' + search2query(window.location.search).redirectUrl
   }
   let btn = document.getElementById('btn')
   btn.addEventListener('click', handleClick)
