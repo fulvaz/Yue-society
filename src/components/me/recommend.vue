@@ -64,6 +64,10 @@ export default {
 
 <style lang="scss" scoped>
   @import "../../assets/index.scss";
+  .fa-icon {
+    width: auto;
+    height: 14px; /* or any other relative font sizes */
+  }
   header {
     h2 {
         margin: 10px 0;
@@ -104,13 +108,11 @@ export default {
     display: flex;
     justify-content: center;
     margin-top: 10px;
+
     .btn-icon {
       color: white;
     }
-    .fa-icon {
-      width: auto;
-      height: 14px; /* or any other relative font sizes */
-    }
+
     .share-btn {
       background-color: $weixin-green;
       border: $weixin-green;
