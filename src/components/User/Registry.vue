@@ -1,7 +1,13 @@
 <template>
   <div class="container">
-    <!-- 昵称 验证码 推荐人 用户类型 -->
-    <fz-field label="昵称" name="nickname" v-model="nickname" disabled="true" class="field"></fz-field>
+    <fz-field label="昵称" name="nickname" v-model="nickname" class="field"
+      v-validate
+      data-vv-rules="required"
+      data-vv-name="nickname"
+      data-vv-value-path="nickname"
+      :hasError="errors.has('nickname')"
+      :errMsg="errors.first('nickname')"
+    ></fz-field>
     <fz-avattar-uploader label="头像" v-model="avatar" class="field"
       v-validate
       data-vv-rules="required"
@@ -14,7 +20,6 @@
     </fz-avattar-uploader>
     <fz-single-picker label="性别" :slotVals="selectSex" v-model="sex" class="field"
       v-validate="sex"
-      :required="true"
       data-vv-rules="required"
       data-vv-name="sex"
       data-vv-value-path="sex"
@@ -31,7 +36,7 @@
     ></fz-field>
     <fz-field ref="weight" v-model="weight" label="体重" class="field" valAppend="公斤"
       v-validate
-      data-vv-rules="required|digits:2"
+      data-vv-rules="required|numeric|min:2|max:3"
       data-vv-name="weight"
       data-vv-value-path="weight"
       :hasError="errors.has('weight')"
@@ -39,7 +44,6 @@
     ></fz-field>
     <fz-single-picker label="婚姻状况" :slotVals="selectMarriage" v-model="marriage" class="field"
       v-validate="marriage"
-      :required="true"
       data-vv-rules="required"
       data-vv-name="marriage"
       data-vv-value-path="marriage"
@@ -47,7 +51,7 @@
       :errMsg="errors.first('marriage')"
     ></fz-single-picker>
     <fz-datepicker label="生日" v-model="birthday" class="field"></fz-datepicker>
-    <fz-field label="推荐人" v-model="recommend" placeholder="无则留空" class="field"></fz-field>
+    <fz-field label="推荐人" v-model="recommend" placeholder="请输入推荐人手机号, 无则留空" class="field"></fz-field>
     <fz-field
       class="field"
       label="手机号"
@@ -68,7 +72,7 @@
       :hasError="errors.has('verifyCode')"
       :errMsg="errors.first('verifyCode')"
     >
-      <mt-button class="verify-code-btn" v-if="verifySent" type="default" name="button" size="small" disabled>已经发送验证码</mt-button>
+      <mt-button class="verify-code-btn" v-if="verifySent" type="default" name="button" size="small" disabled>{{verifyCodeSentText}}</mt-button>
       <mt-button class="verify-code-btn" v-else type="default" name="button" size="small" @click="getVerifyCode">获取验证码</mt-button>
     </fz-field>
     <fz-single-picker label="交友类型" v-model="userType" :slotVals="userTypeSlot" class="field"></fz-single-picker>
@@ -93,8 +97,8 @@
         nickname: '',
         mobile: '',
         verifyCode: '',
-        userType: '',
         userTypeSlot: [],
+        userType: '',
         userTypes: {},
         recommend: '',
         sex: '男',
@@ -103,12 +107,15 @@
         marriage: '未婚',
         birthday: '1991-01-01',
         avatar: '',
+        location: '',
         // select option
         selectSex: [],
         selectMarriage: [],
-
+        verifyCodeSentText: '已发送验证码',
         selectDefinition: {}
       }
+    },
+    computed: {
     },
     components: {
       'mt-button': Button,
@@ -118,20 +125,24 @@
       'fz-datepicker': DataPicker
     },
     created () {
+      this.openIndicator()
       api.getReg().then(response => {
         let data = utils.response2Data(response)
         this.nickname = data.nickname
         this.uid = data.uid
+        this.location = data.location
         this.userTypes = data.userType
         this.userType = data.userType[2]
         this.userTypeSlot = Object.values(data.userType)
-      }).catch(response => {
-      })
-      api.fetchSelectableItem().then(res => {
+        return api.fetchSelectableItem()
+      }).then(res => {
+        this.closeIndicator()
         let data = res
         this.selectDefinition = data
         this.selectSex = utils.objVals(data.sex)
         this.selectMarriage = utils.objVals(data.marriage)
+      }).catch(response => {
+        this.handleNetErrWithReload()
       })
     },
     methods: {
@@ -145,7 +156,8 @@
               height: this.height,
               weight: this.weight,
               marriage: utils.value2Key(this.selectDefinition.marriage, this.marriage),
-              birthday: this.birthday,
+              birthday: utils.Date2YMD(this.birthday),
+              location: this.location,
               // avatar: '',
               verifyCode: this.verifyCode,
               mobile: this.mobile,
@@ -169,8 +181,15 @@
         })
       },
       getVerifyCode () {
+        if (!this.$validator.validate('mobile', this.mobile)) {
+          return
+        }
         api.getVerifyCode(this.mobile).then(res => {
           this.verifySent = true
+          let remain = 60
+          setInterval(e => {
+            this.verifyCodeSentText = `已发送验证码(${remain--})`
+          }, 1000)
         }).catch(res => {
           this.toastMsg(`[${res.status}] ${res.statusText}`, true)
         })

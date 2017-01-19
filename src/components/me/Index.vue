@@ -19,7 +19,7 @@
       <fz-icon-item label="基本信息" to="info" class="icon" :append="true">
         <icon slot="icon" class="fa-icon fa-user-circle fa-2x icon-info" aria-hidden="true" name="user-circle"></icon>
       </fz-icon-item>
-      <fz-icon-item label="相册" to="album" class="icon icon-photo" :append="true">
+      <fz-icon-item label="我的相册" to="album" class="icon icon-photo" :append="true">
         <icon slot="icon" class="fa-icon fa-picture-o fa-2x icon-photo" aria-hidden="true" name="picture-o"></icon>
       </fz-icon-item>
       <fz-icon-item v-show="ifAvailable" label="择偶条件" to="spouse" class="icon icon-condition" :append="true">
@@ -28,7 +28,7 @@
       <!-- <fz-icon-item label="vip" to="service" class="icon" :append="true">
         <i slot="icon" class="fa fa-hand-o-down fa-2x icon-service" aria-hidden="true"></i>
       </fz-icon-item> -->
-      <fz-icon-item label="推荐人" to="recommend" class="icon" :append="true">
+      <fz-icon-item label="我的推荐" to="recommend" class="icon" :append="true">
         <icon slot="icon" class="fa-icon fa-users fa-2x icon-recommend" aria-hidden="true" name="users"></icon>
       </fz-icon-item>
       <!-- <fz-icon-item label="约见过" to="appointment" class="icon" :append="true">

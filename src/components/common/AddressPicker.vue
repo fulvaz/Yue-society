@@ -9,7 +9,7 @@
     <mt-picker ref="picker" :slots="picker" @change="onChange"></mt-picker>
   </mt-popup>
 
-  <fz-input :label="label" :placeholder="placeholder" :value="province + ' - ' + city" @click.native="handleClick" readonly  :hasError="hasError" :errMsg="errMsg"></fz-input>
+  <fz-input :label="label" :placeholder="placeholder" :value="valDisplay" @click.native="handleClick" readonly  :hasError="hasError" :errMsg="errMsg"></fz-input>
 </div>
 </template>
 
@@ -20,6 +20,7 @@ import * as utils from '../../utils/utils.js'
 import config from '../../config/setting.js'
 
 const address = {
+  '不限': ['不限'],
   '北京': ['北京'],
   '广东': ['广州', '深圳', '珠海', '汕头', '韶关', '佛山', '江门', '湛江', '茂名', '肇庆', '惠州', '梅州', '汕尾', '河源', '阳江', '清远', '东莞', '中山', '潮州', '揭阳', '云浮'],
   '上海': ['上海'],
@@ -78,6 +79,12 @@ export default {
     city () {
       if (this.value && this.value.length > 0) return this.value.split('-')[1]
       else return ''
+    },
+    valDisplay () {
+      // 处理'不限'选项的显示问题, 默认显示是'不限 - 不限'
+      // 当远程获取的值为空字符串时, 也返回不限
+      if (this.province === '不限' || this.city === '不限' || this.value === '') return '不限'
+      return this.province + ' - ' + this.city
     }
   },
   data () {
@@ -89,20 +96,30 @@ export default {
   },
   created () {
     // 设定pick默认指定值，还有一处在handleClick
-    this.picker = utils.pickerHelper([Object.keys(address), address['北京']])
+    this.picker = utils.pickerHelper([Object.keys(address), address['不限']])
   },
   methods: {
     onChange (picker, values) {
+      // !!!!!注意!!!!!!  下面的代码充满了魔法, 需要改picker的话, 还不如自己去找一个组件重写
+
       // 组件的一个小bug 以后再说
-      if (this.province === undefined || this.city === undefined) return // 防止刚开始空值出乱子
+      if (this.province === undefined || this.city === undefined) return // 防止刚开始空值出乱子, setSlotValue会触发onChange
+      // 初始化时, valuse[0]是undefined
       if (values[0] === undefined) values[0] = this.province
+
       picker.setSlotValues(1, this.slotVal[values[0]])
       if (config.dev) console.log(values)
+      // 处理'不限'选项的传递给父组件的数据, 默认是'不限 - 不限', 应该只传递'不限'
+      // updated: 不要做蠢事, 父组件乖乖处理 '不限-不限', 否则将要处理更多问题
+      // 为这种问题写魔法代码不值得
       this.$emit('input', values[0] + '-' + values[1])
     },
     handleClick () {
-      if (this.province && this.picker[0].values.indexOf(this.province) !== -1) this.$refs.picker.setSlotValue(0, this.province + '')
-      if (this.city && this.picker[2].values.indexOf(this.city) !== -1) this.$refs.picker.setSlotValue(1, this.city + '')
+      // 设置初值
+      if (this.province.length && this.picker[0].values.indexOf(this.province) !== -1) this.$refs.picker.setSlotValue(0, this.province + '')
+      else this.$refs.picker.setSlotValue(0, '不限')
+      if (this.city.length && this.picker[2].values.indexOf(this.city) !== -1) this.$refs.picker.setSlotValue(1, this.city + '')
+      else this.$refs.picker.setSlotValue(1, '不限')
 
       this.visible = true
     },

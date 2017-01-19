@@ -59,20 +59,19 @@ export default {
     handleAvatarUpload () {
       this.openIndicator()
       api.wxAuth(['chooseImage', 'uploadImage']).then(res => {
-        this.closeIndicator()
         return api.wxChooseImage(1)
       }).then(res => {
         this._avatarTmp = res.localIds[0]
         return api.wxUploadImage(res.localIds[0])
       }).then(res => {
-        this.openIndicator()
+        console.log(res)
         return api.uploadAvatarId({serverId: res.serverId})
       }).then(res => {
         this.handleSuccess('UPLOAD_IMAGE_SUCCES')
         this.avatar = this._avatarTmp
         this.$emit('input', this.avatar) // vee-validate 验证需要input事件
       }).catch(res => {
-        this.handleFailWithCode(res.status, res.statusText)
+        this.handleAllFail(res)
       })
     }
   },

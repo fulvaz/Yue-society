@@ -53,8 +53,12 @@ export default {
   methods: {
     handleSearch (query) {
       let data = {query}
+      this.openIndicator()
       api.searchUsers(data).then(res => {
+        this.closeIndicator()
         this.users = utils.response2Data(res)
+      }).catch(e => {
+        this.handleFailWithCode(e.status, e.statusText)
       })
     }
   }

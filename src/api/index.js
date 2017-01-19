@@ -404,8 +404,7 @@ export const wxAuth = function (jsApiList) {
     getWXConfig(window.location.pathname + window.location.hash).then(response => {
       let wxConfig = utils.response2Data(response)
       wxConfig.jsApiList = jsApiList
-      wxConfig.debug = config.dev
-
+      if (process.env.NODE_ENV === 'development') wxConfig.debug = true
       // 开始认证
       wx.config(wxConfig)
       wx.ready(function (res) {
@@ -430,6 +429,10 @@ export const wxChooseImage = function (count) {
         resolve(res)
       },
       fail: function (res) {
+        reject(res)
+      },
+      cancel: function (res) {
+        res.errMsg = '没有检测到图片'
         reject(res)
       }
     })
@@ -497,7 +500,6 @@ export const authCircle = function (circleId) {
 }
 
 export const getCircleInfo = function (id) {
-  console.log(`${config.circlesApi}/${id}`)
   return new Promise((resolve, reject) => {
     vue.http.get(`${config.circlesApi}/${id}`).then((response) => {
       resolve(response)
@@ -528,7 +530,6 @@ export const getCirclePost = function (circleid, page, limit) {
 
 export const getCircleActivity = function (circleid, page, limit) {
   let api = `${config.circlesApi}/${circleid}/activities`
-  console.log(api)
   return new Promise((resolve, reject) => {
     vue.http.get(api + filterPL(page, limit)).then((response) => {
       resolve(response)

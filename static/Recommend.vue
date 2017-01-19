@@ -12,18 +12,8 @@
       <img :src="qrCode" class="qr-code-img">
     </section>
     <div class="btns">
-      <el-button class="share-btn" type="primary">
-        <icon class="btn-icon" name="wx-friends"></icon>
-        <span>分享给好友</span>
-      </el-button>
-      <el-button class="share-btn" type="primary">
-        <icon class="btn-icon" name="wx-circle"></icon>
-        <span>分享到朋友圈</span>
-      </el-button>
-      <!-- <el-button class="share-btn">
-        <img src="static/icons/wx_friends.svg" >
-        分享给好友
-      </el-button> -->
+      <mt-button class="share-btn"></mt-button>
+      <mt-button class="share-btn"></mt-button>
     </div>
     <user-list title="我推荐的人" :users="users"></user-list>
   </div>
@@ -34,12 +24,10 @@ import UserList from '../common/UserList'
 import ListItem from '../common/ListItem'
 import * as api from '../../api/index.js'
 import * as utils from '../../utils/utils.js'
-import Icon from 'vue-awesome/components/Icon'
 export default {
   components: {
     'user-list': UserList,
-    'list-item': ListItem,
-    'icon': Icon
+    'list-item': ListItem
   },
   data () {
     return {
@@ -71,7 +59,6 @@ export default {
         font-weight: normal;
         color: #aaa;
     }
-
     // margin-left: calc((100vw - 200px) / 2);
     // margin-bottom: 1em;
     // @include clearfix();
@@ -98,23 +85,6 @@ export default {
     //   font-size: $description-size;
     //   color: $description-color;
     // }
-  }
-
-  .btns {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    .btn-icon {
-      color: white;
-    }
-    .fa-icon {
-      width: auto;
-      height: 14px; /* or any other relative font sizes */
-    }
-    .share-btn {
-      background-color: $weixin-green;
-      border: $weixin-green;
-    }
   }
 
   .qr-code {

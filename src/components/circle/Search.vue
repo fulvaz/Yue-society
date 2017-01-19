@@ -41,8 +41,12 @@ export default {
   },
   methods: {
     handleSearch (query) {
+      this.openIndicator()
       api.searchCircles({query}).then(res => {
+        this.closeIndicator()
         this.result = utils.response2Data(res)
+      }).catch(e => {
+        this.handleFailWithCode(e.status, e.statusText)
       })
     }
   }

@@ -8,11 +8,14 @@
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src",
-    "mock": "json-server --watch mock/db.js -r mock/route.json"
+    "mock": "json-server --watch mock/db.js -r mock/route.json",
+    "weinre": "node node_modules/weinre/weinre"
   },
   "dependencies": {
     "cropperjs": "^1.0.0-beta",
     "dateformat": "^2.0.0",
+    "element-ui": "^1.1.5",
+    "iview": "^0.9.16",
     "jquery": "^3.1.1",
     "mint-ui": "^2.0.6",
     "normalize-scss": "^6.0.0",
@@ -34,6 +37,7 @@
     "babel-core": "^6.0.0",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.0.0",
+    "babel-plugin-component": "^0.9.0",
     "babel-plugin-transform-runtime": "^6.0.0",
     "babel-polyfill": "^6.20.0",
     "babel-preset-es2015": "^6.0.0",
@@ -74,7 +78,8 @@
     "webpack": "^1.13.2",
     "webpack-dev-middleware": "^1.8.3",
     "webpack-hot-middleware": "^2.12.2",
-    "webpack-merge": "^0.14.1"
+    "webpack-merge": "^0.14.1",
+    "weinre": "^2.0.0-pre-I0Z7U9OV"
   },
   "engines": {
     "node": ">= 4.0.0",

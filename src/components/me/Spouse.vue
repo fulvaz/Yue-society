@@ -130,7 +130,7 @@ export default {
         id: this.id,
         startage: this.startage,
         endage: this.endage,
-        livingPlace: this.livingPlace,
+        livingPlace: this.livingPlace === '不限-不限' ? '' : this.livingPlace,
         startheight: this.startheight,
         endheight: this.endheight,
         startweight: this.startweight,
@@ -139,7 +139,7 @@ export default {
         enddegree: this.enddegree,
         startrevenue: this.startrevenue,
         endrevenue: this.endrevenue,
-        birthplace: this.birthplace
+        birthplace: this.birthplace === '不限-不限' ? '' : this.birthplace
       }
       updateSpouse(this.id, data).then(res => {
         this.handleSuccess('EDIT_CONDITION_SUCCESS')

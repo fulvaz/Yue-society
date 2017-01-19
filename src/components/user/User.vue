@@ -13,10 +13,10 @@
       </div>
       <p class="introduction">{{introduction}}</p>
       <div class="btns">
-        <button v-if="!ifFocused" class="focuse-btn btn" @click="handleFocus">关注</button>
-        <button v-else class="unfocuse-btn btn" @click="handleUnfocus">取消关注</button>
-        <button class="msg-btn btn" @click="handleMsg">私信</button>
-        <button class="appointment-btn btn" @click="underDev">红娘约见</button>
+        <mt-button v-if="!ifFocused" class="focuse-btn btn" @click="handleFocus">关注</mt-button>
+        <mt-button v-else class="unfocuse-btn btn" @click="handleUnfocus">取消关注</mt-button>
+        <mt-button class="msg-btn btn" @click="handleMsg">私信</mt-button>
+        <mt-button class="appointment-btn btn" @click="underDev">红娘约见</mt-button>
       </div>
     </section>
     <section class="tags">
@@ -27,8 +27,8 @@
 
     <section class="conditions">
       <fz-list title="择偶条件">
-        <li v-for="(value, key) in conditions">
-          <div class="wrapper" v-show="value !== null">
+        <li v-for="(value, key) in conditions" v-show="value && value!=='0 - 0'">
+          <div class="wrapper">
             <span class="key">{{key}}</span>
             <span class="value">{{value}}</span>
             <span class="unit" v-if="units[key]">{{units[key]}}</span>
@@ -39,8 +39,8 @@
 
     <section class="details">
       <fz-list title="基本信息">
-        <li v-for="(value, key) in info">
-          <div class="wrapper" v-show="value !== null">
+        <li v-for="(value, key) in info" v-show="value && value!=='0'">
+          <div class="wrapper">
             <span class="key">{{key}}</span>
             <span class="value">{{value}}</span>
             <span class="unit" v-if="units[key]">{{units[key]}}</span>
@@ -107,18 +107,18 @@
     }
 
     .btns {
-      // position: absolute;
-      margin-top: 15px;
       display: flex;
-      justify-content: space-between;
+      margin-top: 15px;
       width: 100%;
       @include clearfix();
     }
     .btn {
-      width: 90px;
+      flex: 1 1;
+      margin-right: 5px;
       padding: 9px 0;
       font-size: 13px;
       color: white;
+      text-align: center;
       background-color: #42bd56;
       border: none;
       border-radius: 3px;
@@ -215,7 +215,7 @@ import * as api from '../../api/index.js'
 import Tag from '../common/tag'
 import List from '../common/List'
 import * as utils from '../../utils/utils.js'
-import { Popup } from 'mint-ui'
+import { Popup, Button } from 'mint-ui'
 import Appointment from './Appointment'
 import wx from 'weixin-js-sdk'
 import units from '../../assets/units.js'
@@ -271,6 +271,7 @@ export default {
     'fz-list': List,
     'fz-tag': Tag,
     'mt-popup': Popup,
+    'mt-Button': Button,
     'appointment': Appointment
   },
   updated () {
@@ -335,7 +336,7 @@ export default {
   },
   data () {
     return {
-      uid: 0,
+      uid: '',
       units: {},
       sex: '',
       introduction: '',
@@ -344,15 +345,15 @@ export default {
       album: '',
       nickname: '',
       livingPlace: '',
-      age: 0,
-      height: 0,
-      income: 0,
+      age: '',
+      height: '',
+      income: '',
       degree: '',
       marriage: '',
       house: '',
       car: '',
       nation: '',
-      weight: 0,
+      weight: '',
       school: '',
       birthplace: '',
       faith: '',

@@ -23,7 +23,6 @@ const actions = {
         resolve(response)
       }).catch(response => {
         reject(response)
-        console.error(response)
       })
     })
   },

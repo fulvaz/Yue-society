@@ -36,6 +36,7 @@
     }
 
     .content-container {
+      @include clearfix;
     }
 
 </style>

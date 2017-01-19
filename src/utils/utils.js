@@ -95,16 +95,26 @@ export function genAgeObj (min, max) {
 
 function _to2Num (num) {
   if (num.length > 2) throw new Error('[_to2Num] length > 2')
-  if (/^\d$/.test(num)) return '0' + num
+  if (/^\d$/.test(num)) return '0' + '' + num
   else return num
 }
 
 export function Date2YMD (date) {
-  date = new Date(date)
-  let y = date.getFullYear()
-  let m = date.getMonth() + 1
-  let d = date.getDate()
-  return y + '-' + _to2Num(m) + '-' + _to2Num(d)
+  // js世界没有标准的日期字符串 'Thu Jan 19 2017 01:30:21 GMT+0800 (CST)' 就是说用-是不行的
+  let dd = new Date(date)
+  let y = dd.getFullYear()
+  let m = dd.getMonth() + 1
+  let d = dd.getDate()
+  return '' + y + '-' + _to2Num(m) + '-' + _to2Num(d)
+}
+
+export function normalizeDate (date) {
+  let tmp = date.split('-')
+  let y = tmp[0]
+  let m = _to2Num(tmp[1])
+  let d = _to2Num(tmp[2])
+  // return y
+  return '' + y + '-' + m + '-' + d
 }
 
 export function date2YMDHMM (date) {

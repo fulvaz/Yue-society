@@ -4,7 +4,7 @@
     ref="picker"
     type="date"
     v-model="date"
-    :startDate="new Date('1900-01-01')"
+    :startDate="new Date('1940-01-01')"
     :endDate="new Date('2000-01-01')"
     @confirm="handleConfirm"
     >
@@ -23,7 +23,7 @@ export default {
   props: {
     label: String,
     placeholder: String,
-    value: ''
+    value: String
   },
   components: {
     'mt-field': Field,

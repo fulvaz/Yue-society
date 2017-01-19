@@ -55,7 +55,8 @@ export default {
   .list-item {
     width: 100%;
     overflow: hidden;
-    // border-top: 1px solid $list-border-color;
+    min-height: 75px;
+    // border-bottom: 1px solid $list-border-color;
 
     .logo {
       float: left;
@@ -95,8 +96,9 @@ export default {
 
       .intro {
         @include item-description();
+        line-height: $description-size;
         margin: 0;
-        max-height: 2.5em;
+        max-height: calc(2 * #{$description-size});
         overflow: hidden;
       }
 

@@ -1,13 +1,12 @@
+var dev = true
+var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.yuezhengyuan.com'
+var remoteServer = 'http://api.yuezhengyuan.com'
 
-var dev = true;
-var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.resontek.com';
-
-var pageFilter = dev ? '_page' : 'page';
-var limitFilter = dev ? '_limit' : 'limitation';
+var pageFilter = dev ? '_page' : 'page'
+var limitFilter = dev ? '_limit' : 'limitation'
 
 var devApis = {
   'apiPrefix': apiPrefix,
-
   'circlesApi': apiPrefix + '/circles', // 与post是关联的, /circles/0/posts 表示返回circles 0的全部posts
   'activitiesRecommendsApi': apiPrefix + '/recommends/activities',
   'meApi': apiPrefix + '/me',
@@ -25,11 +24,10 @@ var devApis = {
   'msgList': apiPrefix + '/msgList',
   'resetUidCount': apiPrefix + '/postData',
   'chat': apiPrefix + '/chat',
-  'replyMsg': apiPrefix + '/postData',
   'looked': apiPrefix + '/looked',
   'recommend': apiPrefix + '/meRecommend',
   'focused': apiPrefix + '/focused',
-  'wxConfig': 'http://api.resontek.com/wechat/config?redirectUrl=',
+  'wxConfig': remoteServer + '/wechat/config?redirectUrl=',
   'album': apiPrefix + '/album',
   'uploadImage': apiPrefix + '/postData',
   'meUpdate': apiPrefix + '/me/update',
@@ -54,7 +52,6 @@ var devApis = {
   'getReg': apiPrefix + '/register',
   'sendReg': apiPrefix + '/postData',
   'getVerify': apiPrefix + '/getVerify',
-
   'createCirclePage': apiPrefix + '',
   'createCircle': apiPrefix + '',
   'getSliderContent': apiPrefix + '/sliderContent',
@@ -69,11 +66,10 @@ var devApis = {
   'recentLogin': apiPrefix + '/userDetail',
   'circleMember': apiPrefix + '/userDetail',
   'searchRecommend': apiPrefix + '/userDetail',
-
   // new
   'getQrCode': apiPrefix + '/qrCode',
   'searchUsers': apiPrefix + '/userDetail' // 也是详情
-};
+}
 
 var apis = {
   'apiPrefix': apiPrefix,
@@ -135,26 +131,29 @@ var apis = {
   'getSliderContent': apiPrefix + '/homeImg',
   'deletePhoto': apiPrefix+'/users/me/album/delete',
   'uploadAvatar':apiPrefix+'/users/me/avatar/upload',
-  'quitCircle':apiPrefix+'/circles/quit'
-};
-
-var api = dev ? devApis : apis;
-function userApiFilter(page, limit) {
-  var str = api.userApi + '/' + pageFilter + '/page/' + limitFilter + '/limit';
-  var devStr = api.userApi + '?=_page=' + page + '&?_limit=' + limit;
-  return dev ? devStr : str;
+  'quitCircle':apiPrefix+'/circles/quit',
+  'searchCircles':apiPrefix+'/search/circles',
+  'getQrCode': apiPrefix + '/users/me/qrcode',
+  'searchUsers': apiPrefix + '/search/users'
 }
 
-function usersRecommendsApiFilter(page, limit) {
-  var str = api.usersRecommendsApi + '/' + pageFilter + '/' + page + '/' + limitFilter + '/' + limit;
-  var devStr = api.usersRecommendsApi + '?_page=' + page + '&_limit=' + limit;
-  return dev ? devStr : str;
+var api = dev ? devApis : apis
+function userApiFilter (page, limit) {
+  var str = api.userApi + '/' + pageFilter + '/page/' + limitFilter + '/limit'
+  var devStr = api.userApi + '?=_page=' + page + '&?_limit=' + limit
+  return dev ? devStr : str
 }
 
-function filterPL(page, limit) {
-  var str = '/' + pageFilter + '/' + page + '/' + limitFilter + '/' + limit;
-  var devStr = '?_page=' + page + '&_limit=' + limit;
-  return dev ? devStr : str;
+function usersRecommendsApiFilter (page, limit) {
+  var str = api.usersRecommendsApi + '/' + pageFilter + '/' + page + '/' + limitFilter + '/' + limit
+  var devStr = api.usersRecommendsApi + '?_page=' + page + '&_limit=' + limit
+  return dev ? devStr : str
+}
+
+function filterPL (page, limit) {
+  var str = '/' + pageFilter + '/' + page + '/' + limitFilter + '/' + limit
+  var devStr = '?_page=' + page + '&_limit=' + limit
+  return dev ? devStr : str
 }
 
 var tabbarItems = {
@@ -163,7 +162,7 @@ var tabbarItems = {
   '/search': 2,
   '/message': 3,
   '/me': 4
-};
+}
 
 function objAssign (target, varArgs) {
   if (target == null) { // TypeError if undefined or null
@@ -194,6 +193,6 @@ var exp = objAssign({}, api, {
   dev: dev
 }, {
   'tabbarItems': tabbarItems
-});
+})
 
-window.config = exp;
+window.config = exp

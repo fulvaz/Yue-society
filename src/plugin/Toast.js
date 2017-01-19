@@ -1,7 +1,13 @@
 import {Toast, Indicator} from 'mint-ui'
 
+// 本来只是Toast 但是不知道为什么现在变成了错误处理工具
 let toastExport = {
   Indicator: Indicator
+}
+
+let errCode = {
+  4000: '未知错误',
+  4001: 'stateInfo错误'
 }
 
 let msgs = {
@@ -28,7 +34,17 @@ let msgs = {
   'DELETE_IMAGE_SUCCESS': '删除图片成功',
   'UPLOAD_IMAGE_FAIL': '图片上传失败',
   'REG_SUCCESS': '注册成功',
-  'QUIT_CIRCLE_SUCCESS': '退出圈子成功'
+  'QUIT_CIRCLE_SUCCESS': '退出圈子成功',
+  'SEARCH_FALED': '网络错误, 请重试'
+}
+
+// 用于get获取数据网络错误 一般只用在首次数据加载 后面异步加载不用使用这个方法处理异常!
+// 因为处理的方式是重新加载页面!
+function handleNetErrWithReload () {
+  toast('网络错误, 正在为你重新加载')
+  setTimeout(e => {
+    window.location.reload()
+  }, 3000)
 }
 
 function toast (msg) {
@@ -69,8 +85,28 @@ function handleFail (msg, ifCustom) {
 }
 
 function handleFailWithCode (status, statusText) {
-  toastMsg(`${status} ${statusText}`, true)
+  toast(`${status} ${statusText}`)
   closeIndicator()
+}
+
+function handleAllFail (res) {
+  let status = '4000'
+  let text = '未知错误'
+  // HTTP Err
+  if (res.status !== undefined) status = res.status
+  if (res.statusText !== undefined) text = res.statusText
+  if (res instanceof Error) {
+    text = res.toString()
+    console.error(res)
+  }
+
+  // 微信
+  if (res.errMsg) {
+    status = ''
+    text = res.errMsg + ' 请重试'
+  }
+
+  handleFailWithCode(status, text)
 }
 
 toastExport.install = function (Vue, options) {
@@ -82,7 +118,13 @@ toastExport.install = function (Vue, options) {
   Vue.prototype.handleFail = handleFail
   Vue.prototype.toastNetErrMsg = toastNetErrMsg
   Vue.prototype.handleFailWithCode = handleFailWithCode
+  Vue.prototype.handleAllFail = handleAllFail
+  Vue.prototype.handleNetErrWithReload = handleNetErrWithReload
   Vue.prototype.toast = toast
+  Vue.prototype.errCode = errCode
+  Vue.Toast = {}
+  Vue.Toast.toast = toast
+  Vue.Toast.openIndicator = openIndicator
   // 2. add a global asset
   // Vue.directive('my-directive', {
   //   bind (el, binding, vnode, oldVnode) {

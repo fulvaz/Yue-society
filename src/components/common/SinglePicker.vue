@@ -8,7 +8,7 @@
           popup-transition="popup-fade">
     <mt-picker ref="picker" :slots="slotPicker" @change="onChange"></mt-picker>
   </picker-popup>
-  <fz-input :label="label" :placeholder="placeholder" :value="value" @click.native="handleClick" readonly :hasError="hasError" :errMsg="errMsg" ></fz-input>
+  <fz-input :label="label" :placeholder="placeholder" :value="value" @click.native="handleClick" :valAppend="appendVal" readonly :hasError="hasError" :errMsg="errMsg" ></fz-input>
 </div>
 </template>
 
@@ -23,7 +23,8 @@ export default {
     slotVals: Array,
     value: String,
     hasError: false,
-    errMsg: ''
+    errMsg: '',
+    appendVal: String
   },
   components: {
     'mt-field': Field,

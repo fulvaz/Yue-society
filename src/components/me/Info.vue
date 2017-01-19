@@ -4,7 +4,6 @@
       v-model="nickname"
       label="昵称"
       class="field"
-      :required="true"
       v-validate
       data-vv-rules="required"
       data-vv-name="nickname"
@@ -15,7 +14,6 @@
     </fz-input>
     <fz-singlepicler label="性别" :slotVals="selectSex" v-model="sex" class="field"
       v-validate="sex"
-      :required="true"
       data-vv-rules="required"
       data-vv-name="sex"
       data-vv-value-path="sex"
@@ -24,7 +22,6 @@
     ></fz-singlepicler>
     <fz-input ref="height" v-model="height" label="身高" class="field" valAppend="厘米"
       v-validate
-      :required="true"
       data-vv-rules="required|digits:3"
       data-vv-name="height"
       data-vv-value-path="height"
@@ -33,16 +30,14 @@
     ></fz-input>
     <fz-input ref="weight" v-model="weight" label="体重" class="field" valAppend="公斤"
       v-validate
-      :required="true"
-      data-vv-rules="required|digits:2"
+      data-vv-rules="required|numeric|min:2|max:3"
       data-vv-name="weight"
       data-vv-value-path="weight"
       :hasError="errors.has('weight')"
       :errMsg="errors.first('weight')"
     ></fz-input>
-    <address-picker label="出生地 *" v-model="birthplace" class="field"
+    <address-picker label="出生地" v-model="birthplace" class="field"
       v-validate="birthplace"
-      :required="true"
       data-vv-rules="required"
       data-vv-name="birthplace"
       data-vv-value-path="birthplace"
@@ -51,7 +46,6 @@
     ></address-picker>
     <fz-singlepicler label="婚姻状况" :slotVals="selectMarriage" v-model="marriage" class="field"
       v-validate="marriage"
-      :required="true"
       data-vv-rules="required"
       data-vv-name="marriage"
       data-vv-value-path="marriage"
@@ -62,19 +56,18 @@
     <address-picker label="居住地" v-model="livingPlace" class="field"></address-picker>
     <fz-textarea v-model="introduction" label="自我介绍" class="field"
       v-validate="introduction"
-      :required="true"
       data-vv-rules="required|min:30"
       data-vv-name="introduction"
       data-vv-value-path="introduction"
       :hasError="errors.has('introduction')"
-      :errMsg="errors.first('introduction')"
+      :errMsg="introErrMsg"
       >
     </fz-textarea>
     <fz-input ref="realname" v-model="realname" label="真实姓名" type="realname" :maxLength="10" class="field"></fz-input>
     <fz-input ref="school" v-model="school" label="毕业学校" type="school" :maxLength="10" class="field"></fz-input>
     <!-- <fz-input ref="age" v-model="age" label="年龄" type="age" :maxLength="2" :regExp="'^\\d\\d$'"></fz-input> -->
     <!-- <fz-input ref="income" v-model="income" label="年收入" type="income" :maxLength="20" :regExp="'^\\d+$'" class="field" valAppend="万元"></fz-input> -->
-    <fz-singlepicler label="年收入" :slotVals="selectIncome" v-model="income" class="field"></fz-singlepicler>
+    <fz-singlepicler label="年收入" :slotVals="selectIncome" v-model="income" class="field" appendVal="万元"></fz-singlepicler>
     <fz-singlepicler label="房子" :slotVals="selectHouse" v-model="house" class="field"></fz-singlepicler>
     <fz-singlepicler label="血型" :slotVals="selectBloodtype" v-model="bloodtype" class="field"></fz-singlepicler>
     <fz-singlepicler label="车" :slotVals="selectCar" v-model="car" class="field"></fz-singlepicler>
@@ -116,6 +109,10 @@ export default {
           this[key] = data[key]
         }
       })
+      // 额外对属性进行转换 嗯, 进行函数操作前必须先验证数据
+      if (this.birthday.length !== 0) {
+        this.birthday = utils.normalizeDate(data.birthday)
+      }
       return api.fetchSelectableItem()
     }).then(response => {
       this.selectBloodtype = utils.obj2arr(response.bloodtype)
@@ -135,12 +132,11 @@ export default {
     })
   },
   methods: {
-
     handleSubmit () {
       let data = {
         age: this.age,
         avatar: this.avatar,
-        birthday: this.birthday,
+        birthday: utils.Date2YMD(this.birthday),
         introduction: this.introduction,
         birthplace: this.birthplace,
         bloodtype: this.bloodtype,
@@ -218,6 +214,13 @@ export default {
     }
   },
   computed: {
+    introErrMsg () {
+      if (!this.errors.has('introduction')) return
+      let err = this.errors.collect('introduction', false, false)[0] // 只有一个inroduction 放心用
+      if (err.rule === 'min') {
+        return err.msg.slice(0, -3) + '个字'
+      }
+    }
   }
 }
 </script>

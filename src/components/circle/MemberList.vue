@@ -67,9 +67,11 @@ export default {
       this.$router.go(-1)
     },
     loadMore () {
+      this.openIndicator()
       api.getCircleMember(this.$route.params.id, this.page++, 10).then(e => {
         this.closeIndicator()
         this.users = this.users.concat(utils.response2Data(e))
+        if (utils.response2Data(e).length === 0) this.toast('没有新数据')
       }).catch(e => {
         this.handleFailWithCode(e.status, e.statusText)
       })

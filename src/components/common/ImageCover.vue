@@ -15,7 +15,7 @@ export default {
     },
     height: {
       type: String,
-      default: '90px'
+      default: '33.33vw'
     }
   },
   computed: {

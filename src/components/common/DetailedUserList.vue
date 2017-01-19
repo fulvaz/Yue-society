@@ -1,7 +1,7 @@
 <template lang="html">
   <list class="recommend">
       <li v-for="item in users" class="recommend">
-        <router-link :to="`/circles/${item.id}`">
+        <router-link :to="`/users/${item.id}`">
           <list-item-detailed
             :name="item.name"
             :subtitle="item.subtitle"
@@ -60,5 +60,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import "../../assets/index.scss";
+  .recommend {
+      @include list-border();
+      padding: $list-padding 0;
+      background-color: white;
+      margin: 0px 0;
+      box-shadow: 1px black;
+  }
 </style>

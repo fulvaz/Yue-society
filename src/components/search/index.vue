@@ -240,7 +240,7 @@ export default {
   }
 
   .btn-post {
-    background-color: $douban-green;
+    // background-color: $douban-green;
   }
 
 </style>

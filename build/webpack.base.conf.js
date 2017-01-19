@@ -57,6 +57,7 @@ module.exports = {
         loader: 'sass',
         exclude: /node_modules(?![\\/]vue-awesome[\\/])/
       },
+      { test: /element-ui.packages.*?js$/, loader: 'babel' },
       {
         test: /\.js$/,
         loader: 'babel',
