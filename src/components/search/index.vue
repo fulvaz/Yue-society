@@ -8,15 +8,15 @@
       </nav-bar>
       <mt-tab-container class="tab-container" v-model="active">
         <mt-tab-container-item id="tab-recent-reg">
-          <detailed-user-list :users="recentRegDisplay"></detailed-user-list>
+          <detailed-user-list :users="recentReg" :me="me"></detailed-user-list>
           <button type="button" name="button" class="btn-load-more" @click="loadRecentReg">点击加载更多</button>
         </mt-tab-container-item>
         <mt-tab-container-item id="tab-recent-login">
-          <detailed-user-list :users="recentLoginDisplay"></detailed-user-list>
+          <detailed-user-list :users="recentLogin" :me="me"></detailed-user-list>
           <button type="button" name="button" class="btn-load-more" @click="loadRecentLogin">点击加载更多</button>
         </mt-tab-container-item>
         <mt-tab-container-item id="tab-recommend">
-          <detailed-user-list :users="recentRegDisplay"></detailed-user-list>
+          <detailed-user-list :users="userRecommend" :me="me"></detailed-user-list>
           <button type="button" name="button" class="btn-load-more" @click="loadUserRecommend">点击加载更多</button>
         </mt-tab-container-item>
       </mt-tab-container>

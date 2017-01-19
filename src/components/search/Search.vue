@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="circle-search-container">
     <search-bar @search="handleSearch" v-model="query"></search-bar>
-    <user-list :users="resultDisplay"></user-list>
+    <user-list :users="users"></user-list>
   </div>
 </template>
 
@@ -28,27 +28,27 @@ export default {
     })
   },
   computed: {
-    resultDisplay () {
-      return this.users.map(e => {
-        let tags = []
-        if (e.age && e.age === this.me.age) tags.push('与我同年')
-        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
-        if (e.school && e.school === this.me.school) tags.push('校友')
-        if (e.house && e.house === '已购房') tags.push('有房')
-        if (e.car === '有') tags.push('有车')
-        if (e.birthplace === this.me.birthplace) tags.push('同乡')
-        let obj = {
-          id: e.uid,
-          name: e.nickname,
-          sex: e.sex,
-          subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
-          logo: e.avatar,
-          intro: e.introduction || '',
-          tags: tags
-        }
-        return obj
-      })
-    }
+    // resultDisplay () {
+    //   return this.users.map(e => {
+    //     let tags = []
+    //     if (e.age && e.age === this.me.age) tags.push('与我同年')
+    //     if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
+    //     if (e.school && e.school === this.me.school) tags.push('校友')
+    //     if (e.house && e.house === '已购房') tags.push('有房')
+    //     if (e.car === '有') tags.push('有车')
+    //     if (e.birthplace === this.me.birthplace) tags.push('同乡')
+    //     let obj = {
+    //       id: e.uid,
+    //       name: e.nickname,
+    //       sex: e.sex,
+    //       subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
+    //       logo: e.avatar,
+    //       intro: e.introduction || '',
+    //       tags: tags
+    //     }
+    //     return obj
+    //   })
+    // }
   },
   methods: {
     handleSearch (query) {

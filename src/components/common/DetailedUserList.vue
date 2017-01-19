@@ -3,12 +3,17 @@
       <li v-for="item in users" class="recommend">
         <router-link :to="`/users/${item.id}`">
           <list-item-detailed
-            :name="item.name"
-            :subtitle="item.subtitle"
-            :logo="item.logo"
-            :tags="item.tags"
-            :intro="item.intro"
+            :nickname="item.nickname"
+            :avatar="item.avatar"
+            :livingplace="item.livingplace"
+            :weight="item.weight"
+            :height="item.height"
+            :age="item.age"
+            :focused="item.focused"
+            :photoNum="item.photoNum"
             :sex="item.sex"
+            :intro="item.introduction"
+            :me="me"
             >
           </list-item-detailed>
         </router-link>
@@ -20,14 +25,15 @@
 // import * as api from '../../api/index.js'
 // import * as utils from '../../utils/utils.js'
 import List from './List'
-import DetailedListItem from './DetailedListItem'
+import DetailedListItem from './DetailedUserListItem'
 export default {
   data () {
     return {
     }
   },
   props: {
-    users: Array
+    users: Array,
+    me: Object
   },
   computed: {
     // // 数据例子! 注意!!!!! 使用时依赖me接口的数据

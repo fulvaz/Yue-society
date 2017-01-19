@@ -282,10 +282,13 @@ function genUserDetail () {
 	for (let i=0; i<r(30, 50); i++) {
 		arr.push({
 			uid: i,
+			focused: r(10, 100),
+			photoNum: r(20, 30),
 			nickname: f.lorem.word(),
 			sex: r(0, 1) ? '男' : '女',
 			livingplace: f.address.state(),
 			height: 999,
+			weight: 999,
 			age:  27, // 用age加与我同年
 			income: r(0, 1) ? '5-10' : '20-100', // 大于10w收入稳定
 			school: '蓝翔',// 与我是校友tag
