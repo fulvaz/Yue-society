@@ -43,8 +43,15 @@ let msgs = {
 function handleNetErrWithReload () {
   toast('网络错误, 正在为你重新加载')
   setTimeout(e => {
-    window.location.reload()
-  }, 3000)
+    // window.location.reload()
+  }, 5000)
+}
+
+// 当显示页面所必须的数据加载出错用这个方法处理
+// 现在需要用这个方法的错误有 微信认证 stateInfo 基本都是刚加载页面时错误都可以用这个
+function handleFatalErr () {
+  openIndicator()
+  handleNetErrWithReload()
 }
 
 function toast (msg) {
@@ -120,6 +127,7 @@ toastExport.install = function (Vue, options) {
   Vue.prototype.handleFailWithCode = handleFailWithCode
   Vue.prototype.handleAllFail = handleAllFail
   Vue.prototype.handleNetErrWithReload = handleNetErrWithReload
+  Vue.prototype.handleFatalErr = handleFatalErr
   Vue.prototype.toast = toast
   Vue.prototype.errCode = errCode
   Vue.Toast = {}

@@ -399,6 +399,8 @@ export const unfocus = function (uid) {
   })
 }
 
+// 这是个必须做重试处理的api, 应该在进入页面时就开始做, 否则直接刷新页面
+// 不要问为啥, 被这个坑惨了
 export const wxAuth = function (jsApiList) {
   return new Promise((resolve, reject) => {
     getWXConfig(window.location.pathname + window.location.hash).then(response => {
@@ -742,6 +744,39 @@ export const quitCircle = function (data) {
       resolve(res)
     }, res => {
       reject(res)
+    })
+  })
+}
+
+export const wxShareCircle = function (title, link, imgUrl) {
+  return new Promise((resolve, reject) => {
+    wx.onMenuShareTimeline({
+      title, // 分享标题
+      link, // 分享链接
+      imgUrl, // 分享图标
+      success: function () {
+          // 用户确认分享后执行的回调函数
+      },
+      cancel: function () {
+          // 用户取消分享后执行的回调函数
+      }
+    })
+  })
+}
+
+export const wxShareFriend = function (title, link, imgUrl, desc) {
+  return new Promise((resolve, reject) => {
+    wx.onMenuShareAppMessage({
+      title,
+      desc,
+      link,
+      imgUrl,
+      success: function () {
+        resolve()
+      },
+      cancel: function () {
+        reject()
+      }
     })
   })
 }

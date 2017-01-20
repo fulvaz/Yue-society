@@ -1,5 +1,6 @@
 <template lang="html">
-    <router-link class="tag" :to="to"><span>{{text}}</span></router-link>
+    <!-- <router-link class="tag" :to="to"><span>{{text}}</span></router-link> -->
+    <span class="tag" :to="to"><span>{{text}}</span></span>
 </template>
 
 <script>

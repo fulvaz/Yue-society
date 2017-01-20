@@ -2,15 +2,25 @@
   <list class="recommend">
       <li v-for="item in users" class="recommend">
         <router-link :to="`/users/${item.id}`">
-          <list-item-detailed
-            :name="item.name"
-            :subtitle="item.subtitle"
-            :logo="item.logo"
-            :tags="item.tags"
-            :intro="item.intro"
+          <list-user-detailed
+            :nickname="item.nickname"
+            :avatar="item.avatar"
+            :livingplace="item.livingplace"
+            :weight="item.weight"
+            :height="item.height"
+            :age="item.age"
+            :focused="item.focused"
+            :photoNum="item.photoNum"
             :sex="item.sex"
+            :intro="item.introduction"
+            :income="item.income"
+            :school="item.school"
+            :house="item.house"
+            :me="me"
+            :car="item.car"
+            :birthplace="item.birthplace"
             >
-          </list-item-detailed>
+          </list-user-detailed>
         </router-link>
       </li>
   </list>
@@ -20,14 +30,15 @@
 // import * as api from '../../api/index.js'
 // import * as utils from '../../utils/utils.js'
 import List from './List'
-import DetailedListItem from './DetailedListItem'
+import DetailedListItem from './DetailedUserListItem'
 export default {
   data () {
     return {
     }
   },
   props: {
-    users: Array
+    users: Array,
+    me: Object
   },
   computed: {
     // // 数据例子! 注意!!!!! 使用时依赖me接口的数据
@@ -55,7 +66,7 @@ export default {
   },
   components: {
     'list': List,
-    'list-item-detailed': DetailedListItem
+    'list-user-detailed': DetailedListItem
   }
 }
 </script>

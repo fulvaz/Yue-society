@@ -4,8 +4,8 @@
       <span class="title">成员列表</span>
       <button class="close-btn btn" @click="close">关闭</button>
     </header>
-    <section class="editor">
-      <detailed-user-list :users="userDisplay"></detailed-user-list>
+    <section class="main">
+      <detailed-user-list :users="users" :me="me"></detailed-user-list>
     </section>
     <button type="button" name="button" class="btn-load-more" @click="loadMore">点击加载更多</button>
   </div>
@@ -24,28 +24,6 @@ export default {
     }
   },
   computed: {
-    // 数据例子!
-    userDisplay () {
-      return this.users.map(e => {
-        let tags = []
-        if (e.age && e.age === this.me.age) tags.push('与我同年')
-        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
-        if (e.school && e.school === this.me.school) tags.push('校友')
-        if (e.house && e.house === '已购房') tags.push('有房')
-        if (e.car === '有') tags.push('有车')
-        if (e.birthplace === this.me.birthplace) tags.push('同乡')
-        let obj = {
-          id: e.uid,
-          name: e.nickname,
-          sex: e.sex,
-          subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
-          logo: e.avatar,
-          intro: e.introduction || '',
-          tags: tags
-        }
-        return obj
-      })
-    }
   },
   components: {
     'detailed-user-list': DetailedUserList
@@ -114,6 +92,10 @@ export default {
       border: none;
       background-color: transparent;
     }
+  }
+
+  .main {
+    margin: 0 $horizontal-margin;
   }
 
   .btn-load-more {

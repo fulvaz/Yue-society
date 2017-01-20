@@ -8,15 +8,15 @@
       </nav-bar>
       <mt-tab-container class="tab-container" v-model="active">
         <mt-tab-container-item id="tab-recent-reg">
-          <detailed-user-list :users="recentRegDisplay"></detailed-user-list>
+          <detailed-user-list :users="recentReg" :me="me"></detailed-user-list>
           <button type="button" name="button" class="btn-load-more" @click="loadRecentReg">点击加载更多</button>
         </mt-tab-container-item>
         <mt-tab-container-item id="tab-recent-login">
-          <detailed-user-list :users="recentLoginDisplay"></detailed-user-list>
+          <detailed-user-list :users="recentLogin" :me="me"></detailed-user-list>
           <button type="button" name="button" class="btn-load-more" @click="loadRecentLogin">点击加载更多</button>
         </mt-tab-container-item>
         <mt-tab-container-item id="tab-recommend">
-          <detailed-user-list :users="recentRegDisplay"></detailed-user-list>
+          <detailed-user-list :users="userRecommend" :me="me"></detailed-user-list>
           <button type="button" name="button" class="btn-load-more" @click="loadUserRecommend">点击加载更多</button>
         </mt-tab-container-item>
       </mt-tab-container>
@@ -74,71 +74,6 @@ export default {
     }
   },
   computed: {
-    recentLoginDisplay () {
-      return this.recentLogin.map(e => {
-        let tags = []
-        if (e.age && e.age === this.me.age) tags.push('与我同年')
-        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
-        if (e.school && e.school === this.me.school) tags.push('校友')
-        if (e.house && e.house === '已购房') tags.push('有房')
-        if (e.car === '有') tags.push('有车')
-        if (e.birthplace === this.me.birthplace) tags.push('同乡')
-        let obj = {
-          id: e.uid,
-          name: e.nickname,
-          sex: e.sex,
-          subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
-          logo: e.avatar,
-          intro: e.introduction || '',
-          tags: tags
-        }
-        return obj
-      })
-    },
-    // 数据例子!
-    recentRegDisplay () {
-      return this.recentReg.map(e => {
-        let tags = []
-        if (e.age && e.age === this.me.age) tags.push('与我同年')
-        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
-        if (e.school && e.school === this.me.school) tags.push('校友')
-        if (e.house && e.house === '已购房') tags.push('有房')
-        if (e.car === '有') tags.push('有车')
-        if (e.birthplace === this.me.birthplace) tags.push('同乡')
-        let obj = {
-          id: e.uid,
-          name: e.nickname,
-          sex: e.sex,
-          subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
-          logo: e.avatar,
-          intro: e.introduction || '',
-          tags: tags
-        }
-        return obj
-      })
-    },
-    // 数据例子!
-    userRecommendDisplay () {
-      return this.userRecommend.map(e => {
-        let tags = []
-        if (e.age && e.age === this.me.age) tags.push('与我同年')
-        if (e.income && parseInt(e.income.split('-')[0]) > 10) tags.push('高收入')
-        if (e.school && e.school === this.me.school) tags.push('校友')
-        if (e.house && e.house === '已购房') tags.push('有房')
-        if (e.car === '有') tags.push('有车')
-        if (e.birthplace === this.me.birthplace) tags.push('同乡')
-        let obj = {
-          id: e.uid,
-          name: e.nickname,
-          sex: e.sex,
-          subtitle: `${e.livingplace} / ${e.height}厘米 / ${e.age}岁`,
-          logo: e.avatar,
-          intro: e.introduction || '',
-          tags: tags
-        }
-        return obj
-      })
-    }
   },
   methods: {
     search () {

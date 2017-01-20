@@ -282,10 +282,13 @@ function genUserDetail () {
 	for (let i=0; i<r(30, 50); i++) {
 		arr.push({
 			uid: i,
+			focused: r(10, 100),
+			photoNum: r(20, 30),
 			nickname: f.lorem.word(),
 			sex: r(0, 1) ? '男' : '女',
 			livingplace: f.address.state(),
 			height: 999,
+			weight: 999,
 			age:  27, // 用age加与我同年
 			income: r(0, 1) ? '5-10' : '20-100', // 大于10w收入稳定
 			school: '蓝翔',// 与我是校友tag
@@ -312,7 +315,7 @@ function genMe () {
      livingPlace: '山东-临沂',
      height: r(150, 190),
      weight: r(100, 200),
-     age: r(20, 100),
+     age: 27,
      income: r(100000, 4000000),
      school: '蓝翔',
      degree: '硕士',
@@ -659,6 +662,6 @@ module.exports = function() {
 	}
 	data.userDetail = genUserDetail()  // 用来做推荐用户列表
 	data.circleDetail = genCircleDetail() // 用来做详细列表的, 并非圈子api
-	data.qrCode = {qrCode: 'http://www.liantu.com/images/2013/liantu.png'}
+	data.qrCode = {qrcode: 'static/qrcode.png'}
 	return data;
 }
