@@ -83,7 +83,7 @@ export default {
     valDisplay () {
       // 处理'不限'选项的显示问题, 默认显示是'不限 - 不限'
       // 当远程获取的值为空字符串时, 也返回不限
-      if (this.province === '不限' || this.city === '不限' || this.value === '') return '不限'
+      if (this.province === '不限' || this.city === '不限' || this.value === '' || !this.value) return '不限'
       return this.province + ' - ' + this.city
     }
   },

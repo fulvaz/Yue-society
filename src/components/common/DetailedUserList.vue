@@ -1,7 +1,7 @@
 <template lang="html">
   <list class="recommend">
       <li v-for="item in users" class="recommend">
-        <router-link :to="`/users/${item.id}`">
+        <router-link :to="`/users/${item.uid}`">
           <list-user-detailed
             :nickname="item.nickname"
             :avatar="item.avatar"

@@ -167,8 +167,9 @@ router.beforeEach((to, from, next) => {
       Vue.Toast.toast(Vue.$errMsg.stateInfo)
       console.error('[StateInfo] ' + res.status + ' ' + res.statusText)
       setTimeout(e => {
-        // window.location.reload()
-      }, 3000)
+        // 只在生产环境做这样的错误处理
+        if (process.env.NODE_ENV === 'production') window.location.reload()
+      }, 5000)
     })
   }
 
