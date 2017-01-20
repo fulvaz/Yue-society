@@ -1,4 +1,4 @@
-var dev = true
+var dev = false
 var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.yuezhengyuan.com'
 var remoteServer = 'http://api.yuezhengyuan.com'
 

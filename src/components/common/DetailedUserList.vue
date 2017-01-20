@@ -2,7 +2,7 @@
   <list class="recommend">
       <li v-for="item in users" class="recommend">
         <router-link :to="`/users/${item.id}`">
-          <list-item-detailed
+          <list-user-detailed
             :nickname="item.nickname"
             :avatar="item.avatar"
             :livingplace="item.livingplace"
@@ -13,9 +13,14 @@
             :photoNum="item.photoNum"
             :sex="item.sex"
             :intro="item.introduction"
+            :income="item.income"
+            :school="item.school"
+            :house="item.house"
             :me="me"
+            :car="item.car"
+            :birthplace="item.birthplace"
             >
-          </list-item-detailed>
+          </list-user-detailed>
         </router-link>
       </li>
   </list>
@@ -61,7 +66,7 @@ export default {
   },
   components: {
     'list': List,
-    'list-item-detailed': DetailedListItem
+    'list-user-detailed': DetailedListItem
   }
 }
 </script>

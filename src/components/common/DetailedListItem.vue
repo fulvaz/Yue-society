@@ -106,6 +106,7 @@ export default {
         display: inline-block;
         margin-right: 3px;
         margin-bottom: 3px;
+        color: $description-color;
       }
 
       .others {

@@ -9,6 +9,7 @@ import VeeValidate from 'vee-validate'
 import localeMsg from './utils/zh_CN.js'
 import localAttr from './utils/zh_CN_attr.js'
 import Toast from './plugin/Toast.js'
+import TextResouce from './plugin/Text.js'
 
 import Index from 'components/Index'
 import CircleIndex from 'components/circle/Index'
@@ -43,6 +44,7 @@ import ActivitiesJoined from 'components/me/ActivitiesJoined'
 import ConsumeHistory from 'components/me/ConsumeHistory'
 import AppointmentRequest from 'components/user/Appointment'
 import Demo from 'components/Demo'
+import Share from 'components/me/RecommendShare'
 
 import store from './store/index.js'
 import * as utils from './utils/utils.js'
@@ -92,6 +94,7 @@ Vue.use(VeeValidate, {
   }
 })
 Vue.use(Toast)
+Vue.use(TextResouce)
 
 // console.log(require('../static/setting.js'))
 
@@ -135,7 +138,9 @@ const routes = [
   {path: '/users/:uid', component: User},
   {path: '/tags/:tag', component: Tag},
   {path: '/demo', component: Demo},
-  {path: '/activities/:id', component: Activity}
+  {path: '/activities/:id', component: Activity},
+  // 以下路径不检查权限
+  {path: '/me/wxShare/:qrcode', component: Share}
 ]
 
 const router = new Router({
@@ -159,21 +164,37 @@ router.beforeEach((to, from, next) => {
     }).catch(res => {
       // 出错则重定位到当前路径, 重新加载
       Vue.Toast.openIndicator()
-      Vue.Toast.toast('4001 网络错误, 重新加载中')
+      Vue.Toast.toast(Vue.$errMsg.stateInfo)
       console.error('[StateInfo] ' + res.status + ' ' + res.statusText)
       setTimeout(e => {
-        window.location.reload()
+        // window.location.reload()
       }, 3000)
     })
   }
 
+  // 不验证的path
+  function alwaysPass (path) {
+    // 微信分享出去的页面不应该检查权限
+    let arr = path.split('/')
+    if (arr.indexOf('wxShare') !== -1) {
+      return true
+    }
+
+    // 普通规则
+    let alwaysPass = [
+      '/auth',
+      '/reg'
+    ]
+    return alwaysPass.indexOf(path) !== -1
+  }
+
   // 不能拦截去认证和注册页面的路由
-  if (to.path === '/auth' || to.path === '/reg') {
+  if (alwaysPass(to.path)) {
     // 不阻止认证页面
     next()
   } else {
     // 这个判断只是debug, 不用理
-    if (config.dev) {
+    if (process.env.NODE_ENV === 'development' && config.dev === true) {
       afterAuth()
       return
     }
@@ -193,6 +214,7 @@ Vue.http.interceptors.push((request, next) => {
   next(response => {
     // 处理服务端返回的状态
     let data = utils.response2Data(response)
+
     if (data.errcode && data.errcode !== 0) {
       response.status = data.errcode
       response.statusText = data.errmsg

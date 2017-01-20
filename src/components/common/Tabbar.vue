@@ -1,12 +1,22 @@
 <template>
-    <div class="tab">
+    <div class="tab" v-if="show">
       <slot></slot>
     </div>
 </template>
 
 <script>
+    let that
     export default {
+      data () {
+        return {
+          show: true
+        }
+      },
       created () {
+        that = this
+      },
+      hide () {
+        that.show = false
       }
     }
 </script>

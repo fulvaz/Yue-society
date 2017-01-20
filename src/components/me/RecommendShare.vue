@@ -11,8 +11,11 @@
     <section class="qr-code">
       <img :src="qrcode" class="qr-code-img">
     </section>
-    <div class="btns">
-      <el-button class="share-btn" type="primary" @click="handleShareCircle">
+    <div class="text">
+      <p>长按二维码分享</p>
+    </div>
+    <!-- <div class="btns">
+      <el-button class="share-btn" type="primary">
         <icon class="btn-icon" name="wx-friends"></icon>
         <span>分享给好友</span>
       </el-button>
@@ -20,20 +23,15 @@
         <icon class="btn-icon" name="wx-circle"></icon>
         <span>分享到朋友圈</span>
       </el-button>
-      <!-- <el-button class="share-btn">
-        <img src="static/icons/wx_friends.svg" >
-        分享给好友
-      </el-button> -->
-    </div>
-    <user-list title="我推荐的人" :users="users"></user-list>
+    </div> -->
+    <!-- <user-list title="我推荐的人" :users="users"></user-list> -->
+    <p class="introduction">月正圆是基于移动互联网技术，采用大数据精准匹配交友对象、实名制的熟人圈社交模式的婚恋交友平台。由华工、暨大管理与计算机博导教授、研究生，中大心理学教师等专家团队共同研发打造。在为华工、中大、暨大、华中科大、中南财经政法等众多高校单身校友服务的基础上，逐步扩展到广州医疗圈、银行金融圈、IT圈等相关行业圈子。平台业务立足广州，辐射珠三角并延伸华南地区。</p>
   </div>
 </template>
 
 <script>
 import UserList from '../common/UserList'
 import ListItem from '../common/ListItem'
-import * as api from '../../api/index.js'
-import * as utils from '../../utils/utils.js'
 import Icon from 'vue-awesome/components/Icon'
 export default {
   components: {
@@ -48,39 +46,12 @@ export default {
       qrcode: ''
     }
   },
-  computed: {
-    shareUrl () {
-      return window.location.protocol + '//' + window.location.host + '/#/me/wxShare/' + window.encodeURIComponent(this.qrcode)
-    },
-    shareLogo () {
-      return window.location.protocol + '//' + window.location.host + '/static/logo.jpg'
-    }
-  },
-  methods: {
-    handleShareCircle () {
-      this.toast('请点击右上角分享')
-    },
-    handleShareFriend () {
-      this.toast('请点击右上角分享')
-    }
-  },
   created () {
-    this.openIndicator()
-    Promise.all([
-      api.wxAuth(['onMenuShareAppMessage', 'onMenuShareTimeline']),
-      api.getRecommend(),
-      api.fetchMeInfo(),
-      api.getQrCode()
-    ]).then(result => {
-      this.closeIndicator()
-      this.users = utils.response2Data(result[1])
-      this.me = utils.response2Data(result[2])
-      this.qrcode = utils.response2Data(result[3]).qrcode
-      api.wxShareCircle(this.$text.shareTitle, this.shareUrl, this.shareLogo)
-      api.wxShareFriend(this.$text.shareTitle, this.shareUrl, this.shareLogo, this.$text.shareDesc)
-    }).catch(res => {
-      this.handleFatalErr()
-    })
+    this.qrcode = this.$route.params['qrcode']
+  },
+  mounted () {
+    // 将tabbar隐藏起来
+    this.$root.$children[this.$root.$children.length - 1].$el.style.display = 'none'
   }
 }
 </script>
@@ -121,6 +92,16 @@ export default {
     //   font-size: $description-size;
     //   color: $description-color;
     // }
+  }
+
+  .text {
+    @include item-title;
+    text-align: center;
+  }
+
+  .introduction {
+    @include item-description;
+    margin: 2em $horizontal-margin;
   }
 
   .btns {

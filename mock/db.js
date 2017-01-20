@@ -315,7 +315,7 @@ function genMe () {
      livingPlace: '山东-临沂',
      height: r(150, 190),
      weight: r(100, 200),
-     age: r(20, 100),
+     age: 27,
      income: r(100000, 4000000),
      school: '蓝翔',
      degree: '硕士',
@@ -662,6 +662,6 @@ module.exports = function() {
 	}
 	data.userDetail = genUserDetail()  // 用来做推荐用户列表
 	data.circleDetail = genCircleDetail() // 用来做详细列表的, 并非圈子api
-	data.qrCode = {qrCode: 'http://www.liantu.com/images/2013/liantu.png'}
+	data.qrCode = {qrcode: 'static/qrcode.png'}
 	return data;
 }

@@ -13,10 +13,10 @@
       </div>
       <p class="introduction">{{introduction}}</p>
       <div class="btns">
-        <mt-button v-if="!ifFocused" class="focuse-btn btn" @click="handleFocus">关注</mt-button>
-        <mt-button v-else class="unfocuse-btn btn" @click="handleUnfocus">取消关注</mt-button>
-        <mt-button class="msg-btn btn" @click="handleMsg">私信</mt-button>
-        <mt-button class="appointment-btn btn" @click="underDev">红娘约见</mt-button>
+        <mt-button v-if="!ifFocused" class="focuse-btn btn" @click="handleFocus" size="small">关注</mt-button>
+        <mt-button v-else class="unfocuse-btn btn" @click="handleUnfocus" size="small">取消关注</mt-button>
+        <mt-button class="msg-btn btn" @click="handleMsg" size="small">私信</mt-button>
+        <mt-button class="appointment-btn btn" @click="underDev" size="small">红娘约见</mt-button>
       </div>
     </section>
     <section class="tags">
@@ -271,7 +271,7 @@ export default {
     'fz-list': List,
     'fz-tag': Tag,
     'mt-popup': Popup,
-    'mt-Button': Button,
+    'mt-button': Button,
     'appointment': Appointment
   },
   updated () {
