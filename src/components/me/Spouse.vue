@@ -17,7 +17,7 @@ import {fetchSelectableItem, fetchSpouse, updateSpouse} from '../../api/index.js
 import {Field, Button} from 'mint-ui'
 import * as utils from '../../utils/utils.js'
 import NumRangePicker from '../common/NumRangePicker'
-import AddressPicker from '../common/AddressPicker'
+import AddressPicker from './AddressPickerForSpouse'
 // import {value2Id} from '../../utils/utils.js'
 
 const ageList = utils.rangeArr(18, 60)

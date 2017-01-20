@@ -15,7 +15,7 @@
 
 <script>
 import { Picker, Field, Popup } from 'mint-ui'
-import InputField from './InputField'
+import InputField from '../common/InputField'
 import * as utils from '../../utils/utils.js'
 import config from '../../config/setting.js'
 
