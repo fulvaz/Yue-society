@@ -22,7 +22,7 @@ import CoverImg from '../common/ImageCover'
 export default {
   components: {
     'grid': Grid,
-    'grid-cell': GridCell,
+    'grid-item': GridCell,
     'cover-img': CoverImg
   },
   props: {
@@ -40,19 +40,34 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "../../assets/index.scss";
-  .avatar {
-    float: left;
-    width: 50px;
-    height: 50px;
-  }
+  .moment-cell-container {
+    .avatar {
+      float: left;
+      width: 50px;
+      height: 50px;
+    }
 
-  .main {
-    @include item-description;
-    margin-left: 60px;
-    .nickname {
-      @include item-title;
+    .main {
+      @include item-description;
+      margin-left: 60px;
+
+      .nickname {
+        @include item-title;
+      }
+
+      // 定制子组件GridItem的样式
+      .grid-item-wrapper {
+        box-sizing: border-box;
+        padding-right: 5px;
+      }
+
+      // 定制子组件CoverImg的样式
+      .fz-cover-image {
+        padding-bottom: 100%;
+      }
     }
   }
+
 </style>

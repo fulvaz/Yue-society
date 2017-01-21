@@ -2,22 +2,12 @@
   <div class="container">
     <div class="btn-fixed">
       <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入</button>
-      <!-- <button class="btn-post" v-if="!ifJoin" @click="joinCircleWithoutAuth">加入</button> -->
       <button class="btn-post" v-else-if="ifApplied" disabled>已申请</button>
-      <!-- 买发帖 -->
-      <!-- <button class="btn-post" v-else-if="!auth" @click="buyCircle">购买发帖</button> -->
       <button class="btn-post" v-else @click="newPost">发言</button>
     </div>
     <header>
       <div class="container">
         <h1 class="circle-name">{{circleName}}</h1>
-        <!-- <p class="news">{{news}}</p> -->
-        <!-- <div class="btn-fixed">
-          <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入圈子</button>
-          <button class="btn-post" v-else-if="ifApplied">已申请</button>
-          <button class="btn-post" v-else-if="!auth" @click="buyCircle">购买发帖权利</button>
-          <button class="btn-post" v-else @click="newPost">发言</button>
-        </div> -->
         <div class="btn-group">
           <button class="btn-post" @click="openMemberList">成员</button>
         </div>
@@ -30,20 +20,13 @@
       </nav-bar>
 
       <tab-container v-model="tabActive">
-        <!-- 不同选项的Container -->
-        <!-- <tab-container-item v-for="category in postCategory" :id="category" class="post-container" >
-          <router-link v-for="post in postsWithCategory[category]" :to="`/posts/${post.id}`" class="post">
-            <post-cell :avatar="post.authorAvator" :title="post.title" :date="dateFormat(post.date)" :author="post.author"></post-cell>
-          </router-link>
-          <button type="button" name="more" class="btn-more" @click="fetchPosts" >点击更多</button>
-        </tab-container-item> -->
+
+        <tab-container-item id="动态" class="post-container" >
+          <moment :moments="moments">
+          </moment>
+        </tab-container-item>
 
         <!-- 活动的Container -->
-        <tab-container-item id="动态" class="post-container" >
-          <!-- <moment>
-
-          </moment> -->
-        </tab-container-item>
         <tab-container-item id="活动" class="post-container" >
           <router-link v-for="act in activities" :to="`/activities/${act.id}`" class="post">
             <post-cell :avatar="act.logo" :title="act.title" :date="dateFormat(act.date)" :author="act.location"></post-cell>
@@ -85,7 +68,8 @@
         actPage: 0,
         postNew: '',
         activities: [],
-        members: []
+        members: [],
+        moments: []
       }
     },
     components: {
@@ -101,19 +85,20 @@
       'join-msg-edior': JoinMsgEditor
     },
     created () {
-      api.getCircleInfo(this.$route.params.id).then(response => {
-        let remoteData = utils.response2Data(response)
+      Promise.all([api.getCircleInfo(this.$route.params.id), api.getCircleMoments(this.$route.params.id)]).then(result => {
+        let remoteData = utils.response2Data(result[0])
         this.circleName = remoteData.name
         this.news = remoteData.news
         this.postCategory = remoteData.postCategory
         this.memberNum = remoteData.memberNum
         this.CService = remoteData.CServiceId
+
+        this.moments = utils.response2Data(result[1])
         // this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
       }).catch(response => {
         this.handleFailWithCode(response.status, response.statusText)
         console.error(response)
       })
-      this.fetchPosts()
       this.tabActive = '活动' // 导航页切换到第一页
     },
     computed: {
@@ -191,7 +176,7 @@
       },
       dateFormat (value) {
         return dateformat(value, 'mm-dd hh:MM')
-      },
+      }
       // fetchCircleInfo () {
       //   this.$http.get(`${Config.circlesApi}/${this.$route.params['id']}`).then((response) => {
       //     let remoteData
@@ -202,33 +187,33 @@
       //     this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
       //   })
       // },
-      fetchPosts: function () {
-        this.openIndicator('加载中...')
-        // 这个方案好蠢, 但是先用着
-        const postPerPage = 20
-        api.getCirclePost(this.$route.params.id, this.postPage++, postPerPage).then((response) => {
-          let remoteData
-          if (typeof response.body === 'object') remoteData = response.body
-          else remoteData = JSON.parse(response.body)
-          if (remoteData.length === 0) {
-            this.toast('已经没有新帖子了')
-          }
-          this.posts = this.posts.concat(remoteData)
-          return api.getCircleActivity(this.$route.params.id, this.actPage++, postPerPage)
-        }).then(response => {
-          this.closeIndicator()
-          // 数据为空
-          if (response.length === 0) {
-            this.toast('已经没有新帖子了')
-          }
-
-          // 处理数据
-          this.activities = this.activities.concat(utils.response2Data(response))
-        }).catch(response => {
-          this.closeIndicator()
-          console.error(response)
-        })
-      }
+      // fetchPosts: function () {
+      //   this.openIndicator('加载中...')
+      //   // 这个方案好蠢, 但是先用着
+      //   const postPerPage = 20
+      //   api.getCirclePost(this.$route.params.id, this.postPage++, postPerPage).then((response) => {
+      //     let remoteData
+      //     if (typeof response.body === 'object') remoteData = response.body
+      //     else remoteData = JSON.parse(response.body)
+      //     if (remoteData.length === 0) {
+      //       this.toast('已经没有新帖子了')
+      //     }
+      //     this.posts = this.posts.concat(remoteData)
+      //     return api.getCircleActivity(this.$route.params.id, this.actPage++, postPerPage)
+      //   }).then(response => {
+      //     this.closeIndicator()
+      //     // 数据为空
+      //     if (response.length === 0) {
+      //       this.toast('已经没有新帖子了')
+      //     }
+      //
+      //     // 处理数据
+      //     this.activities = this.activities.concat(utils.response2Data(response))
+      //   }).catch(response => {
+      //     this.closeIndicator()
+      //     console.error(response)
+      //   })
+      // }
     }
   }
 </script>

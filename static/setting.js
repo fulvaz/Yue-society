@@ -68,7 +68,9 @@ var devApis = {
   'searchRecommend': apiPrefix + '/userDetail',
   // new
   'getQrCode': apiPrefix + '/qrCode',
-  'searchUsers': apiPrefix + '/userDetail' // 也是详情
+  'searchUsers': apiPrefix + '/userDetail', // 也是详情
+  'getCircleMoments': apiPrefix + '/moments',
+  'newCircleMoments': apiPrefix + '/moments'
 }
 
 var apis = {

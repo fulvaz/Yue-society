@@ -595,8 +595,8 @@ module.exports = function() {
 
 	function genMoments () {
 		let arr = []
-		let img = []
 		for (let i=0; i<r(20, 30); i++) {
+			let img = []
 			for (let j=0; j<r(0, 4); j++) {
 				img.push(f.image.image(500, 500))
 			}
@@ -604,9 +604,9 @@ module.exports = function() {
 				id: i,
 				circleId: i,
 				avatar: f.image.avatar(100, 100),
-				nickname: f.internet.username()
+				nickname: f.internet.userName(),
 				uid: i,
-				content: f.lorem.sentences()
+				content: f.lorem.sentences(),
 				imgs: img,
 				date: f.date.recent()
 			}
