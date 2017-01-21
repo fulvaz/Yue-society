@@ -530,6 +530,17 @@ export const getCirclePost = function (circleid, page, limit) {
   })
 }
 
+export const getCircleMoments = function (circleid, page, limit) {
+  let api = `${config.circlesApi}/circles/${circleid}`
+  return new Promise((resolve, reject) => {
+    vue.http.get(api + filterPL(page, limit)).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
 export const getCircleActivity = function (circleid, page, limit) {
   let api = `${config.circlesApi}/${circleid}/activities`
   return new Promise((resolve, reject) => {

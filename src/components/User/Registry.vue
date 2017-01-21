@@ -186,10 +186,15 @@
         }
         api.getVerifyCode(this.mobile).then(res => {
           this.verifySent = true
-          let remain = 60
-          setInterval(e => {
-            this.verifyCodeSentText = `已发送验证码(${remain--})`
-          }, 1000)
+          // let remain = 60
+          // let interval = setInterval(e => {
+          //   this.verifyCodeSentText = `已发送验证码(${remain--})`
+          //   if (remain === 0) {
+          //     window.clearInterval(interval)
+          //     this.verifySent = false
+          //     this.verifyCodeSentText = '已发送验证码'
+          //   }
+          // }, 1000)
         }).catch(res => {
           this.toastMsg(`[${res.status}] ${res.statusText}`, true)
         })

@@ -2,7 +2,7 @@
 let exp = {}
 export let text = {
   shareTitle: '月正圆',
-  shareDesc: '今年我陪你过年好吗'
+  shareDesc: '爱情导航'
 }
 
 export let errMsg = {

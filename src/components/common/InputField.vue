@@ -34,7 +34,7 @@ export default {
       type: [Boolean, String],
       default: false
     },
-    value: '',
+    value: String,
     label: '',
     valAppend: {
       type: String,

@@ -67,6 +67,7 @@ export default {
       this.nickname = data.nickname
     }).catch(res => {
       this.handleFatalErr()
+      this.closeIndicator()
     })
 
     //

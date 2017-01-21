@@ -2,8 +2,8 @@
   <div v-show="show" class="post-editor-container">
     <header>
       <span class="title">{{title}}</span>
-      <button class="send-btn btn" @click="handleSend">发布</button>
-      <button class="close-btn btn" @click="close">关闭</button>
+      <button class="send-btn btn" @click="confirm">{{confirmBtnText}}</button>
+      <button class="close-btn btn" @click="cancel">关闭</button>
     </header>
     <section class="editor">
       <slot></slot>
@@ -14,73 +14,41 @@
 </template>
 
 <script>
-import * as api from '../../api/index.js'
-import * as utils from '../../utils/utils.js'
-import SinglePicker from '../common/SinglePicker'
 let that
 export default {
   components: {
-    'fz-picker': SinglePicker
   },
   props: {
-    category: {
-      type: Object,
-      default: {}
-    },
-    title: String
+    title: String,
+    confirmBtnText: String
   },
   data () {
     return {
       show: false,
-      title: '',
       content: '',
       type: ''
-    }
-  },
-  computed: {
-    slotVal () {
-      return utils.obj2arr(this.category)
     }
   },
   created () {
     that = this // 给全局函数使用
   },
-  watch: {
-    category () {
-      if (this.category.length === 0) return
-      this.type = utils.obj2arr(this.category)[0]
-    }
-  },
   methods: {
-    handleSend (e) {
-      let data = {
-        title: this.title,
-        content: this.content,
-        uid: this.$store.state.MeState.uid,
-        circleId: parseInt(this.$route.params.id),
-        date: (new Date()).toString(),
-        type: parseInt(utils.value2Key(this.category, this.type))
-      }
-      this.$validator.validateAll().then(success => {
-        if (!success) return
-        this.openIndicator()
-        api.newPost(data).then(response => {
-          this.handleSuccess('NEW_POST_SUCCESS')
-          this.$emit('input', data)
-          // 清空输入框
-          this.title = ''
-          this.content = ''
-          this.close()
-        }).catch(response => {
-          console.error(response)
-          this.handleFail('NEW_POST_FAIL')
-        })
-      })
+    confirm () {
+      this.$emit('confirm')
+    },
+    cancel () {
+      this.$emit('canceled')
+      this.close()
     },
     close () {
       this.show = false
+    },
+    open () {
+      this.show = true
     }
   },
+
+  // global methods
   open () {
     that.show = true
   },
@@ -92,7 +60,7 @@ export default {
 
 
 <style lang="scss" scoped>
-  @import '../../assets/index.scss';
+  @import '../../../assets/index.scss';
   .post-editor-container {
     z-index: 1000;
     position: fixed;
@@ -139,7 +107,7 @@ export default {
   }
 
   .editor {
-    padding: 0px 18px;
+    // padding: 0px 18px;
     font-size: 17px;
     .title {
       width: 100%;

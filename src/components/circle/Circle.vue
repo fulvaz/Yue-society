@@ -26,18 +26,24 @@
     <section class="main">
       <nav-bar v-model="tabActive" class="navbar">
         <tab-item id="活动" class="navbar-item">活动</tab-item>
-        <tab-item :id="category" v-for="category in postCategory" class="navbar-item">{{category}}</tab-item>
+        <tab-item id="动态" class="navbar-item">动态</tab-item>
       </nav-bar>
 
       <tab-container v-model="tabActive">
         <!-- 不同选项的Container -->
-        <tab-container-item v-for="category in postCategory" :id="category" class="post-container" >
+        <!-- <tab-container-item v-for="category in postCategory" :id="category" class="post-container" >
           <router-link v-for="post in postsWithCategory[category]" :to="`/posts/${post.id}`" class="post">
             <post-cell :avatar="post.authorAvator" :title="post.title" :date="dateFormat(post.date)" :author="post.author"></post-cell>
           </router-link>
           <button type="button" name="more" class="btn-more" @click="fetchPosts" >点击更多</button>
-        </tab-container-item>
+        </tab-container-item> -->
+
         <!-- 活动的Container -->
+        <tab-container-item id="动态" class="post-container" >
+          <!-- <moment>
+
+          </moment> -->
+        </tab-container-item>
         <tab-container-item id="活动" class="post-container" >
           <router-link v-for="act in activities" :to="`/activities/${act.id}`" class="post">
             <post-cell :avatar="act.logo" :title="act.title" :date="dateFormat(act.date)" :author="act.location"></post-cell>
@@ -45,7 +51,6 @@
         </tab-container-item>
       </tab-container>
     </section>
-
     <fz-editor v-model="postNew" :category="postCategory"></fz-editor>
     <join-msg-edior v-model="msgJoin"></join-msg-edior>
   </div>
@@ -54,6 +59,8 @@
 <script>
   // import Config from '../../config/setting'
   import { TabContainer, TabContainerItem, Navbar, TabItem, Loadmore } from 'mint-ui'
+  import Moment from './Moment'
+  import MomentCell from './MomentCell'
   import JoinMsgEditor from './JoinMsgEditor'
   import PostCell from '../common/PostCell'
   import dateformat from 'dateformat'
@@ -89,6 +96,8 @@
       'nav-bar': Navbar,
       'tab-item': TabItem,
       'fz-editor': Editor,
+      'moment': Moment,
+      'moment-cell': MomentCell,
       'join-msg-edior': JoinMsgEditor
     },
     created () {

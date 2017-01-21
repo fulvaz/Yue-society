@@ -15,10 +15,6 @@
         title: {
           type: String,
           default: ''
-        },
-        cols: {
-          type: Number,
-          default: 3
         }
       }
     }

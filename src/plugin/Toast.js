@@ -43,7 +43,9 @@ let msgs = {
 function handleNetErrWithReload () {
   toast('网络错误, 正在为你重新加载')
   setTimeout(e => {
-    // window.location.reload()
+    if (process.env.NODE_ENV === 'production') {
+      window.location.reload()
+    }
   }, 5000)
 }
 

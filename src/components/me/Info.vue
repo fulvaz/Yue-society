@@ -167,6 +167,8 @@ export default {
             console.error(response)
             this.handleFail('EDIT_BASIC_FAIL')
           })
+        } else {
+          this.toast('您的信息填写有误 请修正')
         }
       })
     }

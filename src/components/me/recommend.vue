@@ -79,6 +79,7 @@ export default {
       api.wxShareCircle(this.$text.shareTitle, this.shareUrl, this.shareLogo)
       api.wxShareFriend(this.$text.shareTitle, this.shareUrl, this.shareLogo, this.$text.shareDesc)
     }).catch(res => {
+      this.closeIndicator()
       this.handleFatalErr()
     })
   }

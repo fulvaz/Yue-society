@@ -51,7 +51,7 @@ var devApis = {
   'meAppointed': apiPrefix + '/meRecommend', // 约我的人页面
   'getReg': apiPrefix + '/register',
   'sendReg': apiPrefix + '/postData',
-  'getVerify': apiPrefix + '/getVerify',
+  'getVerify': remoteServer + '/getVerify',
   'createCirclePage': apiPrefix + '',
   'createCircle': apiPrefix + '',
   'getSliderContent': apiPrefix + '/sliderContent',

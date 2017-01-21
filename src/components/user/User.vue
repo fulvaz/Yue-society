@@ -58,7 +58,7 @@
       class="popup-appointment"
       style="z-index: 4000"
     >
-      <appointment></appointment>
+      <!-- <appointment></appointment> -->
     </mt-popup>
   </div>
 </template>
@@ -217,7 +217,6 @@ import List from '../common/List'
 import * as utils from '../../utils/utils.js'
 import { Popup, Button } from 'mint-ui'
 import Appointment from './Appointment'
-import wx from 'weixin-js-sdk'
 import units from '../../assets/units.js'
 export default {
   methods: {
@@ -243,24 +242,9 @@ export default {
     },
     handlePreviewImage (event) {
       let vm = this
+      let img = event.target
       if (event.target.nodeName.toLowerCase() !== 'img') return
-      this.openIndicator()
-      api.getWXConfig(window.location.pathname + window.location.hash).then(response => {
-        let wxConfig = utils.response2Data(response)
-        wxConfig.jsApiList = [
-          'previewImage'
-        ]
-        // wxConfig.debug = process.env.NODE_ENV
-        wx.config(wxConfig)
-        wx.ready(function (res) {
-          vm.closeIndicator()
-          let img = event.target
-          api.wxPreviewImage(img.src, vm.album)
-        })
-        wx.error(function (res) {
-          console.log('auth failed')
-        })
-      })
+      api.wxPreviewImage(img.src, vm.album)
     },
     handleMsg () {
       console.log('/message/chat/' + this.$route.params.uid)
@@ -279,10 +263,19 @@ export default {
   },
   created () {
     this.units = units
-    api.getUser(this.$route.params.uid).then(response => {
-      let data = utils.response2Data(response)
+    this.openIndicator()
+    Promise.all([api.getUser(this.$route.params.uid), api.wxAuth(['previewImage'])]).then(result => {
+      this.closeIndicator()
+      let data = utils.response2Data(result[0])
       utils.batchAssign(data, this)
+    }).catch(res => {
+      this.closeIndicator()
+      this.handleFatalErr()
     })
+    // api.getUser(this.$route.params.uid).then(response => {
+    //   let data = utils.response2Data(response)
+    //   utils.batchAssign(data, this)
+    // })
   },
   computed: {
     ifFocused () {

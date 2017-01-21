@@ -593,6 +593,28 @@ module.exports = function() {
 		return arr
 	}
 
+	function genMoments () {
+		let arr = []
+		let img = []
+		for (let i=0; i<r(20, 30); i++) {
+			for (let j=0; j<r(0, 4); j++) {
+				img.push(f.image.image(500, 500))
+			}
+			let obj = {
+				id: i,
+				circleId: i,
+				avatar: f.image.avatar(100, 100),
+				nickname: f.internet.username()
+				uid: i,
+				content: f.lorem.sentences()
+				imgs: img,
+				date: f.date.recent()
+			}
+			arr.push(obj)
+		}
+		return arr
+	}
+
   // /weixin
   data.weixin = genWXData()
 	data.WXConfig = {
@@ -663,5 +685,6 @@ module.exports = function() {
 	data.userDetail = genUserDetail()  // 用来做推荐用户列表
 	data.circleDetail = genCircleDetail() // 用来做详细列表的, 并非圈子api
 	data.qrCode = {qrcode: 'static/qrcode.png'}
+	data.moments = genMoments()
 	return data;
 }

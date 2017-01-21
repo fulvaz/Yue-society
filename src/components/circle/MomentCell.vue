@@ -1,0 +1,58 @@
+<template lang="html">
+  <div class="moment-cell-container">
+    <img :src="avatar" alt="" class="avatar">
+    <div class="main">
+      <span class="nickname">{{nickname}}</span>
+      <p class="content">{{content}}</p>
+      <div class="imgs">
+        <grid>
+          <grid-item v-for="img in imgs">
+            <cover-img :img="img"></cover-img>
+          </grid-item>
+        </grid>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Grid from '../common/layouts/Grid'
+import GridCell from '../common/layouts/GridItem'
+import CoverImg from '../common/ImageCover'
+export default {
+  components: {
+    'grid': Grid,
+    'grid-cell': GridCell,
+    'cover-img': CoverImg
+  },
+  props: {
+    id: Number,
+    avatar: String,
+    nickname: String,
+    uid: String,
+    content: String,
+    imgs: {
+      type: Array,
+      default: []
+    },
+    date: String
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  @import "../../assets/index.scss";
+  .avatar {
+    float: left;
+    width: 50px;
+    height: 50px;
+  }
+
+  .main {
+    @include item-description;
+    margin-left: 60px;
+    .nickname {
+      @include item-title;
+    }
+  }
+</style>
