@@ -1,7 +1,7 @@
 <template lang="html">
   <div v-show="show" class="post-editor-container">
     <header>
-      <span class="title">圈子发言</span>
+      <span class="title">{{title}}</span>
       <button class="send-btn btn" @click="handleSend">发布</button>
       <button class="close-btn btn" @click="close">关闭</button>
     </header>
@@ -26,7 +26,8 @@ export default {
     category: {
       type: Object,
       default: {}
-    }
+    },
+    title: String
   },
   data () {
     return {

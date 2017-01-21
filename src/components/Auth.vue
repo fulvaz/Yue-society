@@ -11,7 +11,8 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    let redirect = window.encodeURIComponent(from.path)
+    let remoteServer = 'http://app.yuezhengyuan.com'
+    let redirect = window.encodeURIComponent(remoteServer + from.path)
     let dest = config.authPath + '?redirectUrl=' + redirect
     // if (process.env.NODE_ENV === 'development') dest = config.authPath + '?test=yzy' + '&redirectUrl=' + redirect + '&timestamp=' + Math.random()
     console.log(dest)

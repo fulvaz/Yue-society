@@ -1,4 +1,4 @@
-var dev = false
+var dev = true
 var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.yuezhengyuan.com'
 var remoteServer = 'http://api.yuezhengyuan.com'
 
@@ -190,7 +190,8 @@ var exp = objAssign({}, api, {
   userApiFilter: userApiFilter,
   usersRecommendsApiFilter: usersRecommendsApiFilter,
   filterPL: filterPL,
-  dev: dev
+  dev: dev,
+  remoteServer: remoteServer
 }, {
   'tabbarItems': tabbarItems
 })

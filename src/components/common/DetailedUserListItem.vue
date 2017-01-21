@@ -4,26 +4,27 @@
     <div class="main">
       <div class="row-1 row">
         <!-- 不然类名叫什么啊, 我怎么觉得语义化就是个笑话 -->
-        <div>
+        <div class="col-1">
           <span class="nickname">{{nickname}}</span>
           <icon class="icon icon-sex" v-show="sex" slot="icon" aria-hidden="true" name="user" :class="{'female-icon': sex==='女', 'male-icon': sex==='男'}"></icon>
         </div>
-        <div>
-          <span class="focused">关注: {{focused}}</span>
+        <div class="col-2">
           <icon class="icon icon-heart" name="heart"></icon>
+          <span class="focused">{{focused}}</span>
+          <icon class="icon icon-photo" name="picture-o"></icon>
+          <span class="photo-num">{{photoNum}}</span>
         </div>
       </div>
       <!-- 图标是什么 -->
-      <div class="row-2 row">
-        <span class="photo-num">照片: {{photoNum}}</span>
-      </div>
       <p class="info row">{{info}}</p>
+      <p class="intro row" v-if="intro && intro.length !== 0">{{intro.slice(0, 40)+'...'}}</p>
+      <div class="row-2 row">
+      </div>
       <section class="tags row" v-show="tags.length !== 0">
         <ul>
           <li v-for="tag in tags" class="tag"><fz-tag :text="tag"></fz-tag></li>
         </ul>
       </section>
-      <p class="intro row" v-if="intro && intro.length !== 0">{{intro.slice(0, 40)+'...'}}</p>
     </div>
   </div>
 </template>
@@ -34,6 +35,7 @@ import Tag from './tagSlim'
 import Icon from 'vue-awesome/components/Icon'
 import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/heart'
+import 'vue-awesome/icons/picture-o'
 export default {
   components: {
     'fz-tag': Tag,
@@ -106,23 +108,29 @@ export default {
   }
   // border-bottom: 1px solid $list-border-color;
   .icon {
+    position: relative;
+    top: 1px; // 微调icon的位置
     width: 12px;
     height: 12px;
   }
   .avatar {
-    margin-left: 10px;
-    float: right;
+    // margin-left: 10px;
+    float: left;
     width: 50px;
     height: 50px;
   }
   .main {
-    // margin-left: 60px;
+    margin-left: 60px;
     @include item-description();
-
+    line-height: $description-size;
     .row-1 {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      div {
+        display: flex;
+        align-items: baseline;
+      }
     }
 
     .nickname {
@@ -135,10 +143,18 @@ export default {
       color: $male;
     }
     .icon-heart {
-      float: right;
+      margin-left: 5px;
+      margin-right: 2px;
+      width: 11px;
+      height: 11px;
+    }
+    .icon-photo {
+      position: relative;
+      top: 2px; // 微调icon的位置
+      margin-left: 5px;
+      margin-right: 2px;
     }
     .focused {
-      float: right;
     }
     .info {
       margin: 0;
@@ -148,6 +164,7 @@ export default {
       @include item-description();
       line-height: $description-size;
       margin: 0;
+      margin-top: 5px;
       max-height: calc(2 * #{$description-size});
       overflow: hidden;
     }
