@@ -10,6 +10,8 @@
           :content="moment.content"
           :imgs="moment.imgs"
           :date="moment.date"
+          :likes="moment.likes"
+          :ifLiked="moment.ifLiked"
         ></moment-cell>
       </li>
     </ul>

@@ -13,6 +13,14 @@
       </div>
       <div class="last-row">
         <span class="date">{{date}}</span>
+        <el-button v-if="ifLiked">
+          <span>{{likes}}</span>
+          <icon name="heart" class="icon-like"></icon>
+        </el-button>
+        <el-button else>
+          <span>{{likes}}</span>
+          <!-- <icon name="heart" class="icon-like-o"></icon> -->
+        </el-button>
       </div>
     </div>
   </div>
@@ -22,11 +30,15 @@
 import Grid from '../common/layouts/Grid'
 import GridCell from '../common/layouts/GridItem'
 import CoverImg from '../common/ImageCover'
+import Icon from 'vue-awesome/components/Icon'
+import 'vue-awesome/icons/heart'
+// import 'vue-awesome/icons/heart-o'
 export default {
   components: {
     'grid': Grid,
     'grid-item': GridCell,
-    'cover-img': CoverImg
+    'cover-img': CoverImg,
+    'icon': Icon
   },
   props: {
     id: Number,
@@ -40,6 +52,8 @@ export default {
         return []
       }
     },
+    likes: Number,
+    ifLiked: Boolean,
     date: String
   }
 }
@@ -77,6 +91,10 @@ export default {
 
     .last-row {
       margin-top: 5px;
+      .icon-like {
+        height: 1em;
+        width: 1em;
+      }
     }
   }
 
