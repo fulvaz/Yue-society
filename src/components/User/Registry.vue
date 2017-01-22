@@ -51,7 +51,7 @@
       :errMsg="errors.first('marriage')"
     ></fz-single-picker>
     <fz-datepicker label="生日" v-model="birthday" class="field"></fz-datepicker>
-    <fz-field label="推荐人" v-model="recommend" placeholder="请输入推荐人手机号, 无则留空" class="field"></fz-field>
+    <fz-field label="推荐人" v-model="recommend" placeholder="请输入推荐人手机号, 无则留空" class="field" :disabled="ifFromQR"></fz-field>
     <fz-field
       class="field"
       label="手机号"
@@ -112,7 +112,10 @@
         selectSex: [],
         selectMarriage: [],
         verifyCodeSentText: '已发送验证码',
-        selectDefinition: {}
+        selectDefinition: {},
+        ifFromQR: false,
+        recommenderMobile: '',
+        recommenderName: ''
       }
     },
     computed: {
@@ -129,11 +132,19 @@
       api.getReg().then(response => {
         let data = utils.response2Data(response)
         this.nickname = data.nickname
+        // 如果来自二维码扫描, 则推荐人那栏显示的是名字, 提交的时候注意改成手机号
+        if (data.recommenderName && data.recommenderMobile) {
+          this.ifFromQR = true
+          this.recommenderName = data.recommenderName
+          this.recommenderMobile = data.recommenderMobile
+          this.recommend = this.recommenderName
+        }
         this.uid = data.uid
         this.location = data.location
         this.userTypes = data.userType
         this.userType = data.userType[2]
         this.userTypeSlot = Object.values(data.userType)
+
         return api.fetchSelectableItem()
       }).then(res => {
         this.closeIndicator()
@@ -163,7 +174,7 @@
               mobile: this.mobile,
               nickname: this.nickname,
               userType: utils.value2Key(this.userTypes, this.userType),
-              recommend: this.recommend
+              recommend: this.ifFromQR ? this.recommenderMobile : this.recommend
             }
             console.log(data)
             return api.sendReg(data)
