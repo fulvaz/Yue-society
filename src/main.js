@@ -157,7 +157,8 @@ router.beforeEach((to, from, next) => {
     // 获取stateInfo, 这个是很重要的api
     store.dispatch('fetchMeState').then(data => {
       // 没法啦, 判断手机验证是否成功只能放这了, 因为在stateInfo这个api里面
-      if (!data.mobileAuth) next('/reg')
+      // 一样的, 验证页面不能卡住认证路径
+      if (!data.mobileAuth && to.path !== '/reg') next('/reg')
       else {
         next()
       }
