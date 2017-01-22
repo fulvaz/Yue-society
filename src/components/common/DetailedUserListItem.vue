@@ -1,6 +1,8 @@
 <template>
   <div class="list-item">
-    <img class="avatar" :src="avatar" >
+    <div class="avatar">
+      <img-cover :img="avatar"></img-cover>
+    </div>
     <div class="main">
       <div class="row-1 row">
         <!-- 不然类名叫什么啊, 我怎么觉得语义化就是个笑话 -->
@@ -33,13 +35,15 @@
 // 不要问为什么冒出来这个除了样式外一毛一样的文件, 应该问问甲方想干嘛[捂脸]
 import Tag from './tagSlim'
 import Icon from 'vue-awesome/components/Icon'
+import ImgCover from './ImageCover'
 import 'vue-awesome/icons/users'
 import 'vue-awesome/icons/heart'
 import 'vue-awesome/icons/picture-o'
 export default {
   components: {
     'fz-tag': Tag,
-    'icon': Icon
+    'icon': Icon,
+    'img-cover': ImgCover
   },
   props: {
     'nickname': '',

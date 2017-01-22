@@ -21,9 +21,9 @@ export default {
   computed: {
     style () {
       return {
-        'background-image': `url(${this.img})`,
-        width: this.width,
-        height: this.height
+        'background-image': `url(${this.img})`
+        // width: this.width,
+        // height: this.height
       }
     }
   }
@@ -32,6 +32,8 @@ export default {
 
 <style lang="scss" scoped>
   .image {
+    width: 100%;
+    padding-bottom: 100%;
     background-size: cover;
     background-position: center;
   }
