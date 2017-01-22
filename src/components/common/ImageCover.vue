@@ -9,7 +9,7 @@
 export default {
   // 只要父容器有宽度, 就会自动生成正方形, 当然也可以自己修改样式
   props: {
-    img: ''
+    img: String
     // width: {
     //   type: String,
     //   default: '100%'
@@ -34,6 +34,7 @@ export default {
 <style lang="scss">
   .fz-cover-image {
     // 默认是正方形
+    // 宽度依赖容器宽度
     width: 100%;
     padding-bottom: 100%;
     background-size: cover;

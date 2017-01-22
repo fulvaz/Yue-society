@@ -19,6 +19,7 @@ export default {
     display: block;
     float: left;
     width: 33%;
+    box-sizing: border-box;
 
     &:nth-child(even) {
       margin-right: 0;

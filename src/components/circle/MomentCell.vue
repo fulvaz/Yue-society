@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="moment-cell-container">
-    <img :src="avatar" alt="" class="avatar">
+    <router-link :to="'/users/'+uid"><img :src="avatar" alt="" class="avatar"></router-link>
     <div class="main">
       <span class="nickname">{{nickname}}</span>
       <p class="content">{{content}}</p>
@@ -29,11 +29,13 @@ export default {
     id: Number,
     avatar: String,
     nickname: String,
-    uid: String,
+    uid: Number,
     content: String,
     imgs: {
       type: Array,
-      default: []
+      default () {
+        return []
+      }
     },
     date: String
   }

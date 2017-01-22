@@ -3,6 +3,8 @@
     <ul>
       <li v-for="moment in moments" class="moment-cell-wrapper">
         <moment-cell
+          :id="moment.id"
+          :uid="moment.uid"
           :avatar="moment.avatar"
           :nickname="moment.nickname"
           :content="moment.content"

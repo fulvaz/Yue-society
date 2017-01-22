@@ -143,7 +143,7 @@ function genStateInfo () {
 		'mobileAuth': true,
 		'ifAvailable': true,
 		'avatar': 'https://s3.amazonaws.com/uifaces/faces/twitter/timgthomas/128.jpg',
-		'joinedCircles': [1, 2, 3, 4, 5],
+		'joinedCircles': [0, 1, 2, 4, 5],
 		'joinedActivities': [1, 2, 3, 4, 5],
 		'appliedCircles': [],
 		'unreadMsg': 45,

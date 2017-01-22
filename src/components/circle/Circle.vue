@@ -3,7 +3,7 @@
     <div class="btn-fixed">
       <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入</button>
       <button class="btn-post" v-else-if="ifApplied" disabled>已申请</button>
-      <button class="btn-post" v-else @click="newPost">发言</button>
+      <button class="btn-post" v-else @click="newPost">+</button>
     </div>
     <header>
       <div class="container">
@@ -32,9 +32,10 @@
             <post-cell :avatar="act.logo" :title="act.title" :date="dateFormat(act.date)" :author="act.location"></post-cell>
           </router-link>
         </tab-container-item>
+
       </tab-container>
     </section>
-    <fz-editor v-model="postNew" :category="postCategory"></fz-editor>
+    <moment-editor v-model="postNew" :category="postCategory"></moment-editor>
     <join-msg-edior v-model="msgJoin"></join-msg-edior>
   </div>
 </template>
@@ -48,7 +49,7 @@
   import PostCell from '../common/PostCell'
   import dateformat from 'dateformat'
   import * as api from '../../api/index.js'
-  import Editor from '../posts/PostEditor'
+  import Editor from './MomentEditor'
   import * as utils from '../../utils/utils.js'
   // import { mapState } from 'vuex'
 
@@ -79,13 +80,20 @@
       'post-cell': PostCell,
       'nav-bar': Navbar,
       'tab-item': TabItem,
-      'fz-editor': Editor,
+      'moment-editor': Editor,
       'moment': Moment,
       'moment-cell': MomentCell,
       'join-msg-edior': JoinMsgEditor
     },
     created () {
-      Promise.all([api.getCircleInfo(this.$route.params.id), api.getCircleMoments(this.$route.params.id)]).then(result => {
+      // this.openIndicator()
+      Promise.all([
+        api.getCircleInfo(this.$route.params.id),
+        api.getCircleMoments(this.$route.params.id),
+        api.getCircleActivity(this.$route.params.id),
+        api.wxAuth(['chooseImage', 'uploadImage'])
+      ]).then(result => {
+        this.closeIndicator()
         let remoteData = utils.response2Data(result[0])
         this.circleName = remoteData.name
         this.news = remoteData.news
@@ -94,9 +102,12 @@
         this.CService = remoteData.CServiceId
 
         this.moments = utils.response2Data(result[1])
+        this.activities = utils.response2Data(result[2])
         // this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
       }).catch(response => {
-        this.handleFailWithCode(response.status, response.statusText)
+        this.closeIndicator()
+        // this.handleFailWithCode(response.status, response.statusText)
+        this.handleFatelErr()
         console.error(response)
       })
       this.tabActive = '活动' // 导航页切换到第一页
@@ -128,6 +139,7 @@
       }
     },
     beforeRouteEnter (to, from, next) {
+      console.log(window.location.href)
       api.authCircle(to.params.id).then(res => {
         next(vm => {
           vm.auth = utils.response2Data(res).right
