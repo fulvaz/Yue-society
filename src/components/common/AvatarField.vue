@@ -99,7 +99,8 @@ export default {
 
     .errMsg {
       position: relative;
-      left: 115px;
+      top: 3px;
+      left: 122px;
       color: red;
       font-size: 12px;
     }
@@ -109,10 +110,11 @@ export default {
   .wrapper {
     display: flex;
     align-items: center;
-    margin: 0 10px;
+    margin: 0 $horizontal-margin;
     height: 100%;
 
     .label {
+      font-size: $description-size;
       width: 105px;
     }
 

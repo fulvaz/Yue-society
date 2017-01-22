@@ -44,7 +44,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+  @import "../../assets/index.scss";
+  .fz-textarea-container {
+    font-size: $description-size;
+  }
   // 重置移动设备默认样式
   .select {
     -webkit-appearance: none;

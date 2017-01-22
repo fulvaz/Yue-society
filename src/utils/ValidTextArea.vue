@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="container">
+  <div class="fz-textarea-container">
     <div class="wrapper">
       <label class="label" for="select">{{label}}</label>
       <div class="input">
@@ -67,10 +67,10 @@ export default {
     border: none;
   }
 
-  .container {
+  .fz-textarea-container {
     width: 100%;
     padding: 12px 0;
-    // height: 48px;
+
     .error {
       border: 1px solid red;
     }
@@ -87,13 +87,12 @@ export default {
   .wrapper {
     display: flex;
     align-items: center;
-    margin: 0 10px;
+    margin: 0 $horizontal-margin;
     height: 100%;
-
-
 
     .label {
       width: 105px;
+      font-size: $description-size;
     }
 
     .input {
@@ -101,8 +100,6 @@ export default {
       & > * {
         width: 100%
       }
-
-
     }
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="reg-container">
     <fz-field label="昵称" name="nickname" v-model="nickname" class="field"
       v-validate
       data-vv-rules="required"
@@ -216,24 +216,23 @@
 
 <style scoped lang="scss">
   @import "../../assets/index.scss";
+  .reg-container {
+  }
   .field {
-    border-top: 1px solid $mt-border-color;
-    &:first-child {
-      border-top: none;
-    }
-
+    border-bottom: 1px solid $mt-border-color;
     background-color: white;
-
-    // .mint-cell .mint-cell-wrapper {
-    //   background-image: none !important;
-    // }
   }
   .verify-code-btn {
+    position: relative;
+    top: -2px;
+    height: 24px;
     font-size: $description-size;
-
   }
 
   .send-btn {
-    width: 100%;
+    margin: $horizontal-margin auto;
+    display: block;
+    font-size: $description-size;
+    width: 80%;
   }
 </style>

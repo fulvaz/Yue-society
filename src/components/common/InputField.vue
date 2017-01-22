@@ -7,7 +7,7 @@
         <div class="append">
           <slot></slot>
         </div>
-        <span v-show="valAppend.length !== 0" class="append">{{valAppend}}</span>
+        <span v-show="valAppend.length !== 0" class="append-text">{{valAppend}}</span>
       </div>
     </div>
       <span class="errMsg" v-if="hasError">{{errMsg}}</span>
@@ -66,8 +66,9 @@ export default {
 
   .container {
     width: 100%;
-    padding: 12px 0;
+    padding: 10px 0;
     background-color: white;
+    font-size: $description-size;
     // height: 48px;
     .error {
       // border: 1px solid red;
@@ -75,7 +76,8 @@ export default {
 
     .errMsg {
       position: relative;
-      left: 115px;
+      top: 3px;
+      left: 122px;
       color: red;
       font-size: 12px;
     }
@@ -85,16 +87,18 @@ export default {
   .wrapper {
     display: flex;
     align-items: center;
-    margin: 0 10px;
+    margin: 0 $horizontal-margin;
     height: 100%;
 
     .label {
+      font-size: $description-size;
       width: 105px;
     }
 
     .input {
       position: relative;
       flex: 1;
+      display: flex;
       input {
         width: 100%;
         &::-webkit-input-placeholder {
@@ -109,8 +113,12 @@ export default {
         top: 0;
         right: 0;
         width: 100px;
-        height: 20px;
+        height: 15px;
         font-size: $description-size;
+      }
+
+      .append-text {
+        flex-basis: 30px;
       }
     }
   }
