@@ -35,7 +35,7 @@
 
       </tab-container>
     </section>
-    <moment-editor v-model="postNew" :category="postCategory"></moment-editor>
+    <moment-editor v-model="momentNew" :category="postCategory"></moment-editor>
     <join-msg-edior v-model="msgJoin"></join-msg-edior>
   </div>
 </template>
@@ -67,7 +67,7 @@
         msgJoin: '',
         postPage: 0,
         actPage: 0,
-        postNew: '',
+        momentNew: '',
         activities: [],
         members: [],
         moments: []
@@ -102,6 +102,9 @@
         this.CService = remoteData.CServiceId
 
         this.moments = utils.response2Data(result[1])
+        this.moments.map(e => {
+          e.date = utils.date2YMDHMM(e.date)
+        })
         this.activities = utils.response2Data(result[2])
         // this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
       }).catch(response => {
@@ -132,10 +135,8 @@
       }
     },
     watch: {
-      postNew () {
-        this.posts = []
-        this.postPage = 0
-        this.fetchPosts()
+      momentNew () {
+        this.moments.unshift(this.momentNew)
       }
     },
     beforeRouteEnter (to, from, next) {

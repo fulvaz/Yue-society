@@ -2,7 +2,8 @@
 let exp = {}
 export let text = {
   shareTitle: '月正圆',
-  shareDesc: '爱情导航'
+  shareDesc: '爱情导航',
+  NEW_MOMENT_SUCCESS: '发布动态成功'
 }
 
 export let errMsg = {

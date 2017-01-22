@@ -11,6 +11,9 @@
           </grid-item>
         </grid>
       </div>
+      <div class="last-row">
+        <span class="date">{{date}}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -63,12 +66,17 @@ export default {
       .grid-item-wrapper {
         box-sizing: border-box;
         padding-right: 5px;
+        padding-top: 5px;
       }
 
       // 定制子组件CoverImg的样式
       .fz-cover-image {
         padding-bottom: 100%;
       }
+    }
+
+    .last-row {
+      margin-top: 5px;
     }
   }
 

@@ -32,6 +32,7 @@
     }
 
     .content-container {
+      overflow-y: scroll;
       @include clearfix;
     }
 

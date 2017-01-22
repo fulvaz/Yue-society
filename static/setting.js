@@ -70,7 +70,8 @@ var devApis = {
   'getQrCode': apiPrefix + '/qrCode',
   'searchUsers': apiPrefix + '/userDetail', // 也是详情
   'getCircleMoments': apiPrefix + '/moments',
-  'newCircleMoments': apiPrefix + '/moments'
+  'newCircleMoments': apiPrefix + '/moments',
+  'likeMoment': apiPrefix + '/postData'
 }
 
 var apis = {

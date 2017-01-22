@@ -54,8 +54,8 @@ export default {
       type: '',
       imgs: [],
       serverIds: [],
-      _imgLimit: 9,
-      _imgCurrent: 0
+      imgLimit: 9,
+      imgCurrent: 0
     }
   },
   computed: {
@@ -75,19 +75,27 @@ export default {
   methods: {
     handleSend (e) {
       let data = {
-        title: this.title,
         content: this.content,
         uid: this.$store.state.MeState.uid,
         circleId: parseInt(this.$route.params.id),
-        date: (new Date()).toString(),
-        type: parseInt(utils.value2Key(this.category, this.type))
+        // date: (new Date()).toString(),
+        serverIds: this.serverIds
+      }
+      let momentDisplay = {
+        uid: this.$store.state.MeState.uid,
+        avatar: this.$store.state.MeState.avatar,
+        nickname: this.$store.state.MeState.nickname,
+        content: this.content,
+        imgs: this.imgs,
+        date: (new Date()).toString()
       }
       this.$validator.validateAll().then(success => {
         if (!success) return
         this.openIndicator()
-        api.newPost(data).then(response => {
-          this.handleSuccess('NEW_POST_SUCCESS')
-          this.$emit('input', data)
+        api.newCircleMoments(data).then(response => {
+          this.closeIndicator()
+          this.toast(this.$text.NEW_MOMENT_SUCCESS)
+          this.$emit('input', momentDisplay)
           // 清空输入框
           this.title = ''
           this.content = ''
@@ -99,10 +107,14 @@ export default {
       })
     },
     handleImgUpload () {
-      api.wxChooseImage(this._imgLimit - this._imgCurrent).then(res => {
-        console.log(this._imgLimit - this._imgCurrent)
+      // 最多只能传9张
+      if (this.imgLimit - this.imgCurrent <= 0) {
+        this.toast('最多只能选9张图')
+        return
+      }
+      api.wxChooseImage(this.imgLimit - this.imgCurrent).then(res => {
         let localIds = res.localIds
-        this._imgCurrent = this.imgs.length + localIds.length
+        this.imgCurrent = this.imgs.length + localIds.length
         // 必须要这样处理localIds, 直接赋值给this.imgs不会有作用
         this.imgs.push(...res.localIds)
         return api.wxUploadImages(localIds)
@@ -138,6 +150,8 @@ export default {
     left: 0;
     width: 100vw;
     min-height: 100vh;
+    height: 100%;
+    overflow-y: scroll;
   }
 
   header {
