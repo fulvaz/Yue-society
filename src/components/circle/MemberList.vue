@@ -95,7 +95,8 @@ export default {
   }
 
   .main {
-    margin: 0 $horizontal-margin;
+    // margin: 0 $horizontal-margin;
+    background-color: $global-background-color;
   }
 
   .btn-load-more {

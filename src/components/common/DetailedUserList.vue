@@ -1,6 +1,6 @@
 <template lang="html">
-  <list class="recommend">
-      <li v-for="item in users" class="recommend">
+  <ul class="list">
+      <li v-for="item in users" class="user-cell">
         <router-link :to="`/users/${item.uid}`">
           <list-user-detailed
             :nickname="item.nickname"
@@ -23,7 +23,7 @@
           </list-user-detailed>
         </router-link>
       </li>
-  </list>
+  </ul>
 </template>
 
 <script>
@@ -73,11 +73,15 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/index.scss";
-  .recommend {
-      @include list-border();
-      padding: $list-padding 0;
+  .list {
+    // background-color: red;
+  }
+  .user-cell {
+      padding: $list-padding $horizontal-margin;
       background-color: white;
-      margin: 0px 0;
-      box-shadow: 1px black;
+      margin: 0 0;
+      margin-bottom: 5px;
+      border-top: 1px solid $list-border-color;
+      border-bottom: 1px solid $list-border-color;
   }
 </style>

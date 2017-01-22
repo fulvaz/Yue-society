@@ -136,8 +136,8 @@ export default {
 <style scoped lang="scss">
   @import "../../assets/index.scss";
   .tab-container {
-    padding: 0 $horizontal-margin;
-    background-color: white;
+    // padding: 0 $horizontal-margin;
+    background-color: $global-background-color;
   }
   #navbar {
     margin-bottom: 5px; // 避免挡住下方边框

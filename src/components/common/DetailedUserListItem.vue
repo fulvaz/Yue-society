@@ -116,11 +116,12 @@ export default {
   .avatar {
     // margin-left: 10px;
     float: left;
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
+    border-radius: 10px;
   }
   .main {
-    margin-left: 60px;
+    margin-left: 85px;
     @include item-description();
     line-height: $description-size;
     .row-1 {
