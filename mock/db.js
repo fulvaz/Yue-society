@@ -604,9 +604,9 @@ module.exports = function() {
 				id: i,
 				circleId: i,
 				avatar: f.image.avatar(100, 100),
-				nickname: f.internet.username()
+				nickname: f.internet.userName(),
 				uid: i,
-				content: f.lorem.sentences()
+				content: f.lorem.sentences(),
 				imgs: img,
 				date: f.date.recent()
 			}
