@@ -35,8 +35,11 @@ export default {
       date: ''
     }
   },
+  mounted () {
+  },
   methods: {
     handleClick () {
+      console.log(this.$refs.picker.$refs.picker.setSlotValue(0, '1980'))
       this.$refs.picker.open()
     },
     handleConfirm () {

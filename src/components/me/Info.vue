@@ -230,7 +230,7 @@ export default {
 <style lang="scss" scoped>
   @import "../../assets/index.scss";
   .field {
-    border-top: 1px solid $mt-border-color;
+    border-top: 1px solid $list-border-color;
     &:first-child {
       border-top: none;
     }

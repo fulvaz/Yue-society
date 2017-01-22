@@ -199,6 +199,6 @@ export default {
   }
 
   .field {
-    @include mt-list-border;
+    border-bottom: 1px solid $list-border-color;
   }
 </style>
