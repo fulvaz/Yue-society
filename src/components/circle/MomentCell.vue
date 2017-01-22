@@ -13,13 +13,14 @@
       </div>
       <div class="last-row">
         <span class="date">{{date}}</span>
-        <el-button v-if="ifLiked">
-          <span>{{likes}}</span>
+        <!-- 已经点赞 -->
+        <el-button v-if="liked" class="like-btn">
           <icon name="heart" class="icon-like"></icon>
-        </el-button>
-        <el-button else>
           <span>{{likes}}</span>
-          <!-- <icon name="heart" class="icon-like-o"></icon> -->
+        </el-button>
+        <el-button v-else class="like-btn" @click="handleLike">
+          <icon name="heart-o" class="icon-like"></icon>
+          <span>{{likes}}</span>
         </el-button>
       </div>
     </div>
@@ -27,12 +28,13 @@
 </template>
 
 <script>
+import * as api from '../../api/index.js'
 import Grid from '../common/layouts/Grid'
 import GridCell from '../common/layouts/GridItem'
 import CoverImg from '../common/ImageCover'
 import Icon from 'vue-awesome/components/Icon'
 import 'vue-awesome/icons/heart'
-// import 'vue-awesome/icons/heart-o'
+import 'vue-awesome/icons/heart-o'
 export default {
   components: {
     'grid': Grid,
@@ -55,6 +57,28 @@ export default {
     likes: Number,
     ifLiked: Boolean,
     date: String
+  },
+  data () {
+    return {
+      liked: false
+    }
+  },
+  created () {
+    // 这样会让数据变得不响应
+    this.liked = this.ifLiked
+  },
+  methods: {
+    handleLike () {
+      let data = {
+        uid: this.$store.state.MeState.uid,
+        momentId: this.id
+      }
+      api.likeMoment(data).then(e => {
+        this.liked = true
+      }).catch(e => {
+        this.toast(this.$text.LIKE_MOMENT_FAILED)
+      })
+    }
   }
 }
 </script>
@@ -91,9 +115,17 @@ export default {
 
     .last-row {
       margin-top: 5px;
+      display: flex;
+      justify-content: space-between;
+      .like-btn {
+        height: 12px;
+        border: none;
+        padding: 0;
+        @include item-description;
+      }
       .icon-like {
-        height: 1em;
-        width: 1em;
+        height: 12px;
+        width: 12px;
       }
     }
   }

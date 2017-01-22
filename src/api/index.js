@@ -592,6 +592,17 @@ export const newCircleMoments = function (data) {
   })
 }
 
+export const likeMoment = function (data) {
+  let api = `${config.likeMoment}`
+  return new Promise((resolve, reject) => {
+    vue.http.post(api, data).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
 export const getCircleActivity = function (circleid, page, limit) {
   let api = `${config.circlesApi}/${circleid}/activities`
   return new Promise((resolve, reject) => {

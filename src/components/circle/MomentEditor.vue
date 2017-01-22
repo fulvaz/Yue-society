@@ -79,7 +79,7 @@ export default {
         uid: this.$store.state.MeState.uid,
         circleId: parseInt(this.$route.params.id),
         // date: (new Date()).toString(),
-        serverIds: this.serverIds
+        imgServerIds: this.serverIds
       }
       let momentDisplay = {
         uid: this.$store.state.MeState.uid,
