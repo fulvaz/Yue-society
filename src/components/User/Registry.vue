@@ -26,7 +26,7 @@
       :hasError="errors.has('sex')"
       :errMsg="errors.first('sex')"
     ></fz-single-picker> -->
-    <radio :options="sexOptions" label="性别" v-model="sex"></radio>
+    <radio :options="sexOptions" label="性别" v-model="sex" class="field"></radio>
     <fz-field ref="height" v-model="height" label="身高" class="field" valAppend="厘米"
       v-validate
       data-vv-rules="required|digits:3"

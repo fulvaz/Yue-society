@@ -359,7 +359,6 @@ function genMeSelectable () {
       2: 'B'
     },
     sex: {
-      0: '无',
       1: '男',
       2: '女'
     },

@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="container">
+  <div class="radio-container">
     <div class="wrapper">
       <label class="label" for="select">{{label}}</label>
       <div class="input">
@@ -54,7 +54,7 @@ export default {
     border: none;
   }
 
-  .container {
+  .radio-container {
     width: 100%;
     padding: 10px 0;
     background-color: white;

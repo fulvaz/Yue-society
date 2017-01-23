@@ -91,7 +91,8 @@ export default {
   .avatar-uploader-container {
     width: 100%;
     padding: 12px 0;
-    background-color: transparent;
+    // background-color: transparent;
+    background-color: white;
     // height: 48px;
     .error {
       // border: 1px solid red;
