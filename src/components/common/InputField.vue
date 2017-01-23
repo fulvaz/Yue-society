@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="container">
     <div class="wrapper">
-      <label class="label" for="select">{{required ? label + ' *' : label}}</label>
+      <label @click="focusInput" class="label" for="select">{{required ? label + ' *' : label}}</label>
       <div class="input">
         <input type="text" :value="value" @blur="handleChange" :class="{error: hasError}" :placeholder="placeholder" :disabled="disabled" :readonly="readonly">
         <div class="append">
@@ -51,6 +51,9 @@ export default {
   methods: {
     handleChange (event) {
       this.$emit('input', event.target.value)
+    },
+    focusInput () {
+      this.$el.querySelector('input').focus()
     }
   }
 }
@@ -78,7 +81,7 @@ export default {
     .errMsg {
       position: relative;
       top: 3px;
-      left: 122px;
+      left: $horizontal-margin;
       color: red;
       font-size: 12px;
     }
@@ -89,11 +92,11 @@ export default {
     display: flex;
     align-items: center;
     margin: 0 $horizontal-margin;
-    height: 100%;
+    // height: 100%;
 
     .label {
       font-size: $description-size;
-      width: 105px;
+      width: $input-label-width;
     }
 
     .input {
@@ -115,7 +118,7 @@ export default {
         position: absolute;
         top: 0;
         right: 0;
-        width: 100px;
+        // width: 100px;
         height: 15px;
         font-size: $description-size;
       }

@@ -91,8 +91,8 @@ export default {
   .avatar-uploader-container {
     width: 100%;
     padding: 12px 0;
-    // background-color: transparent;
-    background-color: white;
+    background-color: transparent;
+    // background-color: white;
     // height: 48px;
     .error {
       // border: 1px solid red;
@@ -101,7 +101,7 @@ export default {
     .errMsg {
       position: relative;
       top: 3px;
-      left: 122px;
+      left: $horizontal-margin + $input-label-width;
       color: red;
       font-size: 12px;
     }
@@ -117,7 +117,7 @@ export default {
     .label {
       font-size: $description-size;
       color: $form-label-color;
-      width: 105px;
+      width: $input-label-width;
     }
 
     .input {
@@ -129,6 +129,7 @@ export default {
 
       .uploaded-img {
         display: block;
+        // background-color: $global-background-color;
         background-color: #eee;
         width: 100px;
         height: 100px;

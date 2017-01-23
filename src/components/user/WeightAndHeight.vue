@@ -1,14 +1,16 @@
 <template lang="html">
-  <div class="radio-container">
+  <div class="container">
     <div class="wrapper">
-      <label class="label" for="selectVal">{{label}}</label>
+      <label class="label" for="select">{{required ? label + ' *' : label}}</label>
       <div class="input">
-        <el-radio-group v-model="value" @change="handleChange">
-          <el-radio v-for="option in options" :label="option.value">{{option.text}}</el-radio>
-        </el-radio-group>
+        <input type="text" :value="value" @blur="handleChange" :class="{error: hasError}" :placeholder="placeholder" :disabled="disabled" :readonly="readonly">
+        <div class="append">
+          <slot></slot>
+        </div>
         <span v-show="valAppend.length !== 0" class="append-text">{{valAppend}}</span>
       </div>
     </div>
+      <span class="errMsg" v-if="hasError">{{errMsg}}</span>
   </div>
 </template>
 
@@ -17,37 +19,38 @@
 // import * as utils from '../../utils/utils.js'
 export default {
   props: {
-    options: {
-      type: Array,
-      default: function () {
-        return []
-      }
-    }, // {value: '', text: ''}
-    value: [String, Number],
+    readonly: {
+      type: Boolean,
+      default: false
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    hasError: false,
+    errMsg: '',
+    placeholder: '',
+    disabled: {
+      type: [Boolean, String],
+      default: false
+    },
+    value: String,
     label: '',
     valAppend: {
       type: String,
       default: ''
     }
   },
-  // data () {
-  //     selectVal: ''
-  //   }
-  // },
-  computed: {
-    selectVal: {
-      get () {
-        return this.value
-      },
-      set (val) {
-        this.$emit('input', this.selectVal)
-      }
+  data () {
+    return {
+      nullErr: false,
+      maxErr: false,
+      otherErr: false
     }
   },
   methods: {
-    handleChange (val) {
-      console.log(val)
-      this.$emit('input', val)
+    handleChange (event) {
+      this.$emit('input', event.target.value)
     }
   }
 }
@@ -61,15 +64,12 @@ export default {
     border: none;
   }
 
-  .radio-container {
+  .container {
     width: 100%;
     padding: 10px 0;
     background-color: white;
     font-size: $description-size;
-    // height: 48px;
-    .error {
-      // border: 1px solid red;
-    }
+    color: $form-label-color;
 
     .errMsg {
       position: relative;
@@ -88,9 +88,8 @@ export default {
     height: 100%;
 
     .label {
-      color: $form-label-color;
       font-size: $description-size;
-      width: $input-label-width;
+      width: 105px;
     }
 
     .input {
@@ -101,12 +100,14 @@ export default {
         width: 100%;
         &::-webkit-input-placeholder {
           font-size: $description-size;
+          color: $form-placeholder-color;
         }
       }
 
       .append {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
         position: absolute;
         top: 0;
         right: 0;
@@ -117,6 +118,7 @@ export default {
 
       .append-text {
         flex-basis: 30px;
+        flex-shrink: 0;
       }
     }
   }

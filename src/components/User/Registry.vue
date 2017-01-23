@@ -1,6 +1,6 @@
 <template>
   <div class="reg-container">
-    <fz-avattar-uploader label="头像" v-model="avatar" class="field"
+    <fz-avattar-uploader label="" v-model="avatar" class="field"
       v-validate
       data-vv-rules="required"
       data-vv-name="avatar"
@@ -8,7 +8,7 @@
       :hasError="errors.has('avatar')"
       :errMsg="errors.first('avatar')"
     >
-      <p>请上传近期真实头像，平台将审核</p>
+      <p>请上传近期真实</p>
     </fz-avattar-uploader>
     <fz-field label="昵称" name="nickname" v-model="nickname" class="field"
       v-validate
@@ -27,22 +27,24 @@
       :errMsg="errors.first('sex')"
     ></fz-single-picker> -->
     <radio :options="sexOptions" label="性别" v-model="sex" class="field"></radio>
-    <fz-field ref="height" v-model="height" label="身高" class="field" valAppend="厘米"
-      v-validate
-      data-vv-rules="required|digits:3"
-      data-vv-name="height"
-      data-vv-value-path="height"
-      :hasError="errors.has('height')"
-      :errMsg="errors.first('height')"
-    ></fz-field>
-    <fz-field ref="weight" v-model="weight" label="体重" class="field" valAppend="公斤"
-      v-validate
-      data-vv-rules="required|numeric|min:2|max:3"
-      data-vv-name="weight"
-      data-vv-value-path="weight"
-      :hasError="errors.has('weight')"
-      :errMsg="errors.first('weight')"
-    ></fz-field>
+    <div class="weight-height">
+      <fz-field ref="height" v-model="height" label="身高 cm" class="field"
+        v-validate
+        data-vv-rules="required|digits:3"
+        data-vv-name="height"
+        data-vv-value-path="height"
+        :hasError="errors.has('height')"
+        :errMsg="errors.first('height')"
+      ></fz-field>
+      <fz-field ref="weight" v-model="weight" label="体重 kg" class="field"
+        v-validate
+        data-vv-rules="required|numeric|min:2|max:3"
+        data-vv-name="weight"
+        data-vv-value-path="weight"
+        :hasError="errors.has('weight')"
+        :errMsg="errors.first('weight')"
+      ></fz-field>
+    </div>
     <fz-single-picker label="婚姻状况" :slotVals="selectMarriage" v-model="marriage" class="field"
       v-validate="marriage"
       data-vv-rules="required"
@@ -103,7 +105,7 @@
         userType: '',
         userTypes: {},
         recommend: '',
-        sex: '0',
+        sex: 0,
         height: '',
         weight: '',
         marriage: '未婚',
@@ -159,10 +161,11 @@
         this.selectSex = utils.objVals(data.sex)
         this.sexOptions = Object.keys(data.sex).map(key => {
           return {
-            value: key,
+            value: key + '',
             text: data.sex[key]
           }
         })
+        this.sex = Object.keys(data.sex)[0]
         this.selectMarriage = utils.objVals(data.marriage)
       }).catch(response => {
         this.handleNetErrWithReload()
@@ -176,7 +179,7 @@
       send () {
         this.openIndicator()
         this.$validator.validateAll().then(success => {
-          if (!success) {
+          if (success) {
             let data = {
               uid: this.uid,
               sex: parseInt(this.sex),
@@ -236,6 +239,14 @@
     @include clearfix();
     background-color: $global-background-color;
   }
+
+  .weight-height {
+    display: flex;
+    & > * {
+      flex: 1;
+    }
+  }
+
   .field {
     border-bottom: 1px solid $list-border-color;
     background-color: white;
