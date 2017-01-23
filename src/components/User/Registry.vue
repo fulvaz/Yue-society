@@ -27,6 +27,14 @@
       :errMsg="errors.first('sex')"
     ></fz-single-picker> -->
     <radio :options="sexOptions" label="性别" v-model="sex" class="field"></radio>
+    <address-picker label="出生地" v-model="location" class="field"
+      v-validate="location"
+      data-vv-rules="required"
+      data-vv-name="location"
+      data-vv-value-path="location"
+      :hasError="errors.has('location')"
+      :errMsg="errors.first('location')"
+    ></address-picker>
     <div class="weight-height">
       <fz-field ref="height" v-model="height" label="身高 cm" class="field"
         v-validate
@@ -90,6 +98,7 @@
   import Input from '../common/InputField'
   import SinglePicker from '../common/SinglePicker'
   import AvatarField from '../common/AvatarField'
+  import AddressPicker from '../common/AddressPicker'
   import DataPicker from '../common/DatePicker'
   import Radio from '../common/Radio'
 
@@ -129,6 +138,7 @@
       'radio': Radio,
       'mt-button': Button,
       'fz-field': Input,
+      'address-picker': AddressPicker,
       'fz-single-picker': SinglePicker,
       'fz-avattar-uploader': AvatarField,
       'fz-datepicker': DataPicker
