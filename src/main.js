@@ -52,8 +52,9 @@ import config from './config/setting.js'
 
 // import element ui
 import 'element-ui/lib/theme-default/index.css'
-import {Button} from 'element-ui'
+import {Button, Radio} from 'element-ui'
 Vue.component(Button.name, Button)
+Vue.component(Radio.name, Ridio)
 
 // register custom icon
 import Icon from 'vue-awesome/components/Icon.vue'

@@ -219,7 +219,7 @@
   .reg-container {
   }
   .field {
-    border-bottom: 1px solid $list-border-color; 
+    border-bottom: 1px solid $list-border-color;
     background-color: white;
   }
   .verify-code-btn {
