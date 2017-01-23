@@ -2,11 +2,11 @@
   <div class="fz-ta-container">
     <div class="wrapper">
       <div class="labels">
-        <label class="label template" for="select">模板</label>
+        <label class="label template-label" for="select">模板</label>
         <label class="label" for="select">{{label}}</label>
       </div>
       <div class="input">
-        <select class="select template" @change="handleTemplateChange">
+        <select class="select template-select" @change="handleTemplateChange">
           <option v-for="intro in introTemps">{{intro}}</option>
         </select>
         <textarea class="textarea" name="introduction" :value="value" v-on:blur="handleChange" :class="{error: maxErr || nullErr || otherErr}"></textarea>
@@ -117,7 +117,7 @@ export default {
     margin: 0 $horizontal-margin;
     height: 100%;
 
-    .template {
+    .template-label {
       margin-bottom: 5px;
     }
 
@@ -132,10 +132,10 @@ export default {
         width: 100%;
       }
       .select {
-        border: none;
+        padding: 1px;
         background: transparent;
+        border: 1px solid $list-border-color;
       }
-
     }
   }
 </style>

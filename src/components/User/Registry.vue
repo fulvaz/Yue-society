@@ -242,7 +242,7 @@
   }
   .verify-code-btn {
     position: relative;
-    top: -2px;
+    top: 0;
     height: 24px;
     font-size: $description-size;
   }

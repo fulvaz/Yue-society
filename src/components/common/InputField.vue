@@ -111,6 +111,7 @@ export default {
       .append {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
         position: absolute;
         top: 0;
         right: 0;
@@ -121,6 +122,7 @@ export default {
 
       .append-text {
         flex-basis: 30px;
+        flex-shrink: 0;
       }
     }
   }
