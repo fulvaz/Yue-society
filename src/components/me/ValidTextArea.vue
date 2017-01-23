@@ -123,7 +123,7 @@ export default {
 
     .label {
       display: block;
-      width: 105px;
+      width: $input-label-width;
     }
 
     .input {

@@ -65,6 +65,7 @@ export default {
       if (this.value) this.$refs.picker.setSlotValue(0, this.value)
       else {
         this.$refs.picker.setSlotValue(0, this.slotVals[0])
+        this.$emit('input', this.slotVals[0])
       }
       this.visible = true
     },

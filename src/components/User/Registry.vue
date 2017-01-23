@@ -8,7 +8,7 @@
       :hasError="errors.has('avatar')"
       :errMsg="errors.first('avatar')"
     >
-      <p>请上传近期真实</p>
+      <p>请上传近期真实头像</p>
     </fz-avattar-uploader>
     <fz-field label="昵称" name="nickname" v-model="nickname" class="field"
       v-validate

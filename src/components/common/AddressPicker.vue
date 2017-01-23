@@ -102,6 +102,7 @@ export default {
     },
     handleClick () {
       if (this.province && this.picker[0].values.indexOf(this.province) !== -1) this.$refs.picker.setSlotValue(0, this.province + '')
+      else this.$emit('input', '北京-北京')
       if (this.city && this.picker[2].values.indexOf(this.city) !== -1) this.$refs.picker.setSlotValue(1, this.city + '')
 
       this.visible = true
