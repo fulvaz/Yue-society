@@ -44,6 +44,7 @@ export default {
   &:first-child {
     margin-top: 0;
   }
-  margin-top: $horizontal-margin;
+  padding: ($horizontal-margin / 2) 0;
+  border-bottom: 1px solid $list-border-color;
 }
 </style>
