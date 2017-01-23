@@ -1,14 +1,11 @@
 <template lang="html">
   <div class="container">
     <div class="wrapper">
-      <label class="label" for="select">{{required ? label + ' *' : label}}</label>
+      <label class="label" for="select">{{label}}</label>
       <div class="input">
-        <el-radio-group v-model="value" @change="handleChange">
+        <el-radio-group v-model="selectVal" @change="handleChange">
           <el-radio v-for="option in options" :label="option.value">{{option.text}}</el-radio>
         </el-radio-group>
-        <div class="append">
-          <slot></slot>
-        </div>
         <span v-show="valAppend.length !== 0" class="append-text">{{valAppend}}</span>
       </div>
     </div>
@@ -20,7 +17,12 @@
 // import * as utils from '../../utils/utils.js'
 export default {
   props: {
-    options: Array, // {value: '', textl: ''}
+    options: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    }, // {value: '', text: ''}
     value: String,
     label: '',
     valAppend: {
@@ -30,14 +32,15 @@ export default {
   },
   data () {
     return {
-      nullErr: false,
-      maxErr: false,
-      otherErr: false
+      selectVal: ''
     }
+  },
+  created () {
+    this.selectVal = this.value
   },
   methods: {
     handleChange (event) {
-      this.$emit('input', value)
+      this.$emit('input', this.selectVal)
     }
   }
 }
@@ -78,6 +81,7 @@ export default {
     height: 100%;
 
     .label {
+      color: $form-label-color;
       font-size: $description-size;
       width: 105px;
     }

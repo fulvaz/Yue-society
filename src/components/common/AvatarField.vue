@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="container">
+  <div class="avatar-uploader-container">
     <div class="wrapper">
       <label class="label" for="select">{{required ? label + ' *' : label}}</label>
       <div class="input">
@@ -88,10 +88,10 @@ export default {
     border: none;
   }
 
-  .container {
+  .avatar-uploader-container {
     width: 100%;
     padding: 12px 0;
-    background-color: white;
+    background-color: transparent;
     // height: 48px;
     .error {
       // border: 1px solid red;
@@ -115,6 +115,7 @@ export default {
 
     .label {
       font-size: $description-size;
+      color: $form-label-color;
       width: 105px;
     }
 

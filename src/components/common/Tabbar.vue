@@ -15,6 +15,14 @@
       created () {
         that = this
       },
+      methods: {
+        hide () {
+          this.show = false
+        },
+        open () {
+          this.show = true
+        }
+      },
       hide () {
         that.show = false
       }
@@ -30,7 +38,7 @@
     width: 100%;
     box-sizing: border-box;
     background-color: #F7F7FA;
-    position: fixed;
+    // position: fixed;
     bottom: 0;
     border-top: 1px solid #C0BFC4;
   }

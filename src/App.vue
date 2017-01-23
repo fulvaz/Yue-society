@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <router-view></router-view>
-    <tabbar class="tab">
+    <div class="router-view">
+      <router-view></router-view>
+    </div>
+    <tabbar class="tab" ref="tabbar">
       <tabbar-item :to="'/'" :label="'首页'" :id="0" :isSelected="true">
         <icon slot="icon" class="fa-icon" aria-hidden="true" name="home"></icon>
       </tabbar-item>
@@ -66,9 +68,16 @@ export default {
   }
 
   #app {
-    min-height: calc(100vh - 53px);
-    margin-bottom: 53px;
-    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .router-view {
+      flex: 1 1 calc(100vh - 53px);
+      min-height: calc(100vh - 53px);
+      // margin-bottom: 53px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
 
     .tab {
       .selected {

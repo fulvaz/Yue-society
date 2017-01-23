@@ -69,6 +69,7 @@ export default {
     padding: 10px 0;
     background-color: white;
     font-size: $description-size;
+    color: $form-label-color;
     // height: 48px;
     .error {
       // border: 1px solid red;
@@ -103,6 +104,7 @@ export default {
         width: 100%;
         &::-webkit-input-placeholder {
           font-size: $description-size;
+          color: $form-placeholder-color;
         }
       }
 

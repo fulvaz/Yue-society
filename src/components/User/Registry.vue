@@ -1,13 +1,5 @@
 <template>
   <div class="reg-container">
-    <fz-field label="昵称" name="nickname" v-model="nickname" class="field"
-      v-validate
-      data-vv-rules="required"
-      data-vv-name="nickname"
-      data-vv-value-path="nickname"
-      :hasError="errors.has('nickname')"
-      :errMsg="errors.first('nickname')"
-    ></fz-field>
     <fz-avattar-uploader label="头像" v-model="avatar" class="field"
       v-validate
       data-vv-rules="required"
@@ -18,14 +10,23 @@
     >
       <p>请上传近期真实头像，平台将审核</p>
     </fz-avattar-uploader>
-    <fz-single-picker label="性别" :slotVals="selectSex" v-model="sex" class="field"
+    <fz-field label="昵称" name="nickname" v-model="nickname" class="field"
+      v-validate
+      data-vv-rules="required"
+      data-vv-name="nickname"
+      data-vv-value-path="nickname"
+      :hasError="errors.has('nickname')"
+      :errMsg="errors.first('nickname')"
+    ></fz-field>
+    <!-- <fz-single-picker label="性别" :slotVals="selectSex" v-model="sex" class="field"
       v-validate="sex"
       data-vv-rules="required"
       data-vv-name="sex"
       data-vv-value-path="sex"
       :hasError="errors.has('sex')"
       :errMsg="errors.first('sex')"
-    ></fz-single-picker>
+    ></fz-single-picker> -->
+    <radio :options="sexOptions" label="性别" v-model="sex"></radio>
     <fz-field ref="height" v-model="height" label="身高" class="field" valAppend="厘米"
       v-validate
       data-vv-rules="required|digits:3"
@@ -88,6 +89,7 @@
   import SinglePicker from '../common/SinglePicker'
   import AvatarField from '../common/AvatarField'
   import DataPicker from '../common/DatePicker'
+  import Radio from '../common/Radio'
 
   export default {
     data () {
@@ -101,7 +103,7 @@
         userType: '',
         userTypes: {},
         recommend: '',
-        sex: '男',
+        sex: '0',
         height: '',
         weight: '',
         marriage: '未婚',
@@ -110,6 +112,7 @@
         location: '',
         // select option
         selectSex: [],
+        sexOptions: [],
         selectMarriage: [],
         verifyCodeSentText: '已发送验证码',
         selectDefinition: {},
@@ -121,6 +124,7 @@
     computed: {
     },
     components: {
+      'radio': Radio,
       'mt-button': Button,
       'fz-field': Input,
       'fz-single-picker': SinglePicker,
@@ -128,6 +132,8 @@
       'fz-datepicker': DataPicker
     },
     created () {
+      // hide tabbar
+      this.$root.$refs.tabbar.hide()
       this.openIndicator()
       api.getReg().then(response => {
         let data = utils.response2Data(response)
@@ -151,19 +157,29 @@
         let data = res
         this.selectDefinition = data
         this.selectSex = utils.objVals(data.sex)
+        this.sexOptions = Object.keys(data.sex).map(key => {
+          return {
+            value: key,
+            text: data.sex[key]
+          }
+        })
         this.selectMarriage = utils.objVals(data.marriage)
       }).catch(response => {
         this.handleNetErrWithReload()
       })
     },
+    beforeDestroy () {
+      // 这是个单页应用, 改了全局变量就改回去
+      console.log(this.$root.$refs.tabbar.open())
+    },
     methods: {
       send () {
         this.openIndicator()
         this.$validator.validateAll().then(success => {
-          if (success) {
+          if (!success) {
             let data = {
               uid: this.uid,
-              sex: utils.value2Key(this.selectDefinition.sex, this.sex),
+              sex: parseInt(this.sex),
               height: this.height,
               weight: this.weight,
               marriage: utils.value2Key(this.selectDefinition.marriage, this.marriage),
@@ -217,6 +233,8 @@
 <style scoped lang="scss">
   @import "../../assets/index.scss";
   .reg-container {
+    @include clearfix();
+    background-color: $global-background-color;
   }
   .field {
     border-bottom: 1px solid $list-border-color;
