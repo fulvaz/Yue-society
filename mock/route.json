@@ -8,5 +8,6 @@
   "/album/1111": "/album",
   "/users/1001/meeting": "/appointmentPage",
   "/right/:id": "/right",
-  "/circleDetail/test": "/circleDetail"
+  "/circleDetail/test": "/circleDetail",
+  "/moments/0": "/moments"
 }

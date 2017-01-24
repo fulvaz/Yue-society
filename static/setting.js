@@ -1,4 +1,4 @@
-var dev = true
+var dev = false;
 var apiPrefix = dev ? 'http://test.com:3000' : 'http://api.yuezhengyuan.com'
 var remoteServer = 'http://api.yuezhengyuan.com'
 
@@ -68,7 +68,10 @@ var devApis = {
   'searchRecommend': apiPrefix + '/userDetail',
   // new
   'getQrCode': apiPrefix + '/qrCode',
-  'searchUsers': apiPrefix + '/userDetail' // 也是详情
+  'searchUsers': apiPrefix + '/userDetail', // 也是详情
+  'getCircleMoments': apiPrefix + '/moments',
+  'newCircleMoments': apiPrefix + '/moments',
+  'likeMoment': apiPrefix + '/postData'
 }
 
 var apis = {
@@ -133,8 +136,11 @@ var apis = {
   'uploadAvatar':apiPrefix+'/users/me/avatar/upload',
   'quitCircle':apiPrefix+'/circles/quit',
   'searchCircles':apiPrefix+'/search/circles',
-  'getQrCode': apiPrefix + '/users/me/qrcode',
-  'searchUsers': apiPrefix + '/search/users'
+  'getQrCode': apiPrefix + '/wechat/qrcode',
+  'searchUsers': apiPrefix + '/search/users',
+  'getCircleMoments': apiPrefix + '/circles/moments',
+  'newCircleMoments': apiPrefix + '/circles/moments/add',
+  'likeMoment': apiPrefix + '/circles/moments/like'
 }
 
 var api = dev ? devApis : apis

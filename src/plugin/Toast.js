@@ -94,6 +94,7 @@ function handleFail (msg, ifCustom) {
 }
 
 function handleFailWithCode (status, statusText) {
+  if (!status && !statusText) return
   toast(`${status} ${statusText}`)
   closeIndicator()
 }

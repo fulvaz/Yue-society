@@ -49,6 +49,7 @@ export default {
         api.joinCircle(apply).then(response => {
           let circleId = parseInt(this.$route.params['id'])
           this.$store.dispatch('applyCircle', circleId)
+          this.close()
           this.handleSuccess('APPLY_CIRCLE_SUCCESS')
         }).catch(response => {
           this.handleFailWithCode(response.status, response.statusText)

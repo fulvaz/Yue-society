@@ -93,7 +93,8 @@ export default {
   },
   methods: {
     onChange (picker, values) {
-      // 组件的一个小bug 以后再说
+      // 手动设置picker, 或者转动picker, 都会触发change时间, 所以
+      // 如果这两个值是空, 会直接导致组件无法运行, 因此要加这条过滤
       if (this.province === undefined || this.city === undefined) return // 防止刚开始空值出乱子
       if (values[0] === undefined) values[0] = this.province
       picker.setSlotValues(1, this.slotVal[values[0]])
@@ -104,7 +105,6 @@ export default {
       if (this.province && this.picker[0].values.indexOf(this.province) !== -1) this.$refs.picker.setSlotValue(0, this.province + '')
       else this.$emit('input', '北京-北京')
       if (this.city && this.picker[2].values.indexOf(this.city) !== -1) this.$refs.picker.setSlotValue(1, this.city + '')
-
       this.visible = true
     },
     open () {

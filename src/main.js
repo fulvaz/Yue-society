@@ -186,8 +186,8 @@ router.beforeEach((to, from, next) => {
 
     // 普通规则
     let alwaysPass = [
+      // '/reg',
       '/auth'
-      // '/reg'
     ]
     return alwaysPass.indexOf(path) !== -1
   }

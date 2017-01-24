@@ -15,11 +15,11 @@ export default {
 <style lang="scss">
   @import "../../../assets/index.scss";
   .grid-item-wrapper {
-    // margin-right: $horizontal-margin;
-    // margin-bottom: $horizontal-margin;
+    // 默认是一行3个, 可以自己定制
     display: block;
     float: left;
-    // width: calc(50% - 30px);
+    width: 33%;
+    box-sizing: border-box;
 
     &:nth-child(even) {
       margin-right: 0;

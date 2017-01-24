@@ -362,6 +362,24 @@ export const uploadImageId = function (serverId) {
   })
 }
 
+export const uploadImageIds = function (serverIds) {
+  return new Promise((resolve, reject) => {
+    function inner (ids) {
+      uploadImageId(ids.pop()).then(res => {
+        if (ids.length !== 0) {
+          console.log(ids.length)
+          inner(ids)
+        } else {
+          resolve(serverIds)
+        }
+      }).catch(res => {
+        reject(res)
+      })
+    }
+    inner(serverIds)
+  })
+}
+
 export const uploadAvatarId = function (serverId) {
   let data = serverId
   return new Promise((resolve, reject) => {
@@ -434,7 +452,9 @@ export const wxChooseImage = function (count) {
         reject(res)
       },
       cancel: function (res) {
-        res.errMsg = '没有检测到图片'
+        res.errMsg = ''
+        res.status = ''
+        res.statusText = ''
         reject(res)
       }
     })
@@ -458,6 +478,26 @@ export const wxUploadImage = function (localId) {
       },
       fail: res => reject(res)
     })
+  })
+}
+
+export const wxUploadImages = function (localIds) {
+  return new Promise((resolve, reject) => {
+    function inner (ids) {
+      wxUploadImage(ids.pop()).then(res => {
+        serverIds.push(res.serverId)
+        if (ids.length !== 0) {
+          inner(ids)
+        } else {
+          resolve(serverIds)
+        }
+      }).catch(res => {
+        reject(res)
+      })
+    }
+
+    let serverIds = []
+    inner(localIds)
   })
 }
 
@@ -531,9 +571,31 @@ export const getCirclePost = function (circleid, page, limit) {
 }
 
 export const getCircleMoments = function (circleid, page, limit) {
-  let api = `${config.circlesApi}/circles/${circleid}`
+  let api = `${config.getCircleMoments}/${circleid}`
   return new Promise((resolve, reject) => {
     vue.http.get(api + filterPL(page, limit)).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const newCircleMoments = function (data) {
+  let api = `${config.newCircleMoments}`
+  return new Promise((resolve, reject) => {
+    vue.http.post(api, data).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const likeMoment = function (data) {
+  let api = `${config.likeMoment}`
+  return new Promise((resolve, reject) => {
+    vue.http.post(api, data).then((response) => {
       resolve(response)
     }, response => {
       reject(response)

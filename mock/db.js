@@ -143,7 +143,7 @@ function genStateInfo () {
 		'mobileAuth': true,
 		'ifAvailable': true,
 		'avatar': 'https://s3.amazonaws.com/uifaces/faces/twitter/timgthomas/128.jpg',
-		'joinedCircles': [1, 2, 3, 4, 5],
+		'joinedCircles': [0, 1, 2, 4, 5],
 		'joinedActivities': [1, 2, 3, 4, 5],
 		'appliedCircles': [],
 		'unreadMsg': 45,
@@ -594,8 +594,8 @@ module.exports = function() {
 
 	function genMoments () {
 		let arr = []
-		let img = []
 		for (let i=0; i<r(20, 30); i++) {
+			let img = []
 			for (let j=0; j<r(0, 4); j++) {
 				img.push(f.image.image(500, 500))
 			}
@@ -606,6 +606,8 @@ module.exports = function() {
 				nickname: f.internet.userName(),
 				uid: i,
 				content: f.lorem.sentences(),
+				likes: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+				ifLiked: r(0, 1) ? true : false,
 				imgs: img,
 				date: f.date.recent()
 			}
