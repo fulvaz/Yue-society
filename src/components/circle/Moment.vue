@@ -10,8 +10,9 @@
           :content="moment.content"
           :imgs="moment.imgs"
           :date="moment.date"
-          :likes="moment.likes.length"
+          :likes="moment.likes"
           :ifLiked="moment.ifLiked"
+          @liked="handleLiked"
         ></moment-cell>
       </li>
     </ul>
@@ -25,12 +26,28 @@ export default {
     'moment-cell': MomentCell
   },
   props: {
-    moments: {
+    value: {
       type: Array,
       default: []
     }
   },
+  computed: {
+    moments () {
+      return this.value
+    }
+  },
   created () {
+  },
+  methods: {
+    handleLiked (id) {
+      for (let i = 0; i < this.moments.length; i++) {
+        if (this.moments[i].id === id) {
+          this.moments[i].likes.push(parseInt(this.$store.state.MeState.uid))
+          this.moments[i].ifLiked = true
+        }
+      }
+      this.$emit('input', this.moments)
+    }
   }
 }
 </script>

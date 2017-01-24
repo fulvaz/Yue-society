@@ -90,7 +90,8 @@ export default {
         content: this.content,
         imgs: this.imgs,
         date: utils.date2YMDHMM((new Date()).toString()),
-        likes: []
+        likes: [],
+        ifLiked: false
       }
       this.$validator.validateAll().then(success => {
         if (!success) return

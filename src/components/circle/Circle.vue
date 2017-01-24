@@ -22,7 +22,7 @@
       <tab-container v-model="tabActive">
 
         <tab-container-item id="动态" class="post-container" >
-          <moment :moments="moments">
+          <moment v-model="moments">
           </moment>
         </tab-container-item>
 
@@ -91,7 +91,7 @@
         api.getCircleInfo(this.$route.params.id),
         api.getCircleMoments(this.$route.params.id),
         api.getCircleActivity(this.$route.params.id, this.actPage, 10),
-        api.wxAuth(['chooseImage', 'uploadImage'])
+        api.wxAuth(['chooseImage', 'uploadImage', 'previewImage'])
       ]).then(result => {
         this.closeIndicator()
         let remoteData = utils.response2Data(result[0])

@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="fz-cover-image" :style="style">
+  <div class="fz-cover-image" :style="style" @click="handleClick">
 
   </div>
 </template>
@@ -18,6 +18,11 @@ export default {
     //   type: String,
     //   default: '33.33vw'
     // }
+  },
+  methods: {
+    handleClick () {
+      this.$emit('click', this.img)
+    }
   },
   computed: {
     style () {

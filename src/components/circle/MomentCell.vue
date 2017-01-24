@@ -7,20 +7,20 @@
       <div class="imgs">
         <grid>
           <grid-item v-for="img in imgs">
-            <cover-img :img="img"></cover-img>
+            <cover-img :img="img" @click="previewImage"></cover-img>
           </grid-item>
         </grid>
       </div>
       <div class="last-row">
         <span class="date">{{date}}</span>
         <!-- 已经点赞 -->
-        <el-button v-if="liked" class="like-btn">
+        <el-button v-if="ifLiked" class="like-btn" @click="">
           <icon name="heart" class="icon-like"></icon>
-          <span>{{likes}}</span>
+          <span>{{likes.length}}</span>
         </el-button>
         <el-button v-else class="like-btn" @click="handleLike">
           <icon name="heart-o" class="icon-like"></icon>
-          <span>{{likes}}</span>
+          <span>{{likes.length}}</span>
         </el-button>
       </div>
     </div>
@@ -54,28 +54,30 @@ export default {
         return []
       }
     },
-    likes: Number,
+    likes: Array,
     ifLiked: Boolean,
     date: String
   },
   data () {
     return {
-      liked: false
     }
   },
-  created () {
+  updated () {
     // 这样会让数据变得不响应
-    this.liked = this.ifLiked
   },
   methods: {
+    previewImage (src) {
+      api.wxPreviewImage(src, this.imgs)
+    },
     handleLike () {
       let data = {
         uid: this.$store.state.MeState.uid,
         momentId: this.id
       }
       api.likeMoment(data).then(e => {
-        this.liked = true
+        this.$emit('liked', this.id)
       }).catch(e => {
+        console.error(e)
         this.toast(this.$text.LIKE_MOMENT_FAILED)
       })
     }
