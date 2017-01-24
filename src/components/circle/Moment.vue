@@ -10,7 +10,7 @@
           :content="moment.content"
           :imgs="moment.imgs"
           :date="moment.date"
-          :likes="moment.likes"
+          :likes="moment.likes.length"
           :ifLiked="moment.ifLiked"
         ></moment-cell>
       </li>

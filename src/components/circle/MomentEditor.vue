@@ -78,8 +78,10 @@ export default {
         content: this.content,
         uid: this.$store.state.MeState.uid,
         circleId: parseInt(this.$route.params.id),
-        // date: (new Date()).toString(),
-        imgServerIds: this.serverIds
+        imgServerIds: this.serverIds,
+        // debug
+        likes: [],
+        date: (new Date()).toString()
       }
       let momentDisplay = {
         uid: this.$store.state.MeState.uid,
@@ -87,7 +89,8 @@ export default {
         nickname: this.$store.state.MeState.nickname,
         content: this.content,
         imgs: this.imgs,
-        date: (new Date()).toString()
+        date: utils.date2YMDHMM((new Date()).toString()),
+        likes: []
       }
       this.$validator.validateAll().then(success => {
         if (!success) return

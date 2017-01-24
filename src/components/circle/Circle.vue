@@ -90,7 +90,7 @@
       Promise.all([
         api.getCircleInfo(this.$route.params.id),
         api.getCircleMoments(this.$route.params.id),
-        api.getCircleActivity(this.$route.params.id),
+        api.getCircleActivity(this.$route.params.id, this.actPage, 10),
         api.wxAuth(['chooseImage', 'uploadImage'])
       ]).then(result => {
         this.closeIndicator()
