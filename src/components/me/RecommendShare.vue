@@ -12,7 +12,7 @@
       <img :src="qrcode" class="qr-code-img">
     </section>
     <div class="text">
-      <p>长按二维码分享</p>
+      <p>长按二维码加入月正圆</p>
     </div>
     <!-- <div class="btns">
       <el-button class="share-btn" type="primary">
