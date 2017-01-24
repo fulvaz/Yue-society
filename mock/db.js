@@ -607,7 +607,7 @@ module.exports = function() {
 				nickname: f.internet.userName(),
 				uid: i,
 				content: f.lorem.sentences(),
-				likes: r(10, 30),
+				likes: [0, 1, 2, 3, 4, 5, 6, 7, 8],
 				ifLiked: r(0, 1) ? true : false,
 				imgs: img,
 				date: f.date.recent()

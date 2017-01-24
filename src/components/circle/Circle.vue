@@ -86,7 +86,7 @@
       'join-msg-edior': JoinMsgEditor
     },
     created () {
-      // this.openIndicator()
+      this.openIndicator()
       Promise.all([
         api.getCircleInfo(this.$route.params.id),
         api.getCircleMoments(this.$route.params.id),
@@ -102,15 +102,16 @@
         this.CService = remoteData.CServiceId
 
         this.moments = utils.response2Data(result[1])
-        this.moments.map(e => {
+        this.moments = this.moments.map(e => {
           e.date = utils.date2YMDHMM(e.date)
+          return e
         })
+        console.log(this.moments)
         this.activities = utils.response2Data(result[2])
         // this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
       }).catch(response => {
         this.closeIndicator()
-        // this.handleFailWithCode(response.status, response.statusText)
-        this.handleFatelErr()
+        this.handleFatalErr()
         console.error(response)
       })
       this.tabActive = '活动' // 导航页切换到第一页
