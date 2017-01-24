@@ -12,11 +12,11 @@
       <img :src="qrcode" class="qr-code-img">
     </section>
     <div class="btns">
-      <el-button class="share-btn" type="primary" @click="handleShareCircle">
+      <el-button class="share-btn" type="primary" @click="handleShare">
         <icon class="btn-icon" name="wx-friends"></icon>
         <span>分享给好友</span>
       </el-button>
-      <el-button class="share-btn" type="primary">
+      <el-button class="share-btn" type="primary" @click="handleShare">
         <icon class="btn-icon" name="wx-circle"></icon>
         <span>分享到朋友圈</span>
       </el-button>
@@ -57,10 +57,7 @@ export default {
     }
   },
   methods: {
-    handleShareCircle () {
-      this.toast('请点击右上角分享')
-    },
-    handleShareFriend () {
+    handleShare () {
       this.toast('请点击右上角分享')
     }
   },
