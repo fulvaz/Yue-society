@@ -27,7 +27,7 @@
       :errMsg="errors.first('sex')"
     ></fz-single-picker> -->
     <radio :options="sexOptions" label="性别" v-model="sex" class="field"></radio>
-    <address-picker label="出生地" v-model="location" class="field"
+    <address-picker label="居住地" v-model="location" class="field"
       v-validate="location"
       data-vv-rules="required"
       data-vv-name="location"
@@ -144,8 +144,10 @@
       'fz-datepicker': DataPicker
     },
     created () {
-      // hide tabbar
+      // hide tabbar 同时还要将#app的margin-bottom去掉. 用overflow: scroll影响渲染
       this.$root.$refs.tabbar.hide()
+      this.$root.$el.style.marginBottom = '0'
+
       this.openIndicator()
       api.getReg().then(response => {
         let data = utils.response2Data(response)
@@ -189,7 +191,7 @@
       send () {
         this.openIndicator()
         this.$validator.validateAll().then(success => {
-          if (success) {
+          if (!success) {
             let data = {
               uid: this.uid,
               sex: parseInt(this.sex),

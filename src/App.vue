@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <div class="router-view">
+    <!-- <div class="router-view"> -->
       <router-view></router-view>
-    </div>
+    <!-- </div> -->
     <tabbar class="tab" ref="tabbar">
       <tabbar-item :to="'/'" :label="'首页'" :id="0" :isSelected="true">
         <icon slot="icon" class="fa-icon" aria-hidden="true" name="home"></icon>
@@ -68,15 +68,19 @@ export default {
   }
 
   #app {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+    // height: calc(100vh + 53px);
+    margin-bottom: 53px;
+    // display: flex;
+    // flex-direction: column;
     .router-view {
       flex: 1 1 calc(100vh - 53px);
-      min-height: calc(100vh - 53px);
+      height: calc(100vh - 53px);
       // margin-bottom: 53px;
-      overflow-x: hidden;
+      // overflow-x: hidden;
+      // overflow-y: scroll;
       overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+      z-index:1;
     }
 
     .tab {
@@ -97,6 +101,7 @@ export default {
     }
   }
 
+  // 全局css
   input {
     border: none;
     resize: none;

@@ -3,10 +3,12 @@
     <div class="wrapper">
       <label class="label" for="select">{{required ? label + ' *' : label}}</label>
       <div class="input">
-        <!-- <input type="text" :value="value" @blur="handleChange" :class="{error: hasError}" :placeholder="placeholder" :disabled="disabled" :readonly="readonly"> -->
-        <img v-show="avatar.length !== 0"  class="uploaded-img" :src="avatar" @click="handleAvatarUpload">
-        <img v-show="avatar.length === 0" class="uploaded-img" src="static/plus.png" @click="handleAvatarUpload">
-        <!-- <button type="button" name="button" class="upload-btn" @click="handleAvatarUpload">上传头像</button> -->
+        <div class="uploaded-img" v-show="avatar.length !== 0">
+          <img-cover :img="avatar" @click="handleAvatarUpload"></img-cover>
+        </div>
+        <div class="uploaded-img" v-show="avatar.length === 0">
+          <img-cover img="static/plus.png" @click="handleAvatarUpload"></img-cover>
+        </div>
         <div class="append">
           <slot></slot>
         </div>
@@ -21,6 +23,7 @@
 // 依赖 vee-validate
 // import * as utils from '../../utils/utils.js'
 import * as api from '../../api/index.js'
+import ImgCover from '../common/ImageCover'
 export default {
   props: {
     readonly: {
@@ -54,6 +57,9 @@ export default {
       _avatarTmp: ''
     }
   },
+  components: {
+    'img-cover': ImgCover
+  },
   methods: {
     // 要求字段名为 avatar
     handleAvatarUpload () {
@@ -64,13 +70,14 @@ export default {
         this._avatarTmp = res.localIds[0]
         return api.wxUploadImage(res.localIds[0])
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         return api.uploadAvatarId({serverId: res.serverId})
       }).then(res => {
-        this.handleSuccess('UPLOAD_IMAGE_SUCCES')
+        this.closeIndicator()
         this.avatar = this._avatarTmp
         this.$emit('input', this.avatar) // vee-validate 验证需要input事件
       }).catch(res => {
+        this.closeIndicator()
         this.handleAllFail(res)
       })
     }
@@ -128,7 +135,7 @@ export default {
       }
 
       .uploaded-img {
-        display: block;
+        // display: block;
         // background-color: $global-background-color;
         background-color: #eee;
         width: 100px;

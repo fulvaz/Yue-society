@@ -100,6 +100,7 @@ function handleFailWithCode (status, statusText) {
 }
 
 function handleAllFail (res) {
+  closeIndicator()
   let status = '4000'
   let text = '未知错误'
   // HTTP Err

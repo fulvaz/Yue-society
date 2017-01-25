@@ -172,7 +172,7 @@ router.beforeEach((to, from, next) => {
       setTimeout(e => {
         // 只在生产环境做这样的错误处理
         if (process.env.NODE_ENV === 'production') window.location.reload()
-      }, 5000)
+      }, 2000)
     })
   }
 

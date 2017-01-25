@@ -74,8 +74,8 @@ export default {
         uid: this.$store.state.MeState.uid,
         momentId: this.id
       }
+      this.$emit('liked', this.id)
       api.likeMoment(data).then(e => {
-        this.$emit('liked', this.id)
       }).catch(e => {
         console.error(e)
         this.toast(this.$text.LIKE_MOMENT_FAILED)
