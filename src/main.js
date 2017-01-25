@@ -3,7 +3,7 @@ import App from './App'
 import Router from 'vue-router'
 import VueResource from 'vue-resource'
 import VueLazyload from 'vue-lazyload'
-import InfiniteScroll from 'vue-infinite-scroll'
+import {InfiniteScroll} from 'mint-ui'
 import Vuex from 'vuex'
 import VeeValidate from 'vee-validate'
 
@@ -16,13 +16,15 @@ import TextResouce from './plugin/Text.js'
 // 组件
 // 必须加载
 import Index from 'components/Index'
-import Registry from 'components/user/Registry'
+const Registry = resolve => require(['components/user/Registry'], resolve)
+// import Registry from 'components/user/Registry'
 import Auth from 'components/Auth'
 
 const CircleIndex = resolve => require(['components/circle/Index'], resolve)
 const Circle = resolve => require(['components/circle/Circle'], resolve)
 const CircleMember = resolve => require(['components/circle/MemberList'], resolve)
-import Activity from 'components/circle/Activity'
+const Activity = resolve => require(['components/circle/Activity'], resolve)
+// import Activity from 'components/circle/Activity'
 // import CircleIndex from 'components/circle/Index'
 // import Circle from 'components/circle/Circle'
 // import CircleMember from 'components/circle/MemberList'
@@ -92,7 +94,7 @@ import * as utils from './utils/utils.js'
 import config from './config/setting.js'
 
 // import element ui
-import 'element-ui/lib/theme-default/index.css'
+// import 'element-ui/lib/theme-default/index.css'
 import {Button, Radio, RadioGroup} from 'element-ui'
 Vue.component(Button.name, Button)
 Vue.component(Radio.name, Radio)
@@ -142,9 +144,9 @@ Vue.use(TextResouce)
 // console.log(require('../static/setting.js'))
 
 // input css resources
-require('vue-swipe/dist/vue-swipe.css')
+// require('vue-swipe/dist/vue-swipe.css')
 require('./assets/mt-style.css')
-require('cropperjs/dist/cropper.min.css')
+// require('cropperjs/dist/cropper.min.css')
 
 const routes = [
   // 首页 必须加载的块

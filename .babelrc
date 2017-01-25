@@ -4,6 +4,10 @@
     {
       "libraryName": "element-ui",
       "styleLibraryName": "theme-default"
+    },
+    {
+      "libraryName": "mint-ui",
+      "style": true
     }
   ]]],
   "comments": false
