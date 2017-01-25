@@ -191,7 +191,7 @@
       send () {
         this.openIndicator()
         this.$validator.validateAll().then(success => {
-          if (!success) {
+          if (success) {
             let data = {
               uid: this.uid,
               sex: parseInt(this.sex),
