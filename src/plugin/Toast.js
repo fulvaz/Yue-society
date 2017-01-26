@@ -106,7 +106,7 @@ function handleAllFail (res) {
   // HTTP Err
   if (res.status !== undefined) status = res.status
   if (res.statusText !== undefined) text = res.statusText
-  if (res instanceof Error) {
+  if (res instanceof Error && !res.statusText) {
     text = res.toString()
     console.error(res)
   }

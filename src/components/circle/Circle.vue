@@ -15,8 +15,8 @@
     </header>
     <section class="main">
       <nav-bar v-model="tabActive" class="navbar">
-        <tab-item id="活动" class="navbar-item">活动</tab-item>
         <tab-item id="动态" class="navbar-item">动态</tab-item>
+        <tab-item id="活动" class="navbar-item">活动</tab-item>
       </nav-bar>
 
       <tab-container v-model="tabActive">
@@ -114,7 +114,7 @@
         this.handleFatalErr()
         console.error(response)
       })
-      this.tabActive = '活动' // 导航页切换到第一页
+      this.tabActive = '动态' // 导航页切换到第一页
     },
     computed: {
       postsWithCategory () {

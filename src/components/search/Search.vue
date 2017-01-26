@@ -23,9 +23,7 @@ export default {
     }
   },
   created () {
-    api.fetchMeInfo().then(res => {
-      this.me = utils.response2Data(res)
-    })
+
   },
   computed: {
     // resultDisplay () {
@@ -56,9 +54,13 @@ export default {
       this.openIndicator()
       api.searchUsers(data).then(res => {
         this.closeIndicator()
-        this.users = utils.response2Data(res)
+        let remoteData = utils.response2Data(res)
+        if (remoteData.length === 0) {
+          this.toast(this.$text.SEARCH_EMPTY)
+        }
+        this.users = remoteData
       }).catch(e => {
-        this.handleFailWithCode(e.status, e.statusText)
+        this.handleAllFail(e)
       })
     }
   }

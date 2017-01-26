@@ -16,7 +16,7 @@
           </mt-tab-container-item>
           <mt-tab-container-item id="tab-circleRecommend">
             <circle-list-detailed :circle="recCircleDisplay"></circle-list-detailed>
-            <load-more-btn @click.native="fetchCircleRecommend"></load-more-btn>
+            <load-more-btn @click.native="fetchCircleRecommend" :show="circleRecLoadMoreBtnShow"></load-more-btn>
           </mt-tab-container-item>
           <mt-tab-container-item id="tab-circleSearch">
             <fz-search></fz-search>
@@ -45,14 +45,15 @@
         myCircles: [],
         active: 'tab-circleRecommend',
         circleRecommendPage: 0,
-        myCirclesPage: 0
+        myCirclesPage: 0,
+        circleRecLoadMoreBtnShow: true
       }
     },
     computed: {
       recCircleDisplay () {
         return this.circleRecommend.map(e => {
           let tags = e.tags
-          if (e.ifHot) tags.push('热门圈子')
+          if (e.ifHot && tags.indexOf('热门圈子') === -1) tags.push('热门圈子')
 
           let obj = {
             id: e.id,
@@ -100,7 +101,15 @@
       fetchCircleRecommend () {
         api.fetchCircleRecommend(this.circleRecommendPage++, 10).then(res => {
           let remoteData = utils.response2Data(res)
+          if (remoteData.length === 0) {
+            let err = new Error()
+            err.status = ''
+            err.statusText = this.$text.NO_NEW_DATA
+            throw err
+          }
           this.circleRecommend = this.circleRecommend.concat(remoteData)
+        }).catch(res => {
+          this.handleAllFail(res)
         })
       },
       fetchMyCircle () {

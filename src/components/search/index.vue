@@ -90,7 +90,8 @@ export default {
         if (data.length === 0) {
           let err = new Error()
           err.status = ''
-          err.statusText = '没有新内容了'
+          err.statusText = this.$text.NO_NEW_DATA
+          this.loadRecentLoginBtnShow = false
           throw err
         }
       }).catch(res => {
@@ -105,8 +106,9 @@ export default {
         this.recentReg = this.recentReg.concat(data)
         if (data.length === 0) {
           let err = new Error()
+          this.loadRecentRegBtnShow = false
           err.status = ''
-          err.statusText = '没有新内容了'
+          err.statusText = this.$text.NO_NEW_DATA
           throw err
         }
       }).catch(res => {
@@ -121,8 +123,9 @@ export default {
         this.userRecommend = this.userRecommend.concat(data)
         if (data.length === 0) {
           let err = new Error()
+          this.loadUserRecommendBtnShow = false
           err.status = ''
-          err.statusText = '没有新内容了'
+          err.statusText = this.$text.NO_NEW_DATA
           throw err
         }
       }).catch(res => {

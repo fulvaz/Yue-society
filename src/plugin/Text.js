@@ -4,7 +4,9 @@ export let text = {
   shareTitle: '月正圆',
   shareDesc: '爱情导航',
   NEW_MOMENT_SUCCESS: '发布动态成功',
-  LIKE_MOMENT_FAILED: '请重新点赞'
+  LIKE_MOMENT_FAILED: '请重新点赞',
+  NO_NEW_DATA: '没有新数据了',
+  SEARCH_EMPTY: '找不到您所需要的结果'
 }
 
 export let errMsg = {

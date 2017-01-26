@@ -25,8 +25,7 @@ export default {
     resultDisplay () {
       return this.result.map(e => {
         let tags = e.tags
-        if (e.ifHot) tags.push('热门圈子')
-
+        if (e.ifHot && tags.indexOf('热门圈子') === -1) tags.push('热门圈子')
         let obj = {
           id: e.id,
           name: e.name,
@@ -44,7 +43,12 @@ export default {
       this.openIndicator()
       api.searchCircles({query}).then(res => {
         this.closeIndicator()
-        this.result = utils.response2Data(res)
+        let data = utils.response2Data(res)
+        console.log(data)
+        this.result = data
+        if (data.length === 0) {
+          this.toast(this.$text.SEARCH_EMPTY)
+        }
       }).catch(e => {
         this.handleFailWithCode(e.status, e.statusText)
       })

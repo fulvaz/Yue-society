@@ -132,6 +132,13 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      .col-1 {
+        height: 14px;
+        overflow: hidden;
+        .nickname {
+          line-height: 1em;
+        }
+      }
       div {
         display: flex;
         align-items: baseline;
