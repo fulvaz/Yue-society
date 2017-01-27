@@ -184,8 +184,8 @@
       })
     },
     beforeDestroy () {
-      // 这是个单页应用, 改了全局变量就改回去
-      console.log(this.$root.$refs.tabbar.open())
+      this.$root.$refs.tabbar.open()
+      this.$root.$el.style.marginBottom = '53px'  // 这是个单页应用, 改了全局变量就改回去
     },
     methods: {
       send () {
