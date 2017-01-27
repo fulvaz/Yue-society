@@ -1,9 +1,15 @@
 <template lang="html">
-  <button type="button" name="button" class="btn-load-more">点击加载更多</button>
+  <button v-show="show" type="button" name="button" class="btn-load-more">点击加载更多</button>
 </template>
 
 <script>
 export default {
+  props: {
+    show: {
+      type: Boolean,
+      default: true
+    }
+  }
 }
 </script>
 

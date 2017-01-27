@@ -30,7 +30,8 @@
               </list>
             </mt-tab-container-item>
             <mt-tab-container-item id="tab-userRecommend" class="tab-container-item tab-userRecommend">
-              <streamer :items="userRecommend" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10"></streamer>
+              <streamer :items="userRecommend"></streamer>
+              <load-more-btn @click.native="loadMore"></load-more-btn>
             </mt-tab-container-item>
           </mt-tab-container>
         </section>
@@ -63,6 +64,7 @@
     },
     created () {
       this.fetchData()
+      this.fetchUserRecommend()
     },
     data () {
       return {
@@ -73,6 +75,7 @@
         activityRecommendPage: 0,
         userRecommend: [],
         busy: false,
+        busyIndicatorShow: false,
         page: 0,
         active: 'tab-userRecommend'
       }
@@ -120,15 +123,25 @@
         })
       },
       fetchCircleRecommend () {
+        this.openIndicator()
         api.fetchCircleRecommend(this.circleRecommendPage++, 10).then((res) => {
+          this.closeIndicator()
           let data = utils.response2Data(res)
+          if (data.length === 0) {
+            let err = new Error()
+            err.status = ''
+            err.statusText = this.$text.NO_NEW_DATA
+            throw err
+          }
           this.circleRecommend = this.circleRecommend.concat(data)
         }).catch((e) => {
-          console.error(e)
+          this.handleAllFail(e)
         })
       },
       fetchActivitiesRecommend () {
-        api.fetchActivitiesRecommend(this.activityRecommendPage++, 10).then((response) => {
+        this.openIndicator()
+        api.fetchActivitiesRecommend(this.activityRecommendPage++, 12).then((response) => {
+          this.closeIndicator()
           let tmp = response.map((e) => {
             e['contentTitle'] = e.name
             e['contentSubtitle'] = e.location
@@ -142,14 +155,15 @@
         })
       },
       fetchUserRecommend: function () {
+        this.openIndicator()
         api.fetchUserRecommend(this.page++, 12).then((response) => {
+          this.closeIndicator()
           // 遇到空数据就返回空
           if (response.length === 0) {
-            this.busy = true
-            setTimeout(e => {
-              this.busy = false
-            }, 5000) // 收到了空数据则5秒后重试
-            return
+            let err = new Error()
+            err.status = ''
+            err.statusText = this.$text.NO_NEW_DATA
+            throw err
           }
           // 处理一个新旧api切换的小问题
           response = response.map(e => {
@@ -159,11 +173,11 @@
           this.userRecommend = this.userRecommend.concat(response)
           this.busy = false
         }).catch((err) => {
-          console.error(err)
+          this.handleAllFail(err)
         })
       },
       loadMore () {
-        this.busy = true
+        this.busyIndicatorShow = true
         this.fetchUserRecommend()
       }
     },

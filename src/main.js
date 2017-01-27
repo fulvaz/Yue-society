@@ -3,55 +3,98 @@ import App from './App'
 import Router from 'vue-router'
 import VueResource from 'vue-resource'
 import VueLazyload from 'vue-lazyload'
-import InfiniteScroll from 'vue-infinite-scroll'
+import {InfiniteScroll} from 'mint-ui'
 import Vuex from 'vuex'
 import VeeValidate from 'vee-validate'
+
+// 自定义依赖
 import localeMsg from './utils/zh_CN.js'
 import localAttr from './utils/zh_CN_attr.js'
 import Toast from './plugin/Toast.js'
 import TextResouce from './plugin/Text.js'
 
+// 组件
+// 必须加载
 import Index from 'components/Index'
-import CircleIndex from 'components/circle/Index'
-import Circle from 'components/circle/Circle'
-import CircleMember from 'components/circle/MemberList'
-import Registry from 'components/user/Registry'
-import MeIndex from 'components/me/Index'
-import MeInfo from 'components/me/Info'
-import Test from 'components/Test'
-import MeSpouse from 'components/me/Spouse'
-import Post from 'components/posts/Post'
+const Registry = resolve => require(['components/user/Registry'], resolve)
+// import Registry from 'components/user/Registry'
 import Auth from 'components/Auth'
-import SearchIndex from 'components/search/index'
-import Search from 'components/search/search'
-import SearchResult from 'components/search/result'
-import Tag from 'components/search/tag'
-import MessageList from 'components/message/index'
-import Chat from 'components/message/chat.vue'
-import Looked from 'components/me/Looked'
-import Focused from 'components/me/Focused'
-import Deposite from 'components/me/Deposite'
-import Recommend from 'components/me/Recommend'
-import MeAlbum from 'components/me/Album'
-import MeAppointed from 'components/me/Appointed'
-import BuyCircle from 'components/me/BuyCircle'
-import User from 'components/user/User'
-import Activity from 'components/circle/Activity'
-import WhomIFocus from 'components/me/WhomIFocus'
-import Service from 'components/me/Services'
-import Appointment from 'components/me/Appointment'
-import ActivitiesJoined from 'components/me/ActivitiesJoined'
-import ConsumeHistory from 'components/me/ConsumeHistory'
-import AppointmentRequest from 'components/user/Appointment'
-import Demo from 'components/Demo'
-import Share from 'components/me/RecommendShare'
+
+const CircleIndex = resolve => require(['components/circle/Index'], resolve)
+const Circle = resolve => require(['components/circle/Circle'], resolve)
+const CircleMember = resolve => require(['components/circle/MemberList'], resolve)
+const Activity = resolve => require(['components/circle/Activity'], resolve)
+// import Activity from 'components/circle/Activity'
+// import CircleIndex from 'components/circle/Index'
+// import Circle from 'components/circle/Circle'
+// import CircleMember from 'components/circle/MemberList'
+// 我
+const MeIndex = resolve => require(['components/me/Index'], resolve)
+const MeInfo = resolve => require(['components/me/Info'], resolve)
+// import MeIndex from 'components/me/Index'
+// import MeInfo from 'components/me/Info'
+const MeSpouse = resolve => require(['components/me/Spouse'], resolve)
+const Looked = resolve => require(['components/me/Looked'], resolve)
+const Focused = resolve => require(['components/me/Focused'], resolve)
+const Deposite = resolve => require(['components/me/Deposite'], resolve)
+const Recommend = resolve => require(['components/me/Recommend'], resolve)
+const MeAlbum = resolve => require(['components/me/Album'], resolve)
+const MeAppointed = resolve => require(['components/me/Appointed'], resolve)
+const BuyCircle = resolve => require(['components/me/BuyCircle'], resolve)
+const Appointment = resolve => require(['components/me/Appointment'], resolve)
+const Service = resolve => require(['components/me/Services'], resolve)
+const WhomIFocus = resolve => require(['components/me/WhomIFocus'], resolve)
+const ActivitiesJoined = resolve => require(['components/me/ActivitiesJoined'], resolve)
+const Share = resolve => require(['components/me/RecommendShare'], resolve)
+// import MeSpouse from 'components/me/Spouse'
+// import Looked from 'components/me/Looked'
+// import Focused from 'components/me/Focused'
+// import Deposite from 'components/me/Deposite'
+// import Recommend from 'components/me/Recommend'
+// import MeAlbum from 'components/me/Album'
+// import MeAppointed from 'components/me/Appointed'
+// import BuyCircle from 'components/me/BuyCircle'
+// import Appointment from 'components/me/Appointment'
+// import Service from 'components/me/Services'
+// import WhomIFocus from 'components/me/WhomIFocus'
+// import ActivitiesJoined from 'components/me/ActivitiesJoined'
+// import Share from 'components/me/RecommendShare'
+
+// 搜索
+const SearchIndex = resolve => require(['components/search/index'], resolve)
+const Search = resolve => require(['components/search/search'], resolve)
+const SearchResult = resolve => require(['components/search/result'], resolve)
+const Tag = resolve => require(['components/search/tag'], resolve)
+// import SearchIndex from 'components/search/index'
+// import Search from 'components/search/search'
+// import SearchResult from 'components/search/result'
+// import Tag from 'components/search/tag'
+
+// 信息
+const MessageList = resolve => require(['components/message/index'], resolve)
+const Chat = resolve => require(['components/message/chat.vue'], resolve)
+// import MessageList from 'components/message/index'
+// import Chat from 'components/message/chat.vue'
+
+// 其他
+const User = resolve => require(['components/user/User'], resolve)
+const ConsumeHistory = resolve => require(['components/me/ConsumeHistory'], resolve)
+const AppointmentRequest = resolve => require(['components/user/Appointment'], resolve)
+// import User from 'components/user/User'
+// import ConsumeHistory from 'components/me/ConsumeHistory'
+// import AppointmentRequest from 'components/user/Appointment'
+
+// 还不需要的组件
+// import Test from 'components/Test'
+// import Demo from 'components/Demo'
+// import Post from 'components/posts/Post'
 
 import store from './store/index.js'
 import * as utils from './utils/utils.js'
 import config from './config/setting.js'
 
 // import element ui
-import 'element-ui/lib/theme-default/index.css'
+// import 'element-ui/lib/theme-default/index.css'
 import {Button, Radio, RadioGroup} from 'element-ui'
 Vue.component(Button.name, Button)
 Vue.component(Radio.name, Radio)
@@ -101,18 +144,24 @@ Vue.use(TextResouce)
 // console.log(require('../static/setting.js'))
 
 // input css resources
-require('vue-swipe/dist/vue-swipe.css')
+// require('vue-swipe/dist/vue-swipe.css')
 require('./assets/mt-style.css')
-require('cropperjs/dist/cropper.min.css')
+// require('cropperjs/dist/cropper.min.css')
 
 const routes = [
+  // 首页 必须加载的块
   {path: '/', component: Index},
   {path: '/index', component: Index},
+  {path: '/auth', component: Auth},
+  {path: '/reg', component: Registry}, //
+
+  // 圈子
   {path: '/circle', component: CircleIndex}, // "我的圈子"首页
   {path: '/circles/:id', component: Circle},
   {path: '/circles/:id/member', component: CircleMember},
   {path: '/circles', component: CircleIndex}, // 返回全部圈子, 可以分类 可以搜索
-  {path: '/reg', component: Registry}, //
+
+  // 我
   {path: '/me', component: MeIndex}, // 我的 页面
   {path: '/me/info', component: MeInfo}, // 我的 页面
   {path: '/me/spouse', component: MeSpouse}, // 我的 页面
@@ -128,21 +177,25 @@ const routes = [
   {path: '/me/service', component: Service},
   {path: '/me/buyCircle/:id', component: BuyCircle},
   {path: '/me/appointed', component: MeAppointed},
-  {path: '/test', component: Test},
-  {path: '/posts/:id', component: Post},
-  {path: '/auth', component: Auth},
+
+  // 搜索
   {path: '/search/', component: SearchIndex},
   {path: '/search/users', component: Search},
   {path: '/search/users/:query', component: SearchResult},
+
+  // 信息
   {path: '/message', component: MessageList},
   {path: '/message/chat/:uid', component: Chat},
+
+  // 其他
   {path: '/users/appointment/:uid', component: AppointmentRequest},
   {path: '/users/:uid', component: User},
   {path: '/tags/:tag', component: Tag},
-  {path: '/demo', component: Demo},
   {path: '/activities/:id', component: Activity},
-  // 以下路径不检查权限
   {path: '/me/wxShare/:qrcode', component: Share}
+  // {path: '/test', component: Test},
+  // {path: '/posts/:id', component: Post},
+  // {path: '/demo', component: Demo},
 ]
 
 const router = new Router({

@@ -61,6 +61,8 @@
             width: 100%;
             line-height: 14px;
             text-align: center;
+            height: 1em;
+            overflow: hidden;
 
             .name {
                 font-size: $description-size;
