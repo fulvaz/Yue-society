@@ -289,7 +289,7 @@ let vue = new Vue({
 })
 
 // if (process.env.NODE_ENV === 'development') {
-//   document.write('<script src="http://app.yuezhengyuan.com:8080/target/target-script-min.js#anonymous"></script>')
+//   document.write('<script src="http://test.com:8080/target/target-script-min.js#anonymous"></script>')
 // }
 
 export default vue

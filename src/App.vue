@@ -69,6 +69,7 @@ export default {
 
   #app {
     // height: calc(100vh + 53px);
+    overflow-x: hidden;
     margin-bottom: 53px;
     // display: flex;
     // flex-direction: column;
