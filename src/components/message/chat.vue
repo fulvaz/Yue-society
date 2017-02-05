@@ -5,7 +5,7 @@
       <button class="send-btn" @click="replyMsg" :disabled="ifNull">发送</button>
     </div>
     <ul>
-      <li class="msg" v-for="msg in msgs.slice(0, 4)">
+      <li class="msg" v-for="msg in msgs">
         <send-bubble v-if="ifFromMe(msg.from.id)" :date="date2YMDHMM(msg.date)" :content="msg.content" :from="msg.from" :to="msg.to"></send-bubble>
         <receive-bubble v-else :date="date2YMDHMM(msg.date)" :content="msg.content" :from="msg.from" :to="msg.to"></receive-bubble>
       </li>

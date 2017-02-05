@@ -2,7 +2,9 @@
   <div class="bubbel-container">
     <p class="date">{{date}}</p>
     <section class="msg">
-      <img :src="from.avatar" alt="from.nickname" class="avatar">
+      <router-link class="avatar" :to="`/users/${from.id}`">
+        <img :src="from.avatar" alt="from.nickname">
+      </router-link>
       <div class="content">
         <p>{{content}}</p>
       </div>
