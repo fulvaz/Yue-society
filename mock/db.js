@@ -667,7 +667,7 @@ module.exports = function() {
     uid:1,
     nickname:"hei",
     avatar: f.image.avatar(),
-    location:"广东-广州",
+    location:"地球啊",
 		recommenderMobile: 1234,
 		recommenderName: 'hihi',
     userType:

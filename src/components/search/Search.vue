@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="circle-search-container">
     <search-bar @search="handleSearch" v-model="query"></search-bar>
-    <user-list :users="users"></user-list>
+    <user-list :users="users" :me="me"></user-list>
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
     }
   },
   created () {
-
+    this.me = this.$store.state.MeState
   },
   computed: {
     // resultDisplay () {
@@ -67,5 +67,9 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  @import "../../assets/index.scss";
+  .circle-search-container {
+    background-color: $global-background-color;
+  }
 </style>

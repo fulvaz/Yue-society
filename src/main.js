@@ -96,12 +96,13 @@ import config from './config/setting.js'
 // import element ui
 // import 'element-ui/lib/theme-default/index.css'
 import {Button, Radio, RadioGroup} from 'element-ui'
+import Icon from 'vue-awesome/components/Icon.vue'
 Vue.component(Button.name, Button)
 Vue.component(Radio.name, Radio)
 Vue.component(RadioGroup.name, RadioGroup)
+Vue.component('fa-icon', Icon)
 
 // register custom icon
-import Icon from 'vue-awesome/components/Icon.vue'
 Icon.register({
   'wx-circle': {
     width: 100,

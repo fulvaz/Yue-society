@@ -133,7 +133,7 @@ export default {
       justify-content: space-between;
       align-items: baseline;
       .col-1 {
-        height: 14px;
+        height: 1.3em;
         overflow: hidden;
         .nickname {
           line-height: 1em;
