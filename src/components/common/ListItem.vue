@@ -1,6 +1,8 @@
 <template>
   <div class="list-item">
-    <img class="logo" :src="logo" >
+    <router-link :to="link" class="logo" >
+      <img-cover :img="logo" >
+    </router-link>
     <div class="main">
       <h2 class="content-title">{{contentTitle}}</h2>
       <h3 class="content-subtitle">{{contentSubtitle}}</h3>
@@ -9,15 +11,20 @@
 </template>
 
 <script>
-   export default {
-     props: {
-       'logo': '',
-       'content-title': '',
-       'content-subtitle': ''
-     },
-     computed: {
-     }
-   }
+  import ImgCover from '../common/ImageCover'
+  export default {
+    components: {
+      'img-cover': ImgCover
+    },
+    props: {
+      'link': '',
+      'logo': '',
+      'content-title': '',
+      'content-subtitle': ''
+    },
+    computed: {
+    }
+  }
 </script>
 
 <style scoped lang="scss">

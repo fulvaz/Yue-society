@@ -3,7 +3,7 @@
     <list title="私信" class="message-list">
       <li class="message" v-for="msg in msgList" @click="resetCount(msg.uid)">
         <router-link :to="'/message/chat/' + msg.uid">
-          <list-item :logo="msg.avatar" :content-title="msg.nickname" :content-subtitle="msg.lastMsg"></list-item>
+          <list-item :logo="msg.avatar" :content-title="msg.nickname" :content-subtitle="msg.lastMsg" :link="`/users/${msg.uid}`"></list-item>
         </router-link>
         <mt-badge color="#fe6431" size="small" class="badge" v-if="msg.unread > 0">{{msg.unread}}</mt-badge>
       </li>
