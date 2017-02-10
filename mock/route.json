@@ -9,5 +9,6 @@
   "/users/1001/meeting": "/appointmentPage",
   "/right/:id": "/right",
   "/circleDetail/test": "/circleDetail",
-  "/moments/0": "/moments"
+  "/moments/0": "/moments",
+  "/moments/1": "/moments"
 }

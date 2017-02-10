@@ -1,9 +1,10 @@
 <template>
   <div class="container">
     <div class="btn-fixed">
-      <button class="btn-post" v-if="!ifJoin" @click="joinCircle">加入</button>
-      <button class="btn-post" v-else-if="ifApplied" disabled>已申请</button>
-      <button class="btn-post" v-else @click="newPost">+</button>
+      <button class="btn-post" v-if="ifApplied" disabled>已申请</button>
+      <button class="btn-post" v-else-if="!ifJoin" @click="joinCircle">加入</button>
+      <button class="btn-post" v-else-if="tabActive==='话题'" @click="newPost">发帖</button>
+      <button class="btn-post" v-else-if="tabActive==='活动'" @click="newAct">发布</button>
     </div>
     <header>
       <div class="container">
@@ -17,6 +18,7 @@
       <nav-bar v-model="tabActive" class="navbar">
         <tab-item id="动态" class="navbar-item">动态</tab-item>
         <tab-item id="活动" class="navbar-item">活动</tab-item>
+        <tab-item id="话题" class="navbar-item">话题</tab-item>
       </nav-bar>
 
       <tab-container v-model="tabActive">
@@ -24,36 +26,52 @@
         <tab-container-item id="动态" class="post-container" >
           <moment v-model="moments">
           </moment>
+          <load-more-btn @click="fetchMoments"></load-more-btn>
         </tab-container-item>
 
         <!-- 活动的Container -->
         <tab-container-item id="活动" class="post-container" >
-          <router-link v-for="act in activities" :to="`/activities/${act.id}`" class="post">
+          <!-- <router-link v-for="act in activities" :to="`/activities/${act.id}`" class="post">
             <post-cell :avatar="act.logo" :title="act.title" :date="dateFormat(act.date)" :author="act.location"></post-cell>
+          </router-link> -->
+          <activity :activities="activities"></activity>
+          <load-more-btn @click="fetchActivities" ></load-more-btn>
+        </tab-container-item>
+
+        <tab-container-item id="话题" class="post-container" >
+          <router-link v-for="act in posts" :to="`/posts/${act.id}`" class="post">
+            <post-cell :avatar="act.authorAvator" :title="act.title" :date="dateFormat(act.date)" :author="act.author"></post-cell>
           </router-link>
+          <load-more-btn @click="fetchPosts" ></load-more-btn>
         </tab-container-item>
 
       </tab-container>
     </section>
-    <moment-editor v-model="momentNew" :category="postCategory"></moment-editor>
-    <join-msg-edior v-model="msgJoin"></join-msg-edior>
+    <member-list :id="_cid" :memberNum="memberNum"></member-list>
   </div>
 </template>
 
 <script>
   // import Config from '../../config/setting'
-  import { TabContainer, TabContainerItem, Navbar, TabItem, Loadmore } from 'mint-ui'
+  import { TabContainer, TabContainerItem, Navbar, TabItem, MessageBox } from 'mint-ui'
   import Moment from './Moment'
-  import MomentCell from './MomentCell'
-  import JoinMsgEditor from './JoinMsgEditor'
+  import Activity from './Activity'
   import PostCell from '../common/PostCell'
   import dateformat from 'dateformat'
   import * as api from '../../api/index.js'
-  import Editor from './MomentEditor'
   import * as utils from '../../utils/utils.js'
+  import LoadMoreBtn from '../common/buttons/LoadMore'
+  import MemberList from './MemberList'
+  import Editor from '../common/editor/main.js'
   // import { mapState } from 'vuex'
 
   export default {
+    props: {
+      circleId: {
+        type: String,
+        default: 0
+      }
+    },
     data () {
       return {
         'auth': false,
@@ -67,6 +85,7 @@
         msgJoin: '',
         postPage: 0,
         actPage: 0,
+        momentPage: 0,
         momentNew: '',
         activities: [],
         members: [],
@@ -74,23 +93,25 @@
       }
     },
     components: {
-      'mt-loadmore': Loadmore,
       'tab-container': TabContainer,
       'tab-container-item': TabContainerItem,
       'post-cell': PostCell,
       'nav-bar': Navbar,
       'tab-item': TabItem,
-      'moment-editor': Editor,
+      // 'moment-editor': Editor,
       'moment': Moment,
-      'moment-cell': MomentCell,
-      'join-msg-edior': JoinMsgEditor
+      // 'join-msg-edior': JoinMsgEditor,
+      'load-more-btn': LoadMoreBtn,
+      'activity': Activity,
+      'member-list': MemberList
     },
     created () {
       this.openIndicator()
       Promise.all([
-        api.getCircleInfo(this.$route.params.id),
-        api.getCircleMoments(this.$route.params.id),
-        api.getCircleActivity(this.$route.params.id, this.actPage, 10),
+        api.getCircleInfo(this._cid),
+        api.getCircleMoments(this._cid, this.momentPage++, 10),
+        api.getCircleActivity(this._cid, this.actPage++, 10),
+        api.getCirclePost(this._cid, this.postPage++, 10),
         api.wxAuth(['chooseImage', 'uploadImage', 'previewImage'])
       ]).then(result => {
         this.closeIndicator()
@@ -101,13 +122,13 @@
         this.memberNum = remoteData.memberNum
         this.CService = remoteData.CServiceId
 
-        this.moments = utils.response2Data(result[1])
-        this.moments = this.moments.map(e => {
+        remoteData = utils.response2Data(result[1])
+        this.moments = remoteData.map(e => {
           e.date = utils.date2YMDHMM(e.date)
           return e
         })
-        console.log(this.moments)
         this.activities = utils.response2Data(result[2])
+        this.posts = utils.response2Data(result[3])
         // this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
       }).catch(response => {
         this.closeIndicator()
@@ -117,22 +138,26 @@
       this.tabActive = '动态' // 导航页切换到第一页
     },
     computed: {
-      postsWithCategory () {
-        // 整理posts以放进tab里面
-        let postsWithCategory = {}
-        Object.keys(this.postCategory).forEach((key) => {
-          let type = this.postCategory[key]
-          postsWithCategory[type] = this.posts.filter((post) => {
-            return type === post.type
-          })
-        })
-        return postsWithCategory
+      // postsWithCategory () {
+      //   // 整理posts以放进tab里面
+      //   let postsWithCategory = {}
+      //   Object.keys(this.postCategory).forEach((key) => {
+      //     let type = this.postCategory[key]
+      //     postsWithCategory[type] = this.posts.filter((post) => {
+      //       return type === post.type
+      //     })
+      //   })
+      //   return postsWithCategory
+      // },
+      _cid () {
+        let result = this.$route.params.id || this.circleId
+        return result
       },
       ifJoin () {
-        return this.$store.state.MeState.joinedCircles.indexOf(parseInt(this.$route.params.id)) !== -1
+        return this.$store.state.MeState.joinedCircles.indexOf(parseInt(this._cid)) !== -1
       },
       ifApplied () {
-        return this.$store.state.MeState.appliedCircles.indexOf(parseInt(this.$route.params.id)) !== -1
+        return this.$store.state.MeState.appliedCircles.indexOf(parseInt(this._cid)) !== -1
       }
     },
     watch: {
@@ -152,25 +177,86 @@
     },
     methods: {
       openMemberList () {
-        this.$router.push({
-          path: 'member',
-          append: true,
-          params: {id: this.$route.params.id}
-        })
+        // this.$router.push({
+        //   path: 'member',
+        //   append: true,
+        //   params: {id: this._cid}
+        // })
+        MemberList.open()
       },
       buyCircle () {
         this.$router.push({
           path: '/me/buyCircle',
           params: {
-            id: this.$route.params.id
+            id: this._cid
           }
         })
       },
       newPost () {
-        Editor.open()
+        Editor.open({
+          head: '发布话题'
+        }).then(res => {
+          let data = {
+            uid: parseInt(this.$store.state.MeState.uid),
+            circleId: parseInt(this._cid),
+            title: res.contentTitle,
+            content: res.content,
+            imgServerIds: res.imgs,
+            date: +new Date()
+          }
+          this.openIndicator()
+          api.newPost(data).then(res => {
+            Editor.close()
+            Editor.clearAllData()
+            this.closeIndicator()
+            this.toast(this.$text.NEW_POST_SUCCESS)
+          }).catch(res => {
+            this.closeIndicator()
+            this.toast(this.$text.NEW_POST_FAIL)
+          })
+        })
       },
-      joinCircle () {
-        JoinMsgEditor.open()
+      newAct () {
+        Editor.open({
+          head: '发布活动'
+        }).then(res => {
+          let data = {
+            uid: parseInt(this.$store.state.MeState.uid),
+            circleId: parseInt(this._cid),
+            title: res.contentTitle,
+            content: res.content,
+            imgServerIds: res.imgs,
+            date: +new Date()
+          }
+          this.openIndicator()
+          api.newActivity(data).then(res => {
+            Editor.close()
+            Editor.clearAllData()
+            this.closeIndicator()
+            this.toast(this.$text.NEW_ACT_SUCCESS)
+          }).catch(res => {
+            this.closeIndicator()
+            this.toast(this.$text.NEW_ACT_FAIL)
+          })
+        })
+      },
+      joinCircle (circleId) {
+        MessageBox.prompt(' ', '请输入申请加入圈子原因').then(({value, action}) => {
+          this.openIndicator()
+          let apply = {
+            uid: this.$store.state.MeState.uid,
+            circleId: parseInt(circleId),
+            content: value,
+            date: (new Date()).toString()
+          }
+          api.joinCircle(apply).then(response => {
+            let circleId = parseInt(this.$route.params['id'])
+            this.$store.dispatch('applyCircle', circleId)
+            this.handleSuccess('APPLY_CIRCLE_SUCCESS')
+          }).catch(response => {
+            this.handleAllFail(response)
+          })
+        }).catch(e => {})
       },
       joinCircleWithoutAuth () {
         let apply = {
@@ -190,44 +276,46 @@
       },
       dateFormat (value) {
         return dateformat(value, 'mm-dd hh:MM')
+      },
+      fetchPosts () {
+        this.openIndicator()
+        api.getCirclePost(this._cid, this.postPage++, 10).then(res => {
+          this.closeIndicator()
+          let remoteData = utils.response2Data(res)
+          this.posts = this.posts.concat(remoteData)
+        }).catch(res => {
+          this.handleAllFail(res)
+        })
+      },
+      fetchMoments () {
+        this.openIndicator()
+        api.getCircleMoments(this._cid, this.momentPage++, 10).then(res => {
+          this.closeIndicator()
+          let remoteData = utils.response2Data(res)
+          if (remoteData.length === 0) {
+            this.toast('没有新数据了')
+          }
+          this.moments = this.moments.concat(remoteData.map(e => {
+            e.date = utils.date2YMDHMM(e.date)
+            return e
+          }))
+        }).catch(res => {
+          this.handleAllFail(res)
+        })
+      },
+      fetchActivities () {
+        this.openIndicator()
+        api.getCircleActivity(this._cid, this.actPage++, 10).then(res => {
+          this.closeIndicator()
+          let remoteData = utils.response2Data(res)
+          if (remoteData.length === 0) {
+            this.toast('没有新数据了')
+          }
+          this.activities = this.activities.concat(remoteData)
+        }).catch(res => {
+          this.handleAllFail(res)
+        })
       }
-      // fetchCircleInfo () {
-      //   this.$http.get(`${Config.circlesApi}/${this.$route.params['id']}`).then((response) => {
-      //     let remoteData
-      //     // 有些服务器返回字符串, 有些则是JSON, 需要判断
-      //     if (typeof response.body === 'object') remoteData = response.body
-      //     else remoteData = JSON.parse(response.body)
-      //     ;[this.circleName, this.news, this.postCategory, this.memberNum, this.CService] = [remoteData.name, remoteData.news, remoteData.postCategory, remoteData.memberNum, remoteData.CServiceId]
-      //     this.tabActive = this.postCategory[Object.keys(this.postCategory)[0]] // 导航页切换到第一页
-      //   })
-      // },
-      // fetchPosts: function () {
-      //   this.openIndicator('加载中...')
-      //   // 这个方案好蠢, 但是先用着
-      //   const postPerPage = 20
-      //   api.getCirclePost(this.$route.params.id, this.postPage++, postPerPage).then((response) => {
-      //     let remoteData
-      //     if (typeof response.body === 'object') remoteData = response.body
-      //     else remoteData = JSON.parse(response.body)
-      //     if (remoteData.length === 0) {
-      //       this.toast('已经没有新帖子了')
-      //     }
-      //     this.posts = this.posts.concat(remoteData)
-      //     return api.getCircleActivity(this.$route.params.id, this.actPage++, postPerPage)
-      //   }).then(response => {
-      //     this.closeIndicator()
-      //     // 数据为空
-      //     if (response.length === 0) {
-      //       this.toast('已经没有新帖子了')
-      //     }
-      //
-      //     // 处理数据
-      //     this.activities = this.activities.concat(utils.response2Data(response))
-      //   }).catch(response => {
-      //     this.closeIndicator()
-      //     console.error(response)
-      //   })
-      // }
     }
   }
 </script>

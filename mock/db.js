@@ -38,9 +38,10 @@ function genActivity () {
 		arr.push({
 			id: i,
 			type: 'activities',
+			publisher: f.internet.userName(),
 			circleId: r(0, 3), // 可以不要
-			title: faker.commerce.product(),
-			content: faker.lorem.sentences(),
+			title: f.lorem.sentences(),
+			content: faker.lorem.paragraph(),
 			attendance: r(1000, 2999),
 			logo: faker.image.image(r(50, 100), r(50, 100)),
 			durationstart: '2016-12-5',
@@ -143,7 +144,7 @@ function genStateInfo () {
 		'mobileAuth': true,
 		'ifAvailable': true,
 		'avatar': 'https://s3.amazonaws.com/uifaces/faces/twitter/timgthomas/128.jpg',
-		'joinedCircles': [0, 1, 2, 4, 5],
+		'joinedCircles': [0],
 		'joinedActivities': [1, 2, 3, 4, 5],
 		'appliedCircles': [],
 		'unreadMsg': 45,
