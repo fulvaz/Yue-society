@@ -6,7 +6,11 @@ export let text = {
   NEW_MOMENT_SUCCESS: '发布动态成功',
   LIKE_MOMENT_FAILED: '请重新点赞',
   NO_NEW_DATA: '没有新数据了',
-  SEARCH_EMPTY: '找不到您所需要的结果'
+  SEARCH_EMPTY: '找不到您所需要的结果',
+  NEW_POST_SUCCESS: '发布帖子成功',
+  NEW_POST_FAIL: '出现网络错误, 请重试',
+  NEW_ACT_SUCCESS: '发布帖子成功',
+  NEW_ACT_FAIL: '出现网络错误, 请重试'
 }
 
 export let errMsg = {

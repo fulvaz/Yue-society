@@ -79,6 +79,8 @@ export default {
 }
 
 .quit-circle-button {
+  position: relative;;
+  top: 1px;
   font-size: $description-size;
   padding: 5px;
 }

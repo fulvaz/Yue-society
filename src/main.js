@@ -23,7 +23,7 @@ import Auth from 'components/Auth'
 const CircleIndex = resolve => require(['components/circle/Index'], resolve)
 const Circle = resolve => require(['components/circle/Circle'], resolve)
 const CircleMember = resolve => require(['components/circle/MemberList'], resolve)
-const Activity = resolve => require(['components/circle/Activity'], resolve)
+const ActivityDetailed = resolve => require(['components/circle/ActivityDetailed'], resolve)
 // import Activity from 'components/circle/Activity'
 // import CircleIndex from 'components/circle/Index'
 // import Circle from 'components/circle/Circle'
@@ -88,6 +88,7 @@ const AppointmentRequest = resolve => require(['components/user/Appointment'], r
 // import Test from 'components/Test'
 // import Demo from 'components/Demo'
 // import Post from 'components/posts/Post'
+const Post = resolve => require(['components/posts/Post'], resolve)
 
 import store from './store/index.js'
 import * as utils from './utils/utils.js'
@@ -192,10 +193,10 @@ const routes = [
   {path: '/users/appointment/:uid', component: AppointmentRequest},
   {path: '/users/:uid', component: User},
   {path: '/tags/:tag', component: Tag},
-  {path: '/activities/:id', component: Activity},
-  {path: '/me/wxShare/:qrcode', component: Share}
+  {path: '/activities/:id', component: ActivityDetailed},
+  {path: '/me/wxShare/:qrcode', component: Share},
   // {path: '/test', component: Test},
-  // {path: '/posts/:id', component: Post},
+  {path: '/posts/:id', component: Post}
   // {path: '/demo', component: Demo},
 ]
 

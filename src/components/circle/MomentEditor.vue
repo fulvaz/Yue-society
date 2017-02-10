@@ -79,7 +79,6 @@ export default {
         uid: this.$store.state.MeState.uid,
         circleId: parseInt(this.$route.params.id),
         imgServerIds: this.serverIds,
-        // debug
         likes: [],
         date: (new Date()).toString()
       }

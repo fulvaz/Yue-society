@@ -128,6 +128,15 @@ export function date2YMDHMM (date) {
   return y + '-' + _to2Num(m) + '-' + _to2Num(d) + ' ' + _to2Num(hour) + ':' + _to2Num(min) + ':' + _to2Num(sec)
 }
 
+export function date2MMDDHHMM (date) {
+  date = new Date(date)
+  let m = date.getMonth() + 1
+  let d = date.getDate()
+  let hour = date.getHours()
+  let min = date.getMinutes()
+  return _to2Num(m) + '-' + _to2Num(d) + ' ' + _to2Num(hour) + ':' + _to2Num(min)
+}
+
 export function response2Data (response) {
   // console.log(response)
   // 说明请求返回的是错误信息

@@ -1,5 +1,5 @@
 <template lang="html">
-  <button v-show="show" type="button" name="button" class="btn-load-more">点击加载更多</button>
+  <button v-show="show" type="button" name="button" class="btn-load-more" @click="handleClick">{{text}}</button>
 </template>
 
 <script>
@@ -8,6 +8,15 @@ export default {
     show: {
       type: Boolean,
       default: true
+    },
+    text: {
+      type: String,
+      default: '点击加载更多'
+    }
+  },
+  methods: {
+    handleClick () {
+      this.$emit('click')
     }
   }
 }

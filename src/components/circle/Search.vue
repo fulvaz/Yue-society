@@ -1,6 +1,10 @@
 <template lang="html">
   <div class="circle-search-container">
     <search-bar @search="handleSearch" v-model="query"></search-bar>
+    <div class="filters">
+      <span class="filter" @click="filterByLocation">按地域</span>
+      <span class="filter" @click="filterByJob">按行业</span>
+    </div>
     <circle-list :circle="resultDisplay"></circle-list>
   </div>
 </template>
@@ -52,10 +56,28 @@ export default {
       }).catch(e => {
         this.handleFailWithCode(e.status, e.statusText)
       })
+    },
+    filterByLocation (e) {
+      console.log(e.target.getBoundingClientRect().top)
+    },
+    filterByJob (e) {
     }
   }
 }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+  @import "../../assets/index.scss";
+  .filters {
+    height: 44px;
+    display: flex;
+    .filter {
+      flex: 1 1;
+      display: table-cell;
+      text-align: center;
+      font-size: $description-size;
+      line-height: 44px;
+      border-right: 1px solid $list-border-color;
+    }
+  }
 </style>

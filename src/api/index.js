@@ -853,3 +853,22 @@ export const wxShareFriend = function (title, link, imgUrl, desc) {
     })
   })
 }
+
+/**
+send:
+```
+ uid,
+ circleId,
+ title,
+ content
+```
+*/
+export const newActivity = function (data) {
+  return new Promise((resolve, reject) => {
+    vue.http.post(config.newActivity, data).then(response => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}

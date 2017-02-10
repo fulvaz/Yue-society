@@ -2,9 +2,27 @@
     <div class="index-container">
       <section class="main">
         <nav-bar v-model="active" id="navbar">
-          <tab-item id="tab-myCircle" class="navbar-item">我的圈子</tab-item>
-          <tab-item id="tab-circleRecommend" class="navbar-item">推荐圈子</tab-item>
-          <tab-item id="tab-circleSearch" class="navbar-item">圈子搜索</tab-item>
+          <tab-item id="tab-myCircle" class="navbar-item">
+            <div>
+              <fa-icon class="fa-icon" slot="icon" name="user-o"></fa-icon>
+              <span>我的圈子</span>
+            </div>
+            <!-- 我的圈子 -->
+          </tab-item>
+          <tab-item id="tab-circleRecommend" class="navbar-item">
+            <div>
+              <fa-icon class="fa-icon" slot="icon" name="thumbs-o-up"></fa-icon>
+              <span>圈子推荐</span>
+            </div>
+            <!-- 推荐圈子 -->
+          </tab-item>
+          <tab-item id="tab-circleSearch" class="navbar-item">
+            <div>
+              <fa-icon class="fa-icon" slot="icon" name="search"></fa-icon>
+              <span>圈子搜索</span>
+            </div>
+            <!-- 圈子搜索 -->
+          </tab-item>
         </nav-bar>
 
 
@@ -20,6 +38,9 @@
           </mt-tab-container-item>
           <mt-tab-container-item id="tab-circleSearch">
             <fz-search></fz-search>
+          </mt-tab-container-item>
+          <mt-tab-container-item id="tab-circle">
+            <fz-circle circleId="0"></fz-circle>
           </mt-tab-container-item>
         </mt-tab-container>
       </section>
@@ -37,13 +58,18 @@
   import circleList from '../common/DetailedCircleList'
   import myCircleList from './MyCircleList'
   import LoadMoreBtn from '../common/buttons/LoadMore'
+  import Circle from './Circle'
+
+  import 'vue-awesome/icons/thumbs-o-up'
+  import 'vue-awesome/icons/search'
+  import 'vue-awesome/icons/user-o'
 
   export default {
     data () {
       return {
         circleRecommend: [],
         myCircles: [],
-        active: 'tab-circleRecommend',
+        active: 'tab-circle',
         circleRecommendPage: 0,
         myCirclesPage: 0,
         circleRecLoadMoreBtnShow: true
@@ -95,7 +121,8 @@
       'list-item-detailed': DetailedListItem,
       'list-item': ListItem,
       'load-more-btn': LoadMoreBtn,
-      'my-circle-list-detailed': myCircleList
+      'my-circle-list-detailed': myCircleList,
+      'fz-circle': Circle
     },
     methods: {
       fetchCircleRecommend () {
@@ -150,8 +177,14 @@
     text-align: center;
     .navbar-item {
       flex: 1 1 200px;
-      padding: 1em 0;
       display: block;
+      padding: .5rem 0;
+      font-size: 1rem;
+      color: $item-color;
+      .fa-icon {
+        width: 1rem;
+        height: 1rem;
+      }
     }
     .is-selected {
       color: $main-red;

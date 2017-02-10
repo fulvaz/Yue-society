@@ -1,7 +1,8 @@
 <template>
-  <div class="post-editor-container">
+  <div class="post-editor-container" v-show="show">
     <header>
       <span class="title">成员列表</span>
+      <span class="memberNum">{{memberNum}} 人</span>
       <button class="close-btn btn" @click="close">关闭</button>
     </header>
     <section class="main">
@@ -15,12 +16,18 @@
 import DetailedUserList from '../common/DetailedUserList'
 import * as api from '../../api/index.js'
 import * as utils from '../../utils/utils.js'
+let that
 export default {
+  props: {
+    circleId: String,
+    memberNum: Number
+  },
   data () {
     return {
       page: 0,
       users: [],
-      me: {}
+      me: {},
+      show: false
     }
   },
   computed: {
@@ -30,6 +37,7 @@ export default {
   },
   created () {
     this.openIndicator()
+    that = this
     api.getCircleMember(this.$route.params.id, this.page++, 10).then(e => {
       this.closeIndicator()
       this.users = utils.response2Data(e)
@@ -42,7 +50,7 @@ export default {
   },
   methods: {
     close () {
-      this.$router.go(-1)
+      this.show = false
     },
     loadMore () {
       this.openIndicator()
@@ -54,6 +62,10 @@ export default {
         this.handleFailWithCode(e.status, e.statusText)
       })
     }
+  },
+  open () {
+    console.log(that.show)
+    that.show = true
   }
 }
 </script>
@@ -61,6 +73,14 @@ export default {
 <style lang="scss" scoped>
   @import '../../assets/index.scss';
   .post-editor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
     box-sizing: border-box;
     background-color: white;
   }
@@ -68,16 +88,25 @@ export default {
   header {
     border-bottom: 1px solid #F2F2F2;
     @include clearfix()
+    display: flex;
+    justify-content: space-between;
     .title {
       display: inline-block;
-      padding: 14px 0;
+      padding: 14px $horizontal-margin;
       line-height: 17px;
       font-size: 17px;
       text-align: center;
     }
 
+    .memberNum {
+      padding: 14px 0;
+      text-align: center;
+      flex: 1;
+    }
+
     .send-btn {
       float: left;
+      z-index:9999
     }
 
     .close-btn {
@@ -85,7 +114,7 @@ export default {
     }
 
     .btn {
-      padding: 14px 18px;
+      padding: 14px $horizontal-margin;
       color: #42bd56;
       line-height: 17px;
       font-size: 17px;

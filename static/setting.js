@@ -71,7 +71,8 @@ var devApis = {
   'searchUsers': apiPrefix + '/userDetail', // 也是详情
   'getCircleMoments': apiPrefix + '/moments',
   'newCircleMoments': apiPrefix + '/moments',
-  'likeMoment': apiPrefix + '/postData'
+  'likeMoment': apiPrefix + '/postData',
+  'newActivity': apiPrefix + '/postData'
 }
 
 var apis = {

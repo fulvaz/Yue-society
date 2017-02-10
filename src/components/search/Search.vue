@@ -1,6 +1,9 @@
 <template lang="html">
   <div class="circle-search-container">
-    <search-bar @search="handleSearch" v-model="query"></search-bar>
+    <div class="search-bar">
+      <search-bar class="bar" @search="handleSearch" v-model="query"></search-bar>
+      <el-button class="btn-filter" type="primary">筛选</el-button>
+    </div>
     <user-list :users="users" :me="me"></user-list>
   </div>
 </template>
@@ -72,4 +75,17 @@ export default {
   .circle-search-container {
     background-color: $global-background-color;
   }
+
+  .search-bar {
+    display: flex;
+    .bar {
+      flex: 1;
+    }
+    .btn-filter {
+      // flex-basis: 20px;
+      float: right;
+    }
+  }
+
+
 </style>

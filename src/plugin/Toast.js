@@ -49,13 +49,6 @@ function handleNetErrWithReload () {
   }, 5000)
 }
 
-// 当显示页面所必须的数据加载出错用这个方法处理
-// 现在需要用这个方法的错误有 微信认证 stateInfo 基本都是刚加载页面时错误都可以用这个
-function handleFatalErr () {
-  openIndicator()
-  handleNetErrWithReload()
-}
-
 function toast (msg) {
   Toast({
     message: msg,
@@ -99,6 +92,14 @@ function handleFailWithCode (status, statusText) {
   closeIndicator()
 }
 
+// 加载页面所必须的数据加载出错用这个方法处理
+// 现在需要用这个方法的错误有 微信认证 stateInfo 基本都是刚加载页面时错误都可以用这个
+function handleFatalErr () {
+  openIndicator()
+  handleNetErrWithReload()
+}
+
+// 用户操作产生的错误用这个处理
 function handleAllFail (res) {
   closeIndicator()
   let status = '4000'
@@ -114,10 +115,9 @@ function handleAllFail (res) {
   // 微信
   if (res.errMsg) {
     status = ''
-    text = res.errMsg + ' 请重试'
+    text = res.errMsg
   }
-
-  handleFailWithCode(status, text)
+  toast(`${status} ${text} 请重试`)
 }
 
 toastExport.install = function (Vue, options) {
