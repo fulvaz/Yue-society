@@ -17,17 +17,7 @@
               <load-more-btn @click.native="fetchCircleRecommend"></load-more-btn>
             </mt-tab-container-item>
             <mt-tab-container-item id="tab-activitiesRecommend" class="tab-container-item">
-              <list class="activitiesRecommend recommend">
-                  <li v-for="circle in activityRecommend" class="recommend">
-                    <router-link :to="`/activities/${circle.id}`">
-                      <list-item
-                        :content-title="circle.contentTitle"
-                        :content-subtitle="circle.contentSubtitle"
-                        :logo="circle.logo">
-                      </list-item>
-                    </router-link>
-                  </li>
-              </list>
+              <activity :activities="activityRecommend"></activity>
             </mt-tab-container-item>
             <mt-tab-container-item id="tab-userRecommend" class="tab-container-item tab-userRecommend">
               <streamer :items="userRecommend"></streamer>
@@ -47,6 +37,7 @@
   import * as api from '../api/index.js'
   import * as utils from '../utils/utils.js'
   import LoadMoreBtn from './common/buttons/LoadMore'
+  import Activity from './circle/Activity'
 
   export default {
     components: {
@@ -60,6 +51,7 @@
       'mt-tab-container-item': TabContainerItem,
       'mt-tab-container': TabContainer,
       'detailed-circle-list': DetailedCircleList,
+      'activity': Activity,
       'load-more-btn': LoadMoreBtn
     },
     created () {

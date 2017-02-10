@@ -44,8 +44,8 @@ function genActivity () {
 			content: faker.lorem.paragraph(),
 			attendance: r(1000, 2999),
 			logo: faker.image.image(r(50, 100), r(50, 100)),
-			durationstart: '2016-12-5',
-			durationend: '2016-12-20',
+			durationstart: f.date.recent(),
+			durationend: f.date.recent(),
 			location: f.address.state()
 		})
 	}
@@ -447,13 +447,15 @@ module.exports = function() {
 		let tmp = {
 			id: i,
 			type: 'activities',
-			circleId: r(1, 10), // 可以不要
-			title: '活' + faker.commerce.product(),
-			content: faker.lorem.sentences(),
+			publisher: f.internet.userName(),
+			circleId: r(0, 3), // 可以不要
+			title: f.lorem.sentences(),
+			content: faker.lorem.paragraph(),
 			attendance: r(1000, 2999),
-			logo: faker.image.image(50, 50),
-			durationstart: '2016-12-5',
-			durationend: '2016-12-20'
+			logo: faker.image.image(r(50, 100), r(50, 100)),
+			durationstart: f.date.recent(),
+			durationend: f.date.recent(),
+			location: f.address.state()
 		}
 		activityRecommend.push(tmp)
 	}
@@ -558,14 +560,15 @@ module.exports = function() {
 		for (let i=0; i<r(10, 20); i++) {
 			let tmp = {
 				id: i,
-				type: 'activities',
-				circleId: r(1, 10), // 可以不要
-				name: faker.commerce.product(),
-				introduction: faker.lorem.sentences(),
+				publisher: f.internet.userName(),
+				circleId: r(0, 3),
+				title: f.lorem.sentences(),
+				content: faker.lorem.paragraph(),
 				attendance: r(1000, 2999),
-				logo: faker.image.image(50, 50),
-				durationstart: '2016-12-5',
-				durationend: '2016-12-20'
+				logo: faker.image.image(r(50, 100), r(50, 100)),
+				durationstart: f.date.recent(),
+				durationend: f.date.recent(),
+				location: f.address.state()
 			}
 			arr.push(tmp)
 		}
