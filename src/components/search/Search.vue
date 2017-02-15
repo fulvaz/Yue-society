@@ -2,7 +2,7 @@
   <div class="circle-search-container">
     <div class="search-bar">
       <search-bar class="bar" @search="handleSearch" v-model="query"></search-bar>
-      <el-button class="btn-filter" type="primary">筛选</el-button>
+      <!-- <el-button class="btn-filter" type="primary">筛选</el-button> -->
     </div>
     <user-list :users="users" :me="me"></user-list>
   </div>

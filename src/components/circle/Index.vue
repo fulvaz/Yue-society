@@ -40,7 +40,7 @@
             <fz-search></fz-search>
           </mt-tab-container-item>
           <mt-tab-container-item id="tab-circle">
-            <fz-circle circleId="0"></fz-circle>
+            <fz-circle circleId="1"></fz-circle>
           </mt-tab-container-item>
         </mt-tab-container>
       </section>

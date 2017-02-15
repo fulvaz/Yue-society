@@ -5,6 +5,7 @@
       <button class="btn-post" v-else-if="!ifJoin" @click="joinCircle">加入</button>
       <button class="btn-post" v-else-if="tabActive==='话题'" @click="newPost">发帖</button>
       <button class="btn-post" v-else-if="tabActive==='活动'" @click="newAct">发布</button>
+      <div v-show="tabActive==='动态'"></div>
     </div>
     <header>
       <div class="container">
@@ -47,7 +48,7 @@
 
       </tab-container>
     </section>
-    <member-list :id="_cid" :memberNum="memberNum"></member-list>
+    <member-list :circleId="_cid" :memberNum="parseInt(memberNum)"></member-list>
   </div>
 </template>
 
@@ -69,7 +70,7 @@
     props: {
       circleId: {
         type: String,
-        default: 0
+        default: 1
       }
     },
     data () {
@@ -151,6 +152,7 @@
       // },
       _cid () {
         let result = this.$route.params.id || this.circleId
+        console.log(result)
         return result
       },
       ifJoin () {
@@ -210,6 +212,16 @@
             Editor.clearAllData()
             this.closeIndicator()
             this.toast(this.$text.NEW_POST_SUCCESS)
+            // 实时显示新帖子
+            let post = {
+              author: this.$store.state.MeState.nickname,
+              authorAvator: this.$store.state.MeState.avatar,
+              content: data.content,
+              date: data.date,
+              title: data.title
+            }
+            this.posts.unshift(post)
+            // window.location.reload()
           }).catch(res => {
             this.closeIndicator()
             this.toast(this.$text.NEW_POST_FAIL)
@@ -217,28 +229,29 @@
         })
       },
       newAct () {
-        Editor.open({
-          head: '发布活动'
-        }).then(res => {
-          let data = {
-            uid: parseInt(this.$store.state.MeState.uid),
-            circleId: parseInt(this._cid),
-            title: res.contentTitle,
-            content: res.content,
-            imgServerIds: res.imgs,
-            date: +new Date()
-          }
-          this.openIndicator()
-          api.newActivity(data).then(res => {
-            Editor.close()
-            Editor.clearAllData()
-            this.closeIndicator()
-            this.toast(this.$text.NEW_ACT_SUCCESS)
-          }).catch(res => {
-            this.closeIndicator()
-            this.toast(this.$text.NEW_ACT_FAIL)
-          })
-        })
+        this.toast('开发中, 敬请期待')
+        // Editor.open({
+        //   head: '发布活动'
+        // }).then(res => {
+        //   let data = {
+        //     uid: parseInt(this.$store.state.MeState.uid),
+        //     circleId: parseInt(this._cid),
+        //     title: res.contentTitle,
+        //     content: res.content,
+        //     imgServerIds: res.imgs,
+        //     date: +new Date()
+        //   }
+        //   this.openIndicator()
+        //   api.newActivity(data).then(res => {
+        //     Editor.close()
+        //     Editor.clearAllData()
+        //     this.closeIndicator()
+        //     this.toast(this.$text.NEW_ACT_SUCCESS)
+        //   }).catch(res => {
+        //     this.closeIndicator()
+        //     this.toast(this.$text.NEW_ACT_FAIL)
+        //   })
+        // })
       },
       joinCircle (circleId) {
         MessageBox.prompt(' ', '请输入申请加入圈子原因').then(({value, action}) => {
@@ -331,8 +344,11 @@
     background-color: rgb(44, 175, 187);
 
     .container {
-      @include clearfix;
+      // @include clearfix;
       padding: 0.5em $horizontal-margin;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       // margin: 0 18px;
       // padding: 35px 0;
       text-align: center;
@@ -340,9 +356,10 @@
       background-color: rgb(44, 175, 187);
 
       .circle-name {
-        float: left;
+        // float: left;
         margin: 0;
-        font-size: 24px;
+        height: 100%;
+        font-size: $item-size;
       }
 
       .news {
@@ -352,7 +369,7 @@
       }
 
       .btn-group {
-        float: right;
+        // float: right;
         .disabled {
           color: #aaa;
           border: 1px solid #aaa;
@@ -419,11 +436,15 @@
     position: fixed;
     bottom: calc(1em + 53px);
     right: 1em;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: $douban-green;
+
     overflow: hidden;
+
+    .btn-post {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: $douban-green;
+    }
 
     .disabled {
       color: #aaa;

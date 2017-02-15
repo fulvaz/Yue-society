@@ -62,32 +62,6 @@ export const fetchCircleRecommend = function (page, limit) {
   })
 }
 
-export const fetchActivitiesRecommend = function () {
-  return new Promise((resolve, reject) => {
-    vue.http.get(config.activitiesRecommendsApi).then((response) => {
-      let remoteData
-      if (typeof response.body === 'object') remoteData = response.body
-      else remoteData = JSON.parse(response.body)
-      resolve(remoteData)
-    }, (response) => {
-      reject(response)
-    })
-  })
-}
-
-export const fetchUserRecommend = function (page, limit) {
-  return new Promise((resolve, reject) => {
-    vue.http.get(config.usersRecommendsApiFilter(page, limit)).then((response) => {
-      let remoteData
-      if (typeof response.body === 'object') remoteData = response.body
-      else remoteData = JSON.parse(response.body)
-      resolve(remoteData)
-    }, (response) => {
-      reject(response)
-    })
-  })
-}
-
 export const fetchPost = function (id) {
   return new Promise((resolve, reject) => {
     vue.http.get(config.postsApi + '/' + id).then((response) => {
@@ -581,7 +555,29 @@ export const getCircleMoments = function (circleid, page, limit) {
   })
 }
 
-export const newCircleMoments = function (data) {
+export const getMyMoments = function (uid, page, limit) {
+  let api = `${config.getMyMoments}/${uid}`
+  return new Promise((resolve, reject) => {
+    vue.http.get(api + filterPL(page, limit)).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const newMyMoment = function (data) {
+  let api = `${config.newMyMoment}`
+  return new Promise((resolve, reject) => {
+    vue.http.post(api, data).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const newCircleMoment = function (data) {
   let api = `${config.newCircleMoments}`
   return new Promise((resolve, reject) => {
     vue.http.post(api, data).then((response) => {
@@ -868,6 +864,46 @@ export const newActivity = function (data) {
     vue.http.post(config.newActivity, data).then(response => {
       resolve(response)
     }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getTopicRecommend = function (page, limit) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.getTopicRecommend + filterPL(page, limit)).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getPaidUserRecommend = function (page, limit) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.getPaidUserRecommend + filterPL(page, limit)).then((response) => {
+      resolve(response)
+    }, response => {
+      reject(response)
+    })
+  })
+}
+
+export const getUserRecommend = function (page, limit) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.usersRecommendsApiFilter(page, limit)).then((response) => {
+      resolve(response)
+    }, (response) => {
+      reject(response)
+    })
+  })
+}
+
+export const getActivitiesRecommend = function (page, limit) {
+  return new Promise((resolve, reject) => {
+    vue.http.get(config.activitiesRecommendsApi).then((response) => {
+      resolve(response)
+    }, (response) => {
       reject(response)
     })
   })

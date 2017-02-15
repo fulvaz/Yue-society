@@ -55,7 +55,6 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/index.scss";
 .moment-container {
-  width: 100%;
 
 }
 

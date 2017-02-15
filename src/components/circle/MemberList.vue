@@ -38,7 +38,8 @@ export default {
   created () {
     this.openIndicator()
     that = this
-    api.getCircleMember(this.$route.params.id, this.page++, 10).then(e => {
+    console.log(this.circleId)
+    api.getCircleMember(this.circleId, this.page++, 10).then(e => {
       this.closeIndicator()
       this.users = utils.response2Data(e)
       return api.fetchMeInfo()

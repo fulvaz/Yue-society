@@ -18,12 +18,12 @@ export default {
 <style lang="scss" scoped>
 .tag {
   display: inline-block;
-  padding: 0px 1px;
+  padding: 1px;
   font-size: 12px;
   line-height: 14px;
   border-radius: 5px;
   // background-color: rgb(230, 230, 230);
   background-color: white;
-  border: 1px solid rgb(230, 230, 230);
+  // border: 1px solid rgb(230, 230, 230);
 }
 </style>

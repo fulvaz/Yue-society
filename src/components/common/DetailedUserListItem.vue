@@ -1,7 +1,9 @@
 <template>
   <div class="list-item">
     <div class="avatar">
-      <img-cover :img="avatar"></img-cover>
+      <router-link :to="'/users/' + uid">
+        <img-cover :img="avatar"></img-cover>
+      </router-link>
     </div>
     <div class="main">
       <div class="row-1 row">
@@ -24,7 +26,7 @@
       </div>
       <section class="tags row" v-show="tags.length !== 0">
         <ul>
-          <li v-for="tag in tags" class="tag"><fz-tag :text="tag"></fz-tag></li>
+          <li v-for="tag in tags" class="tag-container"><fz-tag :text="tag" class="tag"></fz-tag></li>
         </ul>
       </section>
     </div>
@@ -46,6 +48,7 @@ export default {
     'img-cover': ImgCover
   },
   props: {
+    uid: '',
     'nickname': '',
     'avatar': '',
     livingplace: '',
@@ -155,12 +158,14 @@ export default {
       color: $male;
     }
     .icon-heart {
+      color: $main-pink;
       margin-left: 5px;
       margin-right: 2px;
       width: 11px;
       height: 11px;
     }
     .icon-photo {
+      color: $douban-green;
       position: relative;
       top: 2px; // 微调icon的位置
       margin-left: 5px;
@@ -180,10 +185,14 @@ export default {
       max-height: calc(2 * #{$description-size});
       overflow: hidden;
     }
-    .tag {
+    .tag-container {
       display: inline-block;
       margin-right: 3px;
       margin-bottom: 3px;
+      .tag {
+        background-color: #fcebeb;
+        color: #e7938b;
+      }
     }
     .others {
       float: right;

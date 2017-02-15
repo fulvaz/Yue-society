@@ -8,7 +8,7 @@ var limitFilter = dev ? '_limit' : 'limitation'
 var devApis = {
   'apiPrefix': apiPrefix,
   'circlesApi': apiPrefix + '/circles', // 与post是关联的, /circles/0/posts 表示返回circles 0的全部posts
-  'activitiesRecommendsApi': apiPrefix + '/recommends/activities',
+  'activitiesRecommendsApi': apiPrefix + '/activities',
   'meApi': apiPrefix + '/me',
   'meSelectableApi': apiPrefix + '/meSelectable',
   'wxDataApi': apiPrefix + '/weixin',
@@ -66,13 +66,17 @@ var devApis = {
   'recentLogin': apiPrefix + '/userDetail',
   'circleMember': apiPrefix + '/userDetail',
   'searchRecommend': apiPrefix + '/userDetail',
-  // new
   'getQrCode': apiPrefix + '/qrCode',
   'searchUsers': apiPrefix + '/userDetail', // 也是详情
   'getCircleMoments': apiPrefix + '/moments',
   'newCircleMoments': apiPrefix + '/moments',
   'likeMoment': apiPrefix + '/postData',
-  'newActivity': apiPrefix + '/postData'
+  // new
+  'newActivity': apiPrefix + '/postData',
+  'getPaidUserRecommend': apiPrefix + '/userDetail',
+  'getTopicRecommend': apiPrefix + '/posts',
+  'getMyMoments': apiPrefix + '/moments',
+  'newMyMoment': apiPrefix + '/moments'
 }
 
 var apis = {
@@ -141,7 +145,12 @@ var apis = {
   'searchUsers': apiPrefix + '/search/users',
   'getCircleMoments': apiPrefix + '/circles/moments',
   'newCircleMoments': apiPrefix + '/circles/moments/add',
-  'likeMoment': apiPrefix + '/circles/moments/like'
+  'likeMoment': apiPrefix + '/circles/moments/like',
+  'newActivity': apiPrefix + '/circles/activity/add',
+  'getPaidUserRecommend': apiPrefix + '/recommends/users/paid',
+  'getTopicRecommend': apiPrefix + '/recommends/posts',
+  'getMyMoments': apiPrefix + '/users/moments',
+  'newMyMoment': apiPrefix + '/users/moments/add'
 }
 
 var api = dev ? devApis : apis

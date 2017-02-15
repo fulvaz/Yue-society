@@ -15,7 +15,7 @@
         <span class="date">{{date}}</span>
         <!-- 已经点赞 -->
         <el-button v-if="ifLiked" class="like-btn" @click="">
-          <icon name="heart" class="icon-like"></icon>
+          <icon name="heart" class="icon-like icon-heart"></icon>
           <span>{{likes.length}}</span>
         </el-button>
         <el-button v-else class="like-btn" @click="handleLike">
@@ -128,6 +128,9 @@ export default {
       .icon-like {
         height: 12px;
         width: 12px;
+      }
+      .icon-heart {
+        color: $main-pink;
       }
     }
   }

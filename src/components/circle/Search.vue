@@ -1,10 +1,10 @@
 <template lang="html">
   <div class="circle-search-container">
     <search-bar @search="handleSearch" v-model="query"></search-bar>
-    <div class="filters">
+    <!-- <div class="filters">
       <span class="filter" @click="filterByLocation">按地域</span>
       <span class="filter" @click="filterByJob">按行业</span>
-    </div>
+    </div> -->
     <circle-list :circle="resultDisplay"></circle-list>
   </div>
 </template>

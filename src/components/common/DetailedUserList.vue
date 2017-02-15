@@ -3,6 +3,7 @@
       <li v-for="item in users" class="user-cell">
         <router-link :to="`/users/${item.uid}`">
           <list-user-detailed
+            :uid="item.uid"
             :nickname="item.nickname"
             :avatar="item.avatar"
             :livingplace="item.livingplace"

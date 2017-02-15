@@ -140,7 +140,7 @@ function genMsgList () {
 
 function genStateInfo () {
 	return {
-		'uid': 1111,
+		'uid': 1,
 		'mobileAuth': true,
 		'ifAvailable': true,
 		'avatar': 'https://s3.amazonaws.com/uifaces/faces/twitter/timgthomas/128.jpg',
@@ -387,7 +387,6 @@ function genMeSelectable () {
     },
     car: {
       0: '有',
-      1: '无'
     }
   }
 }

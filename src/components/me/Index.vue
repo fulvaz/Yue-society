@@ -15,6 +15,9 @@
         </div>
       </div>
     </header>
+    <!-- <section class="functions">
+
+    </section> -->
     <section class="main">
       <fz-icon-item label="基本信息" to="info" class="icon" :append="true">
         <icon slot="icon" class="fa-icon fa-user-circle fa-2x icon-info" aria-hidden="true" name="user-circle"></icon>
@@ -30,6 +33,9 @@
       </fz-icon-item> -->
       <fz-icon-item label="我的推荐" to="recommend" class="icon" :append="true">
         <icon slot="icon" class="fa-icon fa-users fa-2x icon-recommend" aria-hidden="true" name="users"></icon>
+      </fz-icon-item>
+      <fz-icon-item label="发布动态" to="moments" class="icon" :append="true">
+        <icon slot="icon" class="fa-icon fa-users fa-2x icon-recommend" aria-hidden="true" name="circle-o"></icon>
       </fz-icon-item>
       <!-- <fz-icon-item label="约见过" to="appointment" class="icon" :append="true">
         <i slot="icon" class="fa fa-user-circle fa-2x icon-info" aria-hidden="true"></i>
@@ -59,6 +65,7 @@
   import 'vue-awesome/icons/users'
   import 'vue-awesome/icons/picture-o'
   import 'vue-awesome/icons/heart'
+  import 'vue-awesome/icons/circle-o'
   // import VueCoreImageUpload from 'vue-core-image-upload/'
   // import avatarUpMix from '../../mixins/uploadWithWX'
   import * as api from '../../api/index.js'
@@ -122,7 +129,7 @@
   }
 
   .profile {
-    margin-bottom: 15px;
+    // margin-bottom: 15px;
     height: 124px;
     background-color: #4b4b4b;
     border: 1px solid transparent;

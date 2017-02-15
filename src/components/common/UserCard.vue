@@ -1,13 +1,12 @@
 <template>
     <div class="card">
-        <div class="avatar" v-lazy:background-image="user.avatar"></div>
+        <div class="avatar" v-lazy:background-image="logo"></div>
         <div class="info">
             <p>
-              <span class="name">{{user.name}}</span>
+              <span class="name">{{title}}</span>
             </p>
             <p>
-              <span class="location">{{user.livingplace}}</span>
-              <span class="age">{{user.age}}岁</span>
+              <span class="location">{{content}}</span>
             </p>
         </div>
     </div>
@@ -16,7 +15,9 @@
 <script>
   export default {
     props: {
-      user: Object
+      logo: String,
+      title: String,
+      content: String
     },
     computed: {
       style () {
@@ -65,8 +66,8 @@
             overflow: hidden;
 
             .name {
-                font-size: $description-size;
-                color: $item-color;
+              @include item-description;
+              color: black;
             }
 
             .location {

@@ -46,6 +46,7 @@ const Service = resolve => require(['components/me/Services'], resolve)
 const WhomIFocus = resolve => require(['components/me/WhomIFocus'], resolve)
 const ActivitiesJoined = resolve => require(['components/me/ActivitiesJoined'], resolve)
 const Share = resolve => require(['components/me/RecommendShare'], resolve)
+const MyMoments = resolve => require(['components/me/MyMoments'], resolve)
 // import MeSpouse from 'components/me/Spouse'
 // import Looked from 'components/me/Looked'
 // import Focused from 'components/me/Focused'
@@ -179,6 +180,7 @@ const routes = [
   {path: '/me/service', component: Service},
   {path: '/me/buyCircle/:id', component: BuyCircle},
   {path: '/me/appointed', component: MeAppointed},
+  {path: '/me/moments', component: MyMoments},
 
   // 搜索
   {path: '/search/', component: SearchIndex},
@@ -267,6 +269,10 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
+
+Vue.config.errorHandler = function (err, vm) {
+  console.error(err)
+}
 
 Vue.http.interceptors.push((request, next) => {
   request.credentials = true

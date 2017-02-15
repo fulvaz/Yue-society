@@ -1,9 +1,11 @@
 <template>
    <div class="streamer">
-       <h2 v-if="title.length !== 0" class="title">{{title}}</h2>
+       <slot name="heading">
+         <h2 v-if="title.length !== 0" class="title">{{title}}</h2>
+       </slot>
        <div class="content-container">
             <router-link v-for="item in items" :to="'/users' + '/' + item.uid">
-              <card class="card" :user="item"></card>
+              <card class="card" :title="item.nickname" :content="item.livingplace + ' ' + item.age + '岁'" :logo="item.avatar"></card>
             </router-link>
        </div>
    </div>

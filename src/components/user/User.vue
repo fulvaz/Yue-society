@@ -7,7 +7,7 @@
     </header>
     <section class="main-info">
       <div class="info">
-        <img :src="avatar" :alt="nickname" class="avatar">
+        <img-cover class="avatar" :img="avatar"></img-cover>
         <span class="username">{{nickname}}</span>
         <span class="location">{{livingPlace}}</span>
       </div>
@@ -104,6 +104,7 @@
       border: none;
       margin-right: 5px;
       border-radius: 50%;
+      padding-bottom: 0;
     }
 
     .btns {
@@ -218,6 +219,7 @@ import * as utils from '../../utils/utils.js'
 import { Popup, Button } from 'mint-ui'
 import Appointment from './Appointment'
 import units from '../../assets/units.js'
+import ImgCover from '../common/ImageCover'
 export default {
   methods: {
     underDev () {
@@ -256,7 +258,8 @@ export default {
     'fz-tag': Tag,
     'mt-popup': Popup,
     'mt-button': Button,
-    'appointment': Appointment
+    'appointment': Appointment,
+    'img-cover': ImgCover
   },
   updated () {
     // this.showPopup = true

@@ -1,6 +1,8 @@
 <template>
     <div class="slider">
-        <h2 v-if="title.length !== 0" class="title">{{title}}</h2>
+        <slot name="heading">
+          <h2 v-if="title.length !== 0" class="title">{{title}}</h2>
+        </slot>
         <div class="slide">
             <div class="slide-container" :style="{width: `${itemsNum*100}%`}">
                 <slot></slot>
@@ -18,7 +20,7 @@
        }
      },
      updated () {
-       this.itemsNum = this.$children.length
+       this.itemsNum = this.$children.length - 1
      },
      props: {
        'title': {
@@ -28,11 +30,6 @@
      },
      components: {
        'item': SliderItem
-     },
-     computed: {
-       heightStyle () {
-         return `height: ${this.height}px`
-       }
      }
    }
 </script>
@@ -46,17 +43,12 @@
         height: 100%;
         overflow: hidden;
         box-sizing: border-box;
+        background: white;
 
         .title {
             margin-top: 0;
-            @include section-title();
+            @include item-description;
         }
-
-        .logo {
-            width: 50px;
-            height: 50px;
-        }
-
 
         .slide {
             width: 100%;
@@ -67,11 +59,6 @@
             .slide-container {
                 height: 100%;
                 overflow: hidden;
-            }
-
-            a {
-                float: left;
-                width: 18%;
             }
         }
     }
