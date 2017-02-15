@@ -23,6 +23,13 @@
             </div>
             <!-- 圈子搜索 -->
           </tab-item>
+          <tab-item id="tab-x" class="navbar-item" @click.native.prevent="openMemberList">
+            <div>
+              <fa-icon class="fa-icon" slot="icon" name="users"></fa-icon>
+              <span>成员</span>
+            </div>
+            <!-- 圈子搜索 -->
+          </tab-item>
         </nav-bar>
 
 
@@ -40,7 +47,13 @@
             <fz-search></fz-search>
           </mt-tab-container-item>
           <mt-tab-container-item id="tab-circle">
-            <fz-circle circleId="1"></fz-circle>
+            <fz-circle circleId="1" ref="circle">
+              <header class="circle-header">
+                <div class="container">
+                  <h1 class="circle-name">月正圆公共圈子</h1>
+                </div>
+              </header>
+            </fz-circle>
           </mt-tab-container-item>
         </mt-tab-container>
       </section>
@@ -63,6 +76,7 @@
   import 'vue-awesome/icons/thumbs-o-up'
   import 'vue-awesome/icons/search'
   import 'vue-awesome/icons/user-o'
+  import 'vue-awesome/icons/users'
 
   export default {
     data () {
@@ -143,7 +157,14 @@
         api.fetchMyCircle().then(res => {
           let data = utils.response2Data(res)
           this.myCircles = data
+        }).catch(res => {
+          this.handleAllFail(res)
         })
+      },
+      openMemberList (e) {
+        // 反模式代码
+        this.active = 'tab-circle'
+        this.$refs.circle.openMemberList()
       }
     },
     created () {
@@ -201,6 +222,31 @@
       background-color: white;
       margin: 0px 0;
       box-shadow: 1px black;
+  }
+
+  .circle-header {
+    width: 100%;
+    background-color: rgb(44, 175, 187);
+
+    .container {
+      // @include clearfix;
+      padding: 0.5em $horizontal-margin;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // margin: 0 18px;
+      // padding: 35px 0;
+      text-align: center;
+      color: white;
+      background-color: rgb(44, 175, 187);
+
+      .circle-name {
+        // float: left;
+        margin: 0;
+        height: 100%;
+        font-size: $item-size;
+      }
+    }
   }
 
 </style>

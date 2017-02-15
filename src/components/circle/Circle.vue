@@ -7,14 +7,16 @@
       <button class="btn-post" v-else-if="tabActive==='活动'" @click="newAct">发布</button>
       <div v-show="tabActive==='动态'"></div>
     </div>
-    <header>
-      <div class="container">
-        <h1 class="circle-name">{{circleName}}</h1>
-        <div class="btn-group">
-          <button class="btn-post" @click="openMemberList">成员</button>
+    <slot>
+      <header>
+        <div class="container">
+          <h1 class="circle-name">{{circleName}}</h1>
+          <div class="btn-group">
+            <button class="btn-post" @click="openMemberList">成员</button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </slot>
     <section class="main">
       <nav-bar v-model="tabActive" class="navbar">
         <tab-item id="动态" class="navbar-item">动态</tab-item>
